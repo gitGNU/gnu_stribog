@@ -1,8 +1,42 @@
 Stribog the sensing platform README file.
+The end of this file contains license and copyright notes for the project.
 
 ATTENTION stribog is in his pre-alpha stage. it is not functional yet.
 
-The end of this file contains license and copyright notes for the project.
+Some general technical notes follow.
+
+The board will be programmed via serial port using bootstrap loader.
+you can use any existing one (on Unix live 
+lpc_host_tools by Holly Gates <hgates@eink.com>, 
+lpc21isp by Martin Maurer <Martin.Maurer@clibb.de> 
+ and Aeolus Development http://aeolusdevelopment.com
+lpc2k_pgm by Paul Stoffregen (http://www.pjrc.com/arm/lpc2k_pgm)
+
+on Windows they have Philips flash ISP utility)
+
+I wrote my own host tools (see sw/host/*) because
+ 1) some of those programs (like lpc21isp) lack clear terms of use,
+ 2) other (like Philips utility) are neither free nor capable to run 
+    on a free OS,
+ 3) some (like lpc2k_pgm) have graphic user interface and I don't like this,
+ 4) I wouldn't add external dependencies when possible.
+
+My tools are hardly functional, but they work somehow for me and they are free.
+
+main() is executed in system mode. there is no THUMB code. fast interrupt
+reserved. VPB divider equals 4, as by default.  PLL is configured to 
+multiply by 4.
+
+The program will run from RAM, when possible. even when written in ROM, boot.s
+will copy it to RAM. the program use only one library: libgcc.a. all
+computations should be in fixed point.
+
+Time functions (tempus.h) are based on timer1. it uses VIC vectored interrupt
+slot 5.
+
+UART1 is the basic port; uses VIC slot 4.
+
+License and copyright notes follow.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -77,8 +111,8 @@ hw/packages/tanA
 hw/packages/tanC
 hw/packages/tp
 
-To all these files the copyright and license notice placed earlier
-in this file is applied.
+To all these files is applied the copyright and license notice placed earlier
+in this file.
 
 NB most of the gEDA symbols (in hw/sym) and PCB footprints (in hw/packages) were
 not originally developped by stribog's author: usually he just slightly corrected
