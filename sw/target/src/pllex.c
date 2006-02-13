@@ -16,7 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-#include"led_inline.h"
+#include"led.h"
 #include"pll.h"
 int main(void)
 {int i=0;start_pll();init_led();connect_pll();
