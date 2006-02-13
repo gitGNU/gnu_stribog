@@ -25,7 +25,8 @@
 #   Thomas Nau, Schlehenweg 15, 88471 Baustetten, Germany
 #   Thomas.Nau@rz.uni-ulm.de
 # 
-#   RCS: $Id: crystal,v 1.1 2006/02/10 05:21:33 ineiev Exp $
+#   RCS: $Id: crystal,v 1.2 2006/02/13 09:43:30 ineiev Exp $
+#   RCS: $Id: crystal,v 1.2 2006/02/13 09:43:30 ineiev Exp $
 #
 Element["" "crystal 300mil" "" "1MHz" 112850 71560 0 7000 0 100 ""]
 (
