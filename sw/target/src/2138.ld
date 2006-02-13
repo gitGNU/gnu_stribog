@@ -1,4 +1,5 @@
-/*LPC2138 linker script
+/*LPC2138 linker script for ROM-based program
+TODO: move all to >ram AT>rom
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -32,12 +33,12 @@ _arm_stack_bottom = ORIGIN(ram) + LENGTH(ram) - 4;
 _arm_ram_begin =  ORIGIN(ram);
 SECTIONS
 {.text : {
-  *(.vectors)
-  *(.text)
+  *(.vectors) *boot.o(.text)
 /* *(.ctors) *(.dtors) *(.jcr) /*these appear when I suddenly use c++*/
   } >rom
  . = ALIGN(4); _rom_data_begin = .;
- .rodata : { *(.rodata) } >ram AT>rom /*rodata will be in RAM*/
+ .rodata : 
+ { *boot.o(.ramvectors) *(.text) *(.rodata) } >ram AT>rom /*rodata will be in RAM*/
  .data : { *(.data) } >ram AT>rom
   _rom_data_end = _rom_data_begin + SIZEOF(.data);
  . = ALIGN(4); _bss_data_begin = .;
