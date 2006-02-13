@@ -16,10 +16,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-#include"led.h"
 #include"../include/lpc2138.h"
+#include"led.h"
 #define pinmask	(3)
 #define shift (16)
+void init_led(void){IO0DIR|=pinmask<<shift;}
 void leds_clr(int mask){IO0CLR=(mask&pinmask)<<shift;}
 void leds_set(int mask){IO0SET=(mask&pinmask)<<shift;}
-void init_led(void){IO0DIR|=pinmask<<shift;leds_set(3);}
