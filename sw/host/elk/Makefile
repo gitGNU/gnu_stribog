@@ -23,7 +23,7 @@ all: elk
 clean:
 	rm -f *.o
 maintainer-clean: clean
-	rm -f elk
+	rm -f elk elk.bin vectors
 elk: elk.o serialia.o usage.o
 	$(CC) $(LFLAGS) $^ -o $@
 elk.o:elk.c serialia.h usage.h

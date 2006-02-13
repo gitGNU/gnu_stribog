@@ -23,24 +23,16 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<sys/ioctl.h>
 #include<unistd.h>
 #include<string.h>
-#include<sys/time.h>
 #include<time.h>
 int init(const char*s,int f)
 {int err=0;printf("setting up port \"%s\"...",s);
  if(initserialia(s,f)){err=-1;printf(" failed\n");}
  else printf("port setup ok\n");return err;
 }
-static void delay(int centiseconds)
-{struct timespec t;t.tv_sec=0;t.tv_nsec=centiseconds*10000000l;nanosleep(&t,0);}
-int tv_diff(const struct timeval*t0)
-{struct timeval t;int carry;gettimeofday(&t,0);
- if(t0->tv_usec>t.tv_usec){carry=1;t.tv_usec+=1000000l-t0->tv_usec;}
- t.tv_sec-=carry+t0->tv_sec;return t.tv_sec*100+t.tv_usec/10000;
-}
 static int wait_for_chars(char*s,int N,int timeout)
-{struct timeval t;int i=0,n;char*_=s;gettimeofday(&t,0);
- do{n=lege(_,N-i);if(n>0){i+=n;_+=n;}}while(i<N&&tv_diff(&t)<timeout);
- return i;
+{clock_t t;int i=0,n;char*_=s;t=clock();
+ do{n=lege(_,N-i);if(n>0){i+=n;_+=n;}}
+ while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/100);return i;
 }int test_code(const char*s)
 {int n;sscanf(s,"%i",&n);
  switch(n)
@@ -83,6 +75,12 @@ void read_partid(void)
   case 196389:printf("LPC2138\n");break;default:printf("unknown\n");
  } 
 }
+int unlock(void)
+{char s[289];const char k[]="U 23130\r\n";int n;
+ printf("sent %s",k);scribe(k,strlen(k));
+ n=wait_for_chars(s,3,50);s[n]=0;
+ printf("received %i bytes: %s",n,s);return test_code(s);
+}
 static int syncronize(int f)
 {const char query[]="?",sy[]="Synchronized\r\n",
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
@@ -98,18 +96,12 @@ static int syncronize(int f)
  printf("sent %i; ",f);scribe(s,strlen(s));i=strlen(s)+4;
  n=wait_for_chars(s,i,100);s[n]=0;
  printf("received %i bytes: %s",n,s);sprintf(s0,"%i\r\nOK\r\n",f);
- if(!(vex=strcmp(s0,s)))echo_off();read_partid();return vex;
+ if(!(vex=strcmp(s0,s)))echo_off();unlock();read_partid();return vex;
 }
 void read_version(void)
 {char s[289];const char k[]="K\r\n";int n;
  printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,50);s[n]=0;
  printf("received %i bytes: %s",n,s);test_code(s);
-}
-int unlock(void)
-{char s[289];const char k[]="U 23130\r\n";int n;
- printf("sent %s",k);scribe(k,strlen(k));
- n=wait_for_chars(s,3,50);s[n]=0;
- printf("received %i bytes: %s",n,s);return test_code(s);
 }
 int prepare_sectors(unsigned start,unsigned end)
 {char s[289];int n,k;sprintf(s,"P %u %u\r\n",start,end);k=strlen(s);
@@ -133,9 +125,9 @@ void prepare(void)
  printf("end: ");scanf("%u",&end);prepare_sectors(start,end);
 }
 int receive_uuenc_string(char*s,int timeout)
-{struct timeval t;int i=0,n;const int N=64;char*_=s;gettimeofday(&t,0);
+{clock_t t;int i=0,n;const int N=64;char*_=s;t=clock();
  do{n=lege(_,1);if(n>0){i+=n;_+=n;if(_[-1]=='\n')break;}}
- while(i<N&&tv_diff(&t)<timeout);
+ while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/100);
  if(!i)return!0;s[i]=0;return _[-1]!='\n';
 }
 int receive_test_code(char*s)
@@ -218,22 +210,23 @@ int copy_memory(unsigned long addr)
  }fclose(f);return 0;
 }
 static int run(unsigned long addr)
-{char s[289];int n;sprintf(s,"G %lu A\r\n",addr);
+{char s[289];int n,r;sprintf(s,"G %lu A\r\n",addr);
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,50);s[n]=0;
- printf("received %i bytes: %s",n,s);return test_code(s);
+ printf("received %i bytes: %s",n,s);r=test_code(s);
+ n=wait_for_chars(s,sizeof(s),50);s[n]=0;printf("received %i bytes: %s",n,s);
+ return r;
 }
 int load_and_go(void)
 {static const unsigned long ram_org=0x40000000,used_ram=0x40000200;
  int i;FILE*f;unsigned long addr;char s[289];
-addr=used_ram;f=fopen("elk.bin","rb");
+ addr=used_ram;f=fopen("elk.bin","rb");
  for(addr=used_ram;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);printf("#%lX#%i#",addr,i);
-  if(write_string(s,addr,step))return!0;
- }fclose(f);
- f=fopen("vectors","rb");
+  if(write_string(s,addr,step)){fclose(f);return!0;}
+ }fclose(f);f=fopen("vectors","rb");
  for(addr=ram_org;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);printf("#%lX#%i#",addr,i);
-  if(write_string(s,addr,step))return!0;
+  if(write_string(s,addr,step)){fclose(f);return!0;}
  }fclose(f);
  return run(used_ram);
 }
@@ -243,6 +236,7 @@ int main(int argc,char**argv)
 {char c;int err,f=11059;if(argc>2)sscanf(argv[3],"%i",&f);
  usage();printf("crystal frequency assumed %i kHz\n",f);
  if((err=init(argc<2?0:argv[1],f)))return err;echo_off();
+ read_partid();
  do
  {printf(">");scanf("%c",&c);
   switch(c)
@@ -252,9 +246,8 @@ int main(int argc,char**argv)
     printf("frequency assumed %i kHz\n",f);break;
    case'e':erase();break;case'u':unlock();break;
    case'p':prepare();break;case'r':read_mem();break;
-   case'a':echo_off();break;
-   case'c':copy_mem();break;case'b':write_file();break;
-   case'l':load_and_go();break;
+   case'a':echo_off();break;case'c':copy_mem();break;
+   case'b':write_file();break;case'l':load_and_go();break;
   } 
  }while(c!='q');
  closeall();return err;
