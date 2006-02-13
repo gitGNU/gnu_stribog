@@ -15,25 +15,40 @@
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 #Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
+ram_based=1
 CC=arm-elf-gcc
 AS=arm-elf-as
 LD=arm-elf-ld
 OBJCOPY=arm-elf-objcopy
 ASFLAGS=-mcpu=arm7tdmi
 CFLAGS=-mcpu=arm7tdmi -Wall -O2
-LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(src)/ram2138.ld -static -O2
-#LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(src)/2138.ld -static -O2
+ifdef ram_based
+ LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(src)/ram2138.ld -static -O2
+else
+ LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(src)/2138.ld -static -O2
+endif
 src=src
 o=o
 bin=bin
-TARGETS=pllex ledex tempusex
+TARGETS=pllex ledex tempusex uart1ex crcex
+ifdef ram_based
+ targets=$(foreach t,$(TARGETS), $(bin)/$(t).bin $(bin)/$(t).vectors)
+else
+ targets=$(foreach t,$(TARGETS), $(bin)/$(t).bin)
+endif
 .PHONY: all clean maintainer-clean
 #how ugly! I can't setup libgcc and add her manually.
-all: libpath.mk $(foreach t,$(TARGETS), $(bin)/$(t).bin $(bin)/$(t).vectors)
+all: libpath.mk autodeps.mk $(targets)
 libpath.mk:
 	echo -n "libpath=">$@
-	find `which arm-elf-gcc|sed -s "s/bin\/arm-elf-gcc//"` -name libgcc.a|grep -v "thumb">>$@
+	find `which arm-elf-gcc|sed -e "s/bin\/arm-elf-gcc//"`\
+ -name libgcc.a|grep -v "thumb">>$@
+autodeps.mk: $(src)/*.c
+	rm -f $@
+	for i in `ls $(src)|grep "\.c$$"|sed -e"s/..$$//"`;\
+ do $(CC) $(CFLAGS) -M -MT $(o)/$$i.o $(src)/$$i.c >>$@;done
 include libpath.mk
+include autodeps.mk
 $(o)/%.elf:$(o)/boot.o $(o)/%.o 
 	$(LD) $(LFLAGS) -o $@ $^ $(libpath)
 $(o)/%.o:$(src)/%.c
@@ -45,18 +60,16 @@ $(o)/%.o:$(src)/%.s
 clean:
 	rm o/*
 maintainer-clean: clean
-	rm libpath.mk
+	rm *.* bin/*
 $(bin)/%.bin: $(o)/%.elf
 	$(OBJCOPY) -I elf32-littlearm -O binary -R startup $< $@
 $(bin)/%.vectors: $(o)/%.elf 
 	$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code -j vectors\
  -I elf32-littlearm -O binary $< $@
-$(o)/ledex.o:$(src)/led.h
-$(o)/led.o:$(src)/led.h
-$(o)/pll.o:$(src)/pll.h
-$(o)/pllex.o:$(src)/pll.h $(src)/led_inline.h
-$(o)/tempusex.o:$(src)/led_inline.h $(src)/pll.h
 $(o)/ledex.elf:$(o)/led.o
-$(o)/pllex.elf:$(o)/pll.o
-$(o)/tempusex.elf:$(o)/pll.o
+$(o)/pllex.elf:$(o)/pll.o $(o)/led.o
+$(o)/tempusex.elf:$(o)/pll.o $(o)/led.o
+$(o)/uart1ex.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o
+$(o)/crcex.elf:$(o)/pll.o $(o)/led.o
+
