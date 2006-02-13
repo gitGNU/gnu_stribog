@@ -25,11 +25,11 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 .set	mode_sys, 0x1F
 .set	i_bit, 0x80
 .set	f_bit, 0x40
-.set	un_stack, 4
-.set	ab_stack, 4
-.set	fiq_stack, 4
+.set	un_stack, 0
+.set	ab_stack, 0
+.set	fiq_stack, 0
 .set	irq_stack, 0x400
-.set	sv_stack, 0x400
+.set	sv_stack, 0x40
 .text
 .code 32
 .align 0
@@ -52,8 +52,6 @@ reset:/*initialize all stacks*/
 	sub	r0, r0, #sv_stack
 	msr	CPSR_c,	#i_bit|f_bit|mode_sys
 	mov	sp, r0
-	msr	CPSR_c,	#i_bit|f_bit|mode_usr
-
 /*load initialized variables from ROM: if the program is in RAM, 
   _rom_data_begin = _rom_data_end*/
 	ldr	r1, rom_begin
@@ -87,8 +85,9 @@ tst_pc:	tst	pc,r0, lsl #28
 	mov	r0,#2
 	ldr	r1,memmap
 	str	r0,[r1]
-bmain:	msr	CPSR_c,	#f_bit|mode_usr
-	b	main/*jump. DON't return from main!*/
+bmain:	msr	CPSR_c,	#f_bit|mode_sys /*ineiev couldn't make LPC2138 
+                                          interrupt in user mode*/
+	b	main
 memmap:		.word	0xE01FC040
 rom_begin:	.word	_rom_data_begin
 rom_end:	.word	_rom_data_end
@@ -115,3 +114,21 @@ dabt_addr:
 irq_addr:
 fiq_addr:	.word loop	
 loop:	b	./*this is an endless loop*/
+.section .ramvectors /*these will be the RAM copy of vectors loaded from ROM*/
+.code 32
+.align 0
+	ldr	pc,ram_reset_addr
+	ldr	pc,ram_undef_addr
+	ldr	pc,ram_swi_addr
+	ldr	pc,ram_pabt_addr
+	ldr	pc,ram_dabt_addr
+	nop
+	ldr	pc,[pc,#-0xFF0]
+	ldr	pc,ram_fiq_addr
+ram_reset_addr:	.word reset
+ram_undef_addr:
+ram_swi_addr:
+ram_pabt_addr:
+ram_dabt_addr:
+ram_irq_addr:
+ram_fiq_addr:	.word loop	
