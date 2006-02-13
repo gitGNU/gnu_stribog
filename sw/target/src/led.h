@@ -1,4 +1,4 @@
-/*LPC2138 led routines header
+/*LPC2138 led routines
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -16,4 +16,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-void init_led(void);void leds_clr(int mask);void leds_set(int mask);
+extern inline void init_led(void);
+extern inline void leds_clr(int mask);extern inline void leds_set(int mask);
