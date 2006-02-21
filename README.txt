@@ -5,6 +5,10 @@ ATTENTION stribog is in his pre-alpha stage. it is not functional yet.
 
 Some general technical notes follow.
 
+Stribog is primarily designed on LPC2138, but actually LPC213[46] can be used,
+too. the only change will be in ld scripts (2138.ld and ram2138.ld), as shown 
+in comments there.
+
 The board will be programmed via serial port using bootstrap loader.
 you can use any existing one (on Unix live 
 lpc_host_tools by Holly Gates <hgates@eink.com>, 
@@ -35,6 +39,8 @@ Time functions (tempus.h) are based on timer1. it uses VIC vectored interrupt
 slot 5.
 
 UART1 is the basic port; uses VIC slot 4.
+
+ADC use VIC slots 6 and 7;
 
 License and copyright notes follow.
 
@@ -80,9 +86,11 @@ namely:
 
 hw/main_board.pcb
 hw/stribog.sch
+hw/gyro.sch
 hw/sym/JTAG.sym
 hw/sym/adm202.sym
 hw/sym/adxl210.sym
+hw/sym/adxrs300.sym
 hw/sym/bat54c.sym
 hw/sym/dac7612.sym
 hw/sym/hmc1021.sym
@@ -115,5 +123,5 @@ To all these files is applied the copyright and license notice placed earlier
 in this file.
 
 NB most of the gEDA symbols (in hw/sym) and PCB footprints (in hw/packages) were
-not originally developped by stribog's author: usually he just slightly corrected
-files from gEDA and PCB libraries.
+not originally developped by stribog's author: usually he just slightly 
+corrected files from gEDA and PCB libraries.
