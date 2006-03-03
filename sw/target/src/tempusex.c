@@ -22,12 +22,12 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 static int flip,i;
 static void temporis_quaestus(void)__attribute__((interrupt("IRQ")));
 static void temporis_quaestus(void)
-{if(flip^=1)leds_clr(2);else leds_set(2);T1IR=1;VICVectAddr=0;}
+{if(flip^=1)led1_clr();else led1_set();T1IR=1;VICVectAddr=0;}
 void init_tempus(void)
 {VICVectAddr5=(unsigned)temporis_quaestus;VICVectCntl5=VIC_CntlEnable|VIC_TIMER1;
  VICIntEnable=1<<VIC_TIMER1;T1PR=0xFF;T1MR0=0x1000;T1MCR=3;T1TCR=0x1;
 }
 int main(void)
 {start_pll();init_led();init_tempus();connect_pll();
- while(1){if(i++&(1<<19))leds_set(1);else leds_clr(1);}return 0;
+ while(1){if(i++&(1<<19))led0_set();else led0_clr();}return 0;
 }

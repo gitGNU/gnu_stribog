@@ -17,4 +17,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 extern inline void init_led(void);
-extern inline void leds_clr(int mask);extern inline void leds_set(int mask);
+extern inline void led0_set(void);extern inline void led0_clr(void);
+extern inline void led1_set(void);extern inline void led1_clr(void);

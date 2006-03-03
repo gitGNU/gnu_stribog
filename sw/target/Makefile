@@ -71,5 +71,5 @@ $(o)/ledex.elf:$(o)/led.o
 $(o)/pllex.elf:$(o)/pll.o $(o)/led.o
 $(o)/tempusex.elf:$(o)/pll.o $(o)/led.o
 $(o)/uart1ex.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o
-$(o)/crcex.elf:$(o)/pll.o $(o)/led.o
+$(o)/crcex.elf:$(o)/pll.o $(o)/led.o $(o)/crc32.o
 

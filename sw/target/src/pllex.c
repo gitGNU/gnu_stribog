@@ -20,5 +20,5 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"pll.h"
 int main(void)
 {int i=0;start_pll();init_led();connect_pll();
- while(1){if(i++&(1<<20))leds_set(2);else leds_clr(2);}return 0;
+ while(1){if(i++&(1<<20))led1_set();else led1_clr();}return 0;
 }

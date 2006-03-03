@@ -1,4 +1,4 @@
-/*LPC2138: leds output (pins A and B of J1 are to be connected to LEDs)
+/*LPC2138: leds output
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -18,8 +18,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"led.h"
 #include"../include/lpc2138.h"
-#define pinmask	(3)
-#define shift (16)
-void leds_clr(int mask){IO0CLR=(mask&pinmask)<<shift;}
-void leds_set(int mask){IO0SET=(mask&pinmask)<<shift;}
-void init_led(void){IO0DIR|=pinmask<<shift;leds_set(3);}
+#define pin0mask	(1<<19)
+#define pin1mask	(1<<29)
+void led0_clr(){IO0CLR=pin0mask;}void led0_set(){IO0SET=pin0mask;}
+void led1_clr(){IO1CLR=pin1mask;}void led1_set(){IO1SET=pin1mask;}
+void init_led(void)
+{PINSEL2=0;IO0DIR|=pin0mask;IO1DIR|=pin1mask;led0_set();led1_clr();}

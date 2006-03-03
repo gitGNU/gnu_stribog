@@ -25,6 +25,6 @@ int main(void)
 {start_pll();init_led();connect_pll();
  while(1)
  {f.d[0]=i++;f.d[FIX_LENGTH]=form_crc((unsigned*)(f.d),FIX_LENGTH);
-  if(i&(1<<16))leds_set(1);else leds_clr(1);
+  if(i&(1<<16))led0_set();else led0_clr();
  }
 }

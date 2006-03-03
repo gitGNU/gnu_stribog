@@ -22,6 +22,6 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 static fix_data f;static int i;
 int main(void)
 {start_pll();init_led();init_uart1();connect_pll();
- while(1){if(!send_fix(&f))i++;if(i&(1<<8))leds_clr(1);else leds_set(1);}
+ while(1){if(!send_fix(&f))i++;if(i&(1<<8))led0_clr();else led0_set();}
  return 0;
 }

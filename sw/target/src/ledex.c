@@ -19,11 +19,9 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"led.h"
 static int i=1;const int j=1;
 int main(void)
-{int k=11,l=2;
- init_led();
- while(1){leds_set(2);if(i++&(1<<12))leds_clr(2);
-  leds_clr((j+i)&1);k++;l+=0x11;
-  if(!k)k=1;if((l/k)&1)leds_clr(1);
- }
- return 0;
+{int k=11;volatile int l=2,m;init_led();
+ while(1)
+ {if(i++&(1<<15)){led1_set();led0_clr();}else{led0_set();led1_clr();}
+  k++;if(!k)k=1;l+=0x11;m=l/k;
+ }return 0;
 }
