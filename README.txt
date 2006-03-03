@@ -3,7 +3,7 @@ The end of this file contains license and copyright notes for the project.
 
 ATTENTION stribog is in his pre-alpha stage. it is not functional yet.
 
-Some general technical notes follow.
+SOME GENERAL TECHNICAL NOTES FOLLOW
 
 Stribog is primarily designed on LPC2138, but actually LPC213[46] can be used,
 too. the only change will be in ld scripts (2138.ld and ram2138.ld), as shown 
@@ -42,7 +42,34 @@ UART1 is the basic port; uses VIC slot 4.
 
 ADC use VIC slots 6 and 7;
 
-License and copyright notes follow.
+HOW TO INSTALL DEVELOPMENT TOOLS
+
+First, we shall need binutils and gcc for ARM. we go to www.gnuarm.com and
+get binutils-2.16.1.tar.bz2 and gcc-4.0.1.tar.bz2.
+
+Follow (with some changes) instructions from www.gnuarm.com:
+
+$ export armprefix=$HOME/arm
+                   (or where you want them to live)
+$ tar xjf binutils-2.16.1.tar.bz2;tar gcc-4.0.1.tar.bz2
+$ mkdir bui;cd bui
+$ ../binutils-2.16.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
+$ make all install
+$ export PATH=$PATH:$armprefix/bin; rm -fr *
+         (add this path in your shell profile after install, too)
+$ ../gcc-4.0.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages="c,c++"
+$ make all-gcc install-gcc
+  (we have no enough stuff to make all install)
+
+We don't need newlib, and stribog main board has no contacts 
+to connect with gdb.
+
+This sequence worked on RedHat 7.3 and Fedora Core IV (32-bit).
+
+It is more difficult to install geda and friends. I shall tell it another
+time.
+
+LICENSE AND COPYRIGHT NOTES FOLLOW
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,45 +105,23 @@ approach to be the most correct one. the copyright holder may change this
 point of view in future releases to make it more consistent, but for no past 
 release.
 
-The software part is accurately released under the terms of the GNU GPL v2.
+The software part is released right under the terms of the GNU GPL v2.
 
 The following non-text source files possibly contain no copyright notices, 
 because stribog's author decided to move those notices here for convenience, 
 namely:
 
-hw/main_board.pcb
-hw/stribog.sch
-hw/gyro.sch
-hw/sym/JTAG.sym
-hw/sym/adm202.sym
-hw/sym/adxl210.sym
-hw/sym/adxrs300.sym
-hw/sym/bat54c.sym
-hw/sym/dac7612.sym
-hw/sym/hmc1021.sym
-hw/sym/hmc1022.sym
-hw/sym/ina118.sym
-hw/sym/irf7317.sym
-hw/sym/irlml.sym
-hw/sym/lm74.sym
-hw/sym/lp2980AIM5-3.sym
-hw/sym/lp2980AIM5-5.sym
-hw/sym/lpc2138.sym
-hw/sym/ref195.sym
-hw/sym/tps76316.sym
-hw/packages/0.125W_resistor
-hw/packages/0603
-hw/packages/0805
-hw/packages/1210
-hw/packages/2.5mm_10pin_header
-hw/packages/QFP64
-hw/packages/adxl210
-hw/packages/crystal
-hw/packages/hmc1021z
-hw/packages/jtag1.27x1
-hw/packages/lp2980
-hw/packages/tanA
-hw/packages/tanC
+hw/main_board.pcb hw/stribog.sch hw/gyro.sch
+hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
+hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
+hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
+hw/sym/irf7317.sym hw/sym/irlml.sym hw/sym/lm74.sym
+hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
+hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
+hw/packages/0603 hw/packages/0805 hw/packages/1210
+hw/packages/2.5mm_10pin_header hw/packages/QFP64 hw/packages/adxl210
+hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
+hw/packages/lp2980 hw/packages/tanA hw/packages/tanC
 hw/packages/tp
 
 To all these files is applied the copyright and license notice placed earlier
