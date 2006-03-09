@@ -30,7 +30,7 @@ endif
 src=src
 o=o
 bin=bin
-TARGETS=pllex ledex tempusex uart1ex crcex
+TARGETS=pllex ledex tempusex uart1ex crcex adcex dacex
 ifdef ram_based
  targets=$(foreach t,$(TARGETS), $(bin)/$(t).bin $(bin)/$(t).vectors)
 else
@@ -72,4 +72,6 @@ $(o)/pllex.elf:$(o)/pll.o $(o)/led.o
 $(o)/tempusex.elf:$(o)/pll.o $(o)/led.o
 $(o)/uart1ex.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o
 $(o)/crcex.elf:$(o)/pll.o $(o)/led.o $(o)/crc32.o
+$(o)/adcex.elf:$(o)/adc.o $(o)/led.o $(o)/pll.o $(o)/dac.o
+$(o)/dacex.elf:$(o)/led.o $(o)/pll.o $(o)/dac.o
 
