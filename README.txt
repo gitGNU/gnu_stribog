@@ -3,7 +3,7 @@ The end of this file contains license and copyright notes for the project.
 
 ATTENTION stribog is in his pre-alpha stage. it is not functional yet.
 
-SOME GENERAL TECHNICAL NOTES FOLLOW
+SOME TECHNICAL NOTES FOLLOW
 
 Stribog is primarily designed on LPC2138, but actually LPC213[46] can be used,
 too. the only change will be in ld scripts (2138.ld and ram2138.ld), as shown 
@@ -27,9 +27,14 @@ I wrote my own host tools (see sw/host/*) because
 
 My tools are hardly functional, but they work somehow for me and they are free.
 
-main() is executed in system mode. there is no THUMB code. fast interrupt
-reserved. VPB divider equals 4, as by default.  PLL is configured to 
-multiply by 4.
+There are two linker scripts in sw/target/src directory: ram2138.ld and
+2138.ld. the former is currently used (the program is to be just loaded into RAM
+and run), the latter was tested some time ago and will be checked again when 
+stribog needs to keep it's program in ROM.
+
+The program is written in C (ld scripts don't support C++). main() is executed
+in system mode. no THUMB code. fast interrupt reserved. VPB divider equals 4,
+as by default. PLL is configured to multiply by 4.
 
 The program will run from RAM, when possible. even when written in ROM, boot.s
 will copy it to RAM. the program use only one library: libgcc.a. all
@@ -40,7 +45,8 @@ slot 5.
 
 UART1 is the basic port; uses VIC slot 4.
 
-ADC use VIC slots 6 and 7;
+ADC use VIC slots 6 and 7; YOU SHOULD init_dac(), or, at least, make 
+regulator U13 sleep, BEFORE init_adc().
 
 HOW TO INSTALL DEVELOPMENT TOOLS
 
@@ -64,7 +70,7 @@ $ make all-gcc install-gcc
 We don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
-This sequence worked on RedHat 7.3 and Fedora Core IV (32-bit).
+This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 
 It is more difficult to install geda and friends. I shall tell it another
 time.

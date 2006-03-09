@@ -1,3 +1,7 @@
+04 Mar 06 
+added pullup resistor to RESET
+R17..R20 changed to 2.2k, R21..R24 --- to 3.3k
+
 24 Feb 06
  LEDs added
  Tantalum capacitor C35 replaced with ceramic 0805
