@@ -86,7 +86,7 @@ static int syncronize(int f)
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
  printf("Syncronizing baud rate...\n");
  do
- {scribe(query,1);printf("? sent %i\r",i++);n=wait_for_chars(s,14,50);
+ {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,100);
   if(n>0){s[n]=0;printf("received %i bytes: %s",n,s);}
  }while(strcmp(sy,s));
  scribe(sy,sizeof(sy)-1);printf("Synchronized sent; ");
@@ -233,7 +233,7 @@ int load_and_go(void)
 int copy_mem(void){return copy_memory(0);}
 void closeall(void){closeserialia();}
 int main(int argc,char**argv)
-{char c;int err,f=11059;if(argc>2)sscanf(argv[3],"%i",&f);
+{char c;int err,f=14746;if(argc>2)sscanf(argv[3],"%i",&f);
  usage();printf("crystal frequency assumed %i kHz\n",f);
  if((err=init(argc<2?0:argv[1],f)))return err;echo_off();
  read_partid();
