@@ -1,5 +1,8 @@
-/*LPC2138: ADC module test will be here
-This file has been written for the stribog project.
+/*LPC2138: ADC module test
+When you apply 4.096V to pin 1 and enable AD1.7, AD1 is burnt (?)
+ VERY strange things are observed.
+
+This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,5 +20,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"adc.h"
+#include"dac.h"
 #include"pll.h"
-int main(void){start_pll();init_adc();connect_pll();while(1);return 0;}
+#include"led.h"
+static int j;
+int main(void)
+{int i=0;init_led();led1_set();start_pll();init_dac();init_adc();connect_pll();
+ while(1)
+ {if(get_adc())j++;if(j&(1<<12))led1_set();else led1_clr();
+  if(i++&(1<<17))led0_set();else led0_clr();
+ }return 0;
+}
