@@ -1,5 +1,5 @@
 /*CRC32 test
-This file has been written for the stribog project.
+This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,12 +19,12 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"crc32.h"
 #include"led.h"
 #include"pll.h"
-#include"uart1.h"
-static fix_data f;static int i;
+static int i;static unsigned data[4913];
 int main(void)
-{start_pll();init_led();connect_pll();
+{int j;start_pll();init_led();led1_set();
+ for(j=0;j<sizeof(data)/sizeof(*data);j++)data[j]=j;led1_clr();connect_pll();
  while(1)
- {f.d[0]=i++;f.d[FIX_LENGTH]=form_crc((unsigned*)(f.d),FIX_LENGTH);
-  if(i&(1<<16))led0_set();else led0_clr();
+ {data[0]=form_crc(data+1,sizeof(data)/sizeof(*data)-1);
+  if(i++&(1<<5))led0_clr();else led0_set();
  }
 }
