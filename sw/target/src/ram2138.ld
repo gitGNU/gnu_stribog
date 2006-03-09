@@ -42,8 +42,8 @@ SECTIONS
   } >ram
  . = ALIGN(4);
  .data : { *(.data) } >ram
- _rom_data_begin = .; _rom_data_end = .;
  . = ALIGN(4); _bss_data_begin = .;
  .bss : {*(.bss)} >ram
  . = ALIGN(4); _bss_data_end = .;
+ _rom_data_begin = .; _rom_data_end = .;
 }
