@@ -23,34 +23,31 @@ OBJCOPY=arm-elf-objcopy
 ASFLAGS=-mcpu=arm7tdmi
 CFLAGS=-mcpu=arm7tdmi -Wall -O2
 ifdef ram_based
- LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(src)/ram2138.ld -static -O2
+ ldscript=$(src)/ram2138.ld
 else
- LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(src)/2138.ld -static -O2
+ ldscript=$(src)/2138.ld
 endif
+LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(ldscript) -static -O2
 src=src
 o=o
 bin=bin
-TARGETS=pllex ledex tempusex uart1ex crcex adcex dacex
+TARGETS=pllex inledex ledex tempusex uart1ex crcex adcex dacex powerex multa\
+ accelex
 ifdef ram_based
  targets=$(foreach t,$(TARGETS), $(bin)/$(t).bin $(bin)/$(t).vectors)
 else
  targets=$(foreach t,$(TARGETS), $(bin)/$(t).bin)
 endif
 .PHONY: all clean maintainer-clean
-#how ugly! I can't setup libgcc and add her manually.
-all: libpath.mk autodeps.mk $(targets)
-libpath.mk:
-	echo -n "libpath=">$@
-	find `which arm-elf-gcc|sed -e "s/bin\/arm-elf-gcc//"`\
- -name libgcc.a|grep -v "thumb">>$@
+all: autodeps.mk $(targets)
 autodeps.mk: $(src)/*.c
 	rm -f $@
 	for i in `ls $(src)|grep "\.c$$"|sed -e"s/..$$//"`;\
  do $(CC) $(CFLAGS) -M -MT $(o)/$$i.o $(src)/$$i.c >>$@;done
-include libpath.mk
+#include libpath.mk
 include autodeps.mk
 $(o)/%.elf:$(o)/boot.o $(o)/%.o 
-	$(LD) $(LFLAGS) -o $@ $^ $(libpath)
+	$(LD) $(LFLAGS) -o $@ $^ `$(CC) -print-libgcc-file-name`
 $(o)/%.o:$(src)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 %.s:$(src)/%.c
@@ -58,9 +55,9 @@ $(o)/%.o:$(src)/%.c
 $(o)/%.o:$(src)/%.s
 	$(AS) $(ASFLAGS) -o $@ $<
 clean:
-	rm o/*
+	rm -f o/*
 maintainer-clean: clean
-	rm *.* bin/*
+	rm -f *.* bin/*
 $(bin)/%.bin: $(o)/%.elf
 	$(OBJCOPY) -I elf32-littlearm -O binary -R startup $< $@
 $(bin)/%.vectors: $(o)/%.elf 
@@ -70,8 +67,13 @@ $(bin)/%.vectors: $(o)/%.elf
 $(o)/ledex.elf:$(o)/led.o
 $(o)/pllex.elf:$(o)/pll.o $(o)/led.o
 $(o)/tempusex.elf:$(o)/pll.o $(o)/led.o
-$(o)/uart1ex.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o
+$(o)/uart1ex.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o $(o)/crc32.o\
+ $(o)/tempus.o $(o)/power.o $(o)/lm74.o
 $(o)/crcex.elf:$(o)/pll.o $(o)/led.o $(o)/crc32.o
+$(o)/inledex.elf:$(o)/pll.o
 $(o)/adcex.elf:$(o)/adc.o $(o)/led.o $(o)/pll.o $(o)/dac.o
 $(o)/dacex.elf:$(o)/led.o $(o)/pll.o $(o)/dac.o
-
+$(o)/powerex.elf:$(o)/power.o
+$(o)/multa.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o $(o)/crc32.o $(o)/dac.o\
+ $(o)/tempus.o $(o)/power.o $(o)/lm74.o $(o)/adc.o $(o)/accel.o
+$(o)/accelex.elf:$(o)/accel.o $(o)/led.o $(o)/pll.o
