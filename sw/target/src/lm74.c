@@ -26,17 +26,13 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define SIO	(1<<12)
 void init_lm74(void){IO1DIR|=CS|CLK;IO1SET=CS;}
 static void delay(void)
-{static const dt=4;unsigned t=T1TC;
+{static const int dt=4;unsigned t=T1TC;
  if(t+dt>t)while(T1TC<t+dt);else{while(T1TC>1<<30);while(T1TC<dt);}
 }
 int get_temperature(void)
-{static int c;int i;IO1CLR=CS;delay();IO1SET=CLK;delay();
- if(IO0PIN&SIO)c|=1<<31;else c&=~(1<<31);
+{int i,c;IO1CLR=CS;delay();IO1SET=CLK;delay();if(IO0PIN&SIO)c=1;else c=0;
  for(i=0;i<15;i++)
- {IO1CLR=CLK;delay();c>>=1;
-  if(IO0PIN&SIO)c|=1<<31;else c&=~(1<<31);IO1SET=CLK;delay();
- }IO1SET=CS;IO1CLR=CLK;return c>>16;
+ {IO1CLR=CLK;delay();c<<=1;if(IO0PIN&SIO)c|=1;IO1SET=CLK;delay();}
+ IO1SET=CS;IO1CLR=CLK;return c>>3;
 }
-void turn_lm74(int off)
-{
-}
+void turn_lm74(int off){/*not implemented yet*/}
