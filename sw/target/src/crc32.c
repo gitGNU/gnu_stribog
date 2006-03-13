@@ -18,10 +18,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-unsigned form_crc(unsigned*msg,unsigned n)
+unsigned form_crc(const unsigned*msg,unsigned n)
 /*NB this works on 32-bit little-endian architectures only*/
 {unsigned crc=~0,j,k;const unsigned poly=0xEDB88320;
- while(n-->0)
+ while(n--)
  {crc^=*msg++;for(j=0;j<32;j++){k=crc&1;crc>>=1;if(k)crc^=poly;}}
  return~crc;
 }

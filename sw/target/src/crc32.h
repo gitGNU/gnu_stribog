@@ -17,4 +17,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-unsigned form_crc(unsigned*msg,unsigned n);
+unsigned form_crc(const unsigned*msg,unsigned n);
