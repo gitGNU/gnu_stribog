@@ -221,7 +221,7 @@ int load_and_go(void)
  int i;FILE*f;unsigned long addr;char s[289];
  addr=used_ram;f=fopen("elk.bin","rb");
  for(addr=used_ram;!feof(f);addr+=step)
- {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);printf("#%lX#%i#",addr,i);
+ {for(i=0;i<step/*&&!feof(f)*/;i++)fscanf(f,"%c",s+i);printf("#%lX#%i#",addr,i);
   if(write_string(s,addr,step)){fclose(f);return!0;}
  }fclose(f);f=fopen("vectors","rb");
  for(addr=ram_org;!feof(f);addr+=step)

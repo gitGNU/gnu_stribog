@@ -17,6 +17,7 @@
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 #Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
-target=crcex;
+#target=accelex
+target=multa
 cd ../../target/;make;cd ../host/elk
 cp ../../target/bin/$target.bin elk.bin;cp ../../target/bin/$target.vectors vectors
