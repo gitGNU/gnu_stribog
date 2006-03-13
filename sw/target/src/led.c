@@ -23,4 +23,4 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 void led0_clr(){IO0CLR=pin0mask;}void led0_set(){IO0SET=pin0mask;}
 void led1_clr(){IO1CLR=pin1mask;}void led1_set(){IO1SET=pin1mask;}
 void init_led(void)
-{PINSEL2=0;IO0DIR|=pin0mask;IO1DIR|=pin1mask;led0_set();led1_clr();}
+{PINSEL2=0;IO0DIR|=pin0mask;IO1DIR|=pin1mask;led0_clr();led1_clr();}
