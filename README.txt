@@ -37,16 +37,17 @@ in system mode. no THUMB code. fast interrupt reserved. VPB divider equals 4,
 as by default. PLL is configured to multiply by 4.
 
 The program will run from RAM, when possible. even when written in ROM, boot.s
-will copy it to RAM. the program use only one library: libgcc.a. all
-computations should be in fixed point.
+will copy it to RAM. the program use only one library: libgcc.a. 
+all computations should be in fixed point.
 
 Time functions (tempus.h) are based on timer1. it uses VIC vectored interrupt
 slot 5.
 
-UART1 is the basic port; uses VIC slot 4.
+UART1 is the basic port; uses VIC slot 4
 
-ADC use VIC slots 6 and 7; YOU SHOULD init_dac(), or, at least, make 
-regulator U13 sleep, BEFORE init_adc().
+ADC use VIC slots 6 and 7
+
+Timer0 is occupied by accelerometers; VIC slot 8
 
 HOW TO INSTALL DEVELOPMENT TOOLS
 
