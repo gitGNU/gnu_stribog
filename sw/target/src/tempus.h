@@ -17,4 +17,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 void init_tempus(void);unsigned long long tempus(void);
-unsigned senius_tempus(void),iunius_tempus(void);
+inline unsigned senius_tempus(void),iunius_tempus(void);
+
