@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"adc.h"
+#include"dac.h"
 #include"../include/lpc2138.h"
 #include"mutex.h"
 #define CHANNELS	(16)
@@ -34,7 +35,8 @@ static void qu1(void)__attribute__((interrupt("IRQ")));
 static void qu1(void)
 {unsigned c;while((c=AD1DR)&AD_DONE)ch1[(c>>24)&7]=(c>>6)&0x3FF;VICVectAddr=0;}
 void init_adc(void)
-{VICVectAddr6=(unsigned)qu0;VICVectCntl6=VIC_CntlEnable|VIC_AD0;
+{init_dac();
+ VICVectAddr6=(unsigned)qu0;VICVectCntl6=VIC_CntlEnable|VIC_AD0;
  VICVectAddr7=(unsigned)qu1;VICVectCntl7=VIC_CntlEnable|VIC_AD1;
  VICIntEnable=(1<<VIC_AD0)|(1<<VIC_AD1);
  PINSEL1&=PINSEL1_AD00MASK&PINSEL1_AD01MASK&PINSEL1_AD02MASK&

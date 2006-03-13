@@ -20,12 +20,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"adc.h"
-#include"dac.h"
 #include"pll.h"
 #include"led.h"
 static int j;
 int main(void)
-{int i=0;init_led();led1_set();start_pll();init_dac();init_adc();connect_pll();
+{int i=0;start_pll();init_led();led1_set();init_adc();connect_pll();
  while(1)
  {if(get_adc())j++;if(j&(1<<12))led1_set();else led1_clr();
   if(i++&(1<<17))led0_set();else led0_clr();
