@@ -1,3 +1,6 @@
+12 Mar 06
+accelerometers added; output format is being defined
+
 04 Mar 06 
 added pullup resistor to RESET
 R17..R20 changed to 2.2k, R21..R24 --- to 3.3k
