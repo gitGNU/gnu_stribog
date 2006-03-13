@@ -22,8 +22,8 @@ static unsigned aetas;
 static void temporis_quaestus(void)__attribute__((interrupt("IRQ")));
 static void temporis_quaestus(void){aetas++;T1IR=1;VICVectAddr=0;}
 void init_tempus(void)
-{T1PR=0;T1CTCR=0;T1TCR=0x1;T1MR0=0;T1MCR=1;VICIntEnable=VIC_TIMER1;
- VICVectAddr5=temporis_quaestus;VICVectCntl5=VIC_CntlEnable|VIC_TIMER1;
+{T1PR=0;T1CTCR=0;T1TCR=0x1;T1MR0=0;T1MCR=1;VICIntEnable=1<<VIC_TIMER1;
+ VICVectAddr5=(unsigned)temporis_quaestus;VICVectCntl5=VIC_CntlEnable|VIC_TIMER1;
 }
 unsigned long long tempus(void)/*TODO: rewrite reliably*/
 {return T1TC|(((unsigned long long)aetas)<<32);
@@ -31,5 +31,5 @@ unsigned long long tempus(void)/*TODO: rewrite reliably*/
  if(VICIRQStatus&(1<<VIC_TIMER1)){ts++;ti=T1TC;}VICIntEnable=1<<VIC_TIMER1;
  return ti|(((unsigned long long)ts)<<32); //this won't work either*/
 }
-unsigned senius_tempus(void){return aetas;}
-unsigned iunius_tempus(void){return T1TC;}
+inline unsigned senius_tempus(void){return aetas;}
+inline unsigned iunius_tempus(void){return T1TC;}
