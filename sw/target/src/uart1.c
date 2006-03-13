@@ -18,16 +18,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"uart1.h"
 #include"mutex.h"
+#include"crc32.h"
 #include"../include/lpc2138.h"
 #define LCRsig	Ux8bit|Ux1stop
 #define HiDiv	(0)/*we use a high baud rate*/
 #define LoDiv	(14745600/16/115200)/*115200 when freq=14745600*/
-static mutex fm;static fix_data fix;static char*s=(char*)(fix.d);
-static int received,txi;
+#define dle	((char)0x10)
+#define etx	((char)0x03)
+static mutex tx_mut;static char txbuf[0x100];
+static int received,txi,txlen;
 static int fill_txbuf(void)
-{while(txi<sizeof(fix.d)&&(U1LSR&UxLSR_THRE))U1THR=s[txi++];
- if(txi<sizeof(fix.d)){U1IER=UxIERrx|UxIERtx;return 0;}
- U1IER=UxIERrx;unlock(&fm);return!0;
+{while((txi<txlen)&&(U1LSR&UxLSR_THRE))U1THR=txbuf[txi++];
+ if(txi<txlen)return 0;U1IER=UxIERrx;unlock(&tx_mut);return!0;
 }
 int get_received(void){return received;}
 static void proc_received(int c){received=c;}
@@ -47,8 +49,15 @@ int init_uart1(void)
  VICIntEnable=1<<VIC_UART1;U1LCR=UxDLAB;U1DLL=LoDiv;U1DLM=HiDiv;U1LCR=LCRsig;
  U1IER=UxIERrx;U1FCR=UxFCRfifoenable;return 0;
 }
-static void send_data(){txi=0;fill_txbuf();}
-int send_fix(const fix_data*f)
-{int i;if(lock(&fm))return!0;
- for(i=0;i<sizeof(f->d)/sizeof(int);i++)fix.d[i]=f->d[i];send_data();return 0;
+int send_fix(const unsigned*d,int n)
+{int i,j;unsigned crc;char*s=(char*)d;if(lock(&tx_mut))return!0;
+ crc=form_crc(d,n);j=0;txbuf[j++]=dle;n<<=2;
+ for(i=0;i<n;i++,j++)
+ {if(s[i]==dle)txbuf[j++]=dle;txbuf[j]=s[i];}
+ if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
+ if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
+ if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
+ if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
+ txbuf[j++]=dle;txbuf[j++]=etx;txi=0;txlen=j;
+ fill_txbuf();U1IER=UxIERrx|UxIERtx;return 0;
 }

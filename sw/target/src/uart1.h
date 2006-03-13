@@ -16,6 +16,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-#define FIX_LENGTH	(6)
-typedef struct{int d[FIX_LENGTH];}fix_data;
-int init_uart1(void);int send_fix(const fix_data*);
+int init_uart1(void);int send_fix(const unsigned*d,int n);
