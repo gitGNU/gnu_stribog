@@ -3,6 +3,8 @@ The end of this file contains license and copyright notes for the project.
 
 ATTENTION stribog is in his pre-alpha stage. it is not functional yet.
 
+The project is located at http://savannah.nongnu.org/projects/stribog
+
 SOME TECHNICAL NOTES FOLLOW
 
 Stribog is primarily designed on LPC2138, but actually LPC213[46] can be used,
