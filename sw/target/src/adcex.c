@@ -26,7 +26,7 @@ static int j;
 int main(void)
 {int i=0;start_pll();init_led();led1_set();init_adc();connect_pll();
  while(1)
- {if(get_adc())j++;if(j&(1<<12))led1_set();else led1_clr();
+ {if(get_adc()){led1_set();led1_clr();}//j++;if(j&(1<<12))led1_set();else led1_clr();
   if(i++&(1<<17))led0_set();else led0_clr();
  }return 0;
 }
