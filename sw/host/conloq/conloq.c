@@ -31,6 +31,6 @@ int main(int argc,char**argv)
  if(initserialia(argc>1?argv[1]:0))
  {fclose(f);free_tsip(tb);error("can't open serial port\n");return 2;}
  while(1)if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))
-  if((_=parse_tsip(tb,s[j],&size)))if(!(i++&0xFF))expone(_,size);
+  if((_=parse_tsip(tb,s[j],&size)))if(!(i++&0x3F))expone(_,size);
  closeserialia();fclose(f);free_tsip(tb);return 0;
 }
