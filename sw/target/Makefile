@@ -32,7 +32,7 @@ src=src
 o=o
 bin=bin
 TARGETS=pllex inledex ledex tempusex uart1ex crcex adcex dacex powerex multa\
- accelex
+ accelex magex
 ifdef ram_based
  targets=$(foreach t,$(TARGETS), $(bin)/$(t).bin $(bin)/$(t).vectors)
 else
@@ -72,8 +72,9 @@ $(o)/uart1ex.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o $(o)/crc32.o\
 $(o)/crcex.elf:$(o)/pll.o $(o)/led.o $(o)/crc32.o
 $(o)/inledex.elf:$(o)/pll.o
 $(o)/adcex.elf:$(o)/adc.o $(o)/led.o $(o)/pll.o $(o)/dac.o
+$(o)/magex.elf:$(o)/adc.o $(o)/led.o $(o)/pll.o $(o)/dac.o $(o)/mag.o
 $(o)/dacex.elf:$(o)/led.o $(o)/pll.o $(o)/dac.o
 $(o)/powerex.elf:$(o)/power.o
 $(o)/multa.elf:$(o)/pll.o $(o)/led.o $(o)/uart1.o $(o)/crc32.o $(o)/dac.o\
- $(o)/tempus.o $(o)/power.o $(o)/lm74.o $(o)/adc.o $(o)/accel.o
+ $(o)/tempus.o $(o)/power.o $(o)/lm74.o $(o)/adc.o $(o)/accel.o $(o)/mag.o
 $(o)/accelex.elf:$(o)/accel.o $(o)/led.o $(o)/pll.o

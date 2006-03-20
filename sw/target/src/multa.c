@@ -24,10 +24,13 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"lm74.h"
 #include"adc.h"
 #include"accel.h"
+#include"mag.h"
 #define FIX_LENGTH	(5)
 static unsigned f[FIX_LENGTH];static int b[3],a[3];
-static void form_data(unsigned d[FIX_LENGTH],const int b[3])
-{unsigned*s=d;int t,w[3];const unsigned*adc,*acc;while(!(adc=get_adc()));
+static void form_data(unsigned d[FIX_LENGTH])
+{const int*mag;unsigned*s=d;int t,w[3];const unsigned*adc,*acc;
+ while(!(adc=get_adc()));
+ if((mag=process_mag(adc))){*b=*mag;b[1]=mag[1];b[2]=mag[2];}
  t=get_temperature();w[0]=adc[ADC_WX];w[1]=adc[ADC_WY];w[2]=adc[ADC_WZ];
  if((acc=get_accel())){a[0]=acc[0];a[1]=acc[1];a[2]=acc[2];}
  *s++=iunius_tempus();
@@ -37,8 +40,10 @@ static void form_data(unsigned d[FIX_LENGTH],const int b[3])
  *s++=(w[0]&0x3FF)|((w[1]&0x3FF)<<10)|((w[2]&0x3FF)<<20);
 }
 int main(void)
-{start_pll();init_power();init_led();init_lm74();init_accel();led1_set();connect_pll();
- init_adc();init_uart1();init_tempus();led1_set();
- while(1){form_data(f,b);while(send_fix(f,FIX_LENGTH));led0_set();led0_clr();}
- return 0;
+{int j=0;start_pll();init_power();init_led();init_lm74();init_accel();//led1_set();
+ init_mag();connect_pll();init_adc();init_uart1();init_tempus();
+ while(1)
+ {form_data(f);if(!(j&((1<<6)-1))){send_fix(f,FIX_LENGTH);led1_set();led1_clr();}
+  if(j++&(1<<13))led0_set();else led0_clr();
+ }return 0;
 }
