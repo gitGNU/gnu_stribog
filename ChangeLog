@@ -1,5 +1,7 @@
-12 Mar 06
-accelerometers added; output format is being defined
+18 Mar 06
+fixed a bug in the hardware part: pins 2 and 4 of Q2 must be swapped
+ resistance R33 decreased to 30 Ohm.
+ initially added a software module for magnetic sensors
 
 04 Mar 06 
 added pullup resistor to RESET
