@@ -48,6 +48,6 @@ static void reset_dacs(void)
 }
 void init_dac(void)
 {IO0DIR|=LOAD0|LOAD1;IO1DIR|=SC|SDI;IO1SET=SC;IO0SET=LOAD0|LOAD1;reset_dacs();}
-void load0(unsigned x){_load0(1,x);}
-void load1(unsigned x){_load1(0,x);}
-void load2(unsigned x){_load1(1,x);}
+void load0(int x){_load0(1,x+2048);}
+void load1(int x){_load1(0,x+2048);}
+void load2(int x){_load1(1,x+2048);}

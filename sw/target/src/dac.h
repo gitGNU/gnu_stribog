@@ -17,4 +17,4 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 void init_dac(void);
-void load0(unsigned x),load1(unsigned x),load2(unsigned x);
+void load0(int z),load1(int x),load2(int y);
