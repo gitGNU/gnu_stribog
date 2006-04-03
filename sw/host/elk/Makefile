@@ -16,7 +16,8 @@
 #
 #Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
 CC=gcc
-LFLAGS=
+LD=gcc
+LDFLAGS=-s
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
 all: elk
@@ -24,8 +25,8 @@ clean:
 	rm -f *.o
 maintainer-clean: clean
 	rm -f elk elk.bin vectors
-elk: elk.o serialia.o usage.o
-	$(CC) $(LFLAGS) $^ -o $@
+elk:elk.o serialia.o usage.o
+	$(LD) $(LDFLAGS) $^ -o $@
 elk.o:elk.c serialia.h usage.h
 serialia.o:serialia.c serialia.h
 usage.o:usage.c usage.h
