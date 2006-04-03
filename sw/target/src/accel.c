@@ -37,23 +37,23 @@ static void qu(void)__attribute__((interrupt("IRQ")));static void qu(void)
 {static int edges[channels];
  if(T0IR&TxIR_CR0)
  {if(edges[0])
-  {T0CCR=(T0CCR&~TxCAP0FE)|TxCAP0RE;periods[0]=diff(T0CR0,t0[0]);
-   t0[0]=T0CR0;unlock(&data_read);
-  }else{T0CCR=(T0CCR&~TxCAP0RE)|TxCAP0FE;duty_cycles[0]=diff(T0CR0,t0[0]);}
+  {T0CCR=(T0CCR&~TxCAP0FE)|TxCAP0RE;periods[2]=diff(T0CR0,t0[2]);
+   t0[2]=T0CR0;unlock(&data_read);
+  }else{T0CCR=(T0CCR&~TxCAP0RE)|TxCAP0FE;duty_cycles[2]=diff(T0CR0,t0[2]);}
   edges[0]^=1;T0IR=TxIR_CR0;
  }
  if(T0IR&TxIR_CR1)
  {if(edges[1])
-  {T0CCR=(T0CCR&~TxCAP1FE)|TxCAP1RE;periods[1]=diff(T0CR1,t0[1]);
-   t0[1]=T0CR1;unlock(&data_read);
-  }else{T0CCR=(T0CCR&~TxCAP1RE)|TxCAP1FE;duty_cycles[1]=diff(T0CR1,t0[1]);}
+  {T0CCR=(T0CCR&~TxCAP1FE)|TxCAP1RE;periods[0]=diff(T0CR1,t0[0]);
+   t0[0]=T0CR1;unlock(&data_read);
+  }else{T0CCR=(T0CCR&~TxCAP1RE)|TxCAP1FE;duty_cycles[0]=diff(T0CR1,t0[0]);}
   edges[1]^=1;T0IR=TxIR_CR1;
  }
  if(T0IR&TxIR_CR2)
  {if(edges[2])
-  {T0CCR=(T0CCR&~TxCAP2FE)|TxCAP2RE;periods[2]=diff(T0CR2,t0[2]);
-   t0[2]=T0CR2;unlock(&data_read);
-  }else{T0CCR=(T0CCR&~TxCAP2RE)|TxCAP2FE;duty_cycles[2]=diff(T0CR2,t0[2]);}
+  {T0CCR=(T0CCR&~TxCAP2FE)|TxCAP2RE;periods[1]=diff(T0CR2,t0[1]);
+   t0[1]=T0CR2;unlock(&data_read);
+  }else{T0CCR=(T0CCR&~TxCAP2RE)|TxCAP2FE;duty_cycles[1]=diff(T0CR2,t0[1]);}
   edges[2]^=1;T0IR=TxIR_CR2;
  }VICVectAddr=0;
 }
