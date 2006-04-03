@@ -1,0 +1,1 @@
+#define PCLK_FREQUENCY	(14745600)
