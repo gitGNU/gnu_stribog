@@ -1,4 +1,6 @@
 /*LPC2138: timer1 (system clock) setup and queries
+ PPS (rising edge) from a GPS receiver can go through CAP1.2 pin (signal A)
+TODO: test PPS capture
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -17,13 +19,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"tempus.h"
+#include"mutex.h"
 #include"../include/lpc2138.h"
-static unsigned aetas;
+static mutex pps_read;static unsigned aetas,pps;
+const unsigned*get_pps(void){if(lock(&pps_read))return 0;return&pps;}
 static void temporis_quaestus(void)__attribute__((interrupt("IRQ")));
-static void temporis_quaestus(void){aetas++;T1IR=1;VICVectAddr=0;}
+static void temporis_quaestus(void)
+{if(T1IR&TxIR_CR2){pps=T1CR2;unlock(&pps_read);T1IR=TxIR_CR2;}
+ if(T1IR&TxIR_MR0){aetas++;T1IR=TxIR_MR0;}VICVectAddr=0;
+}
 void init_tempus(void)
-{T1PR=0;T1CTCR=0;T1TCR=0x1;T1MR0=0;T1MCR=1;VICIntEnable=1<<VIC_TIMER1;
+{T1PR=0;T1CTCR=0;T1TCR=0x1;T1MR0=0;T1MCR=1;T1CCR=TxCAP2RE|TxCAP2I;
+ VICIntEnable=1<<VIC_TIMER1;
  VICVectAddr5=(unsigned)temporis_quaestus;VICVectCntl5=VIC_CntlEnable|VIC_TIMER1;
+ PINSEL1&=PINSEL1_CAP12_P017MASK;PINSEL1|=PINSEL1_CAP12_P017;lock(&pps_read);
 }
 unsigned long long tempus(void)/*TODO: rewrite reliably*/
 {return T1TC|(((unsigned long long)aetas)<<32);

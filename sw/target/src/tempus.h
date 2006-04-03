@@ -1,4 +1,5 @@
 /*LPC2138: timer1 (system clock) setup and queries
+ this module is responsible for PPS (signal A, rising edge) capture, too
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -17,5 +18,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 void init_tempus(void);unsigned long long tempus(void);
-inline unsigned senius_tempus(void),iunius_tempus(void);
-
+inline unsigned senius_tempus(void);inline unsigned iunius_tempus(void);
+const unsigned*get_pps(void);
