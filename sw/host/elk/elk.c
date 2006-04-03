@@ -20,7 +20,6 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<stdio.h>
 #include"serialia.h"
 #include"usage.h"
-#include<sys/ioctl.h>
 #include<unistd.h>
 #include<string.h>
 #include<time.h>
@@ -33,10 +32,11 @@ static int wait_for_chars(char*s,int N,int timeout)
 {clock_t t;int i=0,n;char*_=s;t=clock();
  do{n=lege(_,N-i);if(n>0){i+=n;_+=n;}}
  while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/100);return i;
-}int test_code(const char*s)
+}static int mute;
+int test_code(const char*s)
 {int n;sscanf(s,"%i",&n);
  switch(n)
- {case 0:printf("CMD_SUCCESS: command complete\n");break;
+ {case 0:if(!mute)printf("CMD_SUCCESS: command complete\n");break;
   case 1:printf("INVALID_COMMAND\n");break;
   case 2:printf("SRC_ADDR_ERROR\n");break;
   case 3:printf("DST_ADDR_ERROR\n");break;
@@ -81,10 +81,10 @@ int unlock(void)
  n=wait_for_chars(s,3,50);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
-static int syncronize(int f)
+static int synchronize(int f)
 {const char query[]="?",sy[]="Synchronized\r\n",
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
- printf("Syncronizing baud rate...\n");
+ printf("Synchronizing baud rate...\n");
  do
  {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,100);
   if(n>0){s[n]=0;printf("received %i bytes: %s",n,s);}
@@ -154,10 +154,8 @@ int read_memory(unsigned long addr,unsigned l,FILE*f)
  printf("sent %s",s);scribe(s,strlen(s));
  if(receive_test_code(s))return!0;
  do{if(receive_uuenc_string(s,50))break;vex|=decode_string(s,&r,&cs,f);}
- while(r!=l);
- n=wait_for_chars(s,sizeof(s)-1,50);s[n]=0;
- scribe(OK,strlen(OK));
- sscanf(s,"%i",&n);printf("checksum: %i (%i)\n",cs,n);
+ while(r!=l);n=wait_for_chars(s,sizeof(s)-1,50);s[n]=0;
+ scribe(OK,strlen(OK));sscanf(s,"%i",&n);printf("checksum: %i (%i)\n",cs,n);
  n=wait_for_chars(s,strlen(OK),50);s[n]=0;return vex||cs!=n;
 }
 int read_mem(void)
@@ -170,7 +168,7 @@ int write_string(const char*s,unsigned long addr,int n)
 {int i,j;char t[289];unsigned long cs;
  do
  {sprintf(t,"W %lu %i\r\n",addr,n);scribe(t,strlen(t));
-  i=wait_for_chars(t,3,50);t[i]=0;printf("received %i: %s",i,t);
+  i=wait_for_chars(t,3,50);t[i]=0;if(!mute)printf("received %i: %s",i,t);
   if(test_code(t))return!0;
   while(1)
   {sprintf(t,"%c",n+0x20);j=strlen(t);
@@ -180,8 +178,8 @@ int write_string(const char*s,unsigned long addr,int n)
     t[j++]=0x20+(((s[i+1]<<2)&0x3C)|((s[i+2]>>6)&0x3));
     t[j++]=0x20+(s[i+2]&0x3F);
    }sprintf(t+j,"\r\n%lu\r\n",cs);scribe(t,strlen(t));
-   i=wait_for_chars(t,4,50);t[i]=0;printf("received %i: %s",i,t);
-   if(!strcmp(t,OK))break;
+   i=wait_for_chars(t,4,50);t[i]=0;if(!mute)printf("received %i: %s",i,t);
+   if(!strcmp(t,OK))break;if(mute)printf("received %i: %s",i,t);
    i=strlen(t);i+=wait_for_chars(t+i,sizeof(t)-i,50);t[i]=0;
    if(strcmp(t,RESEND))return!0;
   }
@@ -218,17 +216,18 @@ static int run(unsigned long addr)
 }
 int load_and_go(void)
 {static const unsigned long ram_org=0x40000000,used_ram=0x40000200;
- int i;FILE*f;unsigned long addr;char s[289];
- addr=used_ram;f=fopen("elk.bin","rb");
- for(addr=used_ram;!feof(f);addr+=step)
- {for(i=0;i<step/*&&!feof(f)*/;i++)fscanf(f,"%c",s+i);printf("#%lX#%i#",addr,i);
-  if(write_string(s,addr,step)){fclose(f);return!0;}
- }fclose(f);f=fopen("vectors","rb");
+ int i,m=mute;FILE*f;unsigned long addr;char s[289];mute=1;
+ f=fopen("vectors","rb");
  for(addr=ram_org;!feof(f);addr+=step)
- {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);printf("#%lX#%i#",addr,i);
-  if(write_string(s,addr,step)){fclose(f);return!0;}
- }fclose(f);
- return run(used_ram);
+ {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);
+  printf("loading %i bytes at addr=0x%lX",i,addr);
+  if(write_string(s,addr,step)){fclose(f);return!0;}putchar('\n');
+ }fclose(f);f=fopen("elk.bin","rb");
+ for(addr=used_ram;!feof(f);addr+=step)
+ {for(i=0;i<step;i++)fscanf(f,"%c",s+i);
+  printf("loading %i bytes at addr=0x%lX",i,addr);
+  if(write_string(s,addr,step)){fclose(f);return!0;}putchar('\n');
+ }fclose(f);mute=m;return run(used_ram);
 }
 int copy_mem(void){return copy_memory(0);}
 void closeall(void){closeserialia();}
@@ -240,7 +239,7 @@ int main(int argc,char**argv)
  do
  {printf(">");scanf("%c",&c);
   switch(c)
-  {case's':syncronize(f);break;
+  {case's':synchronize(f);break;
    case'j':read_partid();break;case'k':read_version();break;
    case'f':printf("enter crystal frequency (kHz): ");scanf("%i",&f);
     printf("frequency assumed %i kHz\n",f);break;
