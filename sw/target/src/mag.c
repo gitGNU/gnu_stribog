@@ -1,4 +1,8 @@
 /*LPC2138: magnetic sensors control
+ The closed loop bandwidth is 17..60 Hz.
+ TODO: increase samples frequency to 700 Hz. 
+ the bandwidth will be 68..200Hz.
+ TODO: define coefficients in reg_func() more precisely
 This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
@@ -22,6 +26,8 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"../include/lpc2138.h"
 #define SET	(1<<31)
 #define RESET	(1<<16)
+#define scale	(7)
+static const int kx=1<<scale,ky=100,kz=91;
 static inline void set_down(void){IO0CLR=SET;}
 static inline void reset_down(void){IO1CLR=RESET;}
 static inline void set_up(void){IO0SET=SET;}
@@ -38,15 +44,16 @@ int*func2(const unsigned*a)
 }
 static int*func1(const unsigned*a){set_up();func=func2;return 0;}
 static int reg_func(int d)
-{if(!d)return 0;if(d>-4&&d<4)return d>0?1:-1;return d>>2;}
+{if(!d)return 0;if(d>-(1<<scale)&&d<(1<<scale))return d>0?1:-1;
+ return d>>(scale+1);
+}
 static int*func0(const unsigned*a)
 {diff[0]-=a[ADC_MX];diff[1]-=a[ADC_MY];diff[2]-=a[ADC_MZ];
- x[0]-=reg_func(diff[0]);if(x[0]>2047)x[0]=2047;if(x[0]<-2047)x[0]=-2047;
- x[1]+=reg_func(diff[1]);if(x[1]>2047)x[1]=2047;if(x[1]<-2047)x[1]=-2047;
- x[2]-=reg_func(diff[2]);if(x[2]>2047)x[2]=2047;if(x[2]<-2047)x[2]=-2047;
- load0(x[2]);load1(x[0]);load2(x[1]);
- reset_down();func=func1;return x;
+ x[0]+=reg_func(diff[0]*kx);if(x[0]>2047)x[0]=2047;if(x[0]<-2047)x[0]=-2047;
+ x[1]+=reg_func(diff[1]*ky);if(x[1]>2047)x[1]=2047;if(x[1]<-2047)x[1]=-2047;
+ x[2]+=reg_func(diff[2]*kz);if(x[2]>2047)x[2]=2047;if(x[2]<-2047)x[2]=-2047;
+ load0(-x[2]);load1(-x[0]);load2(x[1]);reset_down();func=func1;return x;
 }
 static int*func_(const unsigned*a){reset_down();func=func1;return 0;}
 const int*process_mag(const unsigned*a)
-{static int j;if(j++&0x1F)return 0;return func(a);}
+{static int j;if(j++&0x3)return 0;return func(a);}
