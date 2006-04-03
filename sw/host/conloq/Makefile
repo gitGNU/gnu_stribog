@@ -17,18 +17,21 @@
 #Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
 CC=gcc
 LD=gcc
-LFLAGS=-s
+LDFLAGS=-s
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
 all: bin/conloq bin/expon
 clean:
 	rm -f *.o
 maintainer-clean: clean
+	rm -f bin/* *.log
 bin/%:%.o
-	$(LD) $(LFLAGS) $^ -o $@
-bin/conloq:serialia.o usage.o crc32.o error.o parse_tsip.o exp.o
-bin/expon:parse_tsip.o error.o crc32.o exp.o
+	$(LD) $(LDFLAGS) $^ -o $@
+bin/conloq:serialia.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_bin.o
+bin/expon:parse_tsip.o error.o crc32.o exp.o garmin_bin.o
 conloq.o:serialia.h usage.h error.h parse_tsip.h exp.h
 expon.o:parse_tsip.h exp.h
 serialia.o:serialia.h
 usage.o:usage.h
+exp.o:exp.h exp_gps.h error.h
+garmin_bin.o:exp_gps.h parse_tsip.h
