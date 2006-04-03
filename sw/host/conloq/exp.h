@@ -16,4 +16,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+int init_exp(int expone_gps);void close_exp(void);
 void expone(const unsigned char*s,int size);
