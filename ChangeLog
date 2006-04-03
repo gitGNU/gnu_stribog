@@ -1,3 +1,15 @@
+31 Mar 06
+ target software: UART0 functions written; accelerometer channels
+  sequence changed to conform with the magnetic sensors. 
+ host software: limited Win32 support added
+
+22 Mar 06
+ all on-board sensors do work. magnetic sensors bandwidth should be
+ defined more precisely and increased.
+ mag_response program added: it is to measure DAC response to magnetic
+ sensors output. the measured values define kx, ky and kz in mag.c
+C35 is tantalum again.
+
 18 Mar 06
 fixed a bug in the hardware part: pins 2 and 4 of Q2 must be swapped
  resistance R33 decreased to 30 Ohm.
