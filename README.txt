@@ -1,7 +1,7 @@
 Stribog the sensing platform README file.
 The end of this file contains license and copyright notes for the project.
 
-ATTENTION stribog is in his pre-alpha stage. it is not functional yet.
+ATTENTION stribog is in his pre-alpha stage. he is not functional yet.
 
 The project is located at http://savannah.nongnu.org/projects/stribog
 
@@ -42,21 +42,32 @@ The program will run from RAM, when possible. even when written in ROM, boot.s
 will copy it to RAM. the program use only one library: libgcc.a. 
 all computations should be in fixed point.
 
+Busy VIC slots: 3 (UART0), 4 (UART1), 5 (timer1), 6 and 7 (ADC), 8 (timer0)
+
 Time functions (tempus.h) are based on timer1. it uses VIC vectored interrupt
-slot 5.
+slot 5. this module receives PPS at CAP1.2 (signal A), too.
+
+UART0 is the auxiliary port to get GPS data; uses VIC slot 3
 
 UART1 is the basic port; uses VIC slot 4
 
-ADC use VIC slots 6 and 7
+ADC use VIC slots 6 and 7; magnetic module functions used in such way
+(see magex.c, multa.c) that ADC sampling frequency defines frequency of
+set/reset pulses.
+
+Magnetoresistive sensors work not so far from the absolute maximum value 
+for set/reset strap duty cycle. increasing the sampling frequency can DAMAGE 
+the sensors.
 
 Timer0 is occupied by accelerometers; VIC slot 8
 
 HOW TO INSTALL DEVELOPMENT TOOLS
 
-First, we shall need binutils and gcc for ARM. we go to www.gnuarm.com and
-get binutils-2.16.1.tar.bz2 and gcc-4.0.1.tar.bz2.
+First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
+get binutils-2.16.1.tar.bz2 and gcc-4.0.1.tar.bz2 (gcc-4.0.3.tar.bz2 will fit,
+too).
 
-Follow (with some changes) instructions from www.gnuarm.com:
+Follow (with some changes) instructions from http://www.gnuarm.com
 
 $ export armprefix=$HOME/arm
                    (or where you want them to live)
@@ -66,16 +77,15 @@ $ ../binutils-2.16.1/configure --target=arm-elf --prefix=$armprefix --enable-int
 $ make all install
 $ export PATH=$PATH:$armprefix/bin; rm -fr *
          (add this path in your shell profile after install, too)
-$ ../gcc-4.0.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages="c,c++"
-$ make all-gcc install-gcc
-  (we have no enough stuff to make all install)
+$ ../gcc-4.0.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages="c"
+$ make all install
 
 We don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 
-It is more difficult to install geda and friends. I shall tell it another
+It is more difficult to install gEDA and friends. I shall tell it another
 time.
 
 LICENSE AND COPYRIGHT NOTES FOLLOW
