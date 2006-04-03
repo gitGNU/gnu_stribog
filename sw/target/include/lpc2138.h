@@ -180,8 +180,15 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define VICVectCntl15		(*((volatile unsigned*)(0xFFFFF23C)))
 /*Pin Control Module*/
 #define PINSEL0		(*((volatile unsigned*)(0xE002C000)))
+#define PINSEL0_00MASK	(~(3<<0))
+#define PINSEL0_TXD0MASK	PINSEL0_00MASK
+#define PINSEL0_PWM1_00MASK	PINSEL0_00MASK
 #define PINSEL0_TXD0	(1<<0)
-#define PINSEL0_PWM1	(2<<0)
+#define PINSEL0_PWM1_00	(2<<0)
+#define PINSEL0_01MASK	(~(3<<2))
+#define PINSEL0_RXD0MASK	PINSEL0_01MASK
+#define PINSEL0_PWM3_01MASK	PINSEL0_01MASK
+#define PINSEL0_EINT0_01MASK	PINSEL0_01MASK
 #define PINSEL0_RXD0	(1<<2)
 #define PINSEL0_PWM3	(2<<2)
 #define PINSEL0_EINT0	(3<<2)
@@ -200,9 +207,13 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define PINSEL0_SCK0		(1<<8)
 #define PINSEL0_CAP01_04	(2<<8)
 #define PINSEL0_AD06		(3<<8)
-#define PINSEL0_MISO0	(1<<10)
-#define PINSEL0_MAT01	(2<<10)
-#define PINSEL0_AD07	(3<<10)
+#define PINSEL0_05MASK		(~(3<<10))
+#define PINSEL0_MAT01_05MASK	PINSEL0_05MASK
+#define PINSEL0_MISO0MASK	PINSEL0_05MASK
+#define PINSEL0_AD07MASK	PINSEL0_05MASK
+#define PINSEL0_MISO0_05	(1<<10)
+#define PINSEL0_MAT01_05	(2<<10)
+#define PINSEL0_AD07		(3<<10)
 #define PINSEL0_06MASK		(~(3<<12))
 #define PINSEL0_MOSI0MASK	PINSEL0_06MASK
 #define PINSEL0_CAP02_06MASK	PINSEL0_06MASK
@@ -252,6 +263,10 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define PINSEL1_EINT0		(1<<0)
 #define PINSEL1_MAT02_P016	(2<<0)
 #define PINSEL1_CAP02_P016	(3<<0)
+#define PINSEL1_17MASK		(~(3<<2))
+#define PINSEL1_CAP12_P017MASK	PINSEL1_17MASK
+#define PINSEL1_SCK_P017MASK	PINSEL1_17MASK
+#define PINSEL1_MAT12_P017MASK	PINSEL1_17MASK
 #define PINSEL1_CAP12_P017	(1<<2)
 #define PINSEL1_SCK		(2<<2)
 #define PINSEL1_MAT12_P017	(3<<2)
@@ -372,7 +387,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define UxBreak		(0x40)
 #define UxDLAB		(0x80)
 #define U0LSR		(*((volatile unsigned*)(0xE000C014)))
-#define UxLSR_RDR	(1)
+#define UxLSR_RDR	(1<<0)
 #define UxLSR_THRE	(1<<5)
 #define U0SCR		(*((volatile unsigned*)(0xE000C01C)))
 #define U0TER		(*((volatile unsigned*)(0xE000C030)))
@@ -460,7 +475,6 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define T0CR3		(*((volatile unsigned*)(0xE0004038)))
 #define T0EMR		(*((volatile unsigned*)(0xE000403C)))
 #define T0CTCR		(*((volatile unsigned*)(0xE0004070)))
-
 #define T1IR		(*((volatile unsigned*)(0xE0008000)))
 #define T1TCR		(*((volatile unsigned*)(0xE0008004)))
 #define T1TC		(*((volatile unsigned*)(0xE0008008)))
