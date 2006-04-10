@@ -1,4 +1,4 @@
-/*LPC2138: UART1 (this is the main port)
+/*LPC2138: UART1 (the main port)
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
