@@ -53,11 +53,11 @@ UART1 is the basic port; uses VIC slot 4
 
 ADC use VIC slots 6 and 7; magnetic module functions used in such way
 (see magex.c, multa.c) that ADC sampling frequency defines frequency of
-set/reset pulses.
+set/reset pulses. this frequency is adjusted to be an integer of 50 Hz.
 
 Magnetoresistive sensors work not so far from the absolute maximum value 
-for set/reset strap duty cycle. increasing the sampling frequency can DAMAGE 
-the sensors.
+for set/reset strap duty cycle. carelessly increasing the sampling frequency 
+can DAMAGE the sensors.
 
 Timer0 is occupied by accelerometers; VIC slot 8
 
