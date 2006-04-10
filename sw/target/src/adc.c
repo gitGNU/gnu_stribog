@@ -26,9 +26,9 @@ static mutex data_read;
 const unsigned*get_adc(void){if(lock(&data_read))return 0;return channels;}
 static void qu0(void)__attribute__((interrupt("IRQ")));
 static void qu0(void)
-{unsigned c,cn;
+{unsigned c,cn;static int j;
  while((c=AD0DR)&AD_DONE)
- {ch0[cn=(c>>24)&7]=(c>>6)&0x3FF;if(cn==7)unlock(&data_read);}
+ {ch0[cn=(c>>24)&7]=(c>>6)&0x3FF;if(cn==7){if(j!=4)j++;else{j=0;unlock(&data_read);}}}
  VICVectAddr=0;
 }
 static void qu1(void)__attribute__((interrupt("IRQ")));
@@ -44,6 +44,6 @@ void init_adc(void)
   PINSEL1_AD03MASK&PINSEL1_AD04MASK&PINSEL1_AD05MASK&PINSEL1_AD17MASK;
  PINSEL1|=PINSEL1_AD00|PINSEL1_AD01|PINSEL1_AD02|
   PINSEL1_AD03|PINSEL1_AD04|PINSEL1_AD05|PINSEL1_AD16|PINSEL1_AD17;
- AD0CR=(0xBF)|(16<<8)|AD_PDN|AD_BURST;
- AD1CR=(0xC4)|(32<<8)|AD_PDN|AD_BURST;lock(&data_read);
+ AD0CR=(0xBF)|(11<<8)|AD_PDN|AD_BURST;
+ AD1CR=(0xC4)|(33<<8)|AD_PDN|AD_BURST;lock(&data_read);
 }

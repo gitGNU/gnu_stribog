@@ -30,11 +30,11 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define GPS_DATA_LENGTH	(3)
 #define TEMP_LENGTH	(2)
 #define PPS_LENGTH	(1)
-static unsigned f[FIX_LENGTH],adxrs_temp[3],_2048;static int b[3],a[3];
+static unsigned adxrs_temp[3],_2048;
 static void send_pps(void)
 {static int pps_got;static unsigned pps,k;const unsigned*_;
  if((_=get_pps())){pps=*_;pps_got=!0;k++;}
- if(pps_got){pps_got=send_fix(&pps,PPS_LENGTH);}
+ if(pps_got)pps_got=send_fix(&pps,PPS_LENGTH);
 }
 static void check_gps_data(void)
 {static unsigned _[GPS_DATA_LENGTH];char*s=(char*)_;
@@ -42,11 +42,14 @@ static void check_gps_data(void)
  if(!(data_got=receive0(s,sizeof(_)-1)))return;s[sizeof(_)-1]=data_got;
  data_got=send_fix(_,GPS_DATA_LENGTH);
 }
-static void form_data(unsigned d[FIX_LENGTH])
-{const int*mag;unsigned*s=d;int t,w[3];const unsigned*adc,*acc;
- while(!(adc=get_adc()));_2048=adc[ADC_2048];
+static int send_msmt(void)
+{static unsigned f[FIX_LENGTH];const int*mag;unsigned*s=f;int t,w[3];
+ const unsigned*adc,*acc;static int i,pending;static int b[3],a[3];
+ if(pending){pending=send_fix(f,FIX_LENGTH);if(!pending){led1_set();led1_clr();}}
+ if(!(adc=get_adc()))return 0;_2048=adc[ADC_2048];
  adxrs_temp[0]=adc[ADC_TX];adxrs_temp[1]=adc[ADC_TY];adxrs_temp[2]=adc[ADC_TZ];
- if((mag=process_mag(adc))){*b=*mag;b[1]=mag[1];b[2]=mag[2];}
+ if(mag=process_mag(adc)){if(i++&3)return 0;}else return 0;
+ *b=*mag;b[1]=mag[1];b[2]=mag[2];
  t=get_temperature();w[0]=adc[ADC_WX];w[1]=adc[ADC_WY];w[2]=adc[ADC_WZ];
  if((acc=get_accel())){a[0]=acc[0];a[1]=acc[1];a[2]=acc[2];}
  *s++=iunius_tempus();
@@ -54,20 +57,20 @@ static void form_data(unsigned d[FIX_LENGTH])
  *s++=(b[2]&0xFFF)|((a[0]&0x3FFF)<<12)|((t&0x1F00)<<(26-8));
  *s++=(a[1]&0x3FFF)|((a[2]&0x3FFF)<<14);
  *s=(w[0]&0x3FF)|((w[1]&0x3FF)<<10)|((w[2]&0x3FF)<<20);
+ pending=send_fix(f,FIX_LENGTH);if(!pending){led1_set();led1_clr();}
+ return!0;
 }
-static void form_temp(void)
-{unsigned*s=f;*s++=_2048;
+static void send_temp(int ms)
+{static unsigned t[2],i;unsigned*s=t;static const unsigned N=100;
+ if(ms)i++;if(i<N)return;*s++=_2048;
  *s=adxrs_temp[0]|(adxrs_temp[1]<<10)|(adxrs_temp[2]<<20);
+ if(!send_fix(t,TEMP_LENGTH))i=0;
 }
 int main(void)
-{int j=0;unsigned t=0;
- start_pll();init_power();init_led();init_lm74();init_accel();led1_clr();
+{int j=0,ms;start_pll();init_power();init_led();init_lm74();init_accel();//led1_clr();
  init_mag();connect_pll();init_adc();init_uart1();init_uart0();init_tempus();
  while(1)
- {form_data(f);if(!(j&((1<<6)-1))){send_fix(f,FIX_LENGTH);led1_set();led1_clr();}
-  send_pps();check_gps_data();
-  if((1<<5)==(j&((1<<13)-1))){form_temp();send_fix(f,TEMP_LENGTH);}
-  if(t>tempus())ask_ephm();t=tempus();
-  if(j++&(1<<12))led0_set();else led0_clr();
+ {ms=send_msmt();send_temp(ms);send_pps();check_gps_data();
+  if(j++&(1<<15))led0_set();else led0_clr();
  }return 0;
 }

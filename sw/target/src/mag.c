@@ -1,8 +1,5 @@
 /*LPC2138: magnetic sensors control
- The closed loop bandwidth is 17..60 Hz.
- TODO: increase samples frequency to 700 Hz. 
- the bandwidth will be 68..200Hz.
- TODO: define coefficients in reg_func() more precisely
+ magnetic field sampling rate is 798.37 Hz
 This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
@@ -55,5 +52,4 @@ static int*func0(const unsigned*a)
  load0(-x[2]);load1(-x[0]);load2(x[1]);reset_down();func=func1;return x;
 }
 static int*func_(const unsigned*a){reset_down();func=func1;return 0;}
-const int*process_mag(const unsigned*a)
-{static int j;if(j++&0x3)return 0;return func(a);}
+const int*process_mag(const unsigned*a){return func(a);}
