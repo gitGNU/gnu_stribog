@@ -1,3 +1,13 @@
+09 Apr 06
+a week ago stribog had a field test. the next corrections followed:
+ target software: magnetic sampling frequency adjusted to 16*50 Hz;
+  magex: raw 800 Hz output (without chechsums) added
+  uart0.c: more reasonable input function
+  multa.c: measurements output rate changed to 200 Hz
+ host software: a parser for magex output written
+  conloq: GPS parser (initially) added
+ main board: x and y axes drawn.
+
 31 Mar 06
  target software: UART0 functions written; accelerometer channels
   sequence changed to conform with the magnetic sensors. 
