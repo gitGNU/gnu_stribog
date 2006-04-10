@@ -20,7 +20,7 @@ LD=gcc
 LDFLAGS=-s
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
-all: bin/conloq bin/expon
+all: bin/conloq bin/expon bin/magex-conloq bin/magexpon
 clean:
 	rm -f *.o
 maintainer-clean: clean
@@ -28,9 +28,13 @@ maintainer-clean: clean
 bin/%:%.o
 	$(LD) $(LDFLAGS) $^ -o $@
 bin/conloq:serialia.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_bin.o
+bin/magex-conloq:serialia.o error.o parse_tsip.o magexp.o
 bin/expon:parse_tsip.o error.o crc32.o exp.o garmin_bin.o
+bin/magexpon:parse_tsip.o error.o magexp.o
 conloq.o:serialia.h usage.h error.h parse_tsip.h exp.h
+magex-conloq.o:serialia.h error.h parse_tsip.h exp.h
 expon.o:parse_tsip.h exp.h
+magexpon.o:parse_tsip.h exp.h
 serialia.o:serialia.h
 usage.o:usage.h
 exp.o:exp.h exp_gps.h error.h
