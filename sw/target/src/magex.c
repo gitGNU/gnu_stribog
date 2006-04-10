@@ -20,13 +20,18 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"pll.h"
 #include"led.h"
 #include"mag.h"
+#include"uart1out.h"
+static void send_data(const int*mag_fix)
+{static int missed;char fix[5];if(!mag_fix)return;led1_set();led1_clr();
+ fix[0]=*mag_fix&0xFF;fix[1]=((*mag_fix>>8)&0xF)|((mag_fix[1]&0xF)<<4);
+ fix[2]=(mag_fix[1]>>4)&0xFF;fix[3]=mag_fix[2]&0xFF;fix[4]=(mag_fix[2]>>8)&0xF;
+ if(missed)fix[4]|=1<<7;missed=send_fix(fix,5);  
+}
 int main(void)
-{int i=0;const unsigned*a;
- start_pll();init_led();led1_set();init_mag();init_adc();connect_pll();
+{int i=0;const unsigned*a;start_pll();init_led();init_uart1();//led1_set();
+ init_mag();init_adc();connect_pll();
  while(1)
- {if((a=get_adc()))
-  {led1_set();led1_clr();process_mag(a);
-  }//j++;if(j&(1<<12))led1_set();else led1_clr();
+ {if((a=get_adc()))send_data(process_mag(a));
   if(i++&(1<<17))led0_set();else led0_clr();
  }return 0;
 }
