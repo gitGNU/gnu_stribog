@@ -23,11 +23,15 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"exp.h"
 #include"error.h"
 #include<stdio.h>
-#define log	"conloq.log"
+static FILE*next_file(void)
+{char s[289];int i=0;FILE*f;
+ do{sprintf(s,"%iconloq.log",i++);f=fopen(s,"rt");if(f)fclose(f);}while(f);
+ return fopen(s,"wb");
+}
 int main(int argc,char**argv)
 {tsip_buf*tb=new_tsip();int size,i=0,n,j;const unsigned char*_;
- unsigned char s[0x121];FILE*f=fopen(log,"wb");
- if(!f){error("can't open file \""log"\"\n");free_tsip(tb);return 1;}
+ unsigned char s[0x121];FILE*f=next_file();
+ if(!f){error("can't open log file\n");free_tsip(tb);return 1;}
  init_exp(argc>2?0:1);
  if(initserialia(argc>1?argv[1]:0))
  {fclose(f);free_tsip(tb);close_exp();error("can't open serial port\n");return 2;}
