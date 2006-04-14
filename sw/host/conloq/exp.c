@@ -22,23 +22,27 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"error.h"
 #include<stdio.h>
 #include"exp_gps.h"
+double freq=14745600.;
 unsigned leaps;unsigned long long time_stamp;static FILE*gps_extracted;
-unsigned long long mcu_time(uint32_t t)
+static double mcu_stamp(void){return time_stamp/freq;}
+double mcu_time(uint32_t t)
 {static int cycled=!0;if(t<(1<<30)&&!cycled){leaps++;cycled=1;}
  if(t>(~0)-(1<<30))cycled=0;time_stamp=t|(((unsigned long long)leaps)<<32);
- return time_stamp;
+ return mcu_stamp();
 }
-int init_exp(int x){init_gps(x);gps_extracted=fopen("gps.log","wb");return 0;}
+int init_exp(int x)
+{init_gps(x);if(x)gps_extracted=fopen("gps.log","wb");return 0;}
 void close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}
 static uint32_t get_u(const unsigned char*s)
 {return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
 static void exp_temp(const unsigned char*s)
 {unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
- printf("temp:  %llu %u %u %u %u\n",time_stamp,t[0],t[1],t[2],_2048);
+ printf("temp:  %.7f"/*some MinGW don't like llu in printf()*/" %u %u %u %u\n",
+   mcu_stamp(),t[0],t[1],t[2],_2048);
 }
 static void exp_pps(const unsigned char*s)
-{printf("pps:   %llu %u\n",time_stamp,get_u(s));}
+{printf("pps:   %.7f %u\n",mcu_stamp(),get_u(s));}
 static void exp_adc(const unsigned char*s)
 {int a[3],b[3],w[3],T;unsigned long t,x;for(T=0;T<3;T++)b[T]=w[T]=0;
  t=get_u(s);x=get_u(s+=4);
@@ -49,18 +53,18 @@ static void exp_adc(const unsigned char*s)
  if(T&0x1000)T=(-1&~(0x1FFF))|T;x=get_u(s+=4);
  a[1]=x&0x3FFF;x>>=14;a[2]=x&0x3FFF;x=get_u(s+=4);
  w[0]=x&0x3FF;x>>=10;w[1]=x&0x3FF;x>>=10;w[2]=x&0x3FF;
- printf("adc:   %llu %i %i %i"" %i %i %i"" %i %i %i"" %i.%4.4i\n",
-   mcu_time(t),a[0],a[1],a[2],b[0],b[1],b[2],w[0],w[1],w[2],T>>4,(T&0xF)*625);
+ printf("adc:   %.7f %i %i %i"" %i %i %i"" %i %i %i"" %i.%4.4i\n",
+  mcu_time(t),a[0],a[1],a[2],b[0],b[1],b[2],w[0],w[1],w[2],T>>4,(T&0xF)*625);
 }
 void expone(const unsigned char*s,int size)
-{static int i;uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
+{uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
   (unsigned long)crc,(unsigned long)cr,size);return;
  }
  switch(size)
  {case 8:exp_pps(s);break;case 12:exp_temp(s);break;
-  case 16:exp_gps(time_stamp,s,gps_extracted);break;case 24:exp_adc(s);break;
+  case 16:exp_gps(mcu_stamp(),s,gps_extracted);break;case 24:exp_adc(s);break;
   default:error("wrong size (%i for 24 or 16 or 12 or 8)\n",size);
- }if(!(i++&0xF))printf("#t= %.3f s\n",time_stamp/14745600.);
+ }
 }

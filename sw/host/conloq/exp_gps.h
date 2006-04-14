@@ -16,5 +16,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-void exp_gps(unsigned long long time,const unsigned char*s,FILE*gps);
+void exp_gps(double time,const unsigned char*s,FILE*gps);
 int init_gps(int expone);void close_gps(void);
