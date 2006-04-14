@@ -694,7 +694,7 @@ C 49150 69700 1 90 0 resistor-2.sym
 T 49250 70200 5 10 1 1 0 0 1
 refdes=R17
 T 49250 69900 5 10 1 1 0 0 1
-value=2.2k
+value=1k
 T 49150 69700 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -703,7 +703,7 @@ C 47500 69700 1 90 0 resistor-2.sym
 T 47600 70200 5 10 1 1 0 0 1
 refdes=R18
 T 47600 69900 5 10 1 1 0 0 1
-value=2.2k
+value=1k
 T 47500 69700 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -712,7 +712,7 @@ C 46700 69700 1 90 0 resistor-2.sym
 T 46800 70200 5 10 1 1 0 0 1
 refdes=R19
 T 46800 69900 5 10 1 1 0 0 1
-value=2.2k
+value=1k
 T 46700 69700 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -721,7 +721,7 @@ C 48300 69700 1 90 0 resistor-2.sym
 T 48400 70200 5 10 1 1 0 0 1
 refdes=R20
 T 48400 69900 5 10 1 1 0 0 1
-value=2.2k
+value=1k
 T 48300 69700 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1746,7 +1746,7 @@ documentation=along with this program; if not, write to the Free Software
 T 27905 71350 8 10 1 1 0 0 1
 documentation=Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 T 27905 74450 8 10 1 1 0 0 1
-description=revision date: 18III2006
+description=revision date: 10IV2006
 N 55450 58350 55550 58350 4
 N 55550 58750 55450 58750 4
 N 55500 59950 55450 59950 4
