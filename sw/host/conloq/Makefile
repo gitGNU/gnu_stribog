@@ -24,12 +24,12 @@ all: bin/conloq bin/expon bin/magex-conloq bin/magexpon
 clean:
 	rm -f *.o
 maintainer-clean: clean
-	rm -f bin/* *.log
+	rm -f bin/* *.log *.dat
 bin/%:%.o
 	$(LD) $(LDFLAGS) $^ -o $@
-bin/conloq:serialia.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_bin.o
+bin/conloq:serialia.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_nmea.o
 bin/magex-conloq:serialia.o error.o parse_tsip.o magexp.o
-bin/expon:parse_tsip.o error.o crc32.o exp.o garmin_bin.o
+bin/expon:parse_tsip.o error.o crc32.o exp.o garmin_nmea.o
 bin/magexpon:parse_tsip.o error.o magexp.o
 conloq.o:serialia.h usage.h error.h parse_tsip.h exp.h
 magex-conloq.o:serialia.h error.h parse_tsip.h exp.h
