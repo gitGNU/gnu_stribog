@@ -7,6 +7,16 @@ The project is located at http://savannah.nongnu.org/projects/stribog
 
 SOME TECHNICAL NOTES FOLLOW
 
+This project consists of hardware and software sections. the former is
+developed with gEDA, the latter with GNU toolchains.
+
+Hardware contains a 3-axis (magnetoresistive compass, accelerometer,
+optionally gyroscope) and an ARM-based microcontroller to manage all.
+
+Software includes programs for MCU to test and align hardware parts,
+to perform the measurements; the software part also has some programs
+for POSIX host to receive obtained data.
+
 Stribog is primarily designed on LPC2138, but actually LPC213[46] can be used,
 too. the only change will be in ld scripts (2138.ld and ram2138.ld), as shown 
 in comments there.
@@ -31,8 +41,8 @@ My tools are hardly functional, but they work somehow for me and they are free.
 
 There are two linker scripts in sw/target/src directory: ram2138.ld and
 2138.ld. the former is currently used (the program is to be just loaded into RAM
-and run), the latter was tested some time ago and will be checked again when 
-stribog needs to keep it's program in ROM.
+and run), the latter was tested some time ago and will be corrected again when 
+stribog needs to keep his program in ROM.
 
 The program is written in C (ld scripts don't support C++). main() is executed
 in system mode. no THUMB code. fast interrupt reserved. VPB divider equals 4,
