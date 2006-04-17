@@ -22,9 +22,14 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<stdio.h>
 int init_exp(int x){return 0;}void close_exp(void){}
 void expone(const unsigned char*s,int size)
-{int mag[3],missed;if(size!=5){error("wrong size (%i for 5)\n",size);return;}
+{int mag[3],missed,i;unsigned char sum;
+ if(size!=6){error("wrong size (%i for 6)\n",size);return;}
+ for(i=sum=0;i<5;sum+=s[i++]);
+ if((sum^s[5])&0xFF)
+ {error("wrong checksum (%2.2X, received %2.2X)\n",sum,s[5]);return;}
  *mag=0;if(s[1]&(1<<3))*mag=-1&~(0xFFF);*mag|=*s|((((int)s[1])&0xF)<<8);
- mag[1]=0;if(s[2]&(1<<7))mag[1]=-1&~(0xFFF);mag[1]|=((s[1]>>4)&0xF)|(((int)s[2])<<4);
+ mag[1]=0;if(s[2]&(1<<7))mag[1]=-1&~(0xFFF);
+ mag[1]|=((s[1]>>4)&0xF)|(((int)s[2])<<4);
  mag[2]=0;if(s[4]&(1<<3))mag[2]=-1&~(0xFFF);mag[2]|=s[3]|((((int)s[4])&0xF)<<8);
  if(s[4]&(1<<7))missed=!0;else missed=0;
  printf("mag: %i %i %i %i\n",missed,*mag,mag[1],mag[2]);
