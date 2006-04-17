@@ -53,8 +53,9 @@ static void exp_adc(const unsigned char*s)
  if(T&0x1000)T=(-1&~(0x1FFF))|T;x=get_u(s+=4);
  a[1]=x&0x3FFF;x>>=14;a[2]=x&0x3FFF;x=get_u(s+=4);
  w[0]=x&0x3FF;x>>=10;w[1]=x&0x3FF;x>>=10;w[2]=x&0x3FF;
- printf("adc:   %.7f %i %i %i"" %i %i %i"" %i %i %i"" %i.%4.4i\n",
-  mcu_time(t),a[0],a[1],a[2],b[0],b[1],b[2],w[0],w[1],w[2],T>>4,(T&0xF)*625);
+ printf("adc:   %.7f %i %i %i"" %+4.4i %+4.4i %+4.4i"
+   " %4.4i %4.4i %4.4i"" %3.4f\n",
+  mcu_time(t),a[0],a[1],a[2],b[0],b[1],b[2],w[0],w[1],w[2],T/16.);
 }
 void expone(const unsigned char*s,int size)
 {uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
