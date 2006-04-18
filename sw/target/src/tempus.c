@@ -21,18 +21,32 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"tempus.h"
 #include"mutex.h"
 #include"../include/lpc2138.h"
+#ifndef PPS_BURNT
+ #define PPS_IR		TxIR_CR2
+ #define PPS_CR 	T1CR2
+ #define CCR_val	TxCAP2RE|TxCAP2I
+#else
+ #define PPS_IR		TxIR_CR1
+ #define PPS_CR		T1CR1
+ #define CCR_val	TxCAP1RE|TxCAP1I
+#endif
 static mutex pps_read;static unsigned aetas,pps;
 const unsigned*get_pps(void){if(lock(&pps_read))return 0;return&pps;}
 static void temporis_quaestus(void)__attribute__((interrupt("IRQ")));
 static void temporis_quaestus(void)
-{if(T1IR&TxIR_CR2){pps=T1CR2;unlock(&pps_read);T1IR=TxIR_CR2;}
+{if(T1IR&PPS_IR){pps=PPS_CR;unlock(&pps_read);T1IR=PPS_IR;}
  if(T1IR&TxIR_MR0){aetas++;T1IR=TxIR_MR0;}VICVectAddr=0;
 }
 void init_tempus(void)
-{T1PR=0;T1CTCR=0;T1TCR=0x1;T1MR0=0;T1MCR=1;T1CCR=TxCAP2RE|TxCAP2I;
+{T1PR=0;T1CTCR=0;T1TCR=0x1;T1MR0=0;T1MCR=1;T1CCR=CCR_val;
  VICIntEnable=1<<VIC_TIMER1;
  VICVectAddr5=(unsigned)temporis_quaestus;VICVectCntl5=VIC_CntlEnable|VIC_TIMER1;
- PINSEL1&=PINSEL1_CAP12_P017MASK;PINSEL1|=PINSEL1_CAP12_P017;lock(&pps_read);
+#ifndef PPS_BURNT
+ PINSEL1&=PINSEL1_CAP12_P017MASK;PINSEL1|=PINSEL1_CAP12_P017;
+#else
+ PINSEL0&=PINSEL0_CAP11_11MASK;PINSEL0|=PINSEL0_CAP11_11;
+#endif
+ lock(&pps_read);
 }
 unsigned long long tempus(void)/*TODO: rewrite reliably*/
 {return T1TC|(((unsigned long long)aetas)<<32);

@@ -16,12 +16,18 @@
 #
 #Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
 ram_based=1
+ifndef MCU_UNOFFENDED
+ PPS_BURNT=1
+endif
 CC=arm-elf-gcc
 AS=arm-elf-as
 LD=arm-elf-ld
 OBJCOPY=arm-elf-objcopy
 ASFLAGS=-mcpu=arm7tdmi
 CFLAGS=-mcpu=arm7tdmi -Wall -O2
+ifdef PPS_BURNT
+ CFLAGS+=-DPPS_BURNT
+endif
 ifdef ram_based
  ldscript=$(src)/ram2138.ld
 else

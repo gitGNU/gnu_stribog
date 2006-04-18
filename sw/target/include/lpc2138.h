@@ -245,9 +245,13 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define PINSEL0_RTS1	(1<<20)
 #define PINSEL0_CAP10	(2<<20)
 #define PINSEL0_AD12	(3<<20)
-#define PINSEL0_CTS1	(1<<22)
-#define PINSEL0_CAP11	(2<<22)
-#define PINSEL0_SCL1	(3<<22)
+#define PINSEL0_11MASK	(~(3<<22))
+#define PINSEL0_CTS1MASK	PINSEL0_11MASK
+#define PINSEL0_CAP11_11MASK	PINSEL0_11MASK
+#define PINSEL0_SCL1MASK	PINSEL0_11MASK
+#define PINSEL0_CTS1		(1<<22)
+#define PINSEL0_CAP11_11	(2<<22)
+#define PINSEL0_SCL1		(3<<22)
 #define PINSEL0_DSR1	(1<<24)
 #define PINSEL0_MAT10	(2<<24)
 #define PINSEL0_AD13	(3<<24)
