@@ -231,11 +231,15 @@ int load_and_go(void)
 }
 int copy_mem(void){return copy_memory(0);}
 void closeall(void){closeserialia();}
+void program_ram(int f)
+{clock_t t;synchronize(f);t=clock();while(clock()-t<CLOCKS_PER_SEC);
+ echo_off();read_partid();load_and_go();
+}
 int main(int argc,char**argv)
-{char c;int err,f=14746;if(argc>2)sscanf(argv[3],"%i",&f);
+{char c=!0;int err,f=14746;if(argc>2){sscanf(argv[2],"%i",&err);if((c=err>10))f=err;}
  usage();printf("crystal frequency assumed %i kHz\n",f);
- if((err=init(argc<2?0:argv[1],f)))return err;echo_off();
- read_partid();
+ if((err=init(argc<2?0:argv[1],f)))return err;
+ if(!c){program_ram(f);closeall();return 0;}echo_off();read_partid();
  do
  {printf(">");scanf("%c",&c);
   switch(c)
