@@ -25,9 +25,9 @@ int init_gps(int exp){return 0;}void close_gps(void){}
 static int field_cmp(const char*s,const char*c)
 {const char*_=strchr(s,',');if(!_)return!0;return strncmp(s,c,_-s);}
 static int parse_gga(const char*s,double t)
-{printf("GGA %.7f %s\n",t,s);return 0;}
+{printf("GGA%.8f %s\n",t,s);return 0;}
 static int parse_pgrmv(const char*s,double t)
-{printf("RMV %.7f %s\n",t,s);return 0;}
+{printf("RMV%.8f %s\n",t,s);return 0;}
 static int nmea_switch(const char*s,double t)
 {if(!field_cmp(++s,"GPGGA,"))return parse_gga(s+6,t);
  if(!field_cmp(s,"PGRMV,"))return parse_pgrmv(s+6,t);return 0;
