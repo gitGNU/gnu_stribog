@@ -19,7 +19,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"usage.h"
 #include<stdio.h>
 void usage(void)
-{printf("conloq 0?8 ("__DATE__"): talk to stribog\n\n"
+{printf("conloq 0?9 ("__DATE__"): talk to stribog\n\n"
 "This program is a part of the stribog host software section\n\n"
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
