@@ -20,7 +20,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"exp.h"
 #include<stdio.h>
 int main(void)
-{tsip_buf*tb=new_tsip();int size;const unsigned char*_;init_exp(!0);
+{tsip_buf*tb=new_tsip();int size;const unsigned char*_;init_exp(!0,1);
  while(!feof(stdin)){if((_=parse_tsip(tb,getchar(),&size)))expone(_,size);}
  close_exp();free_tsip(tb);return 0;
 }

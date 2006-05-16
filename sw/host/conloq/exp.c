@@ -22,30 +22,31 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"error.h"
 #include<stdio.h>
 #include"exp_gps.h"
-double freq=14745600.;
-unsigned leaps;unsigned long long time_stamp;static FILE*gps_extracted;
+static double freq=14745600.;static unsigned leaps;static int period=1;
+static unsigned long long time_stamp;static FILE*gps_extracted;
 static double mcu_stamp(void){return time_stamp/freq;}
-double mcu_time(uint32_t t)
+static double mcu_time(uint32_t t)
 {static int cycled=!0;if(t<(1<<30)&&!cycled){leaps++;cycled=1;}
  if(t>(~0)-(1<<30))cycled=0;time_stamp=t|(((unsigned long long)leaps)<<32);
  return mcu_stamp();
 }
-int init_exp(int x)
-{init_gps(x);if(x)gps_extracted=fopen("gps.log","wb");return 0;}
+int init_exp(int x,int p)
+{init_gps(x);if(x)gps_extracted=fopen("gps.log","wb");if(p)period=p;return 0;}
 void close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}
 static uint32_t get_u(const unsigned char*s)
 {return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
 static void exp_temp(const unsigned char*s)
 {unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
- printf("temp:  %.7f"/*some MinGW don't like llu in printf()*/" %u %u %u %u\n",
+ printf("temp: %.8f"/*some MinGW don't like llu in printf()*/" %u %u %u %u\n",
    mcu_stamp(),t[0],t[1],t[2],_2048);
 }
 static void exp_pps(const unsigned char*s)
-{printf("pps:   %.7f %u\n",mcu_stamp(),get_u(s));}
+{printf("pps:  %.8f %u\n",mcu_stamp(),get_u(s));}
 static void exp_adc(const unsigned char*s)
-{int a[3],b[3],w[3],T;unsigned long t,x;for(T=0;T<3;T++)b[T]=w[T]=0;
- t=get_u(s);x=get_u(s+=4);
+{static int i;int a[3],b[3],w[3],T,j;unsigned long t,x;
+ static double mcu_t,a_[3],b_[3],w_[3],T_;for(j=0;j<3;j++)b[j]=w[j]=0;
+ if(period<0)return;t=get_u(s);x=get_u(s+=4);
  if(x&0x800)b[0]=-1&~(0xFFF);b[0]|=x&0xFFF;x>>=12;
  if(x&0x800)b[1]=-1&~(0xFFF);b[1]|=x&0xFFF;x>>=12;T=x&0xFF;x=get_u(s+=4);
  if(x&0x800)b[2]=-1&~(0xFFF);b[2]|=x&0xFFF;x>>=12;
@@ -53,9 +54,14 @@ static void exp_adc(const unsigned char*s)
  if(T&0x1000)T=(-1&~(0x1FFF))|T;x=get_u(s+=4);
  a[1]=x&0x3FFF;x>>=14;a[2]=x&0x3FFF;x=get_u(s+=4);
  w[0]=x&0x3FF;x>>=10;w[1]=x&0x3FF;x>>=10;w[2]=x&0x3FF;
- printf("adc:   %.7f %i %i %i"" %+4.4i %+4.4i %+4.4i"
-   " %4.4i %4.4i %4.4i"" %3.4f\n",
-  mcu_time(t),a[0],a[1],a[2],b[0],b[1],b[2],w[0],w[1],w[2],T/16.);
+ T_+=T;mcu_t+=mcu_time(t);for(j=0;j<3;j++){a_[j]+=a[j];b_[j]+=b[j];w_[j]+=w[j];}
+ if(++i!=period)return;i=0;
+ printf("adc:  %.8f %.0f %.0f %.0f"" %+05.0f %+05.0f %+05.0f"
+   " %04.0f %04.0f %04.0f"" %3.4f\n",
+  mcu_t/period,a_[0]/period,a_[1]/period,a_[2]/period,
+  b_[0]/period,b_[1]/period,b_[2]/period,
+  w_[0]/period,w_[1]/period,w_[2]/period,T_/16/period);
+ for(j=0;j<3;j++)a_[j]=b_[j]=w_[j]=0;T_=0;mcu_t=0;
 }
 void expone(const unsigned char*s,int size)
 {uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);

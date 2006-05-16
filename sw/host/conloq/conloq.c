@@ -29,14 +29,13 @@ static FILE*next_file(void)
  return fopen(s,"wb");
 }
 int main(int argc,char**argv)
-{tsip_buf*tb=new_tsip();int size,i=0,n,j;const unsigned char*_;
+{tsip_buf*tb=new_tsip();int size,n,j,period=0x3F;const unsigned char*_;
  unsigned char s[0x121];FILE*f=next_file();
  if(!f){error("can't open log file\n");free_tsip(tb);return 1;}
- init_exp(argc>2?0:1);
+ if(argc>2)sscanf(argv[2],"%i",&period);init_exp(0,period);
  if(initserialia(argc>1?argv[1]:0))
  {fclose(f);free_tsip(tb);close_exp();error("can't open serial port\n");return 2;}
  while(1)if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))
-  if((_=parse_tsip(tb,s[j],&size)))
-  {if(size!=24)expone(_,size);else if(!(i++&0x3F))expone(_,size);}
+  if((_=parse_tsip(tb,s[j],&size)))expone(_,size);
  closeserialia();close_exp();fclose(f);free_tsip(tb);return 0;
 }
