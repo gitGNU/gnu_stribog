@@ -67,7 +67,7 @@ static void send_temp(int ms)
  if(!send_fix(t,TEMP_LENGTH))i=0;
 }
 int main(void)
-{int j=0,ms;start_pll();init_power();init_led();init_lm74();init_accel();//led1_clr();
+{int j=0,ms;start_pll();init_power();init_led();init_lm74();init_accel();led1_clr();
  init_mag();connect_pll();init_adc();init_uart1();init_uart0();init_tempus();
  while(1)
  {ms=send_msmt();send_temp(ms);send_pps();check_gps_data();

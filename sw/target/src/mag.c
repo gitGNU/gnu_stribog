@@ -47,9 +47,9 @@ static int reg_func(int d)
 static int*func0(const unsigned*a)
 {diff[0]-=a[ADC_MX];diff[1]-=a[ADC_MY];diff[2]-=a[ADC_MZ];
  x[0]+=reg_func(diff[0]*kx);if(x[0]>2047)x[0]=2047;if(x[0]<-2047)x[0]=-2047;
- x[1]+=reg_func(diff[1]*ky);if(x[1]>2047)x[1]=2047;if(x[1]<-2047)x[1]=-2047;
- x[2]+=reg_func(diff[2]*kz);if(x[2]>2047)x[2]=2047;if(x[2]<-2047)x[2]=-2047;
- load0(-x[2]);load1(-x[0]);load2(x[1]);reset_down();func=func1;return x;
+ x[1]-=reg_func(diff[1]*ky);if(x[1]>2047)x[1]=2047;if(x[1]<-2047)x[1]=-2047;
+ x[2]-=reg_func(diff[2]*kz);if(x[2]>2047)x[2]=2047;if(x[2]<-2047)x[2]=-2047;
+ load0(x[2]);load1(-x[0]);load2(-x[1]);reset_down();func=func1;return x;
 }
 static int*func_(const unsigned*a){reset_down();func=func1;return 0;}
 const int*process_mag(const unsigned*a){return func(a);}

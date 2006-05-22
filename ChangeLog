@@ -1,3 +1,5 @@
+18 May 06
+ target software: corrected directions of magnetic axes
 15 May 06
  host software: elk now can load LPC2138 non-interactively
  conloq shows low-pass filtered values of measurements
