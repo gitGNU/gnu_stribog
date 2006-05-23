@@ -19,7 +19,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"usage.h"
 #include<stdio.h>
 void usage(void)
-{printf("elk 0?7 ("__DATE__") the LPC2138 programmer (hardly functional)\n\n"
+{printf("elk 0?8 ("__DATE__") the LPC2138 programmer (hardly functional)\n\n"
 "This program is a part of the stribog host software section\n\n"
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
