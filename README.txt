@@ -30,6 +30,9 @@ lpc2k_pgm by Paul Stoffregen (http://www.pjrc.com/arm/lpc2k_pgm)
 
 on Windows they have Philips flash ISP utility)
 
+If you use them, you'll have to adjust input files format (.hex, .srec 
+and so on) with arm-elf-objcopy(1).
+
 I wrote my own host tools (see sw/host/*) because
  1) some of those programs (like lpc21isp) lack clear terms of use,
  2) other (like Philips utility) are neither free nor capable to run 
@@ -44,12 +47,12 @@ There are two linker scripts in sw/target/src directory: ram2138.ld and
 and run), the latter was tested some time ago and will be corrected again when 
 stribog needs to keep his program in ROM.
 
-The program is written in C (ld scripts don't support C++). main() is executed
-in system mode. no THUMB code. fast interrupt reserved. VPB divider equals 4,
-as by default. PLL is configured to multiply by 4.
+The program is written in C (the ld scripts don't support C++). 
+main() is executed in supervisor mode. no THUMB code. fast interrupt reserved. 
+VPB divider equals 4, as by default. PLL is configured to multiply by 4.
 
 The program will run from RAM, when possible. even when written in ROM, boot.s
-will copy it to RAM. the program use only one library: libgcc.a. 
+will copy it to RAM. the program use single library: libgcc.a. 
 all computations should be in fixed point.
 
 Busy VIC slots: 3 (UART0), 4 (UART1), 5 (timer1), 6 and 7 (ADC), 8 (timer0)
@@ -75,13 +78,13 @@ HOW TO INSTALL DEVELOPMENT TOOLS
 
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
 get binutils-2.16.1.tar.bz2 and gcc-4.0.1.tar.bz2 (gcc-4.0.3.tar.bz2 will fit,
-too).
+too. I couldn't build gcc-3.4.6).
 
 Follow (with some changes) instructions from http://www.gnuarm.com
-
+($ is for our shell prompt)
 $ export armprefix=$HOME/arm
                    (or where you want them to live)
-$ tar xjf binutils-2.16.1.tar.bz2;tar gcc-4.0.1.tar.bz2
+$ tar xjf binutils-2.16.1.tar.bz2;tar xjf gcc-4.0.1.tar.bz2
 $ mkdir bui;cd bui
 $ ../binutils-2.16.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
 $ make all install
