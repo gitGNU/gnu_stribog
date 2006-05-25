@@ -45,7 +45,7 @@ static void check_gps_data(void)
 static int send_msmt(void)
 {static unsigned f[FIX_LENGTH];const int*mag;unsigned*s=f;int t,w[3];
  const unsigned*adc,*acc;static int i,pending;static int b[3],a[3];
- if(pending){pending=send_fix(f,FIX_LENGTH);if(!pending){led1_set();led1_clr();}}
+ if(pending){pending=send_fix(f,FIX_LENGTH);/*if(!pending){led1_set();led1_clr();}*/}
  if(!(adc=get_adc()))return 0;_2048=adc[ADC_2048];
  adxrs_temp[0]=adc[ADC_TX];adxrs_temp[1]=adc[ADC_TY];adxrs_temp[2]=adc[ADC_TZ];
  if(mag=process_mag(adc)){if(i++&3)return 0;}else return 0;
@@ -57,7 +57,7 @@ static int send_msmt(void)
  *s++=(b[2]&0xFFF)|((a[0]&0x3FFF)<<12)|((t&0x1F00)<<(26-8));
  *s++=(a[1]&0x3FFF)|((a[2]&0x3FFF)<<14);
  *s=(w[0]&0x3FF)|((w[1]&0x3FF)<<10)|((w[2]&0x3FF)<<20);
- pending=send_fix(f,FIX_LENGTH);if(!pending){led1_set();led1_clr();}
+ pending=send_fix(f,FIX_LENGTH);/*if(!pending){led1_set();led1_clr();}//ne micet*/
  return!0;
 }
 static void send_temp(int ms)
@@ -71,6 +71,6 @@ int main(void)
  init_mag();connect_pll();init_adc();init_uart1();init_uart0();init_tempus();
  while(1)
  {ms=send_msmt();send_temp(ms);send_pps();check_gps_data();
-  if(j++&(1<<15))led0_set();else led0_clr();
+  if((j++&(1<<15)))led0_set();else led0_clr();
  }return 0;
 }

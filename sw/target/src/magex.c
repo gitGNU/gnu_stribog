@@ -30,7 +30,7 @@ static void send_data(const int*mag_fix)
  missed=send_fix(fix,sizeof(fix));
 }
 int main(void)
-{int i=0;const unsigned*a;start_pll();init_led();init_uart1();//led1_set();
+{int i=0;const unsigned*a;start_pll();init_led();init_uart1();led1_set();
  init_mag();init_adc();connect_pll();
  while(1)
  {if((a=get_adc()))send_data(process_mag(a));

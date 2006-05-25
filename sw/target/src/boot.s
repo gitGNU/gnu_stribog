@@ -33,25 +33,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 .text
 .code 32
 .align 0
-reset:/*initialize all stacks*/
-	ldr	r0, stack_bot
-	msr	CPSR_c, #i_bit|f_bit|mode_un
-	mov	sp, r0
-	sub	r0, r0, #un_stack
-	msr	CPSR_c, #i_bit|f_bit|mode_abt
-	mov	sp, r0
-	sub	r0, r0, #ab_stack
-	msr	CPSR_c, #i_bit|f_bit|mode_fiq
-	mov	sp, r0
-	sub	r0, r0, #fiq_stack
-	msr	CPSR_c, #i_bit|f_bit|mode_irq
-	mov	sp, r0
-	sub	r0, r0, #irq_stack
-	msr	CPSR_c, #i_bit|f_bit|mode_sv
-	mov	sp, r0
-	sub	r0, r0, #sv_stack
-	msr	CPSR_c,	#i_bit|f_bit|mode_sys
-	mov	sp, r0
+reset:
 /*load initialized variables from ROM: if the program is in RAM, 
   _rom_data_begin = _rom_data_end*/
 	ldr	r1, rom_begin
@@ -85,7 +67,26 @@ tst_pc:	tst	pc,r0, lsl #28
 	mov	r0,#2
 	ldr	r1,memmap
 	str	r0,[r1]
-bmain:	msr	CPSR_c,	#f_bit|mode_sys /*ineiev couldn't make LPC2138 
+bmain:	/*initialize all stacks*/
+	ldr	r0, stack_bot
+	msr	CPSR_c, #i_bit|f_bit|mode_un
+	mov	sp, r0
+	sub	r0, r0, #un_stack
+	msr	CPSR_c, #i_bit|f_bit|mode_abt
+	mov	sp, r0
+	sub	r0, r0, #ab_stack
+	msr	CPSR_c, #i_bit|f_bit|mode_fiq
+	mov	sp, r0
+	sub	r0, r0, #fiq_stack
+	msr	CPSR_c, #i_bit|f_bit|mode_irq
+	mov	sp, r0
+	sub	r0, r0, #irq_stack
+	msr	CPSR_c, #i_bit|f_bit|mode_sv
+	mov	sp, r0
+/*	sub	r0, r0, #sv_stack
+	msr	CPSR_c,	#i_bit|f_bit|mode_sys
+	mov	sp, r0*/
+	msr	CPSR_c,	#f_bit|mode_sv /*ineiev couldn't make LPC2138 
                                           interrupt in user mode*/
 	b	main
 memmap:		.word	0xE01FC040
