@@ -1,4 +1,4 @@
-#conloq (talk to stribog from a Unix terminal): Makefile
+#stribog data loggers and parsers: Makefile
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
 CC=gcc
 LD=gcc
-LDFLAGS=-s
+LDFLAGS=-lm
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
 all: bin/conloq bin/elig bin/expon bin/magex-conloq bin/magexpon
@@ -27,18 +27,21 @@ maintainer-clean: clean
 	rm -f bin/* *.log *.dat
 bin/%:%.o
 	$(LD) $(LDFLAGS) $^ -o $@
-bin/conloq:serialia.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_nmea.o
+bin/conloq:crc32.o error.o exp.o garmin_nmea.o lla.o\
+ parse_tsip.o preproc_gps.o serialia.o usage.o
 bin/magex-conloq:serialia.o error.o parse_tsip.o magexp.o
-bin/elig:parse_tsip.o error.o
-bin/expon:parse_tsip.o error.o crc32.o exp.o garmin_nmea.o
+bin/elig:error.o parse_tsip.o
+bin/expon:crc32.o error.o exp.o garmin_nmea.o lla.o parse_tsip.o preproc_gps.o
 bin/magexpon:expon.o parse_tsip.o error.o magexp.o
 	$(LD) $(LDFLAGS) $^ -o $@
-conloq.o:serialia.h usage.h error.h parse_tsip.h exp.h
-magex-conloq.o:serialia.h error.h parse_tsip.h exp.h
-expon.o:parse_tsip.h exp.h
-magexpon.o:parse_tsip.h exp.h
+conloq.o:error.h exp.h parse_tsip.h serialia.h usage.h
+magex-conloq.o:error.h exp.h parse_tsip.h serialia.h
+expon.o:exp.h parse_tsip.h
 serialia.o:serialia.h
 usage.o:usage.h
-elig.o:parse_tsip.h error.h
-exp.o:exp.h exp_gps.h error.h
+elig.o:error.h parse_tsip.h
+exp.o:error.h exp.h exp_gps.h
 garmin_bin.o:exp_gps.h parse_tsip.h
+garmin_nmea.o:error.h exp_gps.h preproc_gps.h
+lla.o:lla.h
+preproc_gps.o:lla.h preproc_gps.h

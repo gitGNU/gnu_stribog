@@ -22,7 +22,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"error.h"
 #include<stdio.h>
 #include"exp_gps.h"
-static double freq=14745600.;static unsigned leaps;static int period=1;
+static double freq=14745600.+8550;static unsigned leaps;static int period=1;
 static unsigned long long time_stamp;static FILE*gps_extracted;
 static double mcu_stamp(void){return time_stamp/freq;}
 static double mcu_time(uint32_t t)
@@ -38,11 +38,17 @@ static uint32_t get_u(const unsigned char*s)
 static void exp_temp(const unsigned char*s)
 {unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
- printf("temp: %.8f"/*some MinGW don't like llu in printf()*/" %u %u %u %u\n",
+ printf("temp: %.8f %u %u %u %u\n",
    mcu_stamp(),t[0],t[1],t[2],_2048);
 }
 static void exp_pps(const unsigned char*s)
-{printf("pps:  %.8f %u\n",mcu_stamp(),get_u(s));}
+{static unsigned t0,loops,v;double d;unsigned t=get_u(s),dt,l=0;
+ if(t0>t){l=1;loops++;}dt=((double)(t-t0)+.5*freq)/freq;
+ d=v?(double)l*(1ull<<32)+t-t0-dt*freq:0;
+ printf("pps:  %.8f %.0f %g\n",mcu_stamp(),
+  t+(double)((unsigned long long)loops*(1ull<<32)),d);
+ t0=t;v=!0;
+}
 static void exp_adc(const unsigned char*s)
 {static int i;int a[3],b[3],w[3],T,j;unsigned long t,x;
  static double mcu_t,a_[3],b_[3],w_[3],T_;for(j=0;j<3;j++)b[j]=w[j]=0;
