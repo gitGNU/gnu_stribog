@@ -31,7 +31,7 @@ int init(const char*s,int f)
 static int wait_for_chars(char*s,int N,int timeout)
 {clock_t t;int i=0,n;char*_=s;t=clock();
  do{n=lege(_,N-i);if(n>0){i+=n;_+=n;}}
- while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/100);return i;
+ while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/5);return i;
 }static int mute;
 int test_code(const char*s)
 {int n;sscanf(s,"%i",&n);
@@ -61,12 +61,12 @@ int test_code(const char*s)
 int echo_off(void)
 {char s[289];const char k[]="A 0\r\n";int n;
  printf("sent %s",k);scribe(k,strlen(k));
- n=wait_for_chars(s,3,50);s[n]=0;
+ n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 void read_partid(void)
 {char s[289];const char k[]="J\r\n";long n;
- printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,50);s[n]=0;
+ printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,1);s[n]=0;
  printf("received %li bytes: %s",n,s);
  if(test_code(s))return;sscanf(s+3,"%li",&n);printf("The part is ");
  switch(n)
@@ -78,7 +78,7 @@ void read_partid(void)
 int unlock(void)
 {char s[289];const char k[]="U 23130\r\n";int n;
  printf("sent %s",k);scribe(k,strlen(k));
- n=wait_for_chars(s,3,50);s[n]=0;
+ n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 static int synchronize(int f)
@@ -86,34 +86,34 @@ static int synchronize(int f)
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
  printf("Synchronizing baud rate...\n");
  do
- {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,100);
+ {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,2);
   if(n>0){s[n]=0;printf("received %i bytes: %s",n,s);}
  }while(strcmp(sy,s));
  scribe(sy,sizeof(sy)-1);printf("Synchronized sent; ");
- n=wait_for_chars(s,18,50);s[n]=0;
+ n=wait_for_chars(s,18,1);s[n]=0;
  printf("received %i bytes: %s",n,s);
  if(strcmp(ok,s))return!0;sprintf(s,"%i\r\n",f);
  printf("sent %i; ",f);scribe(s,strlen(s));i=strlen(s)+4;
- n=wait_for_chars(s,i,100);s[n]=0;
+ n=wait_for_chars(s,i,2);s[n]=0;
  printf("received %i bytes: %s",n,s);sprintf(s0,"%i\r\nOK\r\n",f);
  if(!(vex=strcmp(s0,s)))echo_off();unlock();read_partid();return vex;
 }
 void read_version(void)
 {char s[289];const char k[]="K\r\n";int n;
- printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,50);s[n]=0;
+ printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,1);s[n]=0;
  printf("received %i bytes: %s",n,s);test_code(s);
 }
 int prepare_sectors(unsigned start,unsigned end)
 {char s[289];int n,k;sprintf(s,"P %u %u\r\n",start,end);k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));
- n=wait_for_chars(s,3,50);s[n]=0;
+ n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 int erase_sectors(unsigned start,unsigned end)
 {char s[289];int n,k;if(prepare_sectors(start,end))return-1;
  sprintf(s,"E %u %u\r\n",start,end);k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));
- n=wait_for_chars(s,3,50);s[n]=0;
+ n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 void erase(void)
@@ -127,11 +127,11 @@ void prepare(void)
 int receive_uuenc_string(char*s,int timeout)
 {clock_t t;int i=0,n;const int N=64;char*_=s;t=clock();
  do{n=lege(_,1);if(n>0){i+=n;_+=n;if(_[-1]=='\n')break;}}
- while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/100);
+ while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/5);
  if(!i)return!0;s[i]=0;return _[-1]!='\n';
 }
 int receive_test_code(char*s)
-{int n;n=wait_for_chars(s,3,50);s[n]=0;
+{int n;n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);
  if(n<3)return!0;return test_code(s);
 }static inline char uud(char c){return (c-0x20)&0x3F;}
@@ -153,10 +153,10 @@ int read_memory(unsigned long addr,unsigned l,FILE*f)
  sprintf(s,"R %lu %u\r\n",addr,l);k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));
  if(receive_test_code(s))return!0;
- do{if(receive_uuenc_string(s,50))break;vex|=decode_string(s,&r,&cs,f);}
- while(r!=l);n=wait_for_chars(s,sizeof(s)-1,50);s[n]=0;
+ do{if(receive_uuenc_string(s,1))break;vex|=decode_string(s,&r,&cs,f);}
+ while(r!=l);n=wait_for_chars(s,sizeof(s)-1,1);s[n]=0;
  scribe(OK,strlen(OK));sscanf(s,"%i",&n);printf("checksum: %i (%i)\n",cs,n);
- n=wait_for_chars(s,strlen(OK),50);s[n]=0;return vex||cs!=n;
+ n=wait_for_chars(s,strlen(OK),1);s[n]=0;return vex||cs!=n;
 }
 int read_mem(void)
 {unsigned long addr,end;unsigned l;FILE*f=0;
@@ -168,7 +168,7 @@ int write_string(const char*s,unsigned long addr,int n)
 {int i,j;char t[289];unsigned long cs;
  do
  {sprintf(t,"W %lu %i\r\n",addr,n);scribe(t,strlen(t));
-  i=wait_for_chars(t,3,50);t[i]=0;if(!mute)printf("received %i: %s",i,t);
+  i=wait_for_chars(t,3,1);t[i]=0;if(!mute)printf("received %i: %s",i,t);
   if(test_code(t))return!0;
   while(1)
   {sprintf(t,"%c",n+0x20);j=strlen(t);
@@ -178,9 +178,9 @@ int write_string(const char*s,unsigned long addr,int n)
     t[j++]=0x20+(((s[i+1]<<2)&0x3C)|((s[i+2]>>6)&0x3));
     t[j++]=0x20+(s[i+2]&0x3F);
    }sprintf(t+j,"\r\n%lu\r\n",cs);scribe(t,strlen(t));
-   i=wait_for_chars(t,4,50);t[i]=0;if(!mute)printf("received %i: %s",i,t);
+   i=wait_for_chars(t,4,1);t[i]=0;if(!mute)printf("received %i: %s",i,t);
    if(!strcmp(t,OK))break;if(mute)printf("received %i: %s",i,t);
-   i=strlen(t);i+=wait_for_chars(t+i,sizeof(t)-i,50);t[i]=0;
+   i=strlen(t);i+=wait_for_chars(t+i,sizeof(t)-i,1);t[i]=0;
    if(strcmp(t,RESEND))return!0;
   }
  }while(strcmp(t,OK));return 0;
@@ -189,11 +189,11 @@ static const unsigned long ram=0x40000400,block=4096,step=36;
 int copy_memory(unsigned long addr)
 {char s[289];int k,n;unsigned long bs,ra;if(prepare_sectors(0,8))return-1;
  sprintf(s,"C %lu %lu %lu\r\n",addr,ram,block);k=strlen(s);
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,50);s[n]=0;
+ printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);if(test_code(s))return test_code(s);
  ra=ram;bs=block;if(addr<64){ra+=64-addr;addr=64;bs-=64;}
  sprintf(s,"M %lu %lu %lu\r\n",addr,ra,bs);k=strlen(s);
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,50);s[n]=0;
+ printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }int write_file(void)
 {char s[289];FILE*f=fopen("elk.bin","rb");int i,n=0;unsigned long addr=ram;
@@ -209,9 +209,9 @@ int copy_memory(unsigned long addr)
 }
 static int run(unsigned long addr)
 {char s[289];int n,r;sprintf(s,"G %lu A\r\n",addr);
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,50);s[n]=0;
+ printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);r=test_code(s);
- n=wait_for_chars(s,sizeof(s),50);s[n]=0;printf("received %i bytes: %s",n,s);
+ n=wait_for_chars(s,sizeof(s),1);s[n]=0;printf("received %i bytes: %s",n,s);
  return r;
 }
 int load_and_go(void)
