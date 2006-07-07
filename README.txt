@@ -143,11 +143,11 @@ The following non-text source files possibly contain no copyright notices,
 because stribog's author decided to move those notices here for convenience, 
 namely:
 
-hw/main_board.pcb hw/stribog.sch hw/gyro.sch
+hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
 hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
 hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
 hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
-hw/sym/irf7317.sym hw/sym/irlml.sym hw/sym/lm74.sym
+hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
 hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
 hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
