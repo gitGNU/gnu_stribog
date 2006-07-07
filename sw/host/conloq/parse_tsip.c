@@ -26,7 +26,7 @@ const unsigned char*parse_tsip(tsip_buf*t,unsigned char c,int*size)
 {unsigned char*s=0;
  if(t->in)
  {t->s[(t->n)++]=t->pr;
-  if(t->n>sizeof(t->s)){error("too long message\n");t->in=0;}
+  if(t->n>=sizeof(t->s)){error("too long message\n");t->in=0;}
   if(c==dle){if(!(t->par=!t->par))--(t->n);}
   if(c==etx&&t->pr==dle&&t->par){*size=t->n-1;t->in=0;s=t->s;}
  }else
