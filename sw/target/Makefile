@@ -33,7 +33,7 @@ ifdef ram_based
 else
  ldscript=$(src)/2138.ld
 endif
-LFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(ldscript) -static -O2
+LDFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(ldscript) -static -O2
 src=src
 o=o
 bin=bin
@@ -50,10 +50,9 @@ autodeps.mk: $(src)/*.c
 	rm -f $@
 	for i in `ls $(src)|grep "\.c$$"|sed -e"s/..$$//"`;\
  do $(CC) $(CFLAGS) -M -MT $(o)/$$i.o $(src)/$$i.c >>$@;done
-#include libpath.mk
 include autodeps.mk
 $(o)/%.elf:$(o)/boot.o $(o)/%.o 
-	$(LD) $(LFLAGS) -o $@ $^ `$(CC) -print-libgcc-file-name`
+	$(LD) $(LDFLAGS) -o $@ $^ `$(CC) -print-libgcc-file-name`
 $(o)/%.o:$(src)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 %.s:$(src)/%.c
