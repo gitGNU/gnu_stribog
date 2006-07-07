@@ -17,7 +17,7 @@
 #Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
 CC=gcc
 LD=gcc
-LDFLAGS=-lm
+LDFLAGS=-s
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
 all: bin/conloq.exe bin/expon.exe bin/magex-conloq.exe bin/magexpon.exe
@@ -27,19 +27,13 @@ maintainer-clean: clean
 	rm -f bin/* *.log
 bin/%.exe:%.o
 	$(LD) $(LDFLAGS) $^ -o $@
-bin/conloq.exe:winser.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_nmea.o\
- lla.o preproc_gps.o
+bin/conloq.exe:winser.o usage.o crc32.o error.o parse_tsip.o exp.o garmin_nmea.o
 bin/magex-conloq.exe:winser.o error.o parse_tsip.o magexp.o
-bin/expon.exe:parse_tsip.o error.o crc32.o exp.o garmin_nmea.o lla.o preproc_gps.o
-bin/magexpon.exe:expon.o parse_tsip.o error.o magexp.o
-	$(LD) $(LDFLAGS) $^ -o $@
+bin/expon.exe:parse_tsip.o error.o crc32.o exp.o garmin_nmea.o
+bin/magexpon.exe:parse_tsip.o error.o magexp.o
 conloq.o:serialia.h usage.h error.h parse_tsip.h exp.h
-garmin_bin.o:exp_gps.h parse_tsip.h
-garmin_nmea.o:error.h exp_gps.h preproc_gps.h
 magex-conloq.o:serialia.h error.h parse_tsip.h exp.h
-exp.o:error.h exp.h exp_gps.h
 expon.o:parse_tsip.h exp.h
+magexpon.o:parse_tsip.h exp.h
 winser.o:serialia.h
 usage.o:usage.h
-lla.o:lla.h
-preproc_gps.o:lla.h preproc_gps.h

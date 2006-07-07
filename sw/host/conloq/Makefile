@@ -20,27 +20,31 @@ LD=gcc
 LDFLAGS=-lm
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
-all: bin/conloq bin/elig bin/expon bin/magex-conloq bin/magexpon
+all: bin/conloq bin/caed bin/elig bin/expon bin/magex-conloq bin/magexpon
 clean:
 	rm -f *.o
 maintainer-clean: clean
 	rm -f bin/* *.log *.dat
 bin/%:%.o
 	$(LD) $(LDFLAGS) $^ -o $@
-bin/conloq:crc32.o error.o exp.o garmin_nmea.o lla.o\
- parse_tsip.o preproc_gps.o serialia.o usage.o
+bin/conloq:crc32.o error.o exp-brief.o garmin_nmea.o\
+ parse_tsip.o serialia.o usage.o
 bin/magex-conloq:serialia.o error.o parse_tsip.o magexp.o
+bin/caed:crc32.o error.o parse_tsip.o
 bin/elig:error.o parse_tsip.o
 bin/expon:crc32.o error.o exp.o garmin_nmea.o lla.o parse_tsip.o preproc_gps.o
 bin/magexpon:expon.o parse_tsip.o error.o magexp.o
 	$(LD) $(LDFLAGS) $^ -o $@
+caed.o:crc32.h error.h parse_tsip.h
 conloq.o:error.h exp.h parse_tsip.h serialia.h usage.h
 magex-conloq.o:error.h exp.h parse_tsip.h serialia.h
 expon.o:exp.h parse_tsip.h
+magexpon.o:exp.h parse_tsip.h
 serialia.o:serialia.h
 usage.o:usage.h
 elig.o:error.h parse_tsip.h
 exp.o:error.h exp.h exp_gps.h
+exp-brief.o:error.h exp.h exp_gps.h
 garmin_bin.o:exp_gps.h parse_tsip.h
 garmin_nmea.o:error.h exp_gps.h preproc_gps.h
 lla.o:lla.h
