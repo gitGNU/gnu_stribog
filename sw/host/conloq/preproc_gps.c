@@ -21,12 +21,12 @@ static void init_lla0(void)
 static void print_xyz(void)
 {double dx[3],ecf[3];int i;lla2xyz(ecf,lla);
  for(i=0;i<3;i++)dx[i]=ecf[i]-ecf0[i];rotate(xyz,dx);
- printf("lxyz: %.2f %.5f %.5f %.5f %.5f\n",t,*xyz,xyz[1],xyz[2],dt);
+ printf("lxyz: %.4f %.5f %.5f %.5f %.5f\n",t,*xyz,xyz[1],xyz[2],dt);
 }
 void add_gps_point(const gps_point*p)
 {*lla=p->lat;lla[1]=p->lon;lla[2]=p->alt;if(*lla0<-9)init_lla0();
- print_xyz();
- printf("xvel: %.2f %.5f %.5f %.5f %.5f %.5f %.5f\n",
+ t=p->utc;print_xyz();
+ printf("xvel: %.4f %.5f %.5f %.5f %.5f %.5f %.5f\n",
    t,*xyz,xyz[1],xyz[2],p->east_vel,p->north_vel,p->up_vel);
 }/*This program is a part of the stribog host software section
 
