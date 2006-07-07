@@ -35,11 +35,12 @@ int init_exp(int x,int p)
 void close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}
 static uint32_t get_u(const unsigned char*s)
 {return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
+static unsigned temp[4];
 static void exp_temp(const unsigned char*s)
 {unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
- printf("temp: %.8f %u %u %u %u\n",
-   mcu_stamp(),t[0],t[1],t[2],_2048);
+ printf("temp: %.8f %u %u %u %u\n",mcu_stamp(),
+  temp[0]=t[0],temp[1]=t[1],temp[2]=t[2],temp[3]=_2048);
 }
 static void exp_pps(const unsigned char*s)
 {static unsigned t0,loops,v;double d;unsigned t=get_u(s),dt,l=0;
@@ -63,10 +64,11 @@ static void exp_adc(const unsigned char*s)
  T_+=T;mcu_t+=mcu_time(t);for(j=0;j<3;j++){a_[j]+=a[j];b_[j]+=b[j];w_[j]+=w[j];}
  if(++i!=period)return;i=0;
  printf("adc:  %.8f %.0f %.0f %.0f"" %+05.0f %+05.0f %+05.0f"
-   " %04.0f %04.0f %04.0f"" %3.4f\n",
+   " %04.0f %04.0f %04.0f"" %3.4f",
   mcu_t/period,a_[0]/period,a_[1]/period,a_[2]/period,
   b_[0]/period,b_[1]/period,b_[2]/period,
   w_[0]/period,w_[1]/period,w_[2]/period,T_/16/period);
+ if(period<=1)for(j=0;j<4;j++)printf(" %u",temp[j]);putchar('\n');
  for(j=0;j<3;j++)a_[j]=b_[j]=w_[j]=0;T_=0;mcu_t=0;
 }
 void expone(const unsigned char*s,int size)
