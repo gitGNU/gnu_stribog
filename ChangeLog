@@ -1,5 +1,54 @@
-23 May 06
- target software: run mode changed to supervisor
+05 Jul 06
+ hardware: R31 changed to 1k. Q2 replaced with IRF7507. extra 3.3V regulator
+ added to increase the higher working temperature limit.
+
+04 Jul 06
+ host software: brief form of decoding added (exp-brief.c); this should
+  improve stability of conloq. elk timeouts decreased
+
+ hardware: ADXL210AE appear to be obsolete. the nearest replacement is ADXL213;
+  the dynamics range is not so wide, though. ST make next-generation
+  accelerometers, but they are not easily available now, and they lack PWM
+  channels.
+  
+22 Jun 06
+ hardware: sym/IRF7507.sym added. this probably will replace IRF7317:
+ the latter has too high gate charges. LPC213x can't drive it purely.
+
+ C35 would better be 2.0uF 1210 ceramic.
+
+ The temperature drifts are being researched thoroughly.
+
+07 Jun 06
+hardware: added OP495GS to compensate HMC10xx offset resistances drift vs temperature.
+ a branch of main board introduced where the magnetoresistors moved away from
+ other parts which appeared to be magnetic.
+
+ The second exemplar of the main board is being soldered. INA126U will be
+ mounted in place of INA118. they are some 6 dB cheaper, but should fit.
+
+27 May 06
+target software: (multa) 
+ ADC readings for gyros and temperatures adjusted for MCU
+ power supply changes; namely, adc_i(out)=(adc_i(in)*k)>>21), where
+ k=(a0*a0-(D-a0)*(a0+17)+(D-a0)*(D-a0)*5+42*1024, D is lowpass-filtered readings 
+ of 2.048V from the DAC, a0 is 641 - typical value of D. 
+ these factors possibly will need correction for every single board.
+
+ adc_i(in)*k<=1<<32 and k/(double)(1<<21) is approximately a0/D for small (D-a0).
+ -0.0005<a0/D-k/2^21<0.0005 when -70<(D-a0)<80
+ So, for usual temperatures the corrected ADC readings remain the same, 
+ whereas for the higher, when the supply voltage decreases, ADC readings 
+ are corrected with error less than ADC unit.
+
+ Initial readings can be reconstructed at the host side with uncertainty of 
+ 1 unit.
+
+ Looking for excluding spurs in accelerometers measurements.
+
+host software: (exp.c) 
+ ADC temperature and 2.048V readings added to the end of 'adc:' string.
+
 18 May 06
  target software: corrected directions of magnetic axes
 15 May 06
