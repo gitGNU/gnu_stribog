@@ -77,29 +77,31 @@ Timer0 is occupied by accelerometers; VIC slot 8
 HOW TO INSTALL DEVELOPMENT TOOLS
 
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
-get binutils-2.16.1.tar.bz2 and gcc-4.0.1.tar.bz2 (gcc-4.0.3.tar.bz2 will fit,
-too. I couldn't build gcc-3.4.6).
+get binutils-2.16.1.tar.bz2 (neiter binutils-2.15 nor binutils-2.17 didn't 
+work for me. binutils-2.16 seem to be good) and 
+gcc-4.1.1.tar.bz2 (gcc-4.0.1.tar.bz2 or gcc-4.0.3.tar.bz2 will fit, too. 
+gcc-3.4.6 also was slightly tested).
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
 $ export armprefix=$HOME/arm
-                   (or where you want them to live)
-$ tar xjf binutils-2.16.1.tar.bz2;tar xjf gcc-4.0.1.tar.bz2
+                   (or where you want them to live. you must have write access
+		    thither)
+$ tar xjf binutils-2.16.1.tar.bz2;tar xjf gcc-4.1.1.tar.bz2
 $ mkdir bui;cd bui
 $ ../binutils-2.16.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
 $ make all install
 $ export PATH=$PATH:$armprefix/bin; rm -fr *
          (add this path in your shell profile after install, too)
-$ ../gcc-4.0.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages="c"
-$ make all install
+$ ../gcc-4.1.1/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages="c"
+$ make all-gcc install-gcc
 
 We don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 
-It is more difficult to install gEDA and friends. I shall tell it another
-time.
+It is more difficult to install gEDA and friends. I shall tell it later.
 
 LICENSE AND COPYRIGHT NOTES FOLLOW
 
@@ -143,7 +145,7 @@ The following non-text source files possibly contain no copyright notices,
 because stribog's author decided to move those notices here for convenience, 
 namely:
 
-hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
+hw/main_board.pcb hw/stribog.sch hw/gyro.sch
 hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
 hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
 hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
