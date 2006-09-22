@@ -1,3 +1,10 @@
+22 Sept 06
+ host software (utils): added an utility to estimate sensors drifts;
+ lpfilter now can be ordered to change output precision.
+
+28 Aug 06
+ hardware: R15, R16, R32, R33, R34 deleted from main board.
+
 05 Jul 06
  hardware: R31 changed to 1k. Q2 replaced with IRF7507. extra 3.3V regulator
  added to increase the higher working temperature limit.
