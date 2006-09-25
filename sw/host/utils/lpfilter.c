@@ -32,7 +32,7 @@ static void init_n(const char*u)
 }void free_all(void){if(s)free(s);}
 int main(int argc,char**argv)
 {int f;static char str[4913];if(argc>1)sscanf(argv[1],"%i",&N);if(N<1)return 1;
- if(argc>2)sscanf(argv[2],"%i",&f);else i=2;sprintf(fmt,"%%.%if ",f);
+ if(argc>2)sscanf(argv[2],"%i",&f);else f=2;sprintf(fmt,"%%.%if ",f);
  fgets(str,sizeof(str),stdin);init_n(str);process_string(str);
  while(!feof(stdin)){fgets(str,sizeof(str),stdin);process_string(str);}
  free_all();return 0;
