@@ -1,2 +1,5 @@
 CFLAGS=-Wall
-all: drift lpfilter
+targets=drift lpfilter fdif
+clean:
+	$(RM) $(targets)
+all: $(targets)
