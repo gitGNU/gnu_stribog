@@ -1,7 +1,32 @@
 #! /bin/sh
-# "cutdrift": prepares files for "drift" and runs them
+# "cutdrift": prepares files for "drift" and processes them
 # usage: cutdrift file1 file2
-#
+cut -d' ' -f2,11 $1 > $1.ax
+cut -d' ' -f3,11 $1 > $1.ay
+cut -d' ' -f4,11 $1 > $1.az
+cut -d' ' -f5,11 $1 > $1.mx
+cut -d' ' -f6,11 $1 > $1.my
+cut -d' ' -f7,11 $1 > $1.mz
+cut -d' ' -f8,11 $1 > $1.wx
+cut -d' ' -f9,11 $1 > $1.wy
+cut -d' ' -f10,11 $1 > $1.wz
+cut -d' ' -f12,11 $1 > $1.t1
+cut -d' ' -f13,11 $1 > $1.t2
+cut -d' ' -f14,11 $1 > $1.t3
+cut -d' ' -f2,11 $2 > $2.ax
+cut -d' ' -f3,11 $2 > $2.ay
+cut -d' ' -f4,11 $2 > $2.az
+cut -d' ' -f5,11 $2 > $2.mx
+cut -d' ' -f6,11 $2 > $2.my
+cut -d' ' -f7,11 $2 > $2.mz
+cut -d' ' -f8,11 $2 > $2.wx
+cut -d' ' -f9,11 $2 > $2.wy
+cut -d' ' -f10,11 $2 > $2.wz
+cut -d' ' -f12,11 $2 > $2.t1
+cut -d' ' -f13,11 $2 > $2.t2
+cut -d' ' -f14,11 $2 > $2.t3
+for i in ax ay az mx my mz wx wy wz;do ./drift $1.$i $2.$i > $1.$i.dat;done
+for i in t1 t2 t3;do ./fdif $1.$i $2.$i |./lpfilter 10 > $1.d$i.dat;done
 #This program is a part of the stribog host software section
 #
 #This program is free software; you can redistribute it and/or modify
@@ -19,22 +44,3 @@
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 #Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
-cut -d' ' -f2,11 $1 > $1.ax
-cut -d' ' -f3,11 $1 > $1.ay
-cut -d' ' -f4,11 $1 > $1.az
-cut -d' ' -f5,11 $1 > $1.mx
-cut -d' ' -f6,11 $1 > $1.my
-cut -d' ' -f7,11 $1 > $1.mz
-cut -d' ' -f8,11 $1 > $1.wx
-cut -d' ' -f9,11 $1 > $1.wy
-cut -d' ' -f10,11 $1 > $1.wz
-cut -d' ' -f2,11 $2 > $2.ax
-cut -d' ' -f3,11 $2 > $2.ay
-cut -d' ' -f4,11 $2 > $2.az
-cut -d' ' -f5,11 $2 > $2.mx
-cut -d' ' -f6,11 $2 > $2.my
-cut -d' ' -f7,11 $2 > $2.mz
-cut -d' ' -f8,11 $2 > $2.wx
-cut -d' ' -f9,11 $2 > $2.wy
-cut -d' ' -f10,11 $2 > $2.wz
-for i in ax ay az mx my mz wx wy wz;do ./drift $1.$i $2.$i > $1.$i.dat;done
