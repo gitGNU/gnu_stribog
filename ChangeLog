@@ -1,3 +1,5 @@
+24 Sept 06
+ host software (utils): fdif added; drift corrected
 22 Sept 06
  host software (utils): added an utility to estimate sensors drifts;
  lpfilter now can be ordered to change output precision.
