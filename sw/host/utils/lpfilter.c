@@ -19,7 +19,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-static int N=200,n,i,j;double *s;static char fmt[0x11];
+static int N=200,n,i,j;static double *s;static char fmt[0x11];
 static void process_string(const char*u)
 {double x;int j;const char*_=u;while(*_==' ')++_;
  for(j=0;j<n;j++){sscanf(_,"%lf",&x);s[j]+=x;_=strchr(_+1,' ');}
@@ -31,9 +31,9 @@ static void init_n(const char*u)
  s=calloc(n,sizeof(*s));for(j=0;j<n;s[j++]=0);
 }void free_all(void){if(s)free(s);}
 int main(int argc,char**argv)
-{int f;static char str[4913];if(argc>1)sscanf(argv[1],"%i",&N);if(N<1)return 1;
- if(argc>2)sscanf(argv[2],"%i",&f);else f=2;sprintf(fmt,"%%.%if ",f);
+{static char str[4913];if(argc>1)sscanf(argv[1],"%i",&N);if(N<1)return 1;
+ j=2;if(argc>2)sscanf(argv[2],"%i",&j);sprintf(fmt,"%%.%if ",j);
  fgets(str,sizeof(str),stdin);init_n(str);process_string(str);
- while(!feof(stdin)){fgets(str,sizeof(str),stdin);process_string(str);}
+ while(1){fgets(str,sizeof(str),stdin);if(feof(stdin))break;process_string(str);}
  free_all();return 0;
 }
