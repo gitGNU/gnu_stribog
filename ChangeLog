@@ -1,3 +1,13 @@
+05 Dec 06
+ host software:
+  (utils): lpfilter corrected; stat added
+  (conloq): garmin_nmea.c corrected
+  (postproc): quick and dirty postprocessing added
+29 Nov 06
+ new board ordered. gerbers should be reoutput with new version
+ of PCB: it doesn't overcomplicate files with multiple layers which
+ are imported to different layers by some CADs (misinterpreting 
+ the format specification)
 24 Sept 06
  host software (utils): fdif added; drift corrected
 22 Sept 06
