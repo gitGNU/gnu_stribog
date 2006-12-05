@@ -2,31 +2,33 @@
 #include"lla.h"
 #include<stdio.h>
 #include<math.h>
-static double t,dt,ecf0[3],xyz[3],lla0[3]={-10,0,0},lla[3],rot[3][3];
+static double ecf0[3],lla0[3]={-10,0,0},rot[3][3],t,dt,xyz[3],lla[3];
 static void rotate(double enu[],const double xyz[])
 {int i,j;for(i=0;i<3;i++)for(j=0,enu[i]=0;j<3;j++)enu[i]+=xyz[j]*rot[i][j];}
 static void init_rot(void)
-{rot[0][0]=-sin(lla0[1]);rot[0][1]=cos(lla[1]);rot[0][2]=0;
- rot[1][0]=-cos(lla0[1])*sin(*lla0);rot[1][1]=-sin(lla0[1])*sin(*lla0);
- rot[1][2]=cos(*lla0);
- rot[2][0]=cos(lla0[1])*cos(*lla0);rot[2][1]=sin(lla0[1])*cos(*lla0);
+{rot[0][0]=-sin(lla[1]);rot[0][1]=cos(lla[1]);rot[0][2]=0;
+ rot[1][0]=-cos(lla[1])*sin(*lla);rot[1][1]=-sin(lla[1])*sin(*lla);
+ rot[1][2]=cos(*lla);
+ rot[2][0]=cos(lla[1])*cos(*lla);rot[2][1]=sin(lla[1])*cos(*lla);
  rot[2][2]=sin(*lla);
+ printf("rot_e: %f %f %f %f\n",0.,rot[0][0],rot[0][1],rot[0][2]);
+ printf("rot_n: %f %f %f %f\n",0.,rot[1][0],rot[1][1],rot[1][2]);
+ printf("rot_u: %f %f %f %f\n",0.,rot[2][0],rot[2][1],rot[2][2]);
 }
 static void init_lla0(void)
-{int i;for(i=0;i<3;i++)lla0[i]=lla[i];
- printf("l0l0a0: 0 %.17f %.17f %.17f\n",*lla0,lla0[1],lla0[2]);initlla();
- lla2xyz(ecf0,lla0);
+{int i;printf("l0l0a0: 0 %.17f %.17f %.17f\n",*lla,lla[1],lla[2]);
+ initlla();for(i=0;i<3;i++)lla0[i]=lla[i];lla2xyz(ecf0,lla0);
  printf("ecef0: 0 %.5f %.5f %.5f\n",ecf0[0],ecf0[1],ecf0[2]);init_rot();
 }
 static void print_xyz(void)
 {double dx[3],ecf[3];int i;lla2xyz(ecf,lla);
  for(i=0;i<3;i++)dx[i]=ecf[i]-ecf0[i];rotate(xyz,dx);
- printf("lxyz: %.4f %.5f %.5f %.5f %.5f\n",t,*xyz,xyz[1],xyz[2],dt);
+ printf("lxyz: %.2f %.5f %.5f %.5f %.5f\n",t,*xyz,xyz[1],xyz[2],dt);
 }
 void add_gps_point(const gps_point*p)
 {*lla=p->lat;lla[1]=p->lon;lla[2]=p->alt;if(*lla0<-9)init_lla0();
- t=p->utc;print_xyz();
- printf("xvel: %.4f %.5f %.5f %.5f %.5f %.5f %.5f\n",
+ t=p->utc;/*FIXME*/print_xyz();
+ printf("xvel: %.2f %.5f %.5f %.5f %.5f %.5f %.5f\n",
    t,*xyz,xyz[1],xyz[2],p->east_vel,p->north_vel,p->up_vel);
 }/*This program is a part of the stribog host software section
 
