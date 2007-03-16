@@ -1,7 +1,7 @@
 Stribog the sensing platform README file.
 The end of this file contains license and copyright notes for the project.
 
-ATTENTION stribog is in his pre-alpha stage. he is not functional yet.
+ATTENTION stribog is in his alpha stage. he is not functional yet.
 
 The project is located at http://savannah.nongnu.org/projects/stribog
 
@@ -101,7 +101,8 @@ to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 
-It is more difficult to install gEDA and friends. I shall tell it later.
+It is more difficult to install gEDA and friends. I possibly shall never 
+tell about this here.
 
 LICENSE AND COPYRIGHT NOTES FOLLOW
 
@@ -119,14 +120,15 @@ LICENSE AND COPYRIGHT NOTES FOLLOW
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-    Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
+    Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>
 
 Note: actually the next version of the GPL is to be released the next term. 
-stribog's author believes they both will be able to use this new version then.
-however, the first drafts don't seem to be much better than GPL v2.
+stribog's author has strong intention to use this new version since then. 
+currently, stribog is distributed by D.Ineiev under the terms of 
+the GNU GPL v2.
 
 It is not certain, whether a printed board contains a "derived" from
-the sources "work". stribog's author thinks that a PCB layout files 
+the sources "work". stribog's author believes that a PCB layout files 
 (as hw/main_board.pcb) do form a derived work, but the result of PCB print 
 command (GERBER/EXCELLON, PostScript files) contains no "derived work", to say 
 nothing of printed boards and assembled devices. that is, this license does 
@@ -136,8 +138,9 @@ Nonetheless, any schematic diagram in any form does contain such a "work".
 
 This may look inconsistent, this can be argued, but the author considers this
 approach to be the most correct one. the copyright holder may change this 
-point of view in future releases to make it more consistent, but for no past 
-release.
+point of view in future to make it more consistent, but for no files released
+earlier.
+
 
 The software part is released right under the terms of the GNU GPL v2.
 
