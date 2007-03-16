@@ -15,8 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<stdio.h>
+#include"hodo.h"
 #include"exp_gps.h"
 #include"preproc_gps.h"
 #include"error.h"
@@ -64,9 +65,15 @@ static int nmea_switch(const char*s,double t)
  if(!brief)if(!field_cmp(s,"GPZDA,"))return parse_zda(s+6,t);
 }
 void exp_gps(double time,const unsigned char*s,FILE*gps)
-{int n=s[11],i;static char nmea[0x100];static int k;
+{int n=s[11],i;static char nmea[0x100];static int k,silent_hodo;
+ static double mute_time=-1;
  for(i=0;i<n;i++)
- {if(gps)putc(s[i],gps);nmea[k++]=s[i];
+ {if(gps)putc(s[i],gps);
+  if(s[i]&0x80)
+  {proc_hodo(s[i],silent_hodo&&brief,time);
+   silent_hodo=(time-mute_time<1);if(!silent_hodo)mute_time=time;
+  }
+  else nmea[k++]=s[i];
   if(k>=sizeof(nmea)){error("too long message");k=0;continue;}
   if(s[i]=='$')
   {if(*nmea=='$'){nmea[k-3]=0;nmea_switch(nmea,time);}k=1;*nmea='$';}
