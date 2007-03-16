@@ -1,3 +1,10 @@
+10 Mar 06
+ software:
+  (auxilia): added an auxiliary odometer counter based on ATmega8. some
+   comments on usage to be made.
+  (conloq): hodo.[ch] added. garmin_nmea.c corrected to parse the odometer
+   messages.
+  README.txt: some copyright notes updates.
 05 Dec 06
  host software:
   (utils): lpfilter corrected; stat added
