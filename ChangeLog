@@ -1,3 +1,7 @@
+25 Mar 06
+ target software:
+  some code cleaning up.
+ README.txt: notes on how to build tools updated
 10 Mar 06
  software:
   (auxilia): added an auxiliary odometer counter based on ATmega8. some
