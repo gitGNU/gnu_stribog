@@ -1,5 +1,4 @@
 #! /bin/sh
-#
 #makes files to feed elk
 #
 #This program is free software; you can redistribute it and/or modify
@@ -16,8 +15,9 @@
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
-#Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
-#target=accelex
+#Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>
 target=multa
+if [ $# -gt 0 ]; then target=$1; fi
+echo cooking $target
 cd ../../target/;make;cd ../host/elk
 cp ../../target/bin/$target.bin elk.bin;cp ../../target/bin/$target.vectors vectors
