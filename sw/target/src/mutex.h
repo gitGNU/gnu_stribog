@@ -15,10 +15,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define UNLOCKED	(0)/*static mutices are born unlocked by default*/
 #define LOCKED		(1)
 typedef int mutex;
 static inline int lock(mutex*m)
-{int r=LOCKED,r1;asm("swp %0, %1, [%2]":"=r"(r1):"r"(r),"r"(m));return r1;}
+{int r=LOCKED,r1;asm("swp %0, %1, [%2]":"=&r"(r1):"r"(r),"r"(m));return r1;}
 static inline void unlock(mutex*m){*m=(mutex)UNLOCKED;}

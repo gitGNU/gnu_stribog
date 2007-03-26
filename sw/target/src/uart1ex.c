@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"uart1.h"
 #include"led.h"
 #include"pll.h"
@@ -34,7 +34,7 @@ static void form_data(unsigned d[FIX_LENGTH],const int a[3],
  *s++=(w[0]&0x3FF)|((w[1]&0x3FF)<<10)|((w[2]&0x3FF)<<20);
 }
 int main(void)
-{int j;start_pll();init_power();init_led();init_lm74();connect_pll();
+{int j=0;start_pll();init_power();init_led();init_lm74();connect_pll();
  init_uart1();init_tempus();led1_set();
  while(1)
  {form_data(f,a,w,b);while(send_fix(f,FIX_LENGTH));

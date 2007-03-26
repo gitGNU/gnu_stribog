@@ -15,7 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-extern inline void init_led(void);
-extern inline void led0_set(void);extern inline void led0_clr(void);
-extern inline void led1_set(void);extern inline void led1_clr(void);
+Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
+void init_led(void);/*FIXME: I want these functions to be inlined,
+		      but I don't want to include lpc2138.h everywhere*/
+void led0_set(void);void led0_clr(void);
+void led1_set(void);void led1_clr(void);
