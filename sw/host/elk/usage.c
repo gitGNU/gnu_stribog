@@ -15,11 +15,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"usage.h"
 #include<stdio.h>
 void usage(void)
-{printf("elk 0?9 ("__DATE__") the LPC2138 programmer (hardly functional)\n"
+{printf("elk 0?A ("__DATE__") the LPC2138 programmer (hardly functional)\n"
 "This program is a part of the stribog host software section\n"
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -32,9 +32,9 @@ void usage(void)
 "You should have received a copy of the GNU General Public License\n"
 "along with this program; if not, write to the Free Software\n"
 "Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA\n"
-"Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>\n"
+"Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>\n"
 "usage: elk [port [cryst. freq in kHz]]\n"
-" default port on GNU/Linux is /dev/ttyS0; on Win32 is COM1\n"
+" default port on a POSIX system is /dev/ttyS0; on Win32 is COM1\n"
 " default frequency is 14746; on GNU/Linux the port baud rate is set\n"
 " according to the crystal frequency; on Win32 it is 115200\n"
 "elk runs interactively; here is some commands:\n"
