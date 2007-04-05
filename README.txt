@@ -125,7 +125,7 @@ LICENSE AND COPYRIGHT NOTES FOLLOW
 
     Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>
 
-Note: actually the next version of the GPL is to be released the next term. 
+Note: actually the next version of the GPL is to be released this summer. 
 stribog's author has strong intention to use this new version since then. 
 currently, stribog is distributed by D.Ineiev under the terms of 
 the GNU GPL v2.
