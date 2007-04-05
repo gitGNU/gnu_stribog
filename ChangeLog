@@ -1,8 +1,15 @@
-25 Mar 06
+04 Apr 07
+ host software:
+  (conloq), (elk): correcting serialia.c to run on the Hurd
+ hardware:
+  (*.pcb): thermal types changed to solid (some manufacturers can't
+  make negative apertures in polygons); TQFP64 pads steps have less
+  range now. this can improve the DRC limit to 0.248 mm
+25 Mar 07
  target software:
   some code cleaning up.
  README.txt: notes on how to build tools updated
-10 Mar 06
+10 Mar 07
  software:
   (auxilia): added an auxiliary odometer counter based on ATmega8. some
    comments on usage to be made.
