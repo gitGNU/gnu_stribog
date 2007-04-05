@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"serialia.h"
 #include<unistd.h>
 #include<sys/types.h>
@@ -48,9 +48,8 @@ int initserialia(const char*tty,int freq)
  if(portd<0)return-1;tcgetattr(portd,&vet);nov=vet;
  cfsetospeed(&nov,baud(freq));cfsetispeed(&nov,baud(freq));
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
- nov.c_cflag&=~CSIZE;nov.c_cflag|=CS8;
- nov.c_lflag&=~(ICANON|ECHO|ECHOE|ISIG);nov.c_oflag&=~OPOST;
- nov.c_iflag&=~(INLCR|ICRNL|IUCLC|IXON|IXOFF);
+ nov.c_cflag&=~CSIZE;nov.c_cflag|=CS8;nov.c_oflag&=~OPOST;
+ nov.c_lflag=nov.c_iflag=0;
  tcsetattr(portd,TCSANOW,&nov);fcntl(portd,F_SETFL,FNDELAY);
  return portd<0;
 }
