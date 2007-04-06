@@ -7,7 +7,7 @@ void proc_hodo(unsigned char c,int silent,double t)
  if(!(c&(1<<6)))
  {if(i>4)
   {unsigned _=s[i-4]|(((unsigned)s[i-5])<<6),d,ts;
-   ts=(((unsigned)s[i])<<12)|(((unsigned)s[i-2])<<6)|s[i-3];
+   ts=(((unsigned)s[i-1])<<12)|(((unsigned)s[i-2])<<6)|s[i-3];
    if(~_0)
    {d=(_<_0?(1<<12):0)+_-_0;x+=d;
     if(output_next)printf("odo: %.8f %u %llu\n",t,ts,x);output_next=0;
