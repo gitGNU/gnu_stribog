@@ -1,4 +1,7 @@
 #include<avr/io.h>/*odometer firmware*/
+/*Fuse Low Byte      = 0xef
+  Fuse High Byte     = 0xc9
+  Fuse Extended Byte = 0xff*/
 #define F_CPU   (14745600ul)
 #define BAUD    (9600)
 #define	FRAME	((1<<UCSZ1)|(1<<UCSZ0)|(1<<URSEL))/*8-bit,No parity*/
@@ -19,10 +22,10 @@ static void mitte(void)
  }
 }static void pone_mittenda(void)
 {unsigned t=TCNT1;
- missa[0]=(((unsigned char)cnt)|(3<<6));missa[1]=(cnt>>6)|(3<<6);
- missa[2]=((unsigned char)t)|(3<<6);
+ missa[0]=(cnt>>6)|(3<<6);missa[1]=(((unsigned char)cnt)|(3<<6));
+ missa[2]=((unsigned char)(t>>12))|(3<<6);
  missa[3]=((unsigned char)(t>>6))|(3<<6);
- missa[4]=((unsigned char)(t>>12))|(1<<7);
+ missa[4]=((unsigned char)t)|(1<<7);
  i=0;
 }
 static void inc_cnt(void)
