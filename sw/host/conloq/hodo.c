@@ -1,13 +1,16 @@
 #include"hodo.h"/*decode odometer messages*/
+#include"error.h"
 #include<stdio.h>
 static int output_next;static unsigned char s[8],i;
 static unsigned _0=~0;static unsigned long long x;
 void proc_hodo(unsigned char c,int silent,double t)
 {if(!silent)output_next=!0;s[i++]=c&0x3F;if(i>sizeof(s))i=0;
  if(!(c&(1<<6)))
- {if(i>4)
-  {unsigned _=s[i-4]|(((unsigned)s[i-5])<<6),d,ts;
-   ts=(((unsigned)s[i-1])<<12)|(((unsigned)s[i-2])<<6)|s[i-3];
+ {if(i>5)
+  {unsigned _,d,ts;unsigned char sum;i-=6;
+   for(_=sum=0;_<6;_++)sum^=s[i+_];if(sum)error("hodo checksums don't match\n");
+   _=s[i+1]|(((unsigned)s[i])<<6);
+   ts=(((unsigned)s[i+2])<<12)|(((unsigned)s[i+3])<<6)|s[i+4];
    if(~_0)
    {d=(_<_0?(1<<12):0)+_-_0;x+=d;
     if(output_next)printf("odo: %.8f %u %llu\n",t,ts,x);output_next=0;

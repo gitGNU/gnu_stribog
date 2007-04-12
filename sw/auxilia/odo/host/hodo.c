@@ -2,12 +2,14 @@
 #include"serialia.h"/*Note: you should connect PC to DB9-M rather than DB9-F*/
 void decode(const unsigned char*s)
 {unsigned cnt=s[1]|(((unsigned)s[0])<<6),
- t=(((unsigned)s[4])<<12)|(((unsigned)s[3])<<6)|s[2];
+ t=(((unsigned)s[4])<<12)|(((unsigned)s[3])<<6)|s[2],_,i;
+ for(_=i=0;i<6;i++)_^=s[i];
+ if(_)fprintf(stderr,"%s:%i: checksums don't match\n",__FILE__,__LINE__);
  printf("%.7u %u\n",t,cnt);
 }
 void process(int c)
 {static unsigned char s[10];static int i;
- s[i++]=c&0x3F;if(i>8)i=0;if(!(c&(1<<6))){if(i>=5)decode(s+i-5);i=0;}
+ s[i++]=c&0x3F;if(i>8)i=0;if(!(c&(1<<6))){if(i>5)decode(s+i-6);i=0;}
 }
 int main(void)
 {char c;initserialia("/dev/ttyS0");while(1)if(lege(&c,1)>0)process(c);return 0;}
