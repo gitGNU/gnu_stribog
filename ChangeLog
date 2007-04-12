@@ -1,71 +1,73 @@
+11 Apr 07
+hardware: in main boards pins to input-output uC UART signals directly,
+ so they won't need slow RS-232 drivers. we plan to attach this port to
+ an external USB<->UART converter based on USBtiny.
+ (main_board.bis.pcb): DRC clearence level increased to 0.249 mm. fine manual 
+  editing with vim made this.
+(odometer): a primitive checksum added
+ChangeLog: reindenting, correcting some typos.
+ P.S. at last, we printed a new main board. she is to be assembled.
 05 Apr 07
  debugging odometer
 04 Apr 07
- host software:
-  (conloq), (elk): correcting serialia.c to run on the Hurd
- hardware:
-  (*.pcb): thermal types changed to solid (some manufacturers can't
-  make negative apertures in polygons); TQFP64 pads steps have less
-  range now. this can improve the DRC limit to 0.248 mm
+host software:
+ (conloq), (elk): correcting serialia.c to run on the Hurd
+hardware:
+ (*.pcb): thermal types changed to solid (some manufacturers can't
+ make negative apertures in polygons); TQFP64 pads steps have less
+ range now. this can improve the DRC limit to 0.248 mm
 25 Mar 07
- target software:
-  some code cleaning up.
- README.txt: notes on how to build tools updated
+target software:
+ some code cleaning up.
+README.txt: notes on how to build tools updated
 10 Mar 07
- software:
-  (auxilia): added an auxiliary odometer counter based on ATmega8. some
-   comments on usage to be made.
-  (conloq): hodo.[ch] added. garmin_nmea.c corrected to parse the odometer
-   messages.
-  README.txt: some copyright notes updates.
+software:
+ (auxilia): added an auxiliary odometer counter based on ATmega8. some
+  comments on usage to be made.
+ (conloq): hodo.[ch] added. garmin_nmea.c corrected to parse the odometer
+  messages.
+README.txt: some copyright notes updates.
 05 Dec 06
- host software:
-  (utils): lpfilter corrected; stat added
-  (conloq): garmin_nmea.c corrected
-  (postproc): quick and dirty postprocessing added
+host software:
+ (utils): lpfilter corrected; stat added
+ (conloq): garmin_nmea.c corrected
+ (postproc): quick and dirty postprocessing added
 29 Nov 06
  new board ordered. gerbers should be reoutput with new version
  of PCB: it doesn't overcomplicate files with multiple layers which
  are imported to different layers by some CADs (misinterpreting 
  the format specification)
-24 Sept 06
- host software (utils): fdif added; drift corrected
-22 Sept 06
- host software (utils): added an utility to estimate sensors drifts;
+24 Sep 06
+host software (utils): fdif added; drift corrected
+22 Sep 06
+host software (utils): added an utility to estimate sensors drifts;
  lpfilter now can be ordered to change output precision.
-
 28 Aug 06
- hardware: R15, R16, R32, R33, R34 deleted from main board.
-
+hardware: R15, R16, R32, R33, R34 deleted from main board.
 05 Jul 06
- hardware: R31 changed to 1k. Q2 replaced with IRF7507. extra 3.3V regulator
+hardware: R31 changed to 1k. Q2 replaced with IRF7507. extra 3.3V regulator
  added to increase the higher working temperature limit.
-
 04 Jul 06
- host software: brief form of decoding added (exp-brief.c); this should
-  improve stability of conloq. elk timeouts decreased
-
- hardware: ADXL210AE appear to be obsolete. the nearest replacement is ADXL213;
-  the dynamics range is not so wide, though. ST make next-generation
-  accelerometers, but they are not easily available now, and they lack PWM
-  channels.
-  
+host software: brief form of decoding added (exp-brief.c); this should
+ improve stability of conloq. elk timeouts decreased
+hardware: ADXL210AE appear to be obsolete. the nearest replacement is ADXL213;
+ the dynamics range is not so wide, though. ST make next-generation
+ accelerometers, but they are not easily available now, and they lack PWM
+ channels.
 22 Jun 06
- hardware: sym/IRF7507.sym added. this probably will replace IRF7317:
+hardware: sym/IRF7507.sym added. this probably will replace IRF7317:
  the latter has too high gate charges. LPC213x can't drive it purely.
 
  C35 would better be 2.0uF 1210 ceramic.
 
  The temperature drifts are being researched thoroughly.
-
 07 Jun 06
-hardware: added OP495GS to compensate HMC10xx offset resistances drift vs temperature.
+hardware: added OP496GS to compensate HMC10xx offset resistances drift vs temperature.
  a branch of main board introduced where the magnetoresistors moved away from
  other parts which appeared to be magnetic.
 
  The second exemplar of the main board is being soldered. INA126U will be
  mounted in place of INA118. they are some 6 dB cheaper, but should fit.
-
 27 May 06
 target software: (multa) 
  ADC readings for gyros and temperatures adjusted for MCU
@@ -89,49 +91,43 @@ host software: (exp.c)
  ADC temperature and 2.048V readings added to the end of 'adc:' string.
 
 18 May 06
- target software: corrected directions of magnetic axes
+target software: corrected directions of magnetic axes
 15 May 06
- host software: elk now can load LPC2138 non-interactively
+host software: elk now can load LPC2138 non-interactively
  conloq shows low-pass filtered values of measurements
  elig added
 17 Apr 06
  burnt input A. adding possibility to get PPS at SCL.
 15 Apr 06
- mag_response: ADC differences added to output
- magex: weak checksum added
- host software: simple low-pass filtering program added
-
+mag_response: ADC differences added to output
+magex: weak checksum added
+host software: simple low-pass filtering program added
 09 Apr 06
 a week ago stribog had a field test. the next corrections followed:
- target software: magnetic sampling frequency adjusted to 16*50 Hz;
-  magex: raw 800 Hz output (without chechsums) added
-  uart0.c: more reasonable input function
-  multa.c: measurements output rate changed to 200 Hz
- host software: a parser for magex output written
-  conloq: GPS parser (initially) added
- main board: x and y axes drawn.
-
+target software: magnetic sampling frequency adjusted to 16*50 Hz;
+ magex: raw 800 Hz output (without chechsums) added
+ uart0.c: more reasonable input function
+ multa.c: measurements output rate changed to 200 Hz
+host software: a parser for magex output written
+ conloq: GPS parser (initially) added
+main board: x and y axes drawn.
 31 Mar 06
- target software: UART0 functions written; accelerometer channels
-  sequence changed to conform with the magnetic sensors. 
- host software: limited Win32 support added
-
+target software: UART0 functions written; accelerometer channels
+ sequence changed to conform with the magnetic sensors. 
+host software: limited Win32 support added
 22 Mar 06
  all on-board sensors do work. magnetic sensors bandwidth should be
  defined more precisely and increased.
  mag_response program added: it is to measure DAC response to magnetic
  sensors output. the measured values define kx, ky and kz in mag.c
-C35 is tantalum again.
-
+ C35 is tantalum again.
 18 Mar 06
 fixed a bug in the hardware part: pins 2 and 4 of Q2 must be swapped
  resistance R33 decreased to 30 Ohm.
  initially added a software module for magnetic sensors
-
 04 Mar 06 
 added pullup resistor to RESET
 R17..R20 changed to 2.2k, R21..R24 --- to 3.3k
-
 24 Feb 06
  LEDs added
  Tantalum capacitor C35 replaced with ceramic 0805
