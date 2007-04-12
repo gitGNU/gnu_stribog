@@ -160,7 +160,7 @@ hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
 hw/packages/2.5mm_10pin_header hw/packages/QFP64 hw/packages/adxl210
 hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
-hw/packages/lp2980 hw/packages/tanA hw/packages/tanC
+hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
 hw/packages/tp
 
 To all these files is applied the copyright and license notice placed earlier
