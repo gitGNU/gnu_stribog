@@ -157,7 +157,8 @@ The following non-text source files possibly contain no copyright notices,
 because stribog's author decided to move those notices here for convenience, 
 namely:
 
-hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
+hw/main_board.pcb hw/main_board.bis.pcb 
+hw/stribog.sch hw/gyro.sch hw/odo.sch
 hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
 hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
 hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
@@ -167,8 +168,8 @@ hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
 hw/packages/2.5mm_10pin_header hw/packages/QFP64 hw/packages/adxl210
 hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
-hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
-hw/packages/tp
+hw/packages/lp2980 hw/packages/msop8
+hw/packages/pin hw/packages/tanA hw/packages/tanC hw/packages/tp
 
 To all these files is applied the copyright and license notice placed earlier
 in this file.
