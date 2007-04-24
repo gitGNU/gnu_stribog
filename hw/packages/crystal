@@ -1,6 +1,6 @@
 #crystal in HC49S package
-#Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>: extracted from m4,
-#renamed and commented for his convenience
+#Copyright (C) 2005-2007 D.Ineiev <ineiev@yahoo.co.uk>: extracted from m4,
+#renamed and commented; drill holes enlarged
 #
 #                             COPYRIGHT
 # 
@@ -25,12 +25,12 @@
 #   Thomas Nau, Schlehenweg 15, 88471 Baustetten, Germany
 #   Thomas.Nau@rz.uni-ulm.de
 # 
-#   RCS: $Id: crystal,v 1.5 2006/04/18 04:28:05 ineiev Exp $
+#   RCS: $Id: crystal,v 1.6 2007/04/24 05:38:49 ineiev Exp $
 #
-Element["" "crystal 300mil" "" "1MHz" 112850 71560 0 7000 0 100 ""]
+Element["" "crystal 300mil" "" "14.7456MHz" 112850 71560 0 7000 0 100 ""]
 (
-	Pin[0 0 6000 3000 6600 2000 "1" "1" "square,edge2"]
-	Pin[20000 0 6000 3000 6600 2000 "2" "2" "edge2"]
+	Pin[0 0 6000 3000 8400 2500 "1" "1" ""]
+	Pin[20000 0 6000 3000 8400 2500 "2" "2" ""]
 	ElementLine [0 5000 20000 5000 1000]
 	ElementLine [0 -5000 20000 -5000 1000]
 	ElementArc [20000 0 5000 5000 90 180 1000]
