@@ -1,4 +1,4 @@
-#Makefile for auxiliary odometer firmware for the stribog
+#Makefile for auxiliary odometer firmware
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -15,23 +15,5 @@
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
 #Copyright (C) 2007 D.Ineiev <ineiev@yahoo.co.uk>
-CC	= avr-gcc
-LD	= avr-gcc
-mcu=-mmcu=atmega8
-CFLAGS	= $(mcu) -O3 -Wall 
-LDFLAGS = $(mcu) -Wl
 TARGETS=hodo.hex
-%.elf:%.o
-	$(LD) $(LDFLAGS) $^ -o $@
-%.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-%.S:%.c
-	$(CC) $(CFLAGS) -S $< -o $@
-%.hex:%.elf
-	avr-objcopy -O ihex -R .eeprom $< $@
-.PHONY: all clean maintainer-clean
-all:$(TARGETS)
-clean:
-	-rm -f *.o *.elf
-maintainer-clean: clean
-	-rm -f $(TARGETS)
+include ../avr.mk
