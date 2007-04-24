@@ -1,9 +1,13 @@
+16 Apr 07
+auxiliary software: magnetic sampler (coil) added; common makefile
+ for AVR targets placed in avr.mk
+README.txt: notes on AVR tools added
 11 Apr 07
 hardware: in main boards pins to input-output uC UART signals directly,
  so they won't need slow RS-232 drivers. we plan to attach this port to
  an external USB<->UART converter based on USBtiny.
- (main_board.bis.pcb): DRC clearence level increased to 0.249 mm. fine manual 
-  editing with vim made this.
+ (main_board.bis.pcb): DRC clearence level increased to 0.249 mm. fine
+ manually editing with vim made this.
 (odometer): a primitive checksum added
 ChangeLog: reindenting, correcting some typos.
  P.S. at last, we printed a new main board. she is to be assembled.
