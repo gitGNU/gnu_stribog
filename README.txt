@@ -88,7 +88,7 @@ Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
 $ export armprefix=$HOME/arm
                    (or where you want them to live. you must have write access
-		    thither)
+                    thither)
 $ gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
 $ mkdir bui;cd bui
 $ ../binutils-2.17/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
@@ -103,6 +103,13 @@ That's all. we don't need newlib, and stribog main board has no contacts
 to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
+
+Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
+AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
+instructions how to build this toolchain can be found in avr-libc 
+documentation. for historical reasons we use uisp to load programs into these 
+processors. maybe avrdude is much better. all these live in 
+http://savannah.gnu.org
 
 It is more difficult to install gEDA and friends. I possibly shall never 
 tell about this here.
