@@ -13,8 +13,7 @@
 #GNU General Public License for more details.
 #
 #You should have received a copy of the GNU General Public License
-#along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
 Element(0x00000000 "" "R0" "" 5575 1476 -31 -82 0 100 0x00000000)
