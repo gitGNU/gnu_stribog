@@ -12,14 +12,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"usage.h"
 #include<stdio.h>
 void usage(void)
-{printf("conloq 0?12 ("__DATE__"): talk to stribog\n\n"
+{printf("conloq 0?13 ("__DATE__"): talk to stribog\n\n"
 "This program is a part of the stribog host software section\n\n"
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -29,9 +28,8 @@ void usage(void)
 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
 "GNU General Public License for more details.\n\n"
-"You should have received a copy of the GNU General Public License\n"
-"along with this program; if not, write to the Free Software\n"
-"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA\n\n"
+"You should have received a copy of the GNU General Public License"
+"along with this program. If not, see <http://www.gnu.org/licenses/>."
 "Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>\n"
 "usage: conloq [port]\n default port on GNU is /dev/ttyS1, on Win32 -- COM1\n\n"
 "all data received are written in [0-9]*conloq.log\n"
