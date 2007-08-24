@@ -22,9 +22,7 @@ documentation=GNU General Public License for more details.
 T 155 12900 8 10 1 1 0 0 1
 documentation=You should have received a copy of the GNU General Public License
 T 155 12700 8 10 1 1 0 0 1
-documentation=along with this program; if not, write to the Free Software
-T 155 12500 8 10 1 1 0 0 1
-documentation=Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+documentation=along with this program. If not, see <http://www.gnu.org/licenses/>.
 T 155 15600 8 10 1 1 0 0 1
 description=revision date: 18II2006
 C 8900 11450 1 0 0 adxl210.sym

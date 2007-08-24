@@ -350,9 +350,8 @@ documentation=GNU General Public License for more details.
 T 7155 82900 8 10 1 1 0 0 1
 documentation=You should have received a copy of the GNU General Public License
 T 7155 82700 8 10 1 1 0 0 1
-documentation=along with this program; if not, write to the Free Software
+documentation=along with this program. If not, see <http://www.gnu.org/licenses/>.
 T 7155 82500 8 10 1 1 0 0 1
-documentation=Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 T 7155 85600 8 10 1 1 0 0 1
 description=revision date: 21IV2007
 N 22000 76600 22000 76000 4

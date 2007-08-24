@@ -12,8 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"usage.h"
@@ -30,8 +29,7 @@ void usage(void)
 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
 "GNU General Public License for more details.\n"
 "You should have received a copy of the GNU General Public License\n"
-"along with this program; if not, write to the Free Software\n"
-"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA\n"
+"along with this program. If not, see <http://www.gnu.org/licenses/>.\n"
 "Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>\n"
 "usage: elk [port [cryst. freq in kHz]]\n"
 " default port on a POSIX system is /dev/ttyS0; on Win32 is COM1\n"
