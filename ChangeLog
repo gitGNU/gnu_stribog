@@ -1,3 +1,10 @@
+21 Aug 07
+Copyright notes in files slightly changed: the FSF address has been changed
+ to URL where the GPL can be found, like in the GPL v3.
+host software:
+ (conloq): ZDA messages are not parsed any more, 25LP does not produce them.
+19 Aug 07
+experiments by the pond of Chizhique. odometer firmware to be debugged.
 16 Apr 07
 auxiliary software: magnetic sampler (coil) added; common makefile
  for AVR targets placed in avr.mk
