@@ -88,7 +88,7 @@ Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
 $ export armprefix=$HOME/arm
                    (or where you want them to live. you must have write access
-                    thither)
+		    thither)
 $ gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
 $ mkdir bui;cd bui
 $ ../binutils-2.17/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
@@ -111,8 +111,8 @@ documentation. for historical reasons we use uisp to load programs into these
 processors. maybe avrdude is much better. all these live in 
 http://savannah.gnu.org
 
-It is more difficult to install gEDA and friends. I possibly shall never 
-tell about this here.
+It is much more problematic to install gEDA and friends. you'll need them if
+you want to edit the hardware part of stribog.
 
 LICENSE AND COPYRIGHT NOTES FOLLOW
 
@@ -127,14 +127,13 @@ LICENSE AND COPYRIGHT NOTES FOLLOW
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>
+    Copyright (C) 2005, 2006, 2007 Ineiev <ineiev@yahoo.co.uk>
 
-Note: actually the next version of the GPL is to be released this summer. 
-stribog's author has strong intention to use this new version since then. 
-currently, stribog is distributed by D.Ineiev under the terms of 
+Note: the GPL v3 has been released this summer. stribog's author has strong 
+intention to switch to this new version as soon as reasonable. 
+currently, stribog is distributed by Ineiev under the terms of 
 the GNU GPL v2.
 
 It is not certain, whether a printed board contains a "derived" from
@@ -157,8 +156,7 @@ The following non-text source files possibly contain no copyright notices,
 because stribog's author decided to move those notices here for convenience, 
 namely:
 
-hw/main_board.pcb hw/main_board.bis.pcb 
-hw/stribog.sch hw/gyro.sch hw/odo.sch
+hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
 hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
 hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
 hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
@@ -168,8 +166,8 @@ hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
 hw/packages/2.5mm_10pin_header hw/packages/QFP64 hw/packages/adxl210
 hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
-hw/packages/lp2980 hw/packages/msop8
-hw/packages/pin hw/packages/tanA hw/packages/tanC hw/packages/tp
+hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
+hw/packages/tp
 
 To all these files is applied the copyright and license notice placed earlier
 in this file.
