@@ -1,4 +1,5 @@
 /*decode GARMIN GPS25 LP series NMEA messages
+ uses GPGGA, PGRMV
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,8 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<stdio.h>
@@ -57,12 +57,9 @@ static int parse_gga(const char*s,double t)
 static int parse_pgrmv(const char*s,double t)
 {printf("RMV: %.8f %s\n",t,s);if(brief)return 0;sscanf(s,"%lf,%lf,%lf",vel,vel+1,vel+2);
  t_pos=t;if(gga_outage<=0){add_point();gga_outage=1;}return 0;
-}static int parse_zda(const char*s,double t)
-{printf("ZDA: %.8f %s\n",t,s);return 0;}
-static int nmea_switch(const char*s,double t)
+}static int nmea_switch(const char*s,double t)
 {if(!field_cmp(++s,"GPGGA,"))return parse_gga(s+6,t);
  if(!field_cmp(s,"PGRMV,"))return parse_pgrmv(s+6,t);return 0;
- if(!brief)if(!field_cmp(s,"GPZDA,"))return parse_zda(s+6,t);
 }
 void exp_gps(double time,const unsigned char*s,FILE*gps)
 {int n=s[11],i;static char nmea[0x100];static int k,silent_hodo;
@@ -72,8 +69,7 @@ void exp_gps(double time,const unsigned char*s,FILE*gps)
   if(s[i]&0x80)
   {proc_hodo(s[i],silent_hodo&&brief,time);
    silent_hodo=(time-mute_time<1);if(!silent_hodo)mute_time=time;
-  }
-  else nmea[k++]=s[i];
+  }else nmea[k++]=s[i];
   if(k>=sizeof(nmea)){error("too long message");k=0;continue;}
   if(s[i]=='$')
   {if(*nmea=='$'){nmea[k-3]=0;nmea_switch(nmea,time);}k=1;*nmea='$';}
