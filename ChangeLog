@@ -1,3 +1,6 @@
+26 Aug 07
+ (auxilia/hodo): buffering procedures are corrected to work in a more decend
+  way
 21 Aug 07
 Copyright notes in files slightly changed: the FSF address has been changed
  to URL where the GPL can be found, like in the GPL v3.
