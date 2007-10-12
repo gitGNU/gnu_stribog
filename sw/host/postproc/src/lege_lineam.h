@@ -1,6 +1,7 @@
 typedef enum/*parse strings from preprocessed log files*/
 {fin_com=0,cet_com,gyro_com,vel_com,loc_com,temp_com,xpos_com,mag_com,mag_bias_com,
- mag_corr_com,acc_calib_com,gyro_calib_com
+ mag_corr_com,acc_calib_com,gyro_calib_com,hodo_calib_com,hodo_com,
+ hodo_angle_source_com
 }commentarium;
 commentarium lege_lineam(const char**s);
 /*This program is a part of the stribog host software section

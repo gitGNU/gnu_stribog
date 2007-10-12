@@ -14,6 +14,9 @@ commentarium lege_lineam(const char**t)
  if(!strcmp(s,"mag_corr"))return mag_corr_com;
  if(!strcmp(s,"acc_calib"))return acc_calib_com;
  if(!strcmp(s,"gyro_calib"))return gyro_calib_com;
+ if(!strcmp(s,"hodo_calib"))return hodo_calib_com;
+ if(!strcmp(s,"hodo_angle_source"))return hodo_angle_source_com;
+ if(!strcmp(s,"odo"))return hodo_com;
  if(!strcmp(s,"mag"))return mag_com;
  return cet_com;
 }/*This program is a part of the stribog host software section
