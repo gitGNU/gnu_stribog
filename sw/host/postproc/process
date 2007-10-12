@@ -11,6 +11,9 @@ grep "^trans_tang_error:" <data.proc|cut -d':' -f2 >tterr
 grep "^gyro_trans_tang_error:" <data.proc|cut -d':' -f2 >gterr
 grep "^gyro_pos:" <data.proc|cut -d':' -f2 >gyro_pos
 grep "^extra_gyro_pos:" <data.proc|cut -d':' -f2 >extra_gyro_pos
+grep "^hodo_trans_tang_error:" <data.proc|cut -d':' -f2 >hterr
+grep "^hodo_pos:" <data.proc|cut -d':' -f2 >hodo_pos
+grep "^extra_hodo_pos:" <data.proc|cut -d':' -f2 >extra_hodo_pos
 grep "^extra_gps:" <data.proc|cut -d':' -f2 >extra_gps
 #This program is a part of the stribog host software section
 #

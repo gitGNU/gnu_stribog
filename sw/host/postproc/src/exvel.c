@@ -4,12 +4,16 @@
 #include<math.h>
 static int interval=9;
 static double mag_angle=-10,mag_corr,mag_corr_aest,acc=0,tacc=-1,acc_meas[3],dt_acc,
- _delta,_k,pr_acc[3],pr_norm_acc,delta,k,gyro_0=1980,gyro_k=0.025,gyro_angle;
-static const int k_calib=1,delta_calib=2;static int _acc_calib,acc_calib,gyro_calib;
+ _delta,_k,pr_acc[3],pr_norm_acc,delta,k,gyro_0=1980,gyro_k=0.025,gyro_angle,
+ hodo_k=.2,dhodo,dthodo,hodo_angle=7;
+static enum{magnetic_source,gyro_source}hodo_angle_source=magnetic_source;
+static const int k_calib=1,delta_calib=2;
+static int _acc_calib,acc_calib,gyro_calib,hodo_calib;
 /*x-ortus,y-septentriones,z-vertex*/
 typedef struct{double t,x,y,z,vx,vy,vz;}positio;
 static long mag_bias[2],mag_scale[2];
-static positio pos={-1,0,0,0,0,0,0},ex={-1,0,0,0,0,0,0},gy={-1,0,0,0,0,0,0};
+static positio pos={-1,0,0,0,0,0,0},ex={-1,0,0,0,0,0,0},gy={-1,0,0,0,0,0,0},
+ hod={-1,0,0,0,0,0,0};
 static void proc_vel(const char*s)
 {positio pr=pos;double dt;static int vex=0,i;
  sscanf(s,"%lf %lf %lf %lf %lf %lf %lf",
@@ -27,6 +31,8 @@ static void proc_vel(const char*s)
    printf("v_angle: %f %f %f",pos.t,v,a);a=mag_angle-a;
    if(a>M_PI)a-=2*M_PI;if(a<-M_PI)a+=2*M_PI;printf(" %f",a);
    a=gyro_angle-_;
+   if(a>M_PI)a-=2*M_PI;if(a<-M_PI)a+=2*M_PI;printf(" %f\n",a);
+   a=hodo_angle-_;
    if(a>M_PI)a-=2*M_PI;if(a<-M_PI)a+=2*M_PI;printf(" %f\n",a);
   }
  }
@@ -81,6 +87,20 @@ static void proc_vel(const char*s)
      printf("gyro_trans_tang_error: %f %f %f\n",pos.t,ern,ert);
     }
    }gy=pos;if(fabs(pos.vy)+fabs(pos.vx)>1)gyro_angle=atan2(pos.vy,pos.vx);else gyro_angle=10;
+   hod.x+=(pos.t-hod.t)*hod.vx;hod.y+=(pos.t-hod.t)*hod.vy;hod.z+=(pos.t-hod.t)*hod.vz;
+   printf("extra_hodo_pos: %f %f %f %f %f %f %f\n",pos.t,hod.x,hod.y,hod.z,hod.vx,hod.vy,hod.vz);
+   printf("hodo_error: %f %f %f %f %f %f %f %f %f\n",pos.t,
+    hod.x-pos.x,hod.y-pos.y,hod.z-pos.z,hod.vx-pos.vx,hod.vy-pos.vy,hod.vz-pos.vz,
+    sqrt((hod.x-pos.x)*(hod.x-pos.x)+(hod.y-pos.y)*(hod.y-pos.y)+(hod.z-pos.z)*(hod.z-pos.z)),
+    sqrt((hod.vx-pos.vx)*(hod.vx-pos.vx)+(hod.vy-pos.vy)*(hod.vy-pos.vy)+
+     (hod.vz-pos.vz)*(hod.vz-pos.vz)));
+   {double v=sqrt(pos.vx*pos.vx+pos.vy*pos.vy),vx,vy,ert,ern,erx,ery;
+    if(v>0.3)
+    {vx=pos.vx/v;vy=pos.vy/v;
+     erx=hod.x-pos.x;ery=hod.y-pos.y;ern=erx*vx+ery*vy;ert=erx*vy-ery*vx;
+     printf("hodo_trans_tang_error: %f %f %f\n",pos.t,ern,ert);
+    }
+   }hod=pos;if(fabs(pos.vy)+fabs(pos.vx)>1)hodo_angle=atan2(pos.vy,pos.vx);else hodo_angle=10;
   }
  }
 }
@@ -111,6 +131,25 @@ static void proc_acc(const char*s)
   printf("gyro_pos: %f %f %f %f %f %f %f"" %f %f %f\n",gy.t,gy.x,gy.y,gy.z,gy.vx,gy.vy,gy.vz,
 		  gyro_angle,v,dv);
  }
+ if(hodo_angle_source==gyro_source)if(gyro_calib&&hod.t>0&&hodo_angle<7)
+  hodo_angle+=(w[2]-gyro_0)*gyro_k*dt;
+ if(hodo_angle_source==magnetic_source)if(hodo_calib)hodo_angle=mag_angle+mag_corr_aest;
+}
+static void proc_hodo(const char*s)
+{static unsigned long h0;unsigned long h;static int t0=-1;unsigned t;
+ static const double thscale=21735.77;static double temp0;
+ double dh=0,dt=0,temp;
+ printf("odo: %s\n",s);sscanf(s,"%lf %i %lu",&temp,&t,&h);
+ if(t0>0&&temp0!=temp)
+ {dhodo+=(dh=(h-h0)*hodo_k);if(t<t0)t+=1<<16;dthodo+=(dt=(t-t0)/thscale);}
+ else dthodo=dhodo=0;
+ t0=t;h0=h;hod.t=temp;
+ if(hodo_angle<7&&temp0!=temp)
+ {hod.x+=dh*cos(hodo_angle);hod.y+=dh*sin(hodo_angle);
+  if(dt>0){hod.vx=dh/dt*cos(hodo_angle);hod.vy=dh/dt*sin(hodo_angle);}
+  printf("hodo_pos: %f %f %f %f"" %f %f %f %f %f %f\n",hod.t,hod.x,hod.y,hod.z,
+   hod.vx,hod.vy,hod.vz,hodo_angle,dh,dt);
+ }temp0=temp;
 }
 static void proc_magb(const char*s)
 {sscanf(s,"%*f %li %li %li %li",mag_bias,mag_bias+1,mag_scale,mag_scale+1);
@@ -129,12 +168,24 @@ static void proc_accalib(const char*s)
 {printf("acc.calib: %s\n",s);sscanf(s,"%lf %lf %*f %*f",&delta,&k);acc_calib|=k_calib|delta_calib;}
 static void proc_gyrocalib(const char*s)
 {printf("gyro calib: %s\n",s);sscanf(s,"%*f %*f %*f %*f %lf %lf",&gyro_0,&gyro_k);gyro_calib=!0;}
+static void proc_hodo_calib(const char*s)
+{char src;printf("hodo calib: %s\n",s);sscanf(s,"%*f %lf %c",&hodo_k,&src);hodo_calib=!0;
+ hodo_angle_source=magnetic_source;
+}
+static void proc_hodo_angle_src(const char*s)
+{char src;printf("hodo angle source: %s\n",s);sscanf(s,"%*f %c",&src);
+ hodo_angle_source=magnetic_source;if(src=='g')hodo_angle_source=gyro_source;
+ printf("hodo.ang.src: %c\n",hodo_angle_source==gyro_source?'g':'m');
+}
 static void explica(commentarium c,const char*s)
 {switch(c)
  {case xpos_com:proc_vel(s);break;case mag_com:proc_mag(s);break;
   case mag_corr_com:proc_magc(s);break;case mag_bias_com:proc_magb(s);break;
   case acc_calib_com:proc_accalib(s);break;case gyro_calib_com:proc_gyrocalib(s);break;
-  case gyro_com:proc_acc(s);break;default:break;
+  case hodo_calib_com:proc_hodo_calib(s);break;
+  case gyro_com:proc_acc(s);break;case hodo_com:proc_hodo(s);break;
+  case hodo_angle_source_com:proc_hodo_angle_src(s);break;
+  default:break;
  }
 }
 int main(int argc,char**argv)
@@ -155,4 +206,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>*/
