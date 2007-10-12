@@ -4,11 +4,11 @@
 static int nl,j;
 void decode(const unsigned char*s)
 {unsigned cnt=s[1]|(((unsigned)s[0])<<6),
- t=(((unsigned)s[2])<<12)|(((unsigned)s[3])<<6)|s[4],_,i;static unsigned t0;
+ t=(((unsigned)s[2])<<12)|(((unsigned)s[3])<<6)|s[4],_,i;static unsigned t0,c0;
  for(_=i=0;i<6;i++)_^=s[i];
  if(_)fprintf(stderr,"%s:%i: checksums don't match\n",__FILE__,__LINE__);
- {unsigned dt=t>t0?(t-t0):(1<<16)+t-t0;t0=t;
-  printf("%4u %04u ",dt,cnt);
+ {unsigned dt=t>t0?(t-t0):(1<<16)+t-t0;t0=t;if(cnt<c0)c0=cnt;
+  printf("%4u %04u ",dt,cnt-c0);c0=cnt;
   if(!(++j%8)){putchar('\n');nl=!0;}else nl=0;
  }
 }static FILE*log;
