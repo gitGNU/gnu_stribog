@@ -1,5 +1,7 @@
 #include<avr/io.h>/*odometer firmware*/
 /*atmega8 fuses:Low = 0xef; High = 0xc9; Extended = 0xff*/
+/*with decimation constant 0x3 it reliably counts pulses wider than
+	17 us with frequencies up to 17 kHz; filters out pulses narrower than 2 us*/
 #define F_CPU   (14745600ul)
 #define BAUD    (9600)
 #define INPUT_MASK	(1<<5)
@@ -21,7 +23,7 @@ static void init(void)
  UCSRC=((1<<UCSZ1)|(1<<UCSZ0)|(1<<URSEL))/*8-bit,No parity*/;
  TCCR0=(1<<CS02)|(1<<CS00);/*clk_io/1024*/
  TCCR1B=(1<<CS12);/*clk_io/256*/
- moram_iube();pone_mittenda();
+ DDRB=1;moram_iube();pone_mittenda();
 }
 static inline void ch_adde(unsigned char c)
 {capta[caput++]=c;if(caput>=sizeof(capta))caput=0;}
@@ -36,9 +38,10 @@ static void mitte(void)
  UDR=v?ch_redde():mittenda_redde();
 }
 static void inc_cnt(void)
-{static unsigned char c1,c2;unsigned char c=PINC&INPUT_MASK;
- if(!(c1^c)&&(c2^c1))cnt++;c2=c1;c1=c;
-}int main(void){init();while(1){inc_cnt();cape();mitte();}return 0;}
+{static unsigned char c1,c2,c3;unsigned char c=PINC&INPUT_MASK;
+ PORTB=1;if(c!=c2&&c1==c&&c2==c3)cnt++;c3=c2;c2=c1;c1=c;PORTB=0;
+}
+int main(void){init();while(1){inc_cnt();cape();mitte();}return 0;}
 /*This is an auxiliary part of stribog
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
