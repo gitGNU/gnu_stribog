@@ -79,8 +79,8 @@ HOW TO INSTALL DEVELOPMENT TOOLS
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
 get binutils and gcc. generally, we use the latest releases, though there is 
 nothing dependent on any supernew features in stribog. currently we use 
-binutils-2.17 with gcc-4.1.2. we used also
-binutils-2.16.1, binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1.
+binutils-2.18 with gcc-4.2.2. we used also binutils-2.17, binutils-2.16.1, 
+binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2.
 they should work, too. once we tried binutils-2.15 and they failed; maybe,
 we had not configured them properly.
 
@@ -89,14 +89,14 @@ Follow (with some changes) instructions from http://www.gnuarm.com
 $ export armprefix=$HOME/arm
                    (or where you want them to live. you must have write access
 		    thither)
-$ gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
+$ gpg --verify binutils-2.18.tar.bz2.sig && tar xjf binutils-2.18.tar.bz2
 $ mkdir bui;cd bui
-$ ../binutils-2.17/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
+$ ../binutils-2.18/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
 $ make all install
-$ export PATH=$PATH:$armprefix/bin; rm -fr *;cd ..
+$ export PATH=$armprefix/bin:$PATH; rm -fr *;cd ..
          (add this path in your shell profile after install, too)
-$ gpg --verify gcc-4.1.2.tar.bz2.sig && tar xjf gcc-4.1.2.tar.bz2;cd bui
-$ ../gcc-4.1.2/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
+$ gpg --verify gcc-4.2.2.tar.bz2.sig && tar xjf gcc-4.2.2.tar.bz2;cd bui
+$ ../gcc-4.2.2/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
 $ make all-gcc install-gcc
 
 That's all. we don't need newlib, and stribog main board has no contacts 
@@ -170,8 +170,21 @@ hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
 hw/packages/tp
 
 To all these files is applied the copyright and license notice placed earlier
-in this file.
+in this file. hw/sym/* and hw/packages should have also additional copyrights 
+from their original and intermediate authors. it is very hard to figure out
+exact list of authors, because there is neither copyright notice in the files
+theirselves nor especially maintained lists of files with respective authors.
+all we could tell we are not original authors and the files are distributed
+under "GPL v2 or later". for using these files in your packages see discussions
+in the geda lists. stribog's authors' position is similar to the gEDA developers' 
+one, namely, "the symbols/packages contain 'derived work' therefore are to be 
+distributed under 'GPL v$(OUR_CURRENT_GPL_VERSION) or later', however 
+the schemes/boards containing those symbols contain no such work and 
+the symbols/packages empose no such restriction on them". 
 
-NB most of the gEDA symbols (in hw/sym) and PCB footprints (in hw/packages) were
-not originally developped by stribog's author: usually he just slightly 
-corrected files from gEDA and PCB libraries.
+Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
+(in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
+usually he just slightly corrected files from gEDA and PCB libraries.
+the AUTHOR DISCLAIMS his EXCLUSIVE COPYRIGHT on ALL those files. as a sequence,
+THEY CAN BE DISTRIBUTED under TERMS of 'GPL v$(OUR_CURRENT_GPL_VERSION) 
+or later' ONLY.
