@@ -1,6 +1,7 @@
 #stribog small utils: makefile
 CFLAGS=-Wall
-targets=50Hz drift fdif lpfilter stat
+LDFLAGS=-lm
+targets=50hz drift fdif lpfilter stat
 all: $(targets)
 maintainer-clean: clean
 clean:
@@ -18,4 +19,4 @@ clean:
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
+#Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>
