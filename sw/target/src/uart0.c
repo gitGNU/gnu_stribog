@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
 #include"uart0.h"
 #include"mutex.h"
 #include"../include/lpc2138.h"
@@ -26,7 +26,7 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #define DivValue	(PCLK_FREQUENCY/16/BAUD_RATE)
 #define HiDiv	(DivValue>>8)
 #define LoDiv	(DivValue&0xFF)
-static char rxbuf[0x20];static int caput,cauda;
+static char rxbuf[0x20];static int caput,cauda;int uart0_overflows;
 /*static mutex tx0_mut;static int tx0i,tx0len;
 static const char tx0buf[]={0x10,0xD,4,2,0xC,0,0,0xE1,0x10,3};
 static int fill_tx0buf(void)
@@ -34,7 +34,9 @@ static int fill_tx0buf(void)
  if(tx0i<tx0len)return 0;U0IER=UxIERrx;unlock(&tx0_mut);return!0;
 }*/
 static void proc_received(char c)
-{rxbuf[caput++]=c;if(caput==sizeof(rxbuf))caput=0;}
+{rxbuf[caput++]=c;if(caput==sizeof(rxbuf))caput=0;
+ if(caput==cauda)++uart0_overflows;
+}
 static void quaest(void)__attribute__((interrupt("IRQ")));
 static void quaest(void)
 {int iir;
@@ -46,16 +48,18 @@ static void quaest(void)
  }VICVectAddr=0;
 }
 int init_uart0(void)
-{PINSEL0=(PINSEL0&PINSEL0_TXD0MASK&PINSEL0_RXD0MASK)|PINSEL0_TXD0|PINSEL0_RXD0;
+{uart0_overflows=0;
+ PINSEL0=(PINSEL0&PINSEL0_TXD0MASK&PINSEL0_RXD0MASK)|PINSEL0_TXD0|PINSEL0_RXD0;
  VICVectAddr3=(unsigned)quaest;VICVectCntl3=VIC_CntlEnable|VIC_UART0;
  VICIntEnable=1<<VIC_UART0;U0LCR=UxDLAB;U0DLL=LoDiv;U0DLM=HiDiv;U0LCR=LCRsig;
  U0IER=UxIERrx;U0FCR=UxFCRfifoenable;return 0;
 }
 int receive0(char*d,int n)
-{static unsigned t;unsigned dt;int i,cau=cauda;for(i=0;i<n&&caput!=cau;i++)
- {*d++=rxbuf[cau++];if(cau==sizeof(rxbuf))cau=0;}dt=tempus()-t;
- if(i<n-4&&t<PCLK_FREQUENCY/BAUD_RATE/10/12)return 0;
- cauda=cau;t=tempus();return i;
+{enum{chips_per_byte=10,timeout=12};static unsigned t0;unsigned t;int i,cau;
+ for(cau=cauda,i=0;i<n&&caput!=cau;i++)
+ {*d++=rxbuf[cau++];if(cau==sizeof(rxbuf))cau=0;}t=tempus();
+ if(i<n-4&&t>t0&&t-t0<PCLK_FREQUENCY/BAUD_RATE*chips_per_byte*timeout)
+  return 0;cauda=cau;t0=t;return i;
 }
 int ask_ephm(void)
 {/*if(lock(&tx0_mut))return!0;tx0i=0;tx0len=sizeof(tx0buf);
