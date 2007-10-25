@@ -13,11 +13,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
 #include"serialia.h"
 #include<windows.h>
 static HANDLE port;
-void closeserialia(void){CloseHandle(port);}
+void closeserialia(void){CloseHandle(port);port=0;}
 int initserialia(const char*port_name,int freq)
 {DCB dcb;COMMTIMEOUTS to;if(!port_name)port_name="COM1";
  port=CreateFile(port_name,GENERIC_READ|GENERIC_WRITE,0,0,OPEN_EXISTING,
@@ -37,5 +37,7 @@ int initserialia(const char*port_name,int freq)
  to.WriteTotalTimeoutConstant=to.WriteTotalTimeoutMultiplier=0;
  SetCommTimeouts(port,&to);return 0;
 }
-int lege(void*s,int n){DWORD N;ReadFile(port,s,n,&N,0);return N;}
-int scribe(const void*s,int n){DWORD N;WriteFile(port,s,n,&N,0);return N;}
+int lege(void*s,int n)
+{DWORD N=0;if(NULL==port)return-1;ReadFile(port,s,n,&N,0);return N;}
+int scribe(const void*s,int n)
+{DWORD N=0;if(NULL==port)return-1;WriteFile(port,s,n,&N,0);return N;}
