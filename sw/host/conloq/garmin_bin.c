@@ -1,4 +1,4 @@
-/*decode GARMIN GPS25 LP series binary messages (not tested)
+/*decode GARMIN GPS25 LP series binary messages (as of Oct 2007 not supported)
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006 Ineiev<ineiev@users.sourceforge.net>*/
 #include"parse_tsip.h"
 #include<stdio.h>
 #include"exp_gps.h"
