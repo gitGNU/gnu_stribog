@@ -1,5 +1,4 @@
-/*caed: split stribog data flow*/
-#include"parse_tsip.h"
+#include"parse_tsip.h"/*caed: split stribog data flow*/
 #include<stdint.h>
 #include"crc32.h"
 #include"error.h"
@@ -14,7 +13,9 @@ static double mcu_time(uint32_t t)
 }static uint32_t get_u(const unsigned char*s)
 {return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
 static void exp_adc(const unsigned char*s)
-{static int period;mcu_time(get_u(s));if(!(period++&0xFF))printf("%.8f\n",mcu_stamp());}
+{static int period;mcu_time(get_u(s));
+ if(!(period++&0xFF))printf("%.8f\n",mcu_stamp());
+}
 static void expone(const unsigned char*s,int size)
 {uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
@@ -23,17 +24,19 @@ static void expone(const unsigned char*s,int size)
  }switch(size){case 24:exp_adc(s);break;}
 }
 int main(int argc,char**argv)
-{tsip_buf*tb=new_tsip();int size,c,i=0;const unsigned char*_;FILE*f,*log;double t=0;
- char file_name[289];
+{tsip_buf*tb=new_tsip();int size,c,i=0;const unsigned char*_;
+ FILE*f,*log;double t=0;char file_name[289];
  if(argc<2){error("no file specified\n");return 1;}scanf("%lg",&t);
- sprintf(file_name,"%s.%3.3i",argv[1],i++);log=fopen(file_name,"wb");
+ snprintf(file_name,sizeof filename,"%s.%3.3i",argv[1],i++);
+ log=fopen(file_name,"wb");
  if(!(f=fopen(argv[1],"rb"))){printf("can't open \"%s\"\n",argv[1]);return 2;}
  while(!feof(f))
  {if((_=parse_tsip(tb,c=getc(f),&size)))
   {expone(_,size);
    if(!feof(stdin))if(mcu_stamp()>t)
-   {if(log)fclose(log);sprintf(file_name,"%s.%3.3i",argv[1],i++);log=fopen(file_name,"wb");
-    scanf("%lg",&t);
+   {if(log)fclose(log);
+    snprintf(file_name,sizeof filename,"%s.%3.3i",argv[1],i++);
+    log=fopen(file_name,"wb");scanf("%lg",&t);
    }
   }if(log)putc(c,log);
  }if(log)fclose(log);fclose(f);free_tsip(tb);return 0;
