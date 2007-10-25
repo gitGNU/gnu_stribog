@@ -14,5 +14,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-int init_uart0(void);int receive0(char*d,int n);int ask_ephm(void);
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
+int init_uart0(void);int receive0(char*d,int n);
+int ask_ephm(void);extern int uart0_overflows;
