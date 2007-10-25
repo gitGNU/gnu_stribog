@@ -14,8 +14,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2005 D.Ineiev <ineiev@yahoo.co.uk>, super V 93*/
+Copyright (C) 2005, 2007 Ineiev <ineiev@sourceforge.net>, super V 93*/
 typedef struct tsip_buf tsip_buf;
+void enable_escapes(int);/*enables tsip with first-byte escapes*/
 const unsigned char*parse_tsip(tsip_buf*,unsigned char c,int*size);
 tsip_buf*new_tsip(void);void free_tsip(tsip_buf*);void reset_tsip(tsip_buf*);
 #define error_length(m,n,N) error("wrong message 0x%2.2X length: %i for %i\n",m,n,N)
