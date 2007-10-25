@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
 #include"uart1.h"
 #include"uart0.h"
 #include"led.h"
@@ -25,21 +25,25 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"adc.h"
 #include"accel.h"
 #include"mag.h"
-#define FIX_LENGTH	(5)
-#define GPS_DATA_LENGTH	(3)
-#define TEMP_LENGTH	(2)
-#define PPS_LENGTH	(1)
+typedef enum
+ {pps_length=1,temp_length=2,gps_data_length=3,fix_length=5}message_lengths;
 static unsigned adxrs_temp[3],_2048;
 static void send_pps(void)
 {static int pps_got;static unsigned pps,k;const unsigned*_;
  if((_=get_pps())){pps=*_;pps_got=!0;k++;}
- if(pps_got)pps_got=send_fix(&pps,PPS_LENGTH);
+ if(pps_got)pps_got=send_fix(&pps,pps_length);
 }
 static void check_gps_data(void)
-{static unsigned _[GPS_DATA_LENGTH];char*s=(char*)_;
- static int data_got;if(data_got){data_got=send_fix(_,GPS_DATA_LENGTH);return;}
- if(!(data_got=receive0(s,sizeof(_)-1)))return;s[sizeof(_)-1]=data_got;
- data_got=send_fix(_,GPS_DATA_LENGTH);
+{static unsigned _[gps_data_length];char*s=(char*)_;static int data_gotten;
+ if(data_gotten){data_gotten=send_fix(_,gps_data_length);return;}
+ if(!(data_gotten=receive0(s,sizeof(_)-1)))return;s[sizeof(_)-1]=data_gotten;
+ {int remainder=data_gotten-1-sizeof _;
+  if(remainder>0)
+  {char*rem;const char*ov=(const char*)&uart0_overflows;int i;
+   if(remainder>sizeof uart0_overflows)remainder=sizeof uart0_overflows;
+   rem=s+(sizeof _)-1;for(i=0;i<remainder;i++)*--rem=*ov++;
+  }
+ }data_gotten=send_fix(_,gps_data_length);
 }
 static void correct_adc(unsigned w[3],unsigned t[3],unsigned _2048)
 {static unsigned _8192,_,n,v,k;int i,d;static const int a0=641;
@@ -74,9 +78,9 @@ static void process_accel(unsigned*out)
 static void process_accel(unsigned*out)
 {int j;const unsigned*a;if(!(a=get_accel()))return;for(j=0;j<3;j++)out[j]=a[j];}
 static int send_msmt(void)
-{static unsigned f[FIX_LENGTH],a[3];const int*mag;unsigned*s=f,w[3];int t;
+{static unsigned f[fix_length],a[3];const int*mag;unsigned*s=f,w[3];int t;
  const unsigned*adc;static int i,pending;static int b[3];
- if(pending){pending=send_fix(f,FIX_LENGTH);/*if(!pending){led1_set();led1_clr();}*/}
+ if(pending){pending=send_fix(f,fix_length);/*if(!pending){led1_set();led1_clr();}*/}
  if(!(adc=get_adc()))return 0;_2048=adc[ADC_2048];
  adxrs_temp[0]=adc[ADC_TX];adxrs_temp[1]=adc[ADC_TY];adxrs_temp[2]=adc[ADC_TZ];
  if((mag=process_mag(adc))){if(i++&3)return 0;}else return 0;
@@ -87,14 +91,14 @@ static int send_msmt(void)
  *s++=(b[2]&0xFFF)|((a[0]&0x3FFF)<<12)|((t&0x1F00)<<(26-8));
  *s++=(a[1]&0x3FFF)|((a[2]&0x3FFF)<<14);
  *s=(w[0]&0x3FF)|((w[1]&0x3FF)<<10)|((w[2]&0x3FF)<<20);
- pending=send_fix(f,FIX_LENGTH);/*if(!pending){led1_set();led1_clr();}//ne micet*/
+ pending=send_fix(f,fix_length);/*if(!pending){led1_set();led1_clr();}//ne micet*/
  return!0;
 }
 static void send_temp(int ms)
 {static unsigned t[2],i;unsigned*s=t;static const unsigned N=100;
  if(ms)i++;if(i<N)return;*s++=_2048;
  *s=adxrs_temp[0]|(adxrs_temp[1]<<10)|(adxrs_temp[2]<<20);
- if(!send_fix(t,TEMP_LENGTH))i=0;
+ if(!send_fix(t,temp_length))i=0;
 }
 int main(void)
 {int j=0,ms;start_pll();init_power();init_led();init_lm74();init_accel();//led1_clr();
