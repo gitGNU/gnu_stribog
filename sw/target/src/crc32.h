@@ -15,5 +15,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-unsigned form_crc(const unsigned*msg,unsigned n);
+Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>*/
+typedef const unsigned*crc32_input_array_type;
+unsigned long form_crc(crc32_input_array_type msg,unsigned n);

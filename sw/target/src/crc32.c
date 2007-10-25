@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-unsigned form_crc(const unsigned*msg,unsigned n)
+unsigned long form_crc(const unsigned*msg,unsigned n)
 /*NB this works on 32-bit little-endian architectures only*/
 {unsigned crc=~0,j,k;const unsigned poly=0xEDB88320;
  while(n--)
