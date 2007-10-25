@@ -1,9 +1,12 @@
 #sample calibration file (this is not a source file)
 #
-#02xii6
-#t=0 dx=(635+65)/2 dy=(285-315)/2 xsemiax ysemiax
-mag_bias: 0 350 -15 285 300
+#13x7
+#t=0 dx=(340-280)/2 dy=(430-180)/2 xsemiax ysemiax
+mag_bias: 0 30 125 310 305
 #t=0 da=0
 mag_corr: 0 0
-acc_calib: 8230 0.0096925 7779 0.025 840 0.025 #delta k
-gyro_calib: 1823 0.025 1890 0.025 395.5 -0.025
+acc_calib: 8246 0.025 7782 0.0 9092 0.025 #delta k
+gyro_calib: 1823 0.025 1890 0.025 395 -0.026
+#t=0 odometer resolution in meters
+hodo_calib: 0 0.08068
+hodo_angle_source: 0 gyro
