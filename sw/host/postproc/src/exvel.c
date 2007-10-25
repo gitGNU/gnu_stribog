@@ -2,7 +2,7 @@
 #include"error.h"
 #include<stdio.h>
 #include<math.h>
-static int interval=9;
+static int interval=9,nxvel;
 static double mag_angle=-10,mag_corr,mag_corr_aest,acc=0,tacc=-1,acc_meas[3],dt_acc,
  _delta,_k,pr_acc[3],pr_norm_acc,delta,k,gyro_0=1980,gyro_k=0.025,gyro_angle,
  hodo_k=.2,dhodo,dthodo,hodo_angle=7;
@@ -59,7 +59,7 @@ static void proc_vel(const char*s)
  }acc=0;vex=!0;
  {static int n;
   if(n++>=interval)
-  {n=0;ex.x+=(pos.t-ex.t)*ex.vx;ex.y+=(pos.t-ex.t)*ex.vy;ex.z+=(pos.t-ex.t)*ex.vz;
+  {if(nxvel<100)nxvel++;n=0;ex.x+=(pos.t-ex.t)*ex.vx;ex.y+=(pos.t-ex.t)*ex.vy;ex.z+=(pos.t-ex.t)*ex.vz;
    printf("extra_pos: %f %f %f %f %f %f %f\n",pos.t,ex.x,ex.y,ex.z,ex.vx,ex.vy,ex.vz);
    printf("extra_error: %f %f %f %f %f %f %f %f %f\n",pos.t,
     ex.x-pos.x,ex.y-pos.y,ex.z-pos.z,ex.vx-pos.vx,ex.vy-pos.vy,ex.vz-pos.vz,
@@ -67,7 +67,7 @@ static void proc_vel(const char*s)
     sqrt((ex.vx-pos.vx)*(ex.vx-pos.vx)+(ex.vy-pos.vy)*(ex.vy-pos.vy)+
      (ex.vz-pos.vz)*(ex.vz-pos.vz)));
    {double v=sqrt(pos.vx*pos.vx+pos.vy*pos.vy),vx,vy,ert,ern,erx,ery;
-    if(v>0.3)
+    if(v>0.3&&nxvel>1)
     {vx=pos.vx/v;vy=pos.vy/v;
      erx=ex.x-pos.x;ery=ex.y-pos.y;ern=erx*vx+ery*vy;ert=erx*vy-ery*vx;
      printf("trans_tang_error: %f %f %f\n",pos.t,ern,ert);
@@ -81,7 +81,7 @@ static void proc_vel(const char*s)
     sqrt((gy.vx-pos.vx)*(gy.vx-pos.vx)+(gy.vy-pos.vy)*(gy.vy-pos.vy)+
      (gy.vz-pos.vz)*(gy.vz-pos.vz)));
    {double v=sqrt(pos.vx*pos.vx+pos.vy*pos.vy),vx,vy,ert,ern,erx,ery;
-    if(v>0.3)
+    if(v>0.3&&nxvel>1)
     {vx=pos.vx/v;vy=pos.vy/v;
      erx=gy.x-pos.x;ery=gy.y-pos.y;ern=erx*vx+ery*vy;ert=erx*vy-ery*vx;
      printf("gyro_trans_tang_error: %f %f %f\n",pos.t,ern,ert);
@@ -95,7 +95,7 @@ static void proc_vel(const char*s)
     sqrt((hod.vx-pos.vx)*(hod.vx-pos.vx)+(hod.vy-pos.vy)*(hod.vy-pos.vy)+
      (hod.vz-pos.vz)*(hod.vz-pos.vz)));
    {double v=sqrt(pos.vx*pos.vx+pos.vy*pos.vy),vx,vy,ert,ern,erx,ery;
-    if(v>0.3)
+    if(v>0.3&&nxvel>1)
     {vx=pos.vx/v;vy=pos.vy/v;
      erx=hod.x-pos.x;ery=hod.y-pos.y;ern=erx*vx+ery*vy;ert=erx*vy-ery*vx;
      printf("hodo_trans_tang_error: %f %f %f\n",pos.t,ern,ert);
