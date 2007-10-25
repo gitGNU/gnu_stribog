@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
 #include"serialia.h"
 #include"parse_tsip.h"
 #include"exp.h"
@@ -23,8 +23,10 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include<stdio.h>
 static FILE*next_file(void)
 {char s[289];int i=0;FILE*f;
- do{sprintf(s,"%imagex-conloq.log",i++);f=fopen(s,"rt");if(f)fclose(f);}
- while(f);return fopen(s,"wb");
+ do
+ {snprintf(s,sizeof s,"%imagex-conloq.log",i++);
+  f=fopen(s,"rt");if(f)fclose(f);
+ }while(f);return fopen(s,"wb");
 }
 int main(int argc,char**argv)
 {tsip_buf*tb=new_tsip();int size,i=0,n,j;const unsigned char*_;
