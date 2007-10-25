@@ -14,6 +14,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
-void exp_gps(double time,const unsigned char*s,FILE*gps);
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
+int exp_gps(double time,const unsigned char*s,FILE*gps);
 int init_gps(int expone);void close_gps(void);
