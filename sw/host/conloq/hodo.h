@@ -14,5 +14,5 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2007 D.Ineiev <ineiev@yahoo.co.uk>*/
-void proc_hodo(unsigned char c,int silent,double t);
+Copyright (C) 2007 Ineiev<ineiev@users.sourceforge.net>*/
+int proc_hodo(unsigned char c,int silent,double t);
