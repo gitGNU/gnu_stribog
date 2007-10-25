@@ -1,12 +1,62 @@
-12 Oct 07
- (README.txt): symbols and footprints copyright notes clarified; new versions
- of the GNU tools mentioned.
-26 Aug 07
- (auxilia/hodo): buffering procedures are corrected to work in a more decend
-  way
+24 Oct 07
+ (conloq, elk): tested under other systems. 
+  the Hurd: the programmes work very instably, especially elk. 
+   it seems like the Hurd uart demon doesn't support timeouts.
+  OpenBSD 3.9: just fine; the compiler suggested using snprintf()
+   instead of sprintf(); the sources were revised accordingly
+23 Oct 07
+ (conloq): serial port set up with timeouts not to drain the
+  processor's cycles
+ (conloq): signals are handled to terminate neatly
+...
+ (host/utils/stat.c): minimum and maximum added; statistics are
+  calculated relatively to the first value in sequence, this
+  should save precision when the deviations are much less than
+  the mean values.
+ (host/utils/Makefile): LD variable defined properly
+ (target): 
+  (multa.c, uart0.c):uart0 (through which the GPS messages come) 
+  overflows are written to the tail of the messages retransferred 
+  by LPC213x containing the external sensor data.
+
+  crc header and form_fix() function are rearranged to enable
+  host-side tests.
+  (multa.c): message length constants are redefined with enum{}
+  (uart1.c): frequency definition from freq.h used; 
+   message-forming stuff moved to form_fix.h
+ (postproc): the first extrapolated point is not compared 
+  with GPS data; it can be unreasonable when we cut off 
+  begin of conloq/bin/expon output.
+
+ (expon): the parsing routines adjust the odometer timestamps and
+  the UTC from GPS receiver messages to the LPC213x time. 
+  odd PPS (due to sort of jam) are filtered out.
+ (conloq/): more data-stream diagnostics;
+  messages-decoding functions rewritten to enable messages
+  beginning theirs body with DLE and ETX. parse_tsipex added to
+  test this. there are two options: stick to the previous message,
+  which is not very error-proof, and add to the messages beginning
+  with DLE or ETX or EsC an extra EsC character. in the latter case
+  we assign EsC=0x17 because analysis of our data shows this character
+  to be one of the most rarely occuring at the very beginnings.
+
+  However, the former option is reliable enough and the latter breaks
+  compatibility, this is why the default one is the former.
+...
+13 Oct 07 
+ new experiment, with odometer enabled.
+...
+ (auxilia/odo): programme loop indicated with PORTB&1; 
+  notes on performance placed in hodo.c;
+  in host/hodo difference between consequent pulse counts rather than pulse
+  counts output - this is convenient for test when the input frequency
+  is constant
+...
 21 Aug 07
+README.txt: intention to switch to the GPL v3 eventually is confirmed.
 Copyright notes in files slightly changed: the FSF address has been changed
- to URL where the GPL can be found, like in the GPL v3.
+ to URL where the GPL can be found, like in the GPL v3. as this changes has
+ been made automatically, the copyright dates are not updated.
 host software:
  (conloq): ZDA messages are not parsed any more, 25LP does not produce them.
 19 Aug 07
