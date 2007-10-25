@@ -1,6 +1,7 @@
 /*preprocess GPS data messages*/
-typedef struct{double lat,lon,alt,east_vel,north_vel,up_vel,utc;}gps_point;
+typedef struct{double lat,lon,alt,east_vel,north_vel,up_vel,t_mcu,utc;}gps_point;
 void add_gps_point(const gps_point*);
+double correct_utc_second(double utc,double t_mcu);
 /*This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -16,4 +17,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
