@@ -14,12 +14,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>*/
 #include"parse_tsip.h"
 #include"exp.h"
+#include"error.h"
 #include<stdio.h>
-int main(void)
-{tsip_buf*tb=new_tsip();int size;const unsigned char*_;init_exp(!0,1);
- while(!feof(stdin)){if((_=parse_tsip(tb,getchar(),&size)))expone(_,size);}
- close_exp();free_tsip(tb);return 0;
+int main(int argc,char**argv)
+{tsip_buf*tb;int size,period=1;const unsigned char*_;unsigned long long n=0;
+ if(argc>1)sscanf(argv[1],"%i",&period);init_exp(!0,period);
+ if(argc>3)enable_escapes(!0);tb=new_tsip();
+ while(!feof(stdin))
+ {if((_=parse_tsip(tb,getchar(),&size)))if(expone(_,size))
+   error("(error at %llu)\n",n);n++;
+ }close_exp();free_tsip(tb);return 0;
 }
