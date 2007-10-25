@@ -23,12 +23,12 @@ static void init_lla0(void)
 static void print_xyz(void)
 {double dx[3],ecf[3];int i;lla2xyz(ecf,lla);
  for(i=0;i<3;i++)dx[i]=ecf[i]-ecf0[i];rotate(xyz,dx);
- printf("lxyz: %.2f %.5f %.5f %.5f %.5f\n",t,*xyz,xyz[1],xyz[2],dt);
+ printf("lxyz: %.8f %.5f %.5f %.5f %.5f\n",t,*xyz,xyz[1],xyz[2],dt);
 }
 void add_gps_point(const gps_point*p)
 {*lla=p->lat;lla[1]=p->lon;lla[2]=p->alt;if(*lla0<-9)init_lla0();
- t=p->utc;/*FIXME*/print_xyz();
- printf("xvel: %.2f %.5f %.5f %.5f %.5f %.5f %.5f\n",
+ t=correct_utc_second(p->utc,p->t_mcu);/*FIXME*/print_xyz();
+ printf("xvel: %.8f %.5f %.5f %.5f %.5f %.5f %.5f\n",
    t,*xyz,xyz[1],xyz[2],p->east_vel,p->north_vel,p->up_vel);
 }/*This program is a part of the stribog host software section
 
@@ -45,4 +45,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2005, 2006, 2007 Ineiev <ineiev@users.sourceforge.net>*/
