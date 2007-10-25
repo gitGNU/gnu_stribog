@@ -14,18 +14,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
 #include"uart1.h"
 #include"mutex.h"
 #include"crc32.h"
+#include"form_fix.h"
 #include"../include/lpc2138.h"
+#include"freq.h"
 #define LCRsig	Ux8bit|Ux1stop
 #define HiDiv	(0)/*we use a high baud rate*/
-#define LoDiv	(14745600/16/115200)/*115200 when freq=14745600*/
-#define dle	((char)0x10)
-#define etx	((char)0x03)
-static mutex tx_mut;static char txbuf[0x100];
-static int received,txi,txlen;
+#define LoDiv	(PCLK_FREQUENCY/16/115200)
+static mutex tx_mut;static char txbuf[0x80];static int received,txi,txlen;
 static int fill_txbuf(void)
 {while((txi<txlen)&&(U1LSR&UxLSR_THRE))U1THR=txbuf[txi++];
  if(txi<txlen)return 0;U1IER=UxIERrx;unlock(&tx_mut);return!0;
@@ -49,14 +48,6 @@ int init_uart1(void)
  U1IER=UxIERrx;U1FCR=UxFCRfifoenable;return 0;
 }
 int send_fix(const unsigned*d,int n)
-{int i,j;unsigned crc;char*s=(char*)d;if(lock(&tx_mut))return!0;
- crc=form_crc(d,n);j=0;txbuf[j++]=dle;n<<=2;
- for(i=0;i<n;i++,j++)
- {if(s[i]==dle)txbuf[j++]=dle;txbuf[j]=s[i];}
- if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
- if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
- if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
- if((crc&0xFF)==dle)txbuf[j++]=dle;txbuf[j++]=crc&0xFF;crc>>=8;
- txbuf[j++]=dle;txbuf[j++]=etx;txi=0;txlen=j;
+{if(lock(&tx_mut))return!0;form_fix(d,n,txbuf,&txlen);txi=0;
  fill_txbuf();U1IER=UxIERrx|UxIERtx;return 0;
 }
