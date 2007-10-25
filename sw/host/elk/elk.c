@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
 #include<stdlib.h>
 #include<stdio.h>
 #include"serialia.h"
@@ -26,7 +26,11 @@ int init(const char*s,int f)
 {int err=0;printf("setting up port \"%s\"...",s);
  if(initserialia(s,f)){err=-1;printf(" failed\n");}
  else printf("port setup ok\n");return err;
-}
+}/*NB (24 Oct 2007) it is not good, but the serial port is setup 
+ without timeouts, so the programme swallows CPU cycles, 
+ therefore clock() difference will show something not too far 
+ from real time. if we setup the timeouts like in ../conloq, 
+ this programme doesn't work under the GNU/Hurd/Mach at all*/
 static int wait_for_chars(char*s,int N,int timeout)
 {clock_t t;int i=0,n;char*_=s;t=clock();
  do{n=lege(_,N-i);if(n>0){i+=n;_+=n;}}
@@ -59,8 +63,7 @@ int test_code(const char*s)
 }
 int echo_off(void)
 {char s[289];const char k[]="A 0\r\n";int n;
- printf("sent %s",k);scribe(k,strlen(k));
- n=wait_for_chars(s,3,1);s[n]=0;
+ printf("sent %s",k);scribe(k,strlen(k));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 void read_partid(void)
@@ -76,10 +79,21 @@ void read_partid(void)
 }
 int unlock(void)
 {char s[289];const char k[]="U 23130\r\n";int n;
- printf("sent %s",k);scribe(k,strlen(k));
- n=wait_for_chars(s,3,1);s[n]=0;
+ printf("sent %s",k);scribe(k,strlen(k));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
+static int output_snprintf_error(const char*file,int line,int result,int size)
+{if(result<=0||result>=size)
+ {fprintf(stderr,"%s:%i: snprintf() failed: %s\n",file,line,
+   result>0?"too short buffer":"output error");return!0;
+ }return 0;
+}
+#define snprintf_semel(s,size,fmt,x) if(output_snprintf_error(\
+  __FILE__,__LINE__,snprintf(s,size,fmt,x),size))return!0
+#define snprintf_bis(s,size,fmt,x,y) if(output_snprintf_error(\
+  __FILE__,__LINE__,snprintf(s,size,fmt,x,y),size))return!0
+#define snprintf_ter(s,size,fmt,x,y,z) if(output_snprintf_error(\
+  __FILE__,__LINE__,snprintf(s,size,fmt,x,y,z),size))return!0
 static int synchronize(int f)
 {const char query[]="?",sy[]="Synchronized\r\n",
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
@@ -89,12 +103,11 @@ static int synchronize(int f)
   if(n>0){s[n]=0;printf("received %i bytes: %s",n,s);}
  }while(strcmp(sy,s));
  scribe(sy,sizeof(sy)-1);printf("Synchronized sent; ");
- n=wait_for_chars(s,18,1);s[n]=0;
- printf("received %i bytes: %s",n,s);
- if(strcmp(ok,s))return!0;sprintf(s,"%i\r\n",f);
+ n=wait_for_chars(s,18,1);s[n]=0;printf("received %i bytes: %s",n,s);
+ if(strcmp(ok,s))return!0;snprintf_semel(s,sizeof s,"%i\r\n",f);
  printf("sent %i; ",f);scribe(s,strlen(s));i=strlen(s)+4;
- n=wait_for_chars(s,i,2);s[n]=0;
- printf("received %i bytes: %s",n,s);sprintf(s0,"%i\r\nOK\r\n",f);
+ n=wait_for_chars(s,i,2);s[n]=0;printf("received %i bytes: %s",n,s);
+ snprintf_semel(s0,sizeof s0,"%i\r\nOK\r\n",f);
  if(!(vex=strcmp(s0,s)))echo_off();unlock();read_partid();return vex;
 }
 void read_version(void)
@@ -103,16 +116,14 @@ void read_version(void)
  printf("received %i bytes: %s",n,s);test_code(s);
 }
 int prepare_sectors(unsigned start,unsigned end)
-{char s[289];int n,k;sprintf(s,"P %u %u\r\n",start,end);k=strlen(s);
- printf("sent %s",s);scribe(s,strlen(s));
- n=wait_for_chars(s,3,1);s[n]=0;
+{char s[289];int n;snprintf_bis(s,sizeof s,"P %u %u\r\n",start,end);
+ printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 int erase_sectors(unsigned start,unsigned end)
-{char s[289];int n,k;if(prepare_sectors(start,end))return-1;
- sprintf(s,"E %u %u\r\n",start,end);k=strlen(s);
- printf("sent %s",s);scribe(s,strlen(s));
- n=wait_for_chars(s,3,1);s[n]=0;
+{char s[289];int n;if(prepare_sectors(start,end))return-1;
+ snprintf_bis(s,sizeof s,"E %u %u\r\n",start,end);
+ printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 void erase(void)
@@ -148,8 +159,8 @@ int decode_string(char*s,int*k,int*checksum,FILE*f)
  }*checksum+=cs;*k+=num_chars;return 0;
 }static const char OK[]="OK\r\n",RESEND[]="RESEND\r\n";
 int read_memory(unsigned long addr,unsigned l,FILE*f)
-{char s[289];int n,k,vex=0,r=0,cs=0;l-=l%4;
- sprintf(s,"R %lu %u\r\n",addr,l);k=strlen(s);
+{char s[289];int n,vex=0,r=0,cs=0;l-=l%4;
+ snprintf_bis(s,sizeof s,"R %lu %u\r\n",addr,l);
  printf("sent %s",s);scribe(s,strlen(s));
  if(receive_test_code(s))return!0;
  do{if(receive_uuenc_string(s,1))break;vex|=decode_string(s,&r,&cs,f);}
@@ -166,17 +177,17 @@ int read_mem(void)
 int write_string(const char*s,unsigned long addr,int n)
 {int i,j;char t[289];unsigned long cs;
  do
- {sprintf(t,"W %lu %i\r\n",addr,n);scribe(t,strlen(t));
+ {snprintf_bis(t,sizeof t,"W %lu %i\r\n",addr,n);scribe(t,strlen(t));
   i=wait_for_chars(t,3,1);t[i]=0;if(!mute)printf("received %i: %s",i,t);
   if(test_code(t))return!0;
   while(1)
-  {sprintf(t,"%c",n+0x20);j=strlen(t);
+  {snprintf_semel(t,sizeof t,"%c",n+0x20);j=strlen(t);
    for(i=cs=0;i<n;i+=3)
    {cs+=(s[i]&0xFF)+(s[i+1]&0xFF)+(s[i+2]&0xFF);t[j++]=0x20+((s[i]>>2)&0x3F);
     t[j++]=0x20+(((s[i]<<4)&0x30)|((s[i+1]>>4)&0xF));
     t[j++]=0x20+(((s[i+1]<<2)&0x3C)|((s[i+2]>>6)&0x3));
     t[j++]=0x20+(s[i+2]&0x3F);
-   }sprintf(t+j,"\r\n%lu\r\n",cs);scribe(t,strlen(t));
+   }snprintf_semel(t+j,-j-1+sizeof t,"\r\n%lu\r\n",cs);scribe(t,strlen(t));
    i=wait_for_chars(t,4,1);t[i]=0;if(!mute)printf("received %i: %s",i,t);
    if(!strcmp(t,OK))break;if(mute)printf("received %i: %s",i,t);
    i=strlen(t);i+=wait_for_chars(t+i,sizeof(t)-i,1);t[i]=0;
@@ -187,11 +198,11 @@ int write_string(const char*s,unsigned long addr,int n)
 static const unsigned long ram=0x40000400,block=4096,step=36;
 int copy_memory(unsigned long addr)
 {char s[289];int k,n;unsigned long bs,ra;if(prepare_sectors(0,8))return-1;
- sprintf(s,"C %lu %lu %lu\r\n",addr,ram,block);k=strlen(s);
+ snprintf_ter(s,sizeof s,"C %lu %lu %lu\r\n",addr,ram,block);k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);if(test_code(s))return test_code(s);
  ra=ram;bs=block;if(addr<64){ra+=64-addr;addr=64;bs-=64;}
- sprintf(s,"M %lu %lu %lu\r\n",addr,ra,bs);k=strlen(s);
+ snprintf_ter(s,sizeof s,"M %lu %lu %lu\r\n",addr,ra,bs);k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }int write_file(void)
@@ -207,7 +218,7 @@ int copy_memory(unsigned long addr)
  }fclose(f);return 0;
 }
 static int run(unsigned long addr)
-{char s[289];int n,r;sprintf(s,"G %lu A\r\n",addr);
+{char s[289];int n,r;snprintf_semel(s,sizeof s,"G %lu A\r\n",addr);
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);r=test_code(s);
  n=wait_for_chars(s,sizeof(s),1);s[n]=0;printf("received %i bytes: %s",n,s);
@@ -235,7 +246,8 @@ void program_ram(int f)
  echo_off();read_partid();unlock();load_and_go();
 }
 int main(int argc,char**argv)
-{char c=!0;int err,f=14746;if(argc>2){sscanf(argv[2],"%i",&err);if((c=err>10))f=err;}
+{char c=!0;int err,f=14746;
+ if(argc>2){sscanf(argv[2],"%i",&err);if((c=err>10))f=err;}
  usage();printf("crystal frequency assumed %i kHz\n",f);
  if((err=init(argc<2?0:argv[1],f)))return err;
  if(!c){program_ram(f);closeall();return 0;}echo_off();read_partid();
@@ -251,6 +263,5 @@ int main(int argc,char**argv)
    case'a':echo_off();break;case'c':copy_mem();break;
    case'b':write_file();break;case'l':load_and_go();break;
   } 
- }while(c!='q');
- closeall();return err;
+ }while(c!='q');closeall();return err;
 }
