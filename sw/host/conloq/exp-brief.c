@@ -23,8 +23,8 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"exp_gps.h"
 #include"preproc_gps.h"
 void add_gps_point(const gps_point*p){}
-static double freq=14745600.+8550;static unsigned leaps;static int period=1;
-static unsigned long long time_stamp;
+static double freq=14745600.+8550;static unsigned leaps;
+static int period=1;static unsigned long long time_stamp;
 static double mcu_stamp(void){return time_stamp/freq;}
 static double mcu_time(uint32_t t)
 {static int cycled=!0;if(t<(1<<30)&&!cycled){leaps++;cycled=1;}
@@ -42,7 +42,7 @@ static void exp_temp(const unsigned char*s)
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
  printf("temp: %.8f %u %u %u %u\n",mcu_stamp(),
   temp[0]=t[0],temp[1]=t[1],temp[2]=t[2],temp[3]=_2048);
-}
+}double correct_second(double utc,double t_mcu){return t_mcu;}
 static void exp_pps(const unsigned char*s)
 {static unsigned t0,loops,v;double d;unsigned t=get_u(s),dt,l=0;
  if(t0>t){l=1;loops++;}dt=((double)(t-t0)+.5*freq)/freq;
@@ -72,15 +72,15 @@ static void exp_adc(const unsigned char*s)
  if(period<=1)for(j=0;j<4;j++)printf(" %u",temp[j]);putchar('\n');
  for(j=0;j<3;j++)a_[j]=b_[j]=w_[j]=0;T_=0;mcu_t=0;
 }
-void expone(const unsigned char*s,int size)
+int expone(const unsigned char*s,int size)
 {uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
-  (unsigned long)crc,(unsigned long)cr,size);return;
+  (unsigned long)crc,(unsigned long)cr,size);return 0;
  }
  switch(size)
  {case 8:exp_pps(s);break;case 12:exp_temp(s);break;
   case 16:exp_gps(mcu_stamp(),s,0);break;case 24:exp_adc(s);break;
   default:error("wrong size (%i for 24 or 16 or 12 or 8)\n",size);
- }
+ }return 0;
 }
