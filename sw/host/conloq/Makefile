@@ -13,13 +13,14 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>
+#Copyright (C) 2005, 2006, 2007 Ineiev<ineiev@users.sourceforge.net>
 CC=gcc
 LD=gcc
 LDFLAGS=-lm
 CFLAGS=-Wall
 .PHONY: all clean maintainer-clean
-all:bin/caed bin/conloq bin/elig bin/expon bin/magex-conloq bin/magexp
+all:bin/caed bin/conloq bin/elig bin/expon bin/magex-conloq bin/magexp\
+ bin/parse_tsipex
 clean:
 	rm -f *.o
 maintainer-clean: clean
@@ -34,7 +35,7 @@ bin/expon:crc32.o error.o exp.o garmin_nmea.o hodo.o lla.o\
  parse_tsip.o preproc_gps.o
 bin/magex-conloq:serialia.o error.o parse_tsip.o magexp.o
 bin/magexp:expon.o parse_tsip.o error.o magexp.o
-	$(LD) $(LDFLAGS) $^ -o $@
+bin/parse_tsipex:crc32.o error.o parse_tsip.o
 caed.o:crc32.h error.h parse_tsip.h
 conloq.o:error.h exp.h parse_tsip.h serialia.h usage.h
 magex-conloq.o:error.h exp.h parse_tsip.h serialia.h
@@ -42,7 +43,6 @@ elig.o:error.h parse_tsip.h
 exp.o:error.h exp.h exp_gps.h
 exp-brief.o:error.h exp.h exp_gps.h
 expon.o:exp.h parse_tsip.h
-garmin_bin.o:exp_gps.h parse_tsip.h
 garmin_nmea.o:error.h exp_gps.h preproc_gps.h hodo.h
 hodo.o:hodo.h
 lla.o:lla.h
