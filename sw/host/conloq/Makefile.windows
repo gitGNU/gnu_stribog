@@ -27,10 +27,10 @@ maintainer-clean: clean
 	rm -f bin/* *.log
 bin/%.exe:%.o
 	$(LD) $(LDFLAGS) -o $@ $^
-bin/conloq.exe:crc32.o error.o exp-brief.o\
- garmin_nmea.o hodo.o parse_tsip.o usage.o wser.o
+bin/conloq.exe:crc32.o error.o exp-brief.o process_keypress.o\
+ garmin_nmea.o hodo.o parse_tsip.o usage.o verbosity_level.o wser.o
 bin/expon.exe:crc32.o error.o exp.o garmin_nmea.o hodo.o lla.o\
- parse_tsip.o preproc_gps.o
+ parse_tsip.o preproc_gps.o verbosity_level.o
 bin/magex-conloq.exe:wser.o error.o parse_tsip.o magexp.o
 bin/magexp.exe:expon.o parse_tsip.o error.o magexp.o
 conloq.o:serialia.h usage.h error.h parse_tsip.h exp.h
