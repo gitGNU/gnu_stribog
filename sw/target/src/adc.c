@@ -3,7 +3,7 @@ This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -36,7 +36,7 @@ static void qu1(void)
 void init_adc(void)
 {init_dac();
  VICVectAddr6=(unsigned)qu0;VICVectCntl6=VIC_CntlEnable|VIC_AD0;
- VICVectAddr7=(unsigned)qu1;VICVectCntl7=VIC_CntlEnable|VIC_AD1;
+ VICVectAddr5=(unsigned)qu1;VICVectCntl5=VIC_CntlEnable|VIC_AD1;
  VICIntEnable=(1<<VIC_AD0)|(1<<VIC_AD1);
  PINSEL0&=PINSEL0_AD12MASK&PINSEL0_AD07MASK;PINSEL0|=PINSEL0_AD07|PINSEL0_AD12;
  PINSEL1&=PINSEL1_AD00MASK&PINSEL1_AD01MASK&PINSEL1_AD02MASK&
