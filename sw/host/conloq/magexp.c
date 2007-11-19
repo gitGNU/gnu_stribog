@@ -3,7 +3,7 @@ This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -14,13 +14,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include"exp.h"
 #include<stdint.h>
 #include"error.h"
 #include<stdio.h>
-int init_exp(int x,int k){return 0;}void close_exp(void){}
-int expone(const unsigned char*s,int size)
+void
+init_turned_on(void){}
+int
+init_exp(int x,int k){return 0;}void close_exp(void){}
+int
+expone(const unsigned char*s,int size)
 {int mag[3],missed,i;unsigned char sum;
  if(size!=6){error("wrong size (%i for 6)\n",size);return!0;}
  for(i=sum=0;i<5;sum+=s[i++]);
