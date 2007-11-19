@@ -1,20 +1,8 @@
 /*LPC2138: magnetic sensors to DAC change response
-This file is a part of stribog.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+ as in mag.c, the 'set-reset' magnetic sensor difference
+ is forced to zero periodically, then the DAC values increase
+ by 100 units, so we can see how the DAC signal change
+ influences the 'set-reset' difference*/
 #include"uart1.h"
 #include"led.h"
 #include"pll.h"
@@ -22,12 +10,11 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 #include"power.h"
 #include"adc.h"
 #include"dac.h"
-/*almost the same as in mag.c, but here the loop most time is not closed*/
 #include"../include/lpc2138.h"
 #define SET	(1<<31)
 #define RESET	(1<<16)
-#define scale	(7)
-static const int kx=100,ky=100,kz=100;static int close_loop=!0;
+enum{scale=7};
+static const int kx=64,ky=64,kz=64;static int close_loop=!0;
 static inline void set_down(void){IO0CLR=SET;}
 static inline void reset_down(void){IO1CLR=RESET;}
 static inline void set_up(void){IO0SET=SET;}
@@ -84,4 +71,20 @@ int main(void)
    if(j>1<<15){close_loop=!0;j=0;}
   }else if(j>128)close_loop=0;
  }return 0;
-}
+}/*This file is a part of stribog.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+
