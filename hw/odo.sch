@@ -336,7 +336,7 @@ documentation=This program is free software; you can redistribute it and/or modi
 T 7155 84500 8 10 1 1 0 0 1
 documentation=it under the terms of the GNU General Public License as published by
 T 7155 84300 8 10 1 1 0 0 1
-documentation=the Free Software Foundation; either version 2 of the License, or
+documentation=the Free Software Foundation; either version 3 of the License, or
 T 7155 84100 8 10 1 1 0 0 1
 documentation=(at your option) any later version.
 T 7155 83800 8 10 1 1 0 0 1

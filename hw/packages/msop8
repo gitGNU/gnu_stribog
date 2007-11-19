@@ -1,5 +1,5 @@
 #msop8 package
-#Copyright (C) 2007 Ineiev <ineiev@yahoo.co.uk>: extracted from m4
+#Copyright (C) 2007 Ineiev <ineiev@users.sourceforge.net>: extracted from m4
 #and commented
 #
 #                             COPYRIGHT
@@ -9,7 +9,7 @@
 # 
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation; either version 2 of the License, or
+#   the Free Software Foundation; either version 3 of the License, or
 #   (at your option) any later version.
 # 
 #   This program is distributed in the hope that it will be useful,
@@ -18,13 +18,12 @@
 #   GNU General Public License for more details.
 # 
 #   You should have received a copy of the GNU General Public License
-#   along with this program; if not, write to the Free Software
-#   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+#   along with this program. If not, see <http://www.gnu.org/licenses/>.
 # 
 #   Contact addresses for paper mail and Email:
 #   Thomas Nau, Schlehenweg 15, 88471 Baustetten, Germany
 #   Thomas.Nau@rz.uni-ulm.de
-# 
+#
 Element["" "MSOP8" "Q2" "IRF7507" 153543 130314 -11811 -7087 0 100 ""]
 (
 	Pad[-700 0 1500 0 1200 3000 2400 "1" "1" "edge2"]
