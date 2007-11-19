@@ -27,7 +27,7 @@ int main(int argc,char**argv)
 {tsip_buf*tb=new_tsip();int size,c,i=0;const unsigned char*_;
  FILE*f,*log;double t=0;char file_name[289];
  if(argc<2){error("no file specified\n");return 1;}scanf("%lg",&t);
- snprintf(file_name,sizeof filename,"%s.%3.3i",argv[1],i++);
+ snprintf(file_name,sizeof file_name,"%s.%3.3i",argv[1],i++);
  log=fopen(file_name,"wb");
  if(!(f=fopen(argv[1],"rb"))){printf("can't open \"%s\"\n",argv[1]);return 2;}
  while(!feof(f))
@@ -35,7 +35,7 @@ int main(int argc,char**argv)
   {expone(_,size);
    if(!feof(stdin))if(mcu_stamp()>t)
    {if(log)fclose(log);
-    snprintf(file_name,sizeof filename,"%s.%3.3i",argv[1],i++);
+    snprintf(file_name,sizeof file_name,"%s.%3.3i",argv[1],i++);
     log=fopen(file_name,"wb");scanf("%lg",&t);
    }
   }if(log)putc(c,log);
@@ -44,7 +44,7 @@ int main(int argc,char**argv)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
