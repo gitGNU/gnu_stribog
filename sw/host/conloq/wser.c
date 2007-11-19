@@ -1,8 +1,8 @@
-/*stribog host part: Win32 serial module
+/*stribog host part: Windows serial module
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -13,12 +13,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include"serialia.h"
 #include<windows.h>
 static HANDLE port;
-void closeserialia(void){CloseHandle(port);port=0;}
-int initserialia(const char*port_name)
+void
+closeserialia(void){CloseHandle(port);port=0;}
+int
+initserialia(const char*port_name)
 {DCB dcb;COMMTIMEOUTS to;if(!port_name)port_name="COM1";
  port=CreateFile(port_name,GENERIC_READ|GENERIC_WRITE,0,0,OPEN_EXISTING,
   FILE_ATTRIBUTE_NORMAL,0);
@@ -36,8 +38,9 @@ int initserialia(const char*port_name)
  to.ReadTotalTimeoutConstant=0x33;to.ReadTotalTimeoutMultiplier=0;
  to.WriteTotalTimeoutConstant=to.WriteTotalTimeoutMultiplier=0;
  SetCommTimeouts(port,&to);return 0;
-}
-int lege(void*s,int n)
+}int
+lege(void*s,int n)
 {DWORD N=0;if(NULL==port)return-1;ReadFile(port,s,n,&N,0);return N;}
-int scribe(const void*s,int n)
+int
+scribe(const void*s,int n)
 {DWORD N=0;if(NULL==port)return-1;WriteFile(port,s,n,&N,0);return N;}
