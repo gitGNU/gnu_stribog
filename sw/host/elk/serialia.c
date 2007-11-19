@@ -1,16 +1,13 @@
-/*elk the LPC21x programmer: POSIX serial port module*/
-#include"serialia.h"
+#include"serialia.h"/*elk the LPC21x programmer: POSIX serial port module*/
 #include<unistd.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<sys/ioctl.h>
 #include<fcntl.h>
 #include<termios.h>
-#include<stdlib.h>
 #include<stdio.h>
-static struct termios vet;static char dv[]="/dev/ttyS0";
-static int portd=-1;
-int baud(int f)
+static struct termios vet;/* saved port settings */
+static char dv[]="/dev/ttyS0";/* default port name */
+static int portd=-1;/* file descriptor */
+int
+baud(int f)
 {if(f<14745+14745/20&&f>14745-14745/20)
  {printf("baud rate 115200\n");return B115200;}
  if((f<11059+11059/20&&f>11059-11059/20)||
@@ -25,27 +22,28 @@ int baud(int f)
  if(f<15360+15360/20&&f>15360-15360/20)
  {printf("baud rate 9600\n");return B9600;}
  printf("unknown frequency: I'll try baud rate B9600\n");return B9600;
-}
-int initserialia(const char*tty,int freq)
+}int
+init_serialia(const char*tty,int freq)
 {struct termios nov;portd=open(tty?tty:dv,O_RDWR|O_NOCTTY|O_NDELAY);
  if(portd<0)return-1;tcgetattr(portd,&vet);nov=vet;
  cfsetospeed(&nov,baud(freq));cfsetispeed(&nov,baud(freq));
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
  nov.c_cflag&=~CSIZE;nov.c_cflag|=CS8;nov.c_oflag&=~OPOST;
  nov.c_lflag=nov.c_iflag=0;tcsetattr(portd,TCSANOW,&nov);return portd<0;
-}
-void closeserialia(void)
+}void
+close_serialia(void)
 {if(0>portd)return;
  tcsetattr(portd,TCSADRAIN,&vet);fcntl(portd,F_SETFL,0);
  close(portd);portd=-1;
-}
-int lege(void*p,int n){return read(portd,p,n);}
-int scribe(const void*p,int n){return write(portd,p,n);}
+}int
+lege(void*p,int n){return read(portd,p,n);}
+int
+scribe(const void*p,int n){return write(portd,p,n);}
 /*This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -56,4 +54,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
