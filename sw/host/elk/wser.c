@@ -18,14 +18,14 @@ Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include<windows.h>
 static HANDLE port;
 void
-closeserialia(void){CloseHandle(port);port=0;}
+close_serialia(void){CloseHandle(port);port=0;}
 int
-initserialia(const char*port_name,int freq)
+init_serialia(const char*port_name,int freq)
 {DCB dcb;COMMTIMEOUTS to;if(!port_name)port_name="COM1";
  port=CreateFile(port_name,GENERIC_READ|GENERIC_WRITE,0,0,OPEN_EXISTING,
   FILE_ATTRIBUTE_NORMAL,0);
  if(INVALID_HANDLE_VALUE==port)return-1;
- if(!GetCommState(port,&dcb)){closeserialia();return-2;}
+ if(!GetCommState(port,&dcb)){close_serialia();return-2;}
  dcb.BaudRate=CBR_115200;dcb.fBinary=1;dcb.fParity=0;
  dcb.fOutxCtsFlow=0;dcb.fOutxDsrFlow=0;dcb.fDtrControl=DTR_CONTROL_DISABLE;
  dcb.fDsrSensitivity=0;dcb.fTXContinueOnXoff=0;
@@ -33,7 +33,7 @@ initserialia(const char*port_name,int freq)
  dcb.fRtsControl=RTS_CONTROL_DISABLE;dcb.fAbortOnError=0;
  dcb.wReserved=0;dcb.XonLim=1024;dcb.XoffLim=128;
  dcb.ByteSize=8;dcb.Parity=NOPARITY;dcb.StopBits=TWOSTOPBITS;
- if(!SetCommState(port,&dcb)){closeserialia();return-3;}
+ if(!SetCommState(port,&dcb)){close_serialia();return-3;}
  GetCommTimeouts(port,&to);to.ReadIntervalTimeout=MAXDWORD;
  to.ReadTotalTimeoutConstant=0x33;to.ReadTotalTimeoutMultiplier=0;
  to.WriteTotalTimeoutConstant=to.WriteTotalTimeoutMultiplier=0;
