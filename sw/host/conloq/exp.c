@@ -7,27 +7,32 @@
 static double freq=14745600.+8794;static FILE*gps_extracted;
 static unsigned leaps;static int period=1,verbous=0;
 static unsigned long long time_stamp;
-static double mcu_stamp(void){return time_stamp/freq;}
-static double mcu_time(uint32_t t)
+static double
+mcu_stamp(void){return time_stamp/freq;}
+static double
+mcu_time(uint32_t t)
 {static int cycled=!0;if(t<(1<<30)&&!cycled){leaps++;cycled=1;}
  if(t>(~0)-(1<<30))cycled=0;time_stamp=t|(((unsigned long long)leaps)<<32);
  return mcu_stamp();
-}
-int init_exp(int x,int p)
+}int
+init_exp(int x,int p)
 {init_gps(x);if(x)gps_extracted=fopen("gps.log","wb");
  if(p>0)period=p;else verbous=-p+1;return 0;
-}
-void close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}
-static uint32_t get_u(const unsigned char*s)
+}void
+close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}
+static uint32_t
+get_u(const unsigned char*s)
 {return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
 static unsigned temp[4];
-static int exp_temp(const unsigned char*s)
+static int
+exp_temp(const unsigned char*s)
 {unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
  printf("temp: %.8f %u %u %u %u\n",mcu_stamp(),
   temp[0]=t[0],temp[1]=t[1],temp[2]=t[2],temp[3]=_2048);return 0;
 }static double latest_pps=-1;
-double correct_utc_second(double utc,double t_mcu)
+double
+correct_utc_second(double utc,double t_mcu)
 {static double dutc=-3.*24*3600;int i,j;double dt;if(latest_pps<0)return t_mcu;
  i=t_mcu-latest_pps;dt=t_mcu-latest_pps-i;
  while(dt<0){i--;dt=t_mcu-latest_pps-i;}j=i;
@@ -39,8 +44,10 @@ double correct_utc_second(double utc,double t_mcu)
  printf("corr.sec: %.8f %.8f %i %.8f %.8f %.8f\n",
    t_mcu,latest_pps,i,dt,utc-t_mcu-dt,dutc);
  return t_mcu-dt;
-}static int nearest_int(double x){return x+.5;}
-static int exp_pps(const unsigned char*s)
+}static int
+nearest_int(double x){return x+.5;}
+static int
+exp_pps(const unsigned char*s)
 {static unsigned t0,t0f,loops,v,vf;static double df;
  double d,thr,tmcu;unsigned t=get_u(s),dt,l=0;
  if(t0>t){l=1;loops++;}dt=nearest_int((t-t0)/freq);
@@ -58,8 +65,8 @@ static int exp_pps(const unsigned char*s)
  printf("pps: %.8f %.0f %g\n",mcu_stamp(),tmcu,d);latest_pps=mcu_stamp();
  if(dt){df+=.25*d/dt;printf("ppsdf: %.8f %.0f %g\n",mcu_stamp(),tmcu,df);}
  t0f=t0=t;return 0;
-}
-static int exp_adc(const unsigned char*s)
+}static int
+exp_adc(const unsigned char*s)
 {static int i;int a[3],b[3],w[3],T,j;unsigned long t,x;
  static double mcu_t,a_[3],b_[3],w_[3],T_;for(j=0;j<3;j++)b[j]=w[j]=0;
  if(period<0)return 0;t=get_u(s);x=get_u(s+=4);
@@ -79,8 +86,8 @@ static int exp_adc(const unsigned char*s)
   w_[0]/period,w_[1]/period,w_[2]/period,T_/16/period);
  if(period<=1)for(j=0;j<4;j++)printf(" %u",temp[j]);putchar('\n');
  for(j=0;j<3;j++)a_[j]=b_[j]=w_[j]=0;T_=0;mcu_t=0;return 0;
-}
-static int check_gps_overflows(const unsigned char*s)
+}static int
+check_gps_overflows(const unsigned char*s)
 {unsigned long n=0,k,sh=0;static unsigned long n0;int r=0;
  if(!verbous)return 0;
  printf("gps_cont: %2.2X %2.2X %2.2X %2.2X %2.2X\n",s[7],s[8],s[9],s[10],s[11]);
@@ -96,8 +103,21 @@ static int check_gps_overflows(const unsigned char*s)
   while(k--){n|=((unsigned long)*--s)<<sh;sh+=8;}printf("%lu\n",n);
   if(n!=n0)r=!0;n0=n;
  }return 0;
-}
-int expone(const unsigned char*s,int size)
+}static int
+exp_stat(const unsigned char*s)
+{unsigned long tmax=get_u(s),adc_missed=get_u(s+=4),accel_errors=get_u(s+=4),
+  tsum_N=get_u(s+=4),tsum,tmin,uart0_overflows;
+ static const double sec_to_us=1e6;
+ tmin=(tmax>>16)&((1<<16)-1);tmax&=((1<<16)-1);
+ uart0_overflows=(adc_missed>>16)&((1<<16)-1);adc_missed&=((1<<16)-1);
+ tsum=(accel_errors>>16)&((1<<16)-1);accel_errors&=((1<<16)-1);
+ printf("stat: %.8f %.3f %.3f %lu %.3f %lu %lu %lu\n",
+  mcu_stamp(),(double)tmin/freq*sec_to_us,
+  (double)tsum*(1<<16)/tsum_N/freq*sec_to_us,tsum_N,
+  (double)tmax/freq*sec_to_us,
+  adc_missed,accel_errors,uart0_overflows);return 0;
+}int
+expone(const unsigned char*s,int size)
 {uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
@@ -107,14 +127,14 @@ int expone(const unsigned char*s,int size)
  {case 8:return exp_pps(s);case 12:return exp_temp(s);
   case 16:
   {int r=check_gps_overflows(s);r|=exp_gps(mcu_stamp(),s,gps_extracted);return r;}
-  case 24:return exp_adc(s);
-  default:error("wrong size (%i for 24 or 16 or 12 or 8)\n",size);
+  case 20:return exp_stat(s);case 24:return exp_adc(s);
+  default:error("wrong size (%i for 24 or 20 or 16 or 12 or 8)\n",size);
  }return!0;
 }/*This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -125,4 +145,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
