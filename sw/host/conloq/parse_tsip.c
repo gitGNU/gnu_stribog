@@ -1,6 +1,5 @@
 /*parsing TSIP-like messages (DLE ... DLE DLE ... DLE ETX)
- if escapes are enabled, when the message begins 
- with ESC=0x17 the first byte should be
+ when the message begins with ESC=0x17 the first byte should be
  swallowed and the second should be DLE, ETX or ESC*/
 #include"parse_tsip.h"
 #include"error.h"
@@ -37,7 +36,7 @@ void free_tsip(tsip_buf*t){if(t)free(t);}
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -48,4 +47,5 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2005, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+Copyright (C) 2005, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+
