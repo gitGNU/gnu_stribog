@@ -1,31 +1,19 @@
-/*LPC2138: UART0; the data are written in a buffer and someone running in
- system (rather than interrupt) mode will empty the buffer. 
-This file is a part of stribog.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
-#include"uart0.h"
-#include"mutex.h"
-#include"../include/lpc2138.h"
+#include"uart0.h"//UART0: the data are written in a buffer and
+#include"mutex.h"//someone running in system (rather than interrupt) mode
+#include"../include/lpc2138.h"//will empty the buffer.
 #include"freq.h"
 #include"tempus.h"
 #define BAUD_RATE	(9600)
+#define LOADER_RATE	(115200)
 #define LCRsig	Ux8bit|Ux1stop
-#define DivValue	(PCLK_FREQUENCY/16/BAUD_RATE)
-#define HiDiv	(DivValue>>8)
-#define LoDiv	(DivValue&0xFF)
+#define DIVISOR(a)	(PCLK_FREQUENCY/16/a)
+#define HI_DIV(a)	(DIVISOR(a)>>8)
+#define LO_DIV(a)	(DIVISOR(a)&0xFF)
+#define Loader_Hi_Div	HI_DIV(LOADER_RATE)
+#define Loader_Lo_Div	LO_DIV(LOADER_RATE)
+#define Hi_Div		HI_DIV(BAUD_RATE)
+#define Lo_Div		LO_DIV(BAUD_RATE)
+enum{chips_per_byte=10};
 static char rxbuf[0x20];static int caput,cauda;int uart0_overflows;
 /*static mutex tx0_mut;static int tx0i,tx0len;
 static const char tx0buf[]={0x10,0xD,4,2,0xC,0,0,0xE1,0x10,3};
@@ -46,22 +34,62 @@ static void quaest(void)
    /*case UxIIR_THRE:fill_tx0buf();break;*/
   }
  }VICVectAddr=0;
-}
-int init_uart0(void)
-{uart0_overflows=0;
+}enum control_characters{reset=0,end=0xFF};
+static void 
+push_ack(unsigned char c){while(!(U0LSR&UxLSR_THRE));U0THR=c;}
+static void
+terminate(void){push_ack(end);}
+int 
+poll_char(void)
+{unsigned t0=iunius_tempus();int c;enum{timeout=83521};
+ while(!(U0LSR&UxLSR_RDR)
+  &&iunius_tempus()-t0<PCLK_FREQUENCY/LOADER_RATE*chips_per_byte*timeout);
+ if(U0LSR&UxLSR_RDR){c=U0RBR;push_ack(c);return c&0xFF;}
+ terminate();return-1;
+}static int 
+get_settings(unsigned char*s,int size)
+{int i;for(i=0;i<size;i++)
+ {int c;if((c=poll_char())<0)return-1;
+  if(end==c)return i;s[i]=c;if(reset==c)i=-1;
+ }if(i==size){terminate();return-2;}return i;
+}int 
+init_uart0(unsigned char*settings,int size)
+{int r=0;uart0_overflows=0;
  PINSEL0=(PINSEL0&PINSEL0_TXD0MASK&PINSEL0_RXD0MASK)|PINSEL0_TXD0|PINSEL0_RXD0;
- VICVectAddr3=(unsigned)quaest;VICVectCntl3=VIC_CntlEnable|VIC_UART0;
- VICIntEnable=1<<VIC_UART0;U0LCR=UxDLAB;U0DLL=LoDiv;U0DLM=HiDiv;U0LCR=LCRsig;
- U0IER=UxIERrx;U0FCR=UxFCRfifoenable;return 0;
-}
-int receive0(char*d,int n)
-{enum{chips_per_byte=10,timeout=12};static unsigned t0;unsigned t;int i,cau;
+ U0LCR=UxDLAB;U0DLL=Loader_Lo_Div;U0DLM=Loader_Hi_Div;
+ U0LCR=LCRsig;U0FCR=UxFCRfifoenable;
+ if(size>0&&settings!=(unsigned char*)0)
+ {unsigned t;r=get_settings(settings,size);t=iunius_tempus();
+  while(iunius_tempus()-t<PCLK_FREQUENCY/LOADER_RATE*chips_per_byte*3);
+ }U0LCR=UxDLAB;U0DLL=Lo_Div;U0DLM=Hi_Div;
+ U0LCR=LCRsig;U0FCR=UxFCRfifoenable;
+ VICVectAddr8=(unsigned)quaest;VICVectCntl8=VIC_CntlEnable|VIC_UART0;
+ VICIntEnable=1<<VIC_UART0;
+ U0IER=UxIERrx;return r;
+}int 
+receive0(char*d,int n)
+{enum{timeout=12};static unsigned t0;unsigned t;int i,cau;
  for(cau=cauda,i=0;i<n&&caput!=cau;i++)
- {*d++=rxbuf[cau++];if(cau==sizeof(rxbuf))cau=0;}t=tempus();
+ {*d++=rxbuf[cau++];if(cau==sizeof(rxbuf))cau=0;}t=iunius_tempus();
  if(i<n-4&&t>t0&&t-t0<PCLK_FREQUENCY/BAUD_RATE*chips_per_byte*timeout)
   return 0;cauda=cau;t0=t;return i;
-}
-int ask_ephm(void)
+}int 
+ask_ephm(void)
 {/*if(lock(&tx0_mut))return!0;tx0i=0;tx0len=sizeof(tx0buf);
  fill_tx0buf();U0IER=UxIERrx|UxIERtx;*/return 0;
-}
+}/*This file is a part of stribog.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
