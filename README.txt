@@ -1,5 +1,6 @@
 Stribog the sensing platform README file.
-The end of this file contains license and copyright notes for the project.
+
+For license and copyright notes see 'copyright'.
 
 ATTENTION stribog is in his alpha stage. he is not functional yet.
 
@@ -55,16 +56,16 @@ The program will run from RAM, when possible. even when written in ROM, boot.s
 will copy it to RAM. the program uses single library: libgcc.a. 
 all computations should be in fixed point.
 
-Busy VIC slots: 3 (UART0), 4 (UART1), 5 (timer1), 6 and 7 (ADC), 8 (timer0)
+Busy VIC slots: 3 (timer0), 4 (timer1), 5 and 6 (ADC), 7 (UART1), 8 (UART0) 
 
 Time functions (tempus.h) are based on timer1. it uses VIC vectored interrupt
-slot 5. this module receives PPS at CAP1.2 (signal A), too.
+slot 4. this module receives PPS at CAP1.2 (signal A), too.
 
-UART0 is the auxiliary port to get GPS data; uses VIC slot 3
+UART0 is the auxiliary port to get GPS data; uses VIC slot 8
 
-UART1 is the basic port; uses VIC slot 4
+UART1 is the basic port; uses VIC slot 7
 
-ADC use VIC slots 6 and 7; magnetic module functions used in such way
+ADC use VIC slots 5 and 6; magnetic module functions used in such way
 (see magex.c, multa.c) that ADC sampling frequency defines frequency of
 set/reset pulses. this frequency is adjusted to be an integer of 50 Hz.
 
@@ -72,7 +73,7 @@ Magnetoresistive sensors work not so far from the absolute maximum value
 for set/reset strap duty cycle. carelessly increasing the sampling frequency 
 can DAMAGE the sensors.
 
-Timer0 is occupied by accelerometers; VIC slot 8
+Timer0 is occupied by accelerometers; VIC slot 3
 
 HOW TO INSTALL DEVELOPMENT TOOLS
 
@@ -113,78 +114,3 @@ http://savannah.gnu.org
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog.
-
-LICENSE AND COPYRIGHT NOTES FOLLOW
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-    Copyright (C) 2005, 2006, 2007 Ineiev <ineiev@yahoo.co.uk>
-
-Note: the GPL v3 has been released this summer. stribog's author has strong 
-intention to switch to this new version as soon as reasonable. 
-currently, stribog is distributed by Ineiev under the terms of 
-the GNU GPL v2.
-
-It is not certain, whether a printed board contains a "derived" from
-the sources "work". stribog's author believes that a PCB layout files 
-(as hw/main_board.pcb) do form a derived work, but the result of PCB print 
-command (GERBER/EXCELLON, PostScript files) contains no "derived work", to say 
-nothing of printed boards and assembled devices. that is, this license does 
-not restrict any use of these items. neither does the copyright holder.
-
-Nonetheless, any schematic diagram in any form does contain such a "work".
-
-This may look inconsistent, this can be argued, but the author considers this
-approach to be the most correct one. the copyright holder may change this 
-point of view in future to make it more consistent, but for no files released
-earlier.
-
-The software part is released right under the terms of the GNU GPL v2.
-
-The following non-text source files possibly contain no copyright notices, 
-because stribog's author decided to move those notices here for convenience, 
-namely:
-
-hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
-hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
-hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
-hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
-hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
-hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
-hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
-hw/packages/0603 hw/packages/0805 hw/packages/1210
-hw/packages/2.5mm_10pin_header hw/packages/QFP64 hw/packages/adxl210
-hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
-hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
-hw/packages/tp
-
-To all these files is applied the copyright and license notice placed earlier
-in this file. hw/sym/* and hw/packages should have also additional copyrights 
-from their original and intermediate authors. it is very hard to figure out
-exact list of authors, because there is neither copyright notice in the files
-theirselves nor especially maintained lists of files with respective authors.
-all we could tell we are not original authors and the files are distributed
-under "GPL v2 or later". for using these files in your packages see discussions
-in the geda lists. stribog's authors' position is similar to the gEDA developers' 
-one, namely, "the symbols/packages contain 'derived work' therefore are to be 
-distributed under 'GPL v$(OUR_CURRENT_GPL_VERSION) or later', however 
-the schemes/boards containing those symbols contain no such work and 
-the symbols/packages empose no such restriction on them". 
-
-Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
-(in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
-usually he just slightly corrected files from gEDA and PCB libraries.
-the AUTHOR DISCLAIMS his EXCLUSIVE COPYRIGHT on ALL those files. as a sequence,
-THEY CAN BE DISTRIBUTED under TERMS of 'GPL v$(OUR_CURRENT_GPL_VERSION) 
-or later' ONLY.
