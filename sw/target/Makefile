@@ -2,7 +2,7 @@
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
-#the Free Software Foundation; either version 2 of the License, or
+#the Free Software Foundation; either version 3 of the License, or
 #(at your option) any later version.
 #
 #This program is distributed in the hope that it will be useful,
@@ -13,7 +13,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
+#Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93
 ram_based=1
 ifndef MCU_UNOFFENDED
  PPS_BURNT=1
@@ -25,7 +25,7 @@ OBJCOPY=arm-elf-objcopy
 ASFLAGS=-mcpu=arm7tdmi
 CFLAGS=-mcpu=arm7tdmi -Wall -O2
 ifdef PPS_BURNT
- CFLAGS+=-DPPS_BURNT
+ CFLAGS+=-DPPS_BURNT=1
 endif
 ifdef ram_based
  ldscript=$(src)/ram2138.ld
@@ -77,7 +77,7 @@ $(o)/crcex.elf:$(o)/pll.o $(o)/led.o $(o)/crc32.o
 $(o)/inledex.elf:$(o)/pll.o
 $(o)/adcex.elf:$(o)/adc.o $(o)/led.o $(o)/pll.o $(o)/dac.o
 $(o)/magex.elf:$(o)/adc.o $(o)/led.o $(o)/pll.o $(o)/dac.o $(o)/mag.o \
- $(o)/uart1out.o
+ $(o)/uart1out.o $(o)/uart0.o $(o)/tempus.o
 $(o)/dacex.elf:$(o)/led.o $(o)/pll.o $(o)/dac.o
 $(o)/lm74ex.elf:$(o)/lm74.o $(o)/pll.o $(o)/led.o $(o)/tempus.o
 $(o)/powerex.elf:$(o)/power.o
