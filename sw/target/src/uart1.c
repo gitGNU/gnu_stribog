@@ -3,7 +3,7 @@ This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -14,11 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
 #include"uart1.h"
 #include"mutex.h"
 #include"crc32.h"
-#include"form_fix.h"
+#include"../../common/form_fix.h"
 #include"../include/lpc2138.h"
 #include"freq.h"
 #define LCRsig	Ux8bit|Ux1stop
@@ -43,7 +43,7 @@ static void quaestus(void)
 }
 int init_uart1(void)
 {PINSEL0=(PINSEL0&PINSEL0_TXD1MASK&PINSEL0_RXD1MASK)|PINSEL0_TXD1|PINSEL0_RXD1;
- VICVectAddr4=(unsigned)quaestus;VICVectCntl4=VIC_CntlEnable|VIC_UART1;
+ VICVectAddr7=(unsigned)quaestus;VICVectCntl7=VIC_CntlEnable|VIC_UART1;
  VICIntEnable=1<<VIC_UART1;U1LCR=UxDLAB;U1DLL=LoDiv;U1DLM=HiDiv;U1LCR=LCRsig;
  U1IER=UxIERrx;U1FCR=UxFCRfifoenable;return 0;
 }
