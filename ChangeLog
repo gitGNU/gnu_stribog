@@ -1,3 +1,55 @@
+17 Nov 07
+ * copyright, README.txt: copyright notes moved to 'copyright';
+  switched to the GNU GPL v3. greatly revised and more verbalised
+  thoughts on the license interpretion for the hardware parts.
+ * hw, sw: switched to the GNU GPL v3 "or later"
+...
+ * conloq/Makefile: automatic dependency tracking introduced
+ * conloq/caed.c: a typo in variable name corrected
+ * conloq/conloq.c: keypress processing added
+ * conloq/crc32.h: types rearranged
+ * conloq/crc32.c: adjusted to new crc32.h
+ * conloq/exp-brief.c: verbosity control and stat messages output added
+ * conloq/exp.c:exp_stat() added
+ * conloq/verbosity_level.c, conloq/verbosity_level.h,
+  conloq/process_keypress.c, conloq/process_keypress.h: initial add
+ * conloq/garmin_nmea.c, conloq/hodo.c: verbosity control added
+ * conloq/magex-conloq.c: signal handling and exit codes enum added
+ * conloq/magexp.c: stubs for verbosity controls added
+ * conloq/parse_tsipex.c: form_fix.h moved to ../common; types rearranged
+ * conloq/serialia.c: unneeded headers removed; text reformatted
+ * conloq/usage.c: help output added
+ * conloq/winser.c, conloq/Makefile.win, conloq/wser.c,
+  conloq/Makefile.windows, elk/winser.c, elk/Makefile.win, elk/wser.c,
+  elk/Makefile.windows: *win* files renamed as GNU coding standards suggest
+ * elk/elk.c: errors output rewritten
+ * elk/Makefile: initial usage istructions added
+ * elk/serialia.c: unneeded headers removed
+ * elk/usage.c: command help moved out to help()
+ * elk/prefs.dat: initial add
+ * target/include/lpc2138.h: macro UxLSR_TSRE added
+ * target/Makefile: more precise CFLAGS; to load prefs, magex target
+  depends on tempus.o and uart0.o
+ * target/src/accel.c: defines replaced with enum; VIC slot changed
+  from 8 to 3; prescaler value is selectable on init; errors count added
+ * target/src/accelex.c: init_accel() invocation changed
+ * target/src/adc.h: defined replaced with enum
+ * target/src/cdc32.h, target/src/cdc32.c: types rearranged
+ * target/src/form_fix.h, common/form_fix.h: form_fix.h moved form
+  target/src/ to common/
+ * target/src/mag.c: gains made selectable
+ * target/src/mag_response.c: usage comments added
+ * target/src/magex.c: gain factors control added
+ * target/src/multa.c: statistics output and preferences added;
+ * target/src/tempus.c: compile-time PPS input selection influenced by
+  the GNU coding standards; iunius_tempus() moved into tempus.h;
+  VIC slot changed from 5 to 4
+ * target/src/tempus.h: iunius_tempus() moved here from tempus.c
+ * target/src/uart0.c: on init settings array is received;
+  VIC slot changed from 3 to 8
+ * target/src/uart1.c: VIC slot changed from 4 to 7
+ * target/src/adc.c: VIC slot for AD1 changed from 7 to 5 
+...
 24 Oct 07
  (conloq, elk): tested under other systems. 
   the Hurd: the programmes work very instably, especially elk. 
