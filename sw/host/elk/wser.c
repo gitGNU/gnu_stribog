@@ -35,7 +35,7 @@ init_serialia(const char*port_name,int freq)
  dcb.ByteSize=8;dcb.Parity=NOPARITY;dcb.StopBits=TWOSTOPBITS;
  if(!SetCommState(port,&dcb)){close_serialia();return-3;}
  GetCommTimeouts(port,&to);to.ReadIntervalTimeout=MAXDWORD;
- to.ReadTotalTimeoutConstant=0x33;to.ReadTotalTimeoutMultiplier=0;
+ to.ReadTotalTimeoutConstant=to.ReadTotalTimeoutMultiplier=0;
  to.WriteTotalTimeoutConstant=to.WriteTotalTimeoutMultiplier=0;
  SetCommTimeouts(port,&to);return 0;
 }int
