@@ -1,18 +1,25 @@
 /*CRC32(CCITT-32): restricted to N 32-bit words in message algorithm from
 Robert L. Hummel 
 Programmer's Technical Reference: Data and Fax Communication
-This implementation should be portable (within C99 standard)*/
-#include<stdint.h>/*TODO exclude this header; write in terms of builtin types*/
+This implementation should be portable (within C89 standard),
+from 8-bit to 4913-bit architectures and higher*/
 #include"crc32.h"
-static const uint8_t*get_u(const crc32_input_array_token*msg,uint32_t*x)
-{*x=((uint32_t)(*msg++));*x|=((uint32_t)(*msg++))<<8;
- *x|=((uint32_t)(*msg++))<<16;*x|=((uint32_t)(*msg++))<<24;return msg;
-}
-unsigned long form_crc(const crc32_input_array_token*msg,unsigned n)
-{uint32_t crc=~0,x;int j,k;const uint32_t poly=0xEDB88320;
+enum lesser_constants
+{bits_per_byte=8,byte_mask=(1<<bits_per_byte)-1,bits_per_word=32};
+static const unsigned long ul_mask=0xFFFFFFFFul;
+static const unsigned char*
+get_u(const crc32_input_array_token*msg,unsigned long*x)
+{*x =((unsigned long)(byte_mask&*msg++))<<(bits_per_byte*0);
+ *x|=((unsigned long)(byte_mask&*msg++))<<(bits_per_byte*1);
+ *x|=((unsigned long)(byte_mask&*msg++))<<(bits_per_byte*2);
+ *x|=((unsigned long)(byte_mask&*msg++))<<(bits_per_byte*3);return msg;
+}unsigned long
+form_crc(const crc32_input_array_token*msg,unsigned n)
+{unsigned long crc=ul_mask,x;int j,k;const unsigned long poly=0xEDB88320ul;
  while(n--)
- {msg=get_u(msg,&x);crc^=x;for(j=0;j<32;j++){k=crc&1;crc>>=1;if(k)crc^=poly;}}
- crc=~crc;return crc;
+ {msg=get_u(msg,&x);crc^=x;
+  for(j=0;j<bits_per_word;j++){k=crc&1;crc>>=1;if(k)crc^=poly;}
+ }crc=(~crc)&ul_mask;return crc;
 }/*This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
