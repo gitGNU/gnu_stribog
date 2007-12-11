@@ -1,29 +1,30 @@
-#include"parse_tsip.h"/*caed: split stribog data flow*/
-#include<stdint.h>
-#include"crc32.h"
-#include"error.h"
+#include"parse_tsip.h"/*caed: split stribog data file on pieces*/
+#include"crc32.h"/* the filename is argv[1]; main board time moments */
+#include"error.h"/* when to split go from stdin */
+#include"get_u.h"
 #include<stdio.h>
 static double freq=14745600.+8550;static unsigned leaps;
 static unsigned long long time_stamp;
-static double mcu_stamp(void){return time_stamp/freq;}
-static double mcu_time(uint32_t t)
+static double
+mcu_stamp(void){return time_stamp/freq;}
+static double
+mcu_time(unsigned long t)
 {static int cycled=!0;if(t<(1<<30)&&!cycled){leaps++;cycled=1;}
  if(t>(~0)-(1<<30))cycled=0;time_stamp=t|(((unsigned long long)leaps)<<32);
  return mcu_stamp();
-}static uint32_t get_u(const unsigned char*s)
-{return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
-static void exp_adc(const unsigned char*s)
+}static void
+exp_adc(const unsigned char*s)
 {static int period;mcu_time(get_u(s));
- if(!(period++&0xFF))printf("%.8f\n",mcu_stamp());
-}
-static void expone(const unsigned char*s,int size)
-{uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
+ if(!(period++&byte_mask))printf("%.8f\n",mcu_stamp());
+}static void
+expone(const unsigned char*s,int size)
+{unsigned long crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
   (unsigned long)crc,(unsigned long)cr,size);return;
- }switch(size){case 24:exp_adc(s);break;}
-}
-int main(int argc,char**argv)
+ }if(size==adc_message_size)exp_adc(s);
+}int
+main(int argc,char**argv)
 {tsip_buf*tb=new_tsip();int size,c,i=0;const unsigned char*_;
  FILE*f,*log;double t=0;char file_name[289];
  if(argc<2){error("no file specified\n");return 1;}scanf("%lg",&t);
@@ -55,4 +56,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
