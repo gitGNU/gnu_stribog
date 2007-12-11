@@ -86,7 +86,7 @@ C 47450 57200 1 0 0 capacitor-1.sym
 T 47500 57550 5 10 1 1 0 0 1
 refdes=C3
 T 48050 57500 5 10 1 1 0 0 1
-value=0.1
+value=0.033
 T 47450 57200 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -97,7 +97,7 @@ C 47400 56700 1 0 0 capacitor-1.sym
 T 47450 56550 5 10 1 1 0 0 1
 refdes=C4
 T 48000 56600 5 10 1 1 0 0 1
-value=0.1
+value=0.033
 T 47400 56700 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -115,10 +115,10 @@ netname=yfilt
 }
 C 44400 57800 1 0 0 resistor-2.sym
 {
-T 44600 58100 5 10 1 1 0 0 1
+T 44750 58100 5 10 1 1 0 0 1
 refdes=R1
-T 44800 57600 5 10 1 1 0 0 1
-value=1M
+T 44900 57600 5 10 1 1 0 3 1
+value=240k
 T 44400 57800 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -424,7 +424,7 @@ C 41150 75100 1 90 1 capacitor-1.sym
 T 40750 74800 5 10 1 1 0 6 1
 refdes=C17
 T 40450 74450 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 41150 75100 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -433,7 +433,7 @@ C 37200 70600 1 0 0 capacitor-1.sym
 T 37200 70600 5 10 1 1 0 0 1
 refdes=C18
 T 37800 70500 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 37200 70600 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -442,7 +442,7 @@ C 36850 67300 1 0 0 capacitor-1.sym
 T 36850 67650 5 10 1 1 0 0 1
 refdes=C19
 T 37450 67200 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 36850 67300 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -452,7 +452,7 @@ C 38700 62100 1 0 0 capacitor-1.sym
 T 38650 62450 5 10 1 1 0 0 1
 refdes=C20
 T 39300 62000 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 38700 62100 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -481,7 +481,7 @@ C 55000 73400 1 0 0 capacitor-1.sym
 T 55250 73950 5 10 1 1 0 0 1
 refdes=C21
 T 55650 73850 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 55000 73400 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -490,7 +490,7 @@ C 58200 73400 1 0 0 capacitor-1.sym
 T 58150 73700 5 10 1 1 0 0 1
 refdes=C22
 T 58800 73300 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 58200 73400 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -499,7 +499,7 @@ C 58200 72600 1 0 0 capacitor-1.sym
 T 58150 72900 5 10 1 1 0 0 1
 refdes=C23
 T 58800 72500 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 58200 72600 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -530,7 +530,7 @@ C 55000 72600 1 0 0 capacitor-1.sym
 T 54950 73000 5 10 1 1 0 0 1
 refdes=C24
 T 55600 72900 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 55000 72600 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -547,7 +547,7 @@ C 58200 69400 1 0 0 capacitor-1.sym
 T 58200 69750 5 10 1 1 0 0 1
 refdes=C25
 T 58800 69300 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 58200 69400 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -609,7 +609,7 @@ C 54000 58800 1 90 1 capacitor-1.sym
 T 53950 58550 5 10 1 1 0 0 1
 refdes=C26
 T 54000 58200 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 54000 58800 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -823,7 +823,7 @@ C 51600 71600 1 90 1 capacitor-1.sym
 T 51550 71400 5 10 1 1 0 0 1
 refdes=C31
 T 51600 71000 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 51600 71600 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -832,7 +832,7 @@ C 51600 74500 1 90 1 capacitor-1.sym
 T 51550 74300 5 10 1 1 0 0 1
 refdes=C32
 T 51600 73900 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 51600 74500 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1180,7 +1180,7 @@ C 53200 65400 1 90 1 capacitor-1.sym
 T 53200 65200 5 10 1 1 0 0 1
 refdes=C38
 T 53200 64700 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 53200 65400 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1191,7 +1191,7 @@ C 46000 60250 1 90 1 capacitor-1.sym
 T 46000 60050 5 10 1 1 0 0 1
 refdes=C39
 T 46000 59550 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 46000 60250 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1203,7 +1203,7 @@ C 50500 68600 1 180 1 capacitor-1.sym
 T 50500 68600 5 10 1 1 0 0 1
 refdes=C40
 T 51600 68550 5 10 1 1 0 6 1
-value=0.22
+value=0.1
 T 50500 68600 5 10 0 0 90 0 1
 footprint=0603
 }
@@ -1364,7 +1364,7 @@ C 48400 60300 1 90 1 capacitor-1.sym
 T 47750 60100 5 10 1 1 0 0 1
 refdes=C42
 T 47700 59700 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 48400 60300 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1381,7 +1381,7 @@ C 40350 66800 1 0 1 capacitor-1.sym
 T 39700 67300 5 10 1 1 0 0 1
 refdes=C43
 T 40100 66800 5 10 1 1 180 6 1
-value=0.22
+value=0.1
 T 40350 66800 5 10 0 0 270 0 1
 footprint=0603
 }
@@ -1398,7 +1398,7 @@ C 54400 62000 1 0 0 capacitor-1.sym
 T 55100 62500 5 10 1 1 0 6 1
 refdes=C44
 T 54950 61850 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 54400 62000 5 10 0 0 90 6 1
 footprint=0603
 }
@@ -1592,7 +1592,7 @@ C 35250 68800 1 0 0 capacitor-1.sym
 T 35250 69100 5 10 1 1 0 0 1
 refdes=C50
 T 35850 68700 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 35250 68800 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1601,7 +1601,7 @@ C 37250 65050 1 0 1 capacitor-1.sym
 T 36650 65400 5 10 1 1 0 6 1
 refdes=C51
 T 36750 65000 5 10 1 1 0 8 1
-value=0.22
+value=0.1
 T 37250 65050 5 10 0 0 0 6 1
 footprint=0603
 }
@@ -1610,7 +1610,7 @@ C 36650 60400 1 0 0 capacitor-1.sym
 T 36650 60700 5 10 1 1 0 0 1
 refdes=C52
 T 36550 60350 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 36650 60400 5 10 0 0 0 0 1
 footprint=0603
 }
@@ -1644,10 +1644,10 @@ footprint=0603
 N 42950 73950 42950 74300 4
 C 43050 75600 1 180 0 gnd-1.sym
 N 42950 75300 42950 75200 4
-T 27905 74750 8 10 1 1 0 0 1
+T 27905 74950 8 10 1 1 0 0 1
 description=stribog the attitude determination platform: main board
-T 27905 73950 8 10 1 1 0 0 1
-comment=Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@yahoo.co.uk>
+T 27905 74250 8 10 1 1 0 0 1
+comment=Copyright (C) 2005, 2006, 2007\
 T 27905 73550 8 10 1 1 0 0 1
 documentation=This program is free software; you can redistribute it and/or modify
 T 27905 73350 8 10 1 1 0 0 1
@@ -1668,8 +1668,8 @@ T 27905 71750 8 10 1 1 0 0 1
 documentation=You should have received a copy of the GNU General Public License
 T 27905 71550 8 10 1 1 0 0 1
 documentation=along with this program. If not, see <http://www.gnu.org/licenses/>.
-T 27905 74450 8 10 1 1 0 0 1
-description=revision date: 08IV2007
+T 27905 74700 8 10 1 1 0 0 1
+description=revision date: 31XI2007
 N 57600 61650 57700 61650 4
 N 57700 62050 57600 62050 4
 N 57650 63250 57600 63250 4
@@ -1791,7 +1791,7 @@ C 35700 64300 1 270 0 capacitor-1.sym
 T 35600 63850 5 10 1 1 0 6 1
 refdes=C53
 T 35700 63600 5 10 1 1 180 0 1
-value=0.22
+value=0.1
 T 35700 64300 5 10 0 0 0 6 1
 footprint=0603
 }
@@ -1816,16 +1816,15 @@ symversion=0.1
 T 32100 58850 5 8 1 1 0 2 1
 value=OP496GS
 T 31500 59100 5 10 0 0 0 0 1
-slot=4
+slot=2
 }
-C 31900 58350 1 0 0 gnd-1.sym
-N 32000 58650 32000 59100 4
+C 32100 60900 1 180 0 gnd-1.sym
 C 30800 58950 1 180 1 capacitor-1.sym
 {
 T 31100 58850 5 10 1 1 0 6 1
 refdes=C54
 T 31450 58850 5 10 1 1 0 0 1
-value=0.22
+value=0.1
 T 30800 58950 5 10 0 0 90 0 1
 footprint=0603
 }
@@ -1842,12 +1841,10 @@ C 31250 60450 1 90 1 capacitor-1.sym
 T 31050 60300 5 10 1 1 0 6 1
 refdes=C55
 T 31000 59850 5 10 1 1 0 8 1
-value=0.22
+value=0.1
 T 31250 60450 5 10 0 0 0 0 1
 footprint=0603
 }
-N 31050 60600 32000 60600 4
-N 32000 60600 32000 59900 4
 C 33400 63800 1 0 0 quad_opamp-1.sym
 {
 T 34250 64100 5 10 1 1 0 2 1
@@ -1857,7 +1854,7 @@ symversion=0.1
 T 33600 63700 5 10 1 1 0 2 1
 value=OP496GS
 T 33400 63800 5 10 0 0 0 0 1
-slot=1
+slot=3
 }
 N 33100 64000 33400 64000 4
 {
@@ -1873,7 +1870,7 @@ symversion=0.1
 T 29150 63200 5 10 1 1 0 2 1
 value=OP496GS
 T 28300 63200 5 10 0 0 0 0 1
-slot=3
+slot=1
 }
 N 28300 63000 28300 63400 4
 {
@@ -1905,16 +1902,11 @@ symversion=0.1
 T 31650 57300 5 10 1 1 0 2 1
 value=OP496GS
 T 30750 57400 5 10 0 0 0 0 1
-slot=2
+slot=4
 T 31300 57000 14 6 1 1 0 0 1
 comment=Vos<0.5mV; Vccmin<=5V;
 }
 N 30750 57600 29600 57600 4
-N 31050 60450 31050 60900 4
-{
-T 30950 61050 5 10 1 1 0 0 1
-netname=+5V
-}
 N 30750 58000 30100 58000 4
 {
 T 29950 58050 5 10 1 1 0 0 1
@@ -1926,9 +1918,9 @@ T 31850 62550 5 10 1 1 0 0 1
 netname=SR
 }
 N 29600 60750 29650 60750 4
-T 54905 57950 8 10 1 1 0 0 1
-description=Capacitances with decimal point are in micorfarads;
-T 54905 57650 8 10 1 1 0 0 1
+T 54905 57950 14 10 1 1 0 0 1
+comment=Capacitances with decimal point are in micorfarads;
+T 54905 57650 14 10 1 1 0 0 1
 description=without decimal point are in picofarads
 C 29400 58800 1 270 0 capacitor-1.sym
 {
@@ -1983,4 +1975,21 @@ T 53100 61400 5 10 1 1 0 0 1
 refdes=TX
 T 52600 61500 5 10 0 0 270 0 1
 footprint=pin
+}
+T 28105 74000 8 10 1 1 0 0 1
+comment=Ineiev<ineiev@users.sourceforge.net>, super V 93
+T 49805 57050 14 10 1 1 0 0 1
+comment=ADXL210 PWM period is R1*8nF;
+T 49805 56800 14 10 1 1 0 0 1
+comment=the bandwidth (-3dB) is (1/(200kOhm*C[x,y]))
+T 49805 56450 14 10 1 1 0 0 1
+comment=For the current values period is 2 ms
+T 49805 56200 14 10 1 1 0 0 1
+comment=the bandwidth is 150 kHz
+N 31050 60450 32000 60450 4
+N 32000 59900 32000 60600 4
+N 32000 58300 32000 59100 4
+{
+T 32000 58100 5 10 1 1 0 0 1
+netname=+5V
 }
