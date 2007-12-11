@@ -1,16 +1,16 @@
 #include"exp.h"/*decode stribog messages*/
-#include<stdint.h>
 #include"crc32.h"
 #include"error.h"
 #include<stdio.h>
 #include"exp_gps.h"
+#include"get_u.h"
 static double freq=14745600.+8794;static FILE*gps_extracted;
 static unsigned leaps;static int period=1,verbous=0;
 static unsigned long long time_stamp;
 static double
 mcu_stamp(void){return time_stamp/freq;}
 static double
-mcu_time(uint32_t t)
+mcu_time(unsigned long t)
 {static int cycled=!0;if(t<(1<<30)&&!cycled){leaps++;cycled=1;}
  if(t>(~0)-(1<<30))cycled=0;time_stamp=t|(((unsigned long long)leaps)<<32);
  return mcu_stamp();
@@ -20,16 +20,14 @@ init_exp(int x,int p)
  if(p>0)period=p;else verbous=-p+1;return 0;
 }void
 close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}
-static uint32_t
-get_u(const unsigned char*s)
-{return*s|(((uint32_t)s[1])<<8)|(((uint32_t)s[2])<<16)|(((uint32_t)s[3])<<24);}
-static unsigned temp[4];
+static unsigned temperature[4];
 static int
 exp_temp(const unsigned char*s)
 {unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
  printf("temp: %.8f %u %u %u %u\n",mcu_stamp(),
-  temp[0]=t[0],temp[1]=t[1],temp[2]=t[2],temp[3]=_2048);return 0;
+  temperature[0]=t[0],temperature[1]=t[1],
+  temperature[2]=t[2],temperature[3]=_2048);return 0;
 }static double latest_pps=-1;
 double
 correct_utc_second(double utc,double t_mcu)
@@ -84,7 +82,7 @@ exp_adc(const unsigned char*s)
   mcu_t/period,a_[0]/period,a_[1]/period,a_[2]/period,
   b_[0]/period,b_[1]/period,b_[2]/period,
   w_[0]/period,w_[1]/period,w_[2]/period,T_/16/period);
- if(period<=1)for(j=0;j<4;j++)printf(" %u",temp[j]);putchar('\n');
+ if(period<=1)for(j=0;j<4;j++)printf(" %u",temperature[j]);putchar('\n');
  for(j=0;j<3;j++)a_[j]=b_[j]=w_[j]=0;T_=0;mcu_t=0;return 0;
 }static int
 check_gps_overflows(const unsigned char*s)
@@ -118,7 +116,7 @@ exp_stat(const unsigned char*s)
   adc_missed,accel_errors,uart0_overflows);return 0;
 }int
 expone(const unsigned char*s,int size)
-{uint32_t crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
+{unsigned long crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
   (unsigned long)crc,(unsigned long)cr,size);return!0;
