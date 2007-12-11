@@ -15,5 +15,5 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
-typedef uint8_t crc32_input_array_token;
+typedef unsigned char crc32_input_array_token;
 unsigned long form_crc(const crc32_input_array_token*msg,unsigned n);
