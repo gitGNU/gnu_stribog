@@ -8,8 +8,8 @@ static const unsigned char dle=0x10,etx=3,esc=0x17;static int fix_escapes;
 struct tsip_buf
 {unsigned char s[0x22],pr,pqpr;int n,in,par,chained_in,f_esc;
  unsigned long long count;
-};
-const unsigned char*parse_tsip(tsip_buf*t,unsigned char c,int*size)
+};const unsigned char*
+parse_tsip(tsip_buf*t,unsigned char c,int*size)
 {unsigned char*s=0;t->count++;
  if(t->in)
  {if(t->n==1)
@@ -25,13 +25,15 @@ const unsigned char*parse_tsip(tsip_buf*t,unsigned char c,int*size)
  {if(((c!=dle&&c!=etx)||t->chained_in)&&t->pr==dle&&t->pqpr==etx)
   {t->in=!0;t->n=0;t->par=!0;}t->chained_in=0;
  }t->pqpr=t->pr;t->pr=c;return s;
-}
-void reset_tsip(tsip_buf*t)
+}void
+reset_tsip(tsip_buf*t)
 {t->chained_in=0;t->in=0;t->pqpr=dle;t->pr=etx;t->count=0;t->f_esc=fix_escapes;}
-void enable_escapes(int x){fix_escapes=x;}
+void
+enable_escapes(int x){fix_escapes=x;}
 tsip_buf*new_tsip(void)
 {tsip_buf*t=malloc(sizeof(tsip_buf));if(!t)return 0;reset_tsip(t);return t;}
-void free_tsip(tsip_buf*t){if(t)free(t);}
+void
+free_tsip(tsip_buf*t){if(t)free(t);}
 /*This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -48,4 +50,3 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2005, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
-
