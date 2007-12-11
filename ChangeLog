@@ -1,3 +1,31 @@
+31 Nov 07
+ * hw/stribog.sch: the power supply polarity of U17 was wrong; 
+  added notes on accelerometer PWM period and bandwidth
+ * hw/main_board.pcb, hw/main_board.bis.pcb: increased mounting holes size;
+  corrected polarity of U17 power supply
+ * hw/packages/QFP64, hw/packages/qfp64: increased precision, renamed
+  from QFP64 to qfp64
+ * sw/host/conloq/get_u.h: initial add
+ * sw/host/conloq/caed.c: get_u removed to get_u.h; the function
+  names in definitions reformatted as GNU coding standards propose;
+  comments on program invocation added
+ * sw/host/conloq/crc32.c: word size constants introduced; the function
+  names in definitions reformatted as GNU coding standards propose
+ * sw/host/conloq/crc32.h: types from stdint.h replaced with built-in ones
+ * sw/host/conloq/exp-brief.c, sw/host/conloq/exp.c: 
+  temp renamed to temperature; get_u removed to get_u.h;
+  uint32_t replaced with unsigned long
+ * sw/host/conloq/parse_tsip.c:
+  names in definitions reformatted as GNU coding standards propose
+ * sw/host/conloq/parse_tsipex.c:
+  names in definitions reformatted as GNU coding standards propose
+  get_u removed to get_u.h
+ * sw/host/elk/elk.c: the uart is drained before synchronization
+ * sw/host/elk/wser.c: timeouts corrected
+ * sw/target/src/mag_response.c, sw/target/src/magex.c,
+  sw/target/src/multa.c: init sequence corrected
+ * sw/target/src/uart1ex.c: #define replaced with enum;
+  names in definitions reformatted as GNU coding standards propose
 17 Nov 07
  * copyright, README.txt: copyright notes moved to 'copyright';
   switched to the GNU GPL v3. greatly revised and more verbalised
