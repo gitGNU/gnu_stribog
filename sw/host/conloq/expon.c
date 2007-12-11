@@ -26,6 +26,6 @@ int main(int argc,char**argv)
  if(argc>3)enable_escapes(!0);tb=new_tsip();
  while(!feof(stdin))
  {if((_=parse_tsip(tb,getchar(),&size)))if(expone(_,size))
-   error("(error at %llu)\n",n);n++;
+   error("(error at position %llu)\n",n);n++;
  }close_exp();free_tsip(tb);return 0;
 }
