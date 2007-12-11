@@ -36,8 +36,8 @@ parse_settings(unsigned char*s,int n)
 }static void
 init_all(void)
 {unsigned char settings[0x11];int n;
- start_pll();init_led();init_uart1();init_adc();init_mag();connect_pll();
- init_tempus();led1_set();
+ start_pll();init_led();init_tempus();init_uart1();init_adc();init_mag();
+ connect_pll();led1_set();
  n=init_uart0(settings,sizeof(settings));if(n>0)parse_settings(settings,n);
 }int 
 main(void)

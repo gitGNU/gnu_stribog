@@ -61,7 +61,7 @@ static void form_data(unsigned d[FIX_LENGTH])
 }
 int main(void)
 {int j=0;start_pll();init_power();init_led();led1_set();
- init_mag();connect_pll();init_adc();init_uart1();init_tempus();
+ init_tempus();init_mag();connect_pll();init_adc();init_uart1();
  while(1)
  {form_data(f);if(send_fix(f,FIX_LENGTH)){j++;led1_set();led1_clr();}
   if(!close_loop){
@@ -87,4 +87,3 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
-
