@@ -66,7 +66,7 @@ hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
 hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
 hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
-hw/packages/2.5mm_10pin_header hw/packages/QFP64 hw/packages/adxl210
+hw/packages/2.5mm_10pin_header hw/packages/qfp64 hw/packages/adxl210
 hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
 hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
 hw/packages/tp
