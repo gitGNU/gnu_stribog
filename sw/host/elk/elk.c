@@ -134,7 +134,7 @@ output_snprintf_error(const char*file,int line,char*s,unsigned size,
 synchronize(int f)
 {const char query[]="?",sy[]="Synchronized\r\n",
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
- printf("Synchronizing baud rate...\n");
+ printf("Synchronizing baud rate...\n");while(wait_for_chars(s,14,2));
  do
  {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,2);
   if(n>0){s[n]=0;printf("received %i bytes: %s",n,s);}
