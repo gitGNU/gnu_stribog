@@ -110,10 +110,9 @@ parse_settings(const unsigned char*s,int n)
 }static void
 init_all(void)
 {unsigned char settings[0x11];int n;
- start_pll();init_power();init_led();init_lm74();
+ start_pll();init_power();init_led();init_tempus();init_lm74();
  init_mag();connect_pll();init_adc();init_uart1();//led1_set();
- init_tempus();n=init_uart0(settings,sizeof(settings));
- if(n>0)parse_settings(settings,n);
+ n=init_uart0(settings,sizeof(settings));if(n>0)parse_settings(settings,n);
 }enum multa_constants
 {ushort_bits=16,ushort_mask=(1<<ushort_bits)-1,
  tmin_initial=ushort_mask
