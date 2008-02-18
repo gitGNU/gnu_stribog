@@ -1,3 +1,25 @@
+18 Feb 08
+ * TODO: initial add
+ * mutex.h: comments telling these are not actually mutices
+14 Feb 08
+ * all files: switched from CVS to GIT
+09 Feb 08
+ * sw/host/prostprocess/src/lege_lineam.c, 
+   sw/host/prostprocess/src/lege_lineam.h,
+   sw/host/prostprocess/src/exvel.c, sw/host/postprocess/calib.dat:
+  alg_control message added
+ * sw/host/postprocess/process,
+   sw/host/prostprocess/src/exvel.c, sw/host/postprocess/calib.dat:
+  timestamp should be the first field of any message;
+  messages from calib.dat are sorted with all data
+20 Jan 08
+ * sw/target/src/uart0.c, sw/target/src/uart1.c, sw/target/src/uart.config.h: 
+  another uarts configuration added: 
+   UART0 is used to load preferences and send data to host;
+   UART1 receives GPS and odometer data
+  when the original configuration is selected,
+   UART0 receives preferences and GPS data;
+   UART1 sends data to host
 31 Nov 07
  * hw/stribog.sch: the power supply polarity of U17 was wrong; 
   added notes on accelerometer PWM period and bandwidth
@@ -135,7 +157,7 @@
 21 Aug 07
 README.txt: intention to switch to the GPL v3 eventually is confirmed.
 Copyright notes in files slightly changed: the FSF address has been changed
- to URL where the GPL can be found, like in the GPL v3. as this changes has
+ to URL where the GPL can be found, like in the GPL v3. as this change has
  been made automatically, the copyright dates are not updated.
 host software:
  (conloq): ZDA messages are not parsed any more, 25LP does not produce them.
@@ -261,7 +283,7 @@ main board: x and y axes drawn.
 31 Mar 06
 target software: UART0 functions written; accelerometer channels
  sequence changed to conform with the magnetic sensors. 
-host software: limited Win32 support added
+host software: limited Windows support added
 22 Mar 06
  all on-board sensors do work. magnetic sensors bandwidth should be
  defined more precisely and increased.
