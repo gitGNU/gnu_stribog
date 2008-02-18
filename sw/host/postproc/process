@@ -1,8 +1,8 @@
 #! /bin/bash
-#process stribog data; the data are to have been preprocessed with expon;
-sort -nk2 $1 |grep -v ": *-1"|uniq >data
-grep adc data|cut -d':' -f2 >adc.dat
-cat calib.dat data |exvel $2 >data.proc
+#process stribog data; the data are to have been preprocessed with expon
+cat calib.dat $1 |sort -nk2|uniq >data
+grep "^adc:" data|cut -d':' -f2 >adc.dat
+exvel $2 <data >data.proc
 grep "^acc_pos:" <data.proc |cut -d':' -f2 >acc_pos
 grep "^xvel:" <data.proc |cut -d':' -f2 >xvel
 grep "^v_angle:" <data.proc|cut -d':' -f2 >v_angle
@@ -30,4 +30,4 @@ grep "^extra_gps:" <data.proc|cut -d':' -f2 >extra_gps
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
+#Copyright (C) 2006, 2008 Ineiev <ineiev@users.sourceforge.net>

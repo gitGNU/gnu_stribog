@@ -1,4 +1,21 @@
-#include"lege_lineam.h"/*parse strings from preprocessed log files*/
+/*parse strings from preprocessed log files
+Copyright (C) 2006, 2008 Ineiev <ineiev@users.sourceforge.net>
+
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"lege_lineam.h"
 #include<string.h>
 #include<stdio.h>
 static char s[289];
@@ -18,20 +35,6 @@ commentarium lege_lineam(const char**t)
  if(!strcmp(s,"hodo_angle_source"))return hodo_angle_source_com;
  if(!strcmp(s,"odo"))return hodo_com;
  if(!strcmp(s,"mag"))return mag_com;
+ if(!strcmp(s,"alg_control"))return alg_control_com;
  return cet_com;
-}/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+}
