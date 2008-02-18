@@ -1,6 +1,27 @@
-#include"uart0.h"//UART0: the data are written in a buffer and
-#include"mutex.h"//someone running in system (rather than interrupt) mode
-#include"../include/lpc2138.h"//will empty the buffer.
+/*UART0 (program setup and external sensors connection)
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This file is a part of stribog.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+
+/*the data are written in a buffer and
+someone running in system (rather than interrupt) mode
+will empty the buffer.*/
+#include"uart0.h"
+#include"mutex.h"
+#include"../include/lpc2138.h"
 #include"uart.config.h"
 #include"freq.h"
 #include"tempus.h"
@@ -77,20 +98,4 @@ receive0(char*d,int n)
 ask_ephm(void)
 {/*if(lock(&tx0_mut))return!0;tx0i=0;tx0len=sizeof(tx0buf);
  fill_tx0buf();UIER_0=UxIERrx|UxIERtx;*/return 0;
-}/*This file is a part of stribog.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007, 2008\
- Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+}
