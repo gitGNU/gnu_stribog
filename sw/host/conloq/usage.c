@@ -20,7 +20,7 @@ Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include<stdio.h>
 void
 usage(void)
-{printf("conloq 1.01 ("__DATE__"): talk to stribog\n\n"
+{printf("conloq 1.02 ("__DATE__"): talk to stribog\n\n"
 "This program is a part of the stribog host software section\n\n"
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -30,9 +30,9 @@ usage(void)
 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
 "GNU General Public License for more details.\n\n"
-"You should have received a copy of the GNU General Public License"
-"along with this program. If not, see <http://www.gnu.org/licenses/>."
-"Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program. If not, see <http://www.gnu.org/licenses/>.\n"
+"Copyright (C) 2006, 2007, 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
 "usage: conloq [port]\n default port on GNU is /dev/ttyS1, on Windows -- COM1\n\n"
 "all data received are written in [0-9]*conloq.log\n\n"
 "for help on keypresses press 'h'\n"
