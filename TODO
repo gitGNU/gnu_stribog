@@ -1,0 +1,8 @@
+09 Feb 2008 [17 Feb 2008 complete] 
+ migrate to git
+09 Feb 2008 
+ invoke GNU autobuild tools
+18 Feb 2008
+ make sw/target programs work from the flash
+18 Feb 2008
+ implement on-board attitude computation
