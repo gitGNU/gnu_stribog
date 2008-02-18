@@ -1,4 +1,6 @@
 /*LPC2138: here many things are collected
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
@@ -12,9 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"uart1.h"
 #include"uart0.h"
 #include"led.h"
@@ -111,8 +111,9 @@ parse_settings(const unsigned char*s,int n)
 init_all(void)
 {unsigned char settings[0x11];int n;
  start_pll();init_power();init_led();init_tempus();init_lm74();
- init_mag();connect_pll();init_adc();init_uart1();//led1_set();
- n=init_uart0(settings,sizeof(settings));if(n>0)parse_settings(settings,n);
+ init_mag();connect_pll();init_adc();
+ n=init_uart0(settings,sizeof(settings));
+ init_uart1();led1_set();if(n>0)parse_settings(settings,n);
 }enum multa_constants
 {ushort_bits=16,ushort_mask=(1<<ushort_bits)-1,
  tmin_initial=ushort_mask
