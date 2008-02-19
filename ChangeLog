@@ -1,5 +1,6 @@
 19 Feb 08
  * sw/host/ChangeLog: new
+ * README.txt: notes on using GIT
 18 Feb 08
  * TODO: initial add
  * mutex.h: comments telling these are not actually mutices

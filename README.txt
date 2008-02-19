@@ -119,7 +119,17 @@ HOW TO USE GIT
 
 GIT is the revision control system used by the project.
 
-If you are a maintainer, your typical spells are
+Here is a typical ~/.gitconfig file contents
+(please replace the names and email with yours):
+<<<EOF
+[user]
+ name = Ineiev (favourite host)
+ email = ineiev@users.sourceforge.net
+[core]
+ editor = vim
+EOF
+
+If you are a maintainer, your usual spells are
 (change ineiev to your login name)
 
 $ git clone ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
@@ -144,7 +154,7 @@ $ git branch -r
  to list the public repository branches
 
 $ git checkout -b feb2008 origin/feb2008
- to make a local branch feb2008 based on remote origin/feb2008
+ to make a local branch feb2008 based on fetched origin/feb2008
 
 $ git checkout master
  to switch to existing branch 'master'
