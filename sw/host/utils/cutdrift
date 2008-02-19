@@ -1,5 +1,21 @@
 #! /bin/sh
 # "cutdrift": prepares files for "drift" and processes them
+#Copyright (C) 2006, 2008 Ineiev <ineiev@users.sourceforge.net>
+#This program is a part of the stribog host software section
+#
+#This program is free software; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
 # usage: cutdrift file1 file2
 cut -d' ' -f2,11 $1 > $1.ax
 cut -d' ' -f3,11 $1 > $1.ay
@@ -25,21 +41,5 @@ cut -d' ' -f10,11 $2 > $2.wz
 cut -d' ' -f12,11 $2 > $2.t1
 cut -d' ' -f13,11 $2 > $2.t2
 cut -d' ' -f14,11 $2 > $2.t3
-for i in ax ay az mx my mz wx wy wz;do ./drift $1.$i $2.$i > $1.$i.dat;done
-for i in t1 t2 t3;do ./fdif $1.$i $2.$i |./lpfilter 10 > $1.d$i.dat;done
-#This program is a part of the stribog host software section
-#
-#This program is free software; you can redistribute it and/or modify
-#it under the terms of the GNU General Public License as published by
-#the Free Software Foundation; either version 3 of the License, or
-#(at your option) any later version.
-#
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU General Public License for more details.
-#
-#You should have received a copy of the GNU General Public License
-#along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-#Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>
+for i in ax ay az mx my mz wx wy wz;do drift $1.$i $2.$i > $1.$i.dat;done
+for i in t1 t2 t3;do fdif $1.$i $2.$i |lpfilter 10 > $1.d$i.dat;done
