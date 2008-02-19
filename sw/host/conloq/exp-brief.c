@@ -1,4 +1,6 @@
 /*briefly decoding stribog messages with interactive output control
+Copyright (C) 2006, 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,9 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"exp.h"
 #include"crc32.h"
 #include"error.h"
@@ -41,9 +41,10 @@ close_exp(void){close_gps();}
 static unsigned temperature[4];
 static void
 exp_temp(const unsigned char*s)
-{unsigned _2048,t[3];_2048=get_u(s);s+=4;t[0]=get_u(s);
+{unsigned _2048,t[3];enum verbosity_level verb;
+ _2048=get_u(s);s+=4;t[0]=get_u(s);
  t[2]=t[0]>>20;t[1]=(t[0]>>10)&0x3FF;t[0]&=0x3FF;
- enum verbosity_level verb=get_verbosity();
+ verb=get_verbosity();
  temperature[0]=t[0];temperature[1]=t[1];
  temperature[2]=t[2];temperature[3]=_2048;
  if(!stribog_message_turned_on(temp_message))return;
@@ -66,10 +67,12 @@ exp_pps(const unsigned char*s)
   t+(double)((unsigned long long)loops*(1ull<<32)),d);
 }static void
 exp_adc(const unsigned char*s)
-{static int i;int a[3],b[3],w[3],T,j;unsigned long t,x;
- static double mcu_t,a_[3],b_[3],w_[3],T_;for(j=0;j<3;j++)b[j]=w[j]=0;
- enum verbosity_level verb=get_verbosity();
- int turned_on=stribog_message_turned_on(adc_message);
+{static int i;int a[3],b[3],w[3],T,j,turned_on;unsigned long t,x;
+ static double mcu_t,a_[3],b_[3],w_[3],T_;
+ enum verbosity_level verb;
+ for(j=0;j<3;j++)b[j]=w[j]=0;
+ verb=get_verbosity();
+ turned_on=stribog_message_turned_on(adc_message);
  if(period<0)return;t=get_u(s);x=get_u(s+=4);
  if(x&0x800)b[0]=-1&~(0xFFF);b[0]|=x&0xFFF;x>>=12;
  if(x&0x800)b[1]=-1&~(0xFFF);b[1]|=x&0xFFF;x>>=12;T=x&0xFF;x=get_u(s+=4);

@@ -1,4 +1,20 @@
-#include"parse_tsip.h"/*parse_tsipex: parse_tsip module test*/
+/*parse_tsipex: parse_tsip module test
+Copyright (C) 2007, 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"parse_tsip.h"
 #include"error.h"
 #include"crc32.h"
 #define hostside_form_fix
@@ -16,8 +32,9 @@ lege(unsigned char*s,int n)
  form_fix(buf,message_length>>2,(char*)s,&len);bytes_processed+=len;return len;
 }void
 expone(const unsigned char*s,int size)
-{static unsigned long long u;int i;++u;
- unsigned long crc,cr;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
+{static unsigned long long u;int i;
+ unsigned long crc,cr;
+ ++u;crc=form_crc(s,(size>>2)-1);cr=get_u(s+size-4);
  if(crc!=cr)
   error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",crc,cr,size);
  if(size!=message_length+4)
@@ -39,19 +56,4 @@ main(int argc,char**argv)
  while(1)if(0<(n=lege(s,sizeof s)))for(j=0;j<n;j++)
   if((_=parse_tsip(tb,s[j],&size)))expone(_,size);
  free_tsip(tb);return 0;
-}/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+}
