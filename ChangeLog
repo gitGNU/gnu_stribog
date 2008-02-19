@@ -1,3 +1,6 @@
+19 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/exp-brief.c conloq/parse_tsipex.c: 
+   local variable definitions moved up to their block origin
 31 Nov 07
  * hw/stribog.sch: the power supply polarity of U17 was wrong; 
   added notes on accelerometer PWM period and bandwidth
