@@ -109,8 +109,45 @@ Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
 instructions how to build this toolchain can be found in avr-libc 
 documentation. for historical reasons we use uisp to load programs into these 
-processors. maybe avrdude is much better. all these live in 
+processors. generally avrdude is much better. all these live in 
 http://savannah.gnu.org
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog.
+
+HOW TO USE GIT
+
+GIT is the revision control system used by the project.
+
+If you are a maintainer, your typical spells are
+(change ineiev to your login name)
+
+$ git clone ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
+ to get a new local repository
+
+$ git remote add savannah ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
+ to add a remote repository reference
+
+$ git push savannah feb2008
+ to push into the savannah local branch named 'feb2008' 
+ (non-existent will be created)
+
+$ git push savannah :refs/heads/feb2008
+ to remove branch feb2008 from remote savannah
+
+For anonymous access, use these:
+
+$ git clone git://git.savannah.nongnu.org/stribog.git
+ to make your local repository
+
+$ git branch -r
+ to list the public repository branches
+
+$ git checkout -b feb2008 origin/feb2008
+ to make a local branch feb2008 based on remote origin/feb2008
+
+$ git checkout master
+ to switch to existing branch 'master'
+
+$ git fetch
+ to update copies of remote branches
