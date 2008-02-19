@@ -1,0 +1,7 @@
+19 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * AUTHORS COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS 
+   README aclocal.m4 config.h.in configure configure.ac depcomp
+   install-sh missing autom4te.cache/ conloq/Makefile.am conloq/Makefile.in
+   elk/Makefile.am elk/Makefile.in intlpc/Makefile.am intlpc/Makefile.in
+   postproc/Makefile.am postproc/Makefile.in 
+   utils/Makefile.am utils/Makefile.in: new
