@@ -11,7 +11,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright (C) 2005, 2006, 2007 Ineiev <ineiev@users.sourceforge.net>
+    Copyright (C) 2005, 2006, 2007, 2008 Ineiev <ineiev@users.sourceforge.net>
 
 Currently, stribog is distributed by Ineiev under the terms of the GNU GPL v3.
 
@@ -90,3 +90,5 @@ usually we just slightly corrected files from gEDA and PCB libraries.
 the AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
 as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
 'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
+
+The same is true for the GNU autobuild system files.
