@@ -1,4 +1,6 @@
 19 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * utils/cutdrift: the utils called are in $PATH rather than in .
+ * utils/Makefile.am postproc/Makefile.am: bin_SCRIPTS added
  * AUTHORS COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS 
    README aclocal.m4 config.h.in configure configure.ac depcomp
    install-sh missing autom4te.cache/ conloq/Makefile.am conloq/Makefile.in
