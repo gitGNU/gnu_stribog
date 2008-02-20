@@ -17,19 +17,13 @@
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 bin_PROGRAMS=caed conloq elig expon magex-conloq magexp parse_tsipex
 caed_SOURCES=caed.c crc32.c error.c parse_tsip.c
-caed_LDADD=-lm
 conloq_SOURCES=conloq.c crc32.c error.c exp-brief.c\
  process_keypress.c garmin_nmea.c hodo.c parse_tsip.c\
  serialia.c usage.c verbosity_level.c
-conloq_LDADD=-lm
 elig_SOURCES=elig.c error.c parse_tsip.c
-elig_LDADD=-lm
 expon_SOURCES=expon.c crc32.c error.c exp.c garmin_nmea.c hodo.c lla.c\
  parse_tsip.c preproc_gps.c verbosity_level.c
-expon_LDADD=-lm
 magex_conloq_SOURCES=magex-conloq.c serialia.c error.c parse_tsip.c magexp.c
 magex_conloq_LDADD=-lm
 magexp_SOURCES=expon.c parse_tsip.c error.c magexp.c
-magexp_LDADD=-lm
 parse_tsipex_SOURCES=parse_tsipex.c crc32.c error.c parse_tsip.c
-parse_tsipex_LDADD=-lm
