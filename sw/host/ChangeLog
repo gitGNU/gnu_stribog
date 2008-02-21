@@ -1,4 +1,5 @@
 21 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: bug report address set to stribog-bug@nongnu.org
  * conloq/Makefile.am elk/Makefile.am configure.ac
    config.guess config.sub: non-standard OS support in configuration
  * conloq/Makefile.am elk/Makefile.am postproc/Makefile.am:
