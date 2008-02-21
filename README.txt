@@ -130,7 +130,7 @@ Here is a typical ~/.gitconfig file contents
 EOF
 
 If you are a maintainer, your usual spells are
-(change ineiev to your login name)
+(replace ineiev with your login name)
 
 $ git clone ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
  to get a new local repository
@@ -171,6 +171,7 @@ $ git checkout master
 $ git add .
  to cache the changes in your files against
  the current branch most recent commit
+
 $ git diff
  to see what will be "git add"ed
 
@@ -183,6 +184,9 @@ $ git branch
 
 $ git branch -r
  to list the public repositories branches
+
+$git commit
+ to move the changes to your current branch
 
 $git show
  to see the latest commit description
