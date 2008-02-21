@@ -1,4 +1,12 @@
-20 Feb 2008  P.Kharitonov <ineiev@users.sourceforge.net>
+21 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/Makefile.am elk/Makefile.am configure.ac
+   config.guess config.sub: non-standard OS support in configuration
+ * conloq/Makefile.am elk/Makefile.am postproc/Makefile.am:
+   the headers added to the _SOURCES
+ * conloq/Makefile conloq/Makefile.windows 
+   elk/Makefile elk/Makefile.windows: removed
+ * README: more notes on the regeneration
+20 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/Makefile.am: removed unneeded "^.*LDADD= -lm"
 19 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/exp-brief.c conloq/parse_tsipex.c: 
