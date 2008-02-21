@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT([stribog-hosttools], [0.0.0-rc0], [ineiev@users.sourceforge.net])
+AC_INIT([stribog-hosttools], [0.0.0-rc0], [stribog-bug@nongnu.org])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 
