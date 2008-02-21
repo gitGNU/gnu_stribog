@@ -136,11 +136,14 @@ $ git clone ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
  to get a new local repository
 
 $ git remote add savannah ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
- to add a remote repository reference
+ to add a reference for the public repository
 
 $ git push savannah feb2008
- to push into the savannah local branch named 'feb2008' 
+ to push into savannah local branch named 'feb2008' 
  (non-existent will be created)
+
+$ git push savannah
+ to push into savannah all local branches
 
 $ git push savannah :refs/heads/feb2008
  to remove branch feb2008 from remote savannah
@@ -150,14 +153,36 @@ For anonymous access, use these:
 $ git clone git://git.savannah.nongnu.org/stribog.git
  to make your local repository
 
-$ git branch -r
- to list the public repository branches
-
 $ git checkout -b feb2008 origin/feb2008
  to make a local branch feb2008 based on fetched origin/feb2008
+
+$ git fetch
+ to update copies of remote branches
+
+$ git pull
+ to fetch all remote branches and merge
+ one of them into your current branch
+
+Common to both access types:
 
 $ git checkout master
  to switch to existing branch 'master'
 
-$ git fetch
- to update copies of remote branches
+$ git add .
+ to cache the changes in your files against
+ the current branch most recent commit
+$ git diff
+ to see what will be "git add"ed
+
+$ git diff --cached
+ to see what has been "git add"ed but not 
+ "git commit"ed
+
+$ git branch
+ to list the local repository branches
+
+$ git branch -r
+ to list the public repositories branches
+
+$git show
+ to see the latest commit description
