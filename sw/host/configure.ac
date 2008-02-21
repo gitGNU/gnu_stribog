@@ -3,9 +3,12 @@
 
 AC_PREREQ(2.61)
 AC_INIT([stribog-hosttools], [0.0.0-rc0], [ineiev@users.sourceforge.net])
+AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
+
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
+
 
 # Checks for programs.
 AC_PROG_CC
@@ -30,6 +33,13 @@ AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror])
+
+case $target in
+        *-*-mingw32* | *-*-cygwin* | *-*-windows*)
+		the_target_is_windows=true
+		;;
+esac
+AM_CONDITIONAL(the_target_is_windows, test x$the_target_is_windows = xtrue)
 
 AC_CONFIG_FILES([Makefile
                  conloq/Makefile

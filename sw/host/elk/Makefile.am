@@ -15,5 +15,12 @@
 #
 #Copyright (C) 2005, 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
+if the_target_is_windows
+#forced to use non-free OS API
+ serial_source=wser.c
+else
+#using POSIX RS-232 UART API by default
+serial_source=serialia.c
+endif
 bin_PROGRAMS=elk
-elk_SOURCES=elk.c serialia.c usage.c
+elk_SOURCES=elk.c $(serial_source) serialia.h usage.c usage.h
