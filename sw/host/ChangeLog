@@ -1,3 +1,5 @@
+25 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk.c: drain_uart() added
 21 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: bug report address set to stribog-bug@nongnu.org
  * conloq/Makefile.am elk/Makefile.am configure.ac

@@ -38,7 +38,10 @@ wait_for_chars(char*s,int N,int timeout)
 {clock_t t;int i=0,n;char*_=s;t=clock();
  do{n=lege(_,N-i);if(n>0){i+=n;_+=n;}}
  while(i<N&&clock()-t<timeout*CLOCKS_PER_SEC/5);return i;
-}const char*
+}
+void
+drain_uart(void){char s[0x11];while(0<lege(s,sizeof s));}
+const char*
 code_string(int n)
 {switch(n)
  {case 0:return"CMD_SUCCESS";
@@ -92,12 +95,12 @@ test_code(const char*s)
  }return n;
 }int 
 echo_off(void)
-{char s[289];const char k[]="A 0\r\n";int n;
+{char s[289];const char k[]="A 0\r\n";int n;drain_uart();
  printf("sent %s",k);scribe(k,strlen(k));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }void 
 read_partid(void)
-{char s[289];const char k[]="J\r\n";long n;
+{char s[289];const char k[]="J\r\n";long n;drain_uart();
  printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,1);s[n]=0;
  printf("received %li bytes: %s",n,s);
  if(test_code(s))return;sscanf(s+3,"%li",&n);printf("The part is ");
@@ -108,7 +111,7 @@ read_partid(void)
  } 
 }int 
 unlock(void)
-{char s[289];const char k[]="U 23130\r\n";int n;
+{char s[289];const char k[]="U 23130\r\n";int n;drain_uart();
  printf("sent %s",k);scribe(k,strlen(k));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
@@ -134,6 +137,7 @@ output_snprintf_error(const char*file,int line,char*s,unsigned size,
 synchronize(int f)
 {const char query[]="?",sy[]="Synchronized\r\n",
   ok[]="Synchronized\r\nOK\r\n";char s[289],s0[289];int n,i=0,vex;
+ drain_uart();
  printf("Synchronizing baud rate...\n");while(wait_for_chars(s,14,2));
  do
  {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,2);
@@ -149,17 +153,21 @@ synchronize(int f)
 }void
 read_version(void)
 {char s[289];const char k[]="K\r\n";int n;
+ drain_uart();
  printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,1);s[n]=0;
  printf("received %i bytes: %s",n,s);test_code(s);
 }int
 prepare_sectors(unsigned start,unsigned end)
-{char s[289];int n;if(snprintf_checked(s,sizeof s,"P %u %u\r\n",start,end))return!0;
+{char s[289];int n;
+ if(snprintf_checked(s,sizeof s,"P %u %u\r\n",start,end))return!0;
+ drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }int
 erase_sectors(unsigned start,unsigned end)
 {char s[289];int n;if(prepare_sectors(start,end))return-1;
  if(snprintf_checked(s,sizeof s,"E %u %u\r\n",start,end))return!0;
+ drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }void
@@ -201,6 +209,7 @@ int
 read_memory(unsigned long addr,unsigned l,FILE*f)
 {char s[289];int n,vex=0,r=0,cs=0;l-=l%4;
  if(snprintf_checked(s,sizeof s,"R %lu %u\r\n",addr,l))return!0;
+ drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));
  if(receive_test_code(s))return!0;
  do{if(receive_uuenc_string(s,1))break;vex|=decode_string(s,&r,&cs,f);}
@@ -216,8 +225,10 @@ read_mem(void)
 }int
 write_string(const char*s,unsigned long addr,int n)
 {int i,j;char t[289];unsigned long cs;
+ drain_uart();
  do
- {if(snprintf_checked(t,sizeof t,"W %lu %i\r\n",addr,n))return!0;scribe(t,strlen(t));
+ {if(snprintf_checked(t,sizeof t,"W %lu %i\r\n",addr,n))return!0;
+  scribe(t,strlen(t));
   i=wait_for_chars(t,3,1);t[i]=0;if(!mute)printf("received %i: %s",i,t);
   if(test_code(t))return!0;
   while(1)
@@ -260,6 +271,7 @@ write_file(void)
 }int 
 run(unsigned long addr)
 {char s[289];int n,r;if(snprintf_checked(s,sizeof s,"G %lu A\r\n",addr))return!0;
+ drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);r=test_code(s);
  n=wait_for_chars(s,sizeof(s),1);s[n]=0;
@@ -267,8 +279,8 @@ run(unsigned long addr)
 }enum{byte_mask=0xFF,reset=0,end=0xFF};
 static void
 print_array(char*s,int n)
-{int i;for(i=0;i<n;i++)printf(" %2.2X",s[i]&byte_mask);printf("\n");
-}int
+{int i;for(i=0;i<n;i++)printf(" %2.2X",s[i]&byte_mask);printf("\n");}
+int
 reset_prefs_once(void)
 {char c=0,s[0x11];int n;while(wait_for_chars(s,sizeof s,1));
  printf("sending reset\n");scribe(&c,1);n=wait_for_chars(s,sizeof s,1);
@@ -311,12 +323,15 @@ load_prefs(void)
 load_and_go(void)
 {static const unsigned long ram_org=0x40000000,used_ram=0x40000200;
  int i,m=mute;FILE*f;unsigned long addr;char s[289];mute=1;
- f=fopen("vectors","rb");
+ if(!(f=fopen("vectors","rb")))
+ {printf("no interrupt vectors in current directory\n");return !0;}
  for(addr=ram_org;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
   if(write_string(s,addr,step)){fclose(f);return!0;}putchar('\n');
- }fclose(f);f=fopen("elk.bin","rb");
+ }fclose(f);
+ if(!(f=fopen("elk.bin","rb")))
+ {printf("no programme in current directory\n");return !0;}
  for(addr=used_ram;!feof(f);addr+=step)
  {for(i=0;i<step;i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
@@ -335,6 +350,7 @@ main(int argc,char**argv)
 {char c=!0;int err,f=14746;
  if(argc>2){sscanf(argv[2],"%i",&err);if((c=err>10))f=err;}
  usage();printf("crystal frequency assumed %i kHz\n",f);
+ drain_uart();
  if((err=init(argc<2?0:argv[1],f)))return err;
  if(!c){program_ram(f);close_all();return 0;}echo_off();read_partid();
  do
