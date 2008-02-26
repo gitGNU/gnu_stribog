@@ -25,6 +25,9 @@ the swapped is more convenient when we have got a GPS
 and don't want to change the connections*/
 #define SWAP_UARTS	(1)
 #ifndef SWAP_UARTS
+ #define SWAP_UARTS	(0)
+#endif
+#if !SWAP_UARTS
  #define UIIR_0 U0IIR
  #define UIER_0 U0IER
  #define ULSR_0 U0LSR
