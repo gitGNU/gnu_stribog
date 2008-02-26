@@ -1,3 +1,8 @@
+25 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/target/Makefile: ROM-based programs are built, too
+ * sw/target/src/2138.ld, sw/target/src/boot.s: 
+   ROM-based programs made work from RAM
+ * sw/target/src/uart.config.h: more robust macros
 19 Feb 08
  * sw/host/ChangeLog: new
  * README.txt: notes on using GIT
