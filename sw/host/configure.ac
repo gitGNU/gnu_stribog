@@ -40,7 +40,7 @@ AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror])
 
 case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-		the_target_is_windows=true
+		the_host_is_windows=true
 		;;
 esac
 AM_CONDITIONAL(the_host_is_windows, test x$the_host_is_windows = xtrue)
@@ -60,4 +60,5 @@ Configuration summary for ${PACKAGE} ${VERSION}:
 prefix:               ${prefix}
 host:                 ${host}
 CFLAGS:               ${CFLAGS}
+LIBS:                 ${LIBS}
 ])
