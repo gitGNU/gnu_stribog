@@ -1,5 +1,7 @@
 #! /bin/bash
 #makes files to feed elk
+#Copyright (C) 2005, 2006, 2007, 2008\
+# Ineiev<ineiev@users.sourceforge.net>, super V 93
 #to load the resulting files into the mainboard, run
 #$./elk [serial port file] -1
 # e.g. 
@@ -17,10 +19,10 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-#Copyright (C) 2005, 2006, 2007 D.Ineiev <ineiev@users.sourceforge.net>, super V 93
 target=multa
 if [ $# -gt 0 ]; then target=$1; fi
 echo cooking $target
 cd ../../target/;make;cd ../host/elk
-cp ../../target/bin/$target.bin elk.bin;cp ../../target/bin/$target.vectors vectors
+cp ../../target/bin/$target.bin elk.bin
+intlpc < ../../target/bin/$target.bin_rom > elk.bin_rom
+cp ../../target/bin/$target.vectors vectors
