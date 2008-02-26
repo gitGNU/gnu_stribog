@@ -14,12 +14,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include"usage.h"
 #include<stdio.h>
 void 
 usage(void)
-{printf("elk 0?D ("__DATE__") the LPC2138 programmer (hardly functional)\n"
+{printf("elk 0?E ("__DATE__") the LPC2138 programmer (hardly functional)\n"
 "This program is a part of the stribog host software section\n"
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -31,7 +32,8 @@ usage(void)
 "GNU General Public License for more details.\n"
 "You should have received a copy of the GNU General Public License\n"
 "along with this program. If not, see <http://www.gnu.org/licenses/>.\n"
-"Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93\n"
+"Copyright (C) 2006, 2007, 2008\\\n"
+" Ineiev <ineiev@users.sourceforge.net>, super V 93\n"
 "usage: elk [port [cryst. freq in kHz]]\n"
 " default port on a POSIX system is /dev/ttyS0; on Windows -- COM1\n"
 " default frequency is 14746; on POSIX systems the port baud rate is set\n"
@@ -46,7 +48,7 @@ help(void)
 " l: load and run RAM-based program\n u: unlock uC for writing\n"
 " p: prepare to erase ROM;  e: erase ROM\n b: load ROM-based program\n"
 " r: dump MCU memory on screen\n q: quit\n h: commands info\n"
+" t: toggle preferences loading\n"
 "For more info, see elk sources and LPC21xx bootstrap loader documentation\n"
  );
 }
-
