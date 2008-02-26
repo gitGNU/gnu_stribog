@@ -168,7 +168,7 @@ erase_sectors(unsigned start,unsigned end)
 {char s[289];int n;if(prepare_sectors(start,end))return-1;
  if(snprintf_checked(s,sizeof s,"E %u %u\r\n",start,end))return!0;
  drain_uart();
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
+ printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,3);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }void
 erase(void)
@@ -258,7 +258,7 @@ copy_memory(unsigned long addr)
  printf("received %i bytes: %s",n,s);return test_code(s);
 }int
 write_file(void)
-{char s[289];FILE*f=fopen("elk.bin","rb");int i,n=0;unsigned long addr=ram;
+{char s[289];FILE*f=fopen("elk.bin_rom","rb");int i,n=0;unsigned long addr=ram;
  if(!f)return!0;
  while(!feof(f))
  {for(addr=ram;addr<ram+block;addr+=step)
@@ -294,11 +294,13 @@ reset_prefs(void)
  printf("can't reset connection\n");return!0;
 }void
 send_empty_prefs(void){char c[2]={reset,end};scribe(c,2);}
+static int no_preferences;
 int
 load_prefs(void)
 {const char format[]="mag=%i,%i,%i\nacc=%i",prefs_file[]="prefs.dat";
  enum{prefs_num=4/*NB this depends on format*/};char c[prefs_num+1],s[0x11];
- int n,x[prefs_num],i;FILE*f=fopen(prefs_file,"r");
+ int n,x[prefs_num],i;FILE*f;
+ if(no_preferences)return 0;f=fopen(prefs_file,"r");
  if(NULL==f)
  {printf("no file \"%s\"",prefs_file);send_empty_prefs();return 0;}
  if(prefs_num!=fscanf(f,format,x,x+1,x+2,x+3))
@@ -347,8 +349,11 @@ program_ram(int f)
  echo_off();read_partid();unlock();load_and_go();
 }int
 main(int argc,char**argv)
-{char c=!0;int err,f=14746;
- if(argc>2){sscanf(argv[2],"%i",&err);if((c=err>10))f=err;}
+{char c=!0;int err,f=14746,freq_arg;
+ if(argc>2)
+ {sscanf(argv[2],"%i",&freq_arg);if((c=freq_arg>10))f=freq_arg;
+  if(freq_arg<-1)no_preferences=!0;
+ }else no_preferences=!0;
  usage();printf("crystal frequency assumed %i kHz\n",f);
  drain_uart();
  if((err=init(argc<2?0:argv[1],f)))return err;
@@ -363,7 +368,10 @@ main(int argc,char**argv)
    case'e':erase();break;case'u':unlock();break;
    case'p':prepare();break;case'r':read_mem();break;
    case'a':echo_off();break;case'c':copy_mem();break;
-   case'b':write_file();break;case'l':load_and_go();break;case'h':help();
+   case'b':write_file();break;case'l':load_and_go();break;
+   case'h':help();break;
+   case't':no_preferences=!no_preferences;
+    printf("%spreferences will be loaded\n",no_preferences?"no ":"");
   } 
  }while(c!='q');close_all();return err;
 }
