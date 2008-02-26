@@ -1,5 +1,9 @@
 25 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * elk.c: drain_uart() added
+ * elk/elk.c: drain_uart() and a control to switch off
+   loading preferences added; some timeouts corrected;
+   ROM-based program is read from elk.bin_rom
+ * elk/maketarget: ROM-based file is cooked, too
+ * elk/usage.c: version and usage summary update
 21 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: bug report address set to stribog-bug@nongnu.org
  * conloq/Makefile.am elk/Makefile.am configure.ac
