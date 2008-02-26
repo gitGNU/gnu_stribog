@@ -15,7 +15,7 @@
 #
 #Copyright (C) 2005, 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
-if the_target_is_windows
+if the_host_is_windows
 #forced to use non-free OS API
  serial_source=wser.c
 else
