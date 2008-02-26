@@ -14,7 +14,7 @@ AC_CONFIG_HEADER([config.h])
 AC_PROG_CC
 
 if test "z$GCC" = "zyes"; then
- CFLAGS="$(echo $CFLAGS |sed -e "s/ -Wall\>//g") -Wall"
+ CFLAGS="${CFLAGS} -Wall"
 fi
 
 # Checks for libraries.
