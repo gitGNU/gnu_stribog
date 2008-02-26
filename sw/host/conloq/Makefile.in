@@ -32,7 +32,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-target_triplet = @target@
 bin_PROGRAMS = caed$(EXEEXT) conloq$(EXEEXT) elig$(EXEEXT) \
 	expon$(EXEEXT) magex-conloq$(EXEEXT) magexp$(EXEEXT) \
 	parse_tsipex$(EXEEXT)
@@ -57,8 +56,8 @@ am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h error.c error.h \
 	process_keypress.c process_keypress.h garmin_nmea.c hodo.c \
 	hodo.h parse_tsip.c parse_tsip.h serialia.c wser.c serialia.h \
 	usage.c usage.h verbosity_level.c verbosity_level.h
-@the_target_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
-@the_target_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
+@the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
+@the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) error.$(OBJEXT) \
 	exp-brief.$(OBJEXT) process_keypress.$(OBJEXT) \
 	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) parse_tsip.$(OBJEXT) \
@@ -195,15 +194,11 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
-target = @target@
 target_alias = @target_alias@
-target_cpu = @target_cpu@
-target_os = @target_os@
-target_vendor = @target_vendor@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 #using POSIX RS-232 UART API by default
-@the_target_is_windows_FALSE@serial_source = serialia.c
+@the_host_is_windows_FALSE@serial_source = serialia.c
 
 #stribog data loggers and parsers: Makefile.am
 #
@@ -223,7 +218,7 @@ top_srcdir = @top_srcdir@
 #Copyright (C) 2005, 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #forced to use non-free OS API
-@the_target_is_windows_TRUE@serial_source = wser.c
+@the_host_is_windows_TRUE@serial_source = wser.c
 caed_SOURCES = caed.c crc32.c crc32.h error.c error.h get_u.h\
  parse_tsip.c parse_tsip.h
 

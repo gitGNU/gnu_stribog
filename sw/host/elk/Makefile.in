@@ -32,7 +32,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-target_triplet = @target@
 bin_PROGRAMS = elk$(EXEEXT)
 subdir = elk
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -48,8 +47,8 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am__elk_SOURCES_DIST = elk.c serialia.c wser.c serialia.h usage.c \
 	usage.h
-@the_target_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
-@the_target_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
+@the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
+@the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_elk_OBJECTS = elk.$(OBJEXT) $(am__objects_1) usage.$(OBJEXT)
 elk_OBJECTS = $(am_elk_OBJECTS)
 elk_LDADD = $(LDADD)
@@ -154,15 +153,11 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
-target = @target@
 target_alias = @target_alias@
-target_cpu = @target_cpu@
-target_os = @target_os@
-target_vendor = @target_vendor@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 #using POSIX RS-232 UART API by default
-@the_target_is_windows_FALSE@serial_source = serialia.c
+@the_host_is_windows_FALSE@serial_source = serialia.c
 
 #elk the LPC21x programmer: Makefile.am
 #
@@ -182,7 +177,7 @@ top_srcdir = @top_srcdir@
 #Copyright (C) 2005, 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #forced to use non-free OS API
-@the_target_is_windows_TRUE@serial_source = wser.c
+@the_host_is_windows_TRUE@serial_source = wser.c
 elk_SOURCES = elk.c $(serial_source) serialia.h usage.c usage.h
 all: all-am
 

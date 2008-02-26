@@ -660,10 +660,6 @@ host
 host_cpu
 host_vendor
 host_os
-target
-target_cpu
-target_vendor
-target_os
 INSTALL_PROGRAM
 INSTALL_SCRIPT
 INSTALL_DATA
@@ -706,8 +702,8 @@ CPP
 GREP
 EGREP
 LIBOBJS
-the_target_is_windows_TRUE
-the_target_is_windows_FALSE
+the_host_is_windows_TRUE
+the_host_is_windows_FALSE
 LTLIBOBJS'
 ac_subst_files=''
       ac_precious_vars='build_alias
@@ -1286,7 +1282,6 @@ Program names:
 System types:
   --build=BUILD     configure for building on BUILD [guessed]
   --host=HOST       cross-compile to build programs to run on HOST [BUILD]
-  --target=TARGET   configure for building compilers for TARGET [HOST]
 _ACEOF
 fi
 
@@ -1857,49 +1852,6 @@ IFS=$ac_save_IFS
 case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
 
 
-{ echo "$as_me:$LINENO: checking target system type" >&5
-echo $ECHO_N "checking target system type... $ECHO_C" >&6; }
-if test "${ac_cv_target+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test "x$target_alias" = x; then
-  ac_cv_target=$ac_cv_host
-else
-  ac_cv_target=`$SHELL "$ac_aux_dir/config.sub" $target_alias` ||
-    { { echo "$as_me:$LINENO: error: $SHELL $ac_aux_dir/config.sub $target_alias failed" >&5
-echo "$as_me: error: $SHELL $ac_aux_dir/config.sub $target_alias failed" >&2;}
-   { (exit 1); exit 1; }; }
-fi
-
-fi
-{ echo "$as_me:$LINENO: result: $ac_cv_target" >&5
-echo "${ECHO_T}$ac_cv_target" >&6; }
-case $ac_cv_target in
-*-*-*) ;;
-*) { { echo "$as_me:$LINENO: error: invalid value of canonical target" >&5
-echo "$as_me: error: invalid value of canonical target" >&2;}
-   { (exit 1); exit 1; }; };;
-esac
-target=$ac_cv_target
-ac_save_IFS=$IFS; IFS='-'
-set x $ac_cv_target
-shift
-target_cpu=$1
-target_vendor=$2
-shift; shift
-# Remember, the first character of IFS is used to create $*,
-# except with old shells:
-target_os=$*
-IFS=$ac_save_IFS
-case $target_os in *\ *) target_os=`echo "$target_os" | sed 's/ /-/g'`;; esac
-
-
-# The aliases save the names the user supplied, while $host etc.
-# will get canonicalized.
-test -n "$target_alias" &&
-  test "$program_prefix$program_suffix$program_transform_name" = \
-    NONENONEs,x,x, &&
-  program_prefix=${target_alias}-
 am__api_version='1.10'
 
 # Find a good install program.  We prefer a C program (faster),
@@ -3448,6 +3400,10 @@ else
 fi
 
 
+
+if test "z$GCC" = "zyes"; then
+ CFLAGS="$(echo $CFLAGS |sed -e "s/ -Wall\>//g") -Wall"
+fi
 
 # Checks for libraries.
 
@@ -5288,17 +5244,17 @@ fi
 done
 
 
-case $target in
+case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
 		the_target_is_windows=true
 		;;
 esac
- if test x$the_target_is_windows = xtrue; then
-  the_target_is_windows_TRUE=
-  the_target_is_windows_FALSE='#'
+ if test x$the_host_is_windows = xtrue; then
+  the_host_is_windows_TRUE=
+  the_host_is_windows_FALSE='#'
 else
-  the_target_is_windows_TRUE='#'
-  the_target_is_windows_FALSE=
+  the_host_is_windows_TRUE='#'
+  the_host_is_windows_FALSE=
 fi
 
 
@@ -5414,10 +5370,10 @@ echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${the_target_is_windows_TRUE}" && test -z "${the_target_is_windows_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"the_target_is_windows\" was never defined.
+if test -z "${the_host_is_windows_TRUE}" && test -z "${the_host_is_windows_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"the_host_is_windows\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"the_target_is_windows\" was never defined.
+echo "$as_me: error: conditional \"the_host_is_windows\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -6003,10 +5959,6 @@ host!$host$ac_delim
 host_cpu!$host_cpu$ac_delim
 host_vendor!$host_vendor$ac_delim
 host_os!$host_os$ac_delim
-target!$target$ac_delim
-target_cpu!$target_cpu$ac_delim
-target_vendor!$target_vendor$ac_delim
-target_os!$target_os$ac_delim
 INSTALL_PROGRAM!$INSTALL_PROGRAM$ac_delim
 INSTALL_SCRIPT!$INSTALL_SCRIPT$ac_delim
 INSTALL_DATA!$INSTALL_DATA$ac_delim
@@ -6049,12 +6001,12 @@ CPP!$CPP$ac_delim
 GREP!$GREP$ac_delim
 EGREP!$EGREP$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
-the_target_is_windows_TRUE!$the_target_is_windows_TRUE$ac_delim
-the_target_is_windows_FALSE!$the_target_is_windows_FALSE$ac_delim
+the_host_is_windows_TRUE!$the_host_is_windows_TRUE$ac_delim
+the_host_is_windows_FALSE!$the_host_is_windows_FALSE$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 94; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 90; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -6652,3 +6604,20 @@ if test "$no_create" != yes; then
   $ac_cs_success || { (exit 1); exit 1; }
 fi
 
+
+{ echo "$as_me:$LINENO: result:
+
+Configuration summary for ${PACKAGE} ${VERSION}:
+
+prefix:               ${prefix}
+host:                 ${host}
+CFLAGS:               ${CFLAGS}
+" >&5
+echo "${ECHO_T}
+
+Configuration summary for ${PACKAGE} ${VERSION}:
+
+prefix:               ${prefix}
+host:                 ${host}
+CFLAGS:               ${CFLAGS}
+" >&6; }
