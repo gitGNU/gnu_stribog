@@ -1,6 +1,7 @@
 /*LPC2138 linker script for ROM-based program
-TODO: move all to >ram AT>rom
-This file has been written for the stribog project.
+Copyright (C) 2006, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+This file is part of stribog.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -13,9 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>. */
 /*sections fill should be 0x4E4F2043414D454C0A, if any*/
 OUTPUT_FORMAT("elf32-littlearm")
 MEMORY
@@ -31,15 +30,19 @@ MEMORY
 _arm_stack_bottom = ORIGIN(ram) + LENGTH(ram) - 4;
 _arm_ram_begin =  ORIGIN(ram);
 SECTIONS
-{.text : {
+{.text : 
+  { /*this is bootstrapping part always running from ROM*/
   *(.vectors) *boot.o(.text)
 /* *(.ctors) *(.dtors) *(.jcr) /*these appear when I suddenly use c++*/
   } >rom
  . = ALIGN(4); _rom_data_begin = .;
  .rodata : 
- { *boot.o(.ramvectors) *(.text) *(.rodata) } >ram AT>rom /*rodata will be in RAM*/
- .data : { *(.data) } >ram AT>rom
-  _rom_data_end = _rom_data_begin + SIZEOF(.data);
+ { *boot.o(.ramvectors)
+   *(.text) /*the program runs from RAM, too*/
+   *(.rodata)
+   *(.data)
+ } >ram AT>rom
+  _rom_data_end = _rom_data_begin + SIZEOF(.rodata);
  . = ALIGN(4); _bss_data_begin = .;
  .bss : {*(.bss)} >ram
  . = ALIGN(4); _bss_data_end = .;

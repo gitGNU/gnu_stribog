@@ -1,5 +1,7 @@
-/*LPC2138 boot program
-This file has been written for the stribog project.
+/*LPC213[2468] boot program both for ROM- and RAM-based applications 
+Copyright (C) 2006, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+This file is part of stribog
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,9 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 .set	mode_usr, 0x10
 .set	mode_fiq, 0x11
 .set	mode_irq, 0x12
@@ -33,8 +33,14 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 .code 32
 .align 0
 reset:
-/*load initialized variables from ROM: if the program is in RAM, 
-  _rom_data_begin = _rom_data_end*/
+/*load initialized data from ROM:
+when the program is linked to be loaded
+via LPC2138 bootstrap loader into RAM,
+ _rom_data_begin = _rom_data_end
+when the program is to be loaded from ROM into RAM
+and then executed, the range
+ [_rom_data_begin.._rom_data_end]
+contains both the data and the application code*/
 	ldr	r1, rom_begin
 	ldr	r0, rom_end
 	ldr	r2, ram_begin
@@ -87,7 +93,8 @@ bmain:	/*initialize all stacks*/
 	mov	sp, r0*/
 	msr	CPSR_c,	#f_bit|mode_sv /*ineiev couldn't make LPC2138 
                                           interrupt in user mode*/
-	b	main
+	ldr	pc,main_addr/*b main won't reach RAM from ROM*/
+main_addr:	.word main
 memmap:		.word	0xE01FC040
 rom_begin:	.word	_rom_data_begin
 rom_end:	.word	_rom_data_end
@@ -112,8 +119,8 @@ swi_addr:
 pabt_addr:
 dabt_addr:
 irq_addr:
-fiq_addr:	.word loop	
-loop:	b	./*this is an endless loop*/
+fiq_addr:	.word loop
+loop:	b	./*an endless loop*/
 .section .ramvectors /*these will be the RAM copy of vectors loaded from ROM*/
 .code 32
 .align 0
