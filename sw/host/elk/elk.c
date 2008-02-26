@@ -1,5 +1,7 @@
 /*elk the LPC21x programmer: main function
-This program is a part of the stribog host software section
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This program is a part of stribog
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,9 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include"serialia.h"
@@ -311,12 +311,15 @@ load_prefs(void)
 load_and_go(void)
 {static const unsigned long ram_org=0x40000000,used_ram=0x40000200;
  int i,m=mute;FILE*f;unsigned long addr;char s[289];mute=1;
- f=fopen("vectors","rb");
+ if(!(f=fopen("vectors","rb")))
+ {printf("no interrupt vectors in current directory\n");return !0;}
  for(addr=ram_org;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
   if(write_string(s,addr,step)){fclose(f);return!0;}putchar('\n');
- }fclose(f);f=fopen("elk.bin","rb");
+ }fclose(f);
+ if(!(f=fopen("elk.bin","rb")))
+ {printf("no programme in current directory\n");return !0;}
  for(addr=used_ram;!feof(f);addr+=step)
  {for(i=0;i<step;i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
