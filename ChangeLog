@@ -1,3 +1,5 @@
+26 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/host/elk/elk.c: check whether file open succeeded
 19 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/exp-brief.c conloq/parse_tsipex.c: 
    local variable definitions moved up to their block origin
