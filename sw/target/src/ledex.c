@@ -1,4 +1,6 @@
 /*LPC2138 simple test
+Copyright (C) 2006, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -12,12 +14,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"led.h"
 static int i=1;const int j=1;
-int main(void)
+int
+main(void)
 {int k=11;volatile int l=2,m;init_led();
  while(1)
  {if(i++&(1<<15)){led1_set();led0_clr();}else{led0_set();led1_clr();}
