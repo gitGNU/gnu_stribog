@@ -1,3 +1,8 @@
+26 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: -Wall added to CFLAGS if the compiler is gcc;
+   configuration summary added
+ * configure.ac elk/Makefile.am conloq/Makefile.am:
+   replaced "target" with "host": we don't build compilers
 25 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * elk/elk.c: drain_uart() and a control to switch off
    loading preferences added; some timeouts corrected;
