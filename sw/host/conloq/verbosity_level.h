@@ -1,5 +1,8 @@
 enum verbosity_level/*programme verbosity control*/
-{absolutely_mute=-2,relatively_mute=-1,normal_verbosity=0};
+{minimal_verbosity=-2,
+ absolutely_mute=-2,relatively_mute=-1,normal_verbosity=0,pretty_verbose=1,
+ maximal_verbosity=1
+};
 enum verbosity_level set_verbosity(enum verbosity_level verb);
 enum verbosity_level get_verbosity(void);
 enum stribog_message_type
