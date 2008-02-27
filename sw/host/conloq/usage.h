@@ -1,4 +1,6 @@
-/*conloq: usage and copyleft output
+/*conloq: help on keypresses; recently moved to conloq.c
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,7 +14,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
-void usage(void),help(void);
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+void help(void);
