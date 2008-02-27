@@ -40,6 +40,7 @@ show_turned_on(void)
 original_process(int c)
 {switch(c)
  {case 'h':process=help_process;help();
+   printf(" press any key to continue\n");
    stacked_verbosity=set_verbosity(absolutely_mute);break;
   case 'v':toggle_verbosity();break;
   case 'a':toggle_message(adc_message);break;
