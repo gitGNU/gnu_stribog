@@ -55,13 +55,13 @@ am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h error.c error.h \
 	exp-brief.c exp.h exp_gps.h prepeoc_gps.h get_u.h \
 	process_keypress.c process_keypress.h garmin_nmea.c hodo.c \
 	hodo.h parse_tsip.c parse_tsip.h serialia.c wser.c serialia.h \
-	usage.c usage.h verbosity_level.c verbosity_level.h
+	usage.h verbosity_level.c verbosity_level.h
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) error.$(OBJEXT) \
 	exp-brief.$(OBJEXT) process_keypress.$(OBJEXT) \
 	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) parse_tsip.$(OBJEXT) \
-	$(am__objects_1) usage.$(OBJEXT) verbosity_level.$(OBJEXT)
+	$(am__objects_1) verbosity_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
 conloq_LDADD = $(LDADD)
 am_elig_OBJECTS = elig.$(OBJEXT) error.$(OBJEXT) parse_tsip.$(OBJEXT)
@@ -75,13 +75,14 @@ expon_OBJECTS = $(am_expon_OBJECTS)
 expon_LDADD = $(LDADD)
 am__magex_conloq_SOURCES_DIST = magex-conloq.c serialia.c wser.c \
 	serialia.h error.c error.h parse_tsip.c parse_tsip.h magexp.c \
-	exp.h
+	exp.h verbosity_level.c verbosity_level.h
 am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) $(am__objects_1) \
-	error.$(OBJEXT) parse_tsip.$(OBJEXT) magexp.$(OBJEXT)
+	error.$(OBJEXT) parse_tsip.$(OBJEXT) magexp.$(OBJEXT) \
+	verbosity_level.$(OBJEXT)
 magex_conloq_OBJECTS = $(am_magex_conloq_OBJECTS)
 magex_conloq_LDADD = $(LDADD)
 am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
-	error.$(OBJEXT) magexp.$(OBJEXT)
+	error.$(OBJEXT) magexp.$(OBJEXT) verbosity_level.$(OBJEXT)
 magexp_OBJECTS = $(am_magexp_OBJECTS)
 magexp_LDADD = $(LDADD)
 am_parse_tsipex_OBJECTS = parse_tsipex.$(OBJEXT) crc32.$(OBJEXT) \
@@ -226,7 +227,7 @@ conloq_SOURCES = conloq.c crc32.c crc32.h error.c error.h exp-brief.c exp.h\
  exp_gps.h prepeoc_gps.h get_u.h\
  process_keypress.c process_keypress.h garmin_nmea.c hodo.c hodo.h\
  parse_tsip.c parse_tsip.h\
- $(serial_source) serialia.h usage.c usage.h\
+ $(serial_source) serialia.h usage.h\
  verbosity_level.c verbosity_level.h
 
 elig_SOURCES = elig.c error.c error.h parse_tsip.c parse_tsip.h
@@ -236,10 +237,12 @@ expon_SOURCES = expon.c crc32.c crc32.h error.c error.h exp.c exp.h\
  verbosity_level.c verbosity_level.h
 
 magex_conloq_SOURCES = magex-conloq.c $(serial_source) serialia.h\
- error.c error.h parse_tsip.c parse_tsip.h magexp.c exp.h
+ error.c error.h parse_tsip.c parse_tsip.h magexp.c exp.h\
+ verbosity_level.c verbosity_level.h
 
-magexp_SOURCES = expon.c verbosity_level.h\
- parse_tsip.c parse_tsip.h error.c error.h magexp.c exp.h
+magexp_SOURCES = expon.c\
+ parse_tsip.c parse_tsip.h error.c error.h magexp.c exp.h\
+ verbosity_level.c verbosity_level.h
 
 parse_tsipex_SOURCES = parse_tsipex.c crc32.c crc32.h\
  error.c error.h get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h
@@ -346,7 +349,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preproc_gps.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_keypress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialia.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/verbosity_level.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wser.Po@am__quote@
 

@@ -3402,7 +3402,7 @@ fi
 
 
 if test "z$GCC" = "zyes"; then
- CFLAGS="$(echo $CFLAGS |sed -e "s/ -Wall\>//g") -Wall"
+ CFLAGS="${CFLAGS} -Wall"
 fi
 
 # Checks for libraries.
@@ -5246,7 +5246,7 @@ done
 
 case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-		the_target_is_windows=true
+		the_host_is_windows=true
 		;;
 esac
  if test x$the_host_is_windows = xtrue; then
@@ -6612,6 +6612,7 @@ Configuration summary for ${PACKAGE} ${VERSION}:
 prefix:               ${prefix}
 host:                 ${host}
 CFLAGS:               ${CFLAGS}
+LIBS:                 ${LIBS}
 " >&5
 echo "${ECHO_T}
 
@@ -6620,4 +6621,5 @@ Configuration summary for ${PACKAGE} ${VERSION}:
 prefix:               ${prefix}
 host:                 ${host}
 CFLAGS:               ${CFLAGS}
+LIBS:                 ${LIBS}
 " >&6; }
