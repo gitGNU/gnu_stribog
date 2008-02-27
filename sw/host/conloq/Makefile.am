@@ -37,8 +37,10 @@ expon_SOURCES=expon.c crc32.c crc32.h error.c error.h exp.c exp.h\
  parse_tsip.c parse_tsip.h preproc_gps.c preproc_gps.h\
  verbosity_level.c verbosity_level.h
 magex_conloq_SOURCES=magex-conloq.c $(serial_source) serialia.h\
- error.c error.h parse_tsip.c parse_tsip.h magexp.c exp.h
-magexp_SOURCES=expon.c verbosity_level.h\
- parse_tsip.c parse_tsip.h error.c error.h magexp.c exp.h
+ error.c error.h parse_tsip.c parse_tsip.h magexp.c exp.h\
+ verbosity_level.c verbosity_level.h
+magexp_SOURCES=expon.c\
+ parse_tsip.c parse_tsip.h error.c error.h magexp.c exp.h\
+ verbosity_level.c verbosity_level.h
 parse_tsipex_SOURCES=parse_tsipex.c crc32.c crc32.h\
  error.c error.h get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h

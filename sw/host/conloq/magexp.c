@@ -19,8 +19,6 @@ Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include<stdint.h>
 #include"error.h"
 #include<stdio.h>
-void
-init_turned_on(void){}
 int
 init_exp(int x,int k){return 0;}void close_exp(void){}
 int
