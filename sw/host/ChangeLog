@@ -1,3 +1,15 @@
+27 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * TODO: new
+ * conloq/usage.c: removed
+ * conloq/conloq.c conloq/usage.h: command line options
+   transformed into GNU standard-like ones
+ * conloq/conloq.c: functions from usage.c moved hither; some
+   minor changes
+ * conloq/process_keypress.c: help() usage adjusted
+ * conloq/serialia.c: honour verbous modes
+ * conloq/Makefile.am conloq/magexp.c conloq/magex-conloq.c: 
+   verbosity_level.c added to magex* sources
+ * autom4te.cache: removed
 26 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: -Wall added to CFLAGS if the compiler is gcc;
    configuration summary added
