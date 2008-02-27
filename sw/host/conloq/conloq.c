@@ -1,5 +1,7 @@
 /*conloq: talk (currently just listen) to a stribog board 
  from UNIX terminal via RS-232 UART
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -13,9 +15,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include<config.h>
 #include"serialia.h"
 #include"usage.h"
 #include"parse_tsip.h"
@@ -31,13 +32,14 @@ Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
 #include<signal.h>
 #include<errno.h>
 #include<string.h>
-enum exit_codes/*return values for programme*/
-{normal_exit=0,no_log_file=1,no_uart=2,unknown_sig=3,stdin_unsetupable=4};
+#include<argp.h>
+enum program_exit_codes
+{normal_exit=0,no_log_file=1,no_uart=2,unknown_signal=3,stdin_unsetupable=4};
 static FILE*
-next_file(void)
-{char s[289];int i=0;FILE*f;
+next_file(const char**file_name)
+{static char s[289];int i=0;FILE*f;
  do{snprintf(s,sizeof s,"%iconloq.log",i++);f=fopen(s,"rt");if(f)fclose(f);}
- while(f);return fopen(s,"wb");
+ while(f);*file_name=s;return fopen(s,"wb");
 }static tsip_buf*tb;static FILE*f;static struct termios saved_stdin_settings;
 static int
 setup_stdin(void)
@@ -69,20 +71,98 @@ sig_hunter(int sig)
  switch(sig)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_sig;
+  default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_signal;
  }exit(r);
-}int 
+}
+const char*argp_program_version=
+"conloq ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
+"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
+"stribog comes with NO WARRANTY, to the extent permitted by law.\n"
+"You may redistribute copies of stribog\n"
+"under the terms of the GNU General Public License V3+.\n"
+"For more information about these matters,\n"
+"see <http://www.gnu.org/licenses/>.";
+#define KEY_ASSIGNMENTS_HELP "some key assignments:\n"\
+"'h' Help\n'a' Toggle ADC messages\n'g' Toggle GPS messages\n"\
+"'m' Turn off all messages\n'n' Turn on all messages\n"\
+"'o' Toggle odo messages\n'p' Toggle PPS messages\n"\
+"'s' Toggle stat messages\n"\
+"'S' Show which messages are turned on\n"\
+"'t' Toggle temp messages\n"\
+"'v' Toggle verbosity\n'q' Quit the programme\n"
+void
+help(void){printf(KEY_ASSIGNMENTS_HELP);}
+const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
+static char doc[]="talk (currently just listen) to a stribog board\v"
+ KEY_ASSIGNMENTS_HELP
+/*, args_doc[]=" [port]"*/;
+static struct argp_option options[]=
+{
+ {"output",'o',"FILE",0,
+  "Log to FILE instead of guessed [0-9]*conloq.log"
+ },
+ {"device",'d',"PORT",0,
+  "Open PORT instead of default (/dev/ttyS1 on GNU, COM1 on Windows)"
+ },
+ {"verbose",'v',"LEVEL",OPTION_ARG_OPTIONAL,"Be verbose"},
+ {"quiet",'q',0,0,"Be quiet"},
+ {0}
+};
+struct arguments{const char*port_name,*log_name;int verbosity;};
+static error_t
+parse_opt(int key, char*arg, struct argp_state*state)
+{struct arguments*arguments = state->input;
+ switch(key)
+ {case 'd':arguments->port_name=arg;break;
+  case 'o':arguments->log_name=arg;break;
+  case 'q':arguments->verbosity--;break;
+  case 'v':
+   if(arg&&1!=sscanf(arg,"%i",&(arguments->verbosity)))
+   {error("\"%s\" is not a valid verbosity level"
+     " (should be an integer)\n",arg);
+    return ARGP_ERR_UNKNOWN;
+   }else arguments->verbosity++;break;
+  case ARGP_KEY_ARG:if(state->arg_num>=0)argp_usage(state);break;
+  case ARGP_KEY_END:if(state->arg_num<0)argp_usage(state);break;
+  default:return ARGP_ERR_UNKNOWN;
+ }return 0;
+}
+static struct argp argp={options,parse_opt,/*args_doc*/0,doc};
+int 
 main(int argc,char**argv)
 {int size,n,j,period=0x3F;const unsigned char*_;
- unsigned char s[11520];usage();
- f=next_file();
- if(NULL==f){error("can't open log file\n");return no_log_file;}
- if(setup_stdin())return stdin_unsetupable;atexit(close_all);
+ unsigned char s[11520];struct arguments arg_struct;
+ arg_struct.port_name=0;arg_struct.log_name=0;arg_struct.verbosity=0;
+ argp_parse(&argp,argc,argv,0,0,&arg_struct);
+ if(arg_struct.verbosity<minimal_verbosity)
+  arg_struct.verbosity=minimal_verbosity;
+ if(arg_struct.verbosity>maximal_verbosity)
+  arg_struct.verbosity=maximal_verbosity;
+ set_verbosity(arg_struct.verbosity);
+ if(arg_struct.log_name)
+ {if(!(f=fopen(arg_struct.log_name,"wb")))
+  {error("can't open log file \"%s\"\n",arg_struct.log_name);
+   return no_log_file;
+  }
+ }else if(!(f=next_file(&(arg_struct.log_name))))
+ {error("can't open log file\n");return no_log_file;}
+ if(get_verbosity()>=pretty_verbose)
+  printf("Log file \"%s\" opened\n",arg_struct.log_name);
+ if(setup_stdin())
+ {error("can't setup your terminal\n");return stdin_unsetupable;}
+ atexit(close_all);
  signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
- if(argc>2)sscanf(argv[2],"%i",&period);init_exp(0,period);init_turned_on();
- if(argc>4)enable_escapes(!0);tb=new_tsip();
- if(initserialia(argc>1?argv[1]:0))
- {error("can't open serial port\n");return no_uart;}
+ //if(argc>2)sscanf(argv[2],"%i",&period);
+ init_exp(0,period);init_turned_on();
+ //if(argc>4)enable_escapes(!0);
+ tb=new_tsip();
+ if(initserialia(arg_struct.port_name))
+ {error("can't open serial port \"%s\"\n",
+   arg_struct.port_name?arg_struct.port_name:"[default]");
+  return no_uart;
+ }
+ if(get_verbosity()>=pretty_verbose)
+  printf("for help on keypresses press 'h'\n");
  do
  {if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))
    if((_=parse_tsip(tb,s[j],&size)))expone(_,size);
