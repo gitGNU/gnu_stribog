@@ -44,6 +44,7 @@ if test "z$enable_own_argp" = "zno";then
 fi
 if test "z$build_own_argp" = "zyes";then
  CPPFLAGS="$CPPFLAGS -I$srcdir/lib/argp"
+ AC_CHECK_TYPES([error_t])
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
