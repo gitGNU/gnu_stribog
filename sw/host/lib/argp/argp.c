@@ -25,12 +25,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 static int
 printable_option_key(int key){return(key>' '&&key<0x7F);}
 static int
-new_line(void){return printf("\n            ")-1;}
+new_line(void){printf("\n");return printf("            ");}
 void
 argp_usage(struct argp_state*state)
-{int chars_printed=0,line_length=51,aliased_key=0;
+{int chars_printed,line_length=51,aliased_key=0;
  struct argp_option*options=state->argp->options,*option;
- printf("Usage: %s [-?V",state->prog_name);
+ chars_printed=printf("Usage: %s [-?V",state->prog_name);
  for(option=options;option->long_option||option->key;option++)
  {if(option->arg_name||aliased_key==option->key)continue;
   if(!(option->flags&OPTION_ALIAS))aliased_key=option->key;
