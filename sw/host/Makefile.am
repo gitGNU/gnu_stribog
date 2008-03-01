@@ -14,7 +14,4 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-if build_own_argp
- argp_lib_dir=lib/argp
-endif
 SUBDIRS=$(argp_lib_dir) conloq elk intlpc postproc utils
