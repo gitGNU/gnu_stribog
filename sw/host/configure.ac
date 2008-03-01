@@ -33,7 +33,6 @@ if test "z$GCC" = "zyes"; then
 fi
 
 # Checks for libraries.
-
 AC_CHECK_LIB([m], [sqrt])
 
 # Checks for header files.
@@ -60,8 +59,12 @@ fi
 if test "z$build_own_argp" = "zyes";then
  AC_CHECK_TYPES([error_t])
  AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
+ AC_SUBST(argp_lib,[[../lib/argp/libargp.a]])
+ AC_SUBST(argp_lib_dir,lib/argp)
+else
+ AC_SUBST(argp_lib,[[]])
+ AC_SUBST(argp_lib_dir,[[]])
 fi
-AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -91,9 +94,6 @@ AC_CONFIG_FILES([Makefile
                  lib/argp/Makefile
                  postproc/Makefile
                  utils/Makefile])
-#if test "z$build_own_argp" = "zyes";then
-# AC_CONFIG_FILES([lib/argp/Makefile])
-#fi
 AC_OUTPUT
 if test "z$build_own_argp" = "zyes"; then
  argp_type=built-in
