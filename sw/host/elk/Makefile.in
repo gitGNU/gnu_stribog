@@ -59,8 +59,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(elk_SOURCES)
-DIST_SOURCES = $(am__elk_SOURCES_DIST)
+SOURCES = $(elk_SOURCES) $(EXTRA_elk_SOURCES)
+DIST_SOURCES = $(am__elk_SOURCES_DIST) $(EXTRA_elk_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -103,6 +103,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -179,6 +180,7 @@ top_srcdir = @top_srcdir@
 #forced to use non-free OS API
 @the_host_is_windows_TRUE@serial_source = wser.c
 elk_SOURCES = elk.c $(serial_source) serialia.h usage.c usage.h
+EXTRA_elk_SOURCES = serialia.c wser.c
 all: all-am
 
 .SUFFIXES:

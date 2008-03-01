@@ -698,9 +698,12 @@ AMDEPBACKSLASH
 CCDEPMODE
 am__fastdepCC_TRUE
 am__fastdepCC_FALSE
+RANLIB
 CPP
 GREP
 EGREP
+build_own_argp_TRUE
+build_own_argp_FALSE
 LIBOBJS
 the_host_is_windows_TRUE
 the_host_is_windows_FALSE
@@ -2310,7 +2313,6 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 ac_config_headers="$ac_config_headers config.h"
 
 
-
 # Checks for programs.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -3401,6 +3403,102 @@ else
 fi
 
 
+if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
+set dummy ${ac_tool_prefix}ranlib; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_prog_RANLIB+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$RANLIB"; then
+  ac_cv_prog_RANLIB="$RANLIB" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_RANLIB="${ac_tool_prefix}ranlib"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+fi
+fi
+RANLIB=$ac_cv_prog_RANLIB
+if test -n "$RANLIB"; then
+  { echo "$as_me:$LINENO: result: $RANLIB" >&5
+echo "${ECHO_T}$RANLIB" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_prog_RANLIB"; then
+  ac_ct_RANLIB=$RANLIB
+  # Extract the first word of "ranlib", so it can be a program name with args.
+set dummy ranlib; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_prog_ac_ct_RANLIB+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_RANLIB"; then
+  ac_cv_prog_ac_ct_RANLIB="$ac_ct_RANLIB" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_ac_ct_RANLIB="ranlib"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+fi
+fi
+ac_ct_RANLIB=$ac_cv_prog_ac_ct_RANLIB
+if test -n "$ac_ct_RANLIB"; then
+  { echo "$as_me:$LINENO: result: $ac_ct_RANLIB" >&5
+echo "${ECHO_T}$ac_ct_RANLIB" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+  if test "x$ac_ct_RANLIB" = x; then
+    RANLIB=":"
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ echo "$as_me:$LINENO: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&5
+echo "$as_me: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&2;}
+ac_tool_warned=yes ;;
+esac
+    RANLIB=$ac_ct_RANLIB
+  fi
+else
+  RANLIB="$ac_cv_prog_RANLIB"
+fi
+
 
 if test "z$GCC" = "zyes"; then
  CFLAGS="${CFLAGS} -Wall"
@@ -4427,7 +4525,6 @@ fi
 
 fi
 if test "z$build_own_argp" = "zyes";then
- CPPFLAGS="$CPPFLAGS -I$srcdir/lib/argp"
  { echo "$as_me:$LINENO: checking for error_t" >&5
 echo $ECHO_N "checking for error_t... $ECHO_C" >&6; }
 if test "${ac_cv_type_error_t+set}" = set; then
@@ -4490,7 +4587,17 @@ _ACEOF
 
 fi
 
+ ac_config_files="$ac_config_files argp.h:lib/argp/argp.h"
+
 fi
+ if test "z$build_own_argp" = "zyes"; then
+  build_own_argp_TRUE=
+  build_own_argp_FALSE='#'
+else
+  build_own_argp_TRUE='#'
+  build_own_argp_FALSE=
+fi
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 { echo "$as_me:$LINENO: checking for an ANSI C-conforming const" >&5
@@ -5470,10 +5577,10 @@ done
 #Checks for system services
 case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-		the_host_is_windows=true
+		the_host_is_windows=yes
 		;;
 esac
- if test "x$the_host_is_windows" = "xtrue"; then
+ if test "z$the_host_is_windows" = "zyes"; then
   the_host_is_windows_TRUE=
   the_host_is_windows_FALSE='#'
 else
@@ -5482,8 +5589,11 @@ else
 fi
 
 
-ac_config_files="$ac_config_files Makefile conloq/Makefile elk/Makefile intlpc/Makefile postproc/Makefile utils/Makefile"
+ac_config_files="$ac_config_files Makefile conloq/Makefile elk/Makefile intlpc/Makefile lib/argp/Makefile postproc/Makefile utils/Makefile"
 
+#if test "z$build_own_argp" = "zyes";then
+# AC_CONFIG_FILES([lib/argp/Makefile])
+#fi
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -5591,6 +5701,13 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${build_own_argp_TRUE}" && test -z "${build_own_argp_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"build_own_argp\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"build_own_argp\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -6070,10 +6187,12 @@ do
   case $ac_config_target in
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
+    "argp.h") CONFIG_FILES="$CONFIG_FILES argp.h:lib/argp/argp.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "conloq/Makefile") CONFIG_FILES="$CONFIG_FILES conloq/Makefile" ;;
     "elk/Makefile") CONFIG_FILES="$CONFIG_FILES elk/Makefile" ;;
     "intlpc/Makefile") CONFIG_FILES="$CONFIG_FILES intlpc/Makefile" ;;
+    "lib/argp/Makefile") CONFIG_FILES="$CONFIG_FILES lib/argp/Makefile" ;;
     "postproc/Makefile") CONFIG_FILES="$CONFIG_FILES postproc/Makefile" ;;
     "utils/Makefile") CONFIG_FILES="$CONFIG_FILES utils/Makefile" ;;
 
@@ -6221,16 +6340,19 @@ AMDEPBACKSLASH!$AMDEPBACKSLASH$ac_delim
 CCDEPMODE!$CCDEPMODE$ac_delim
 am__fastdepCC_TRUE!$am__fastdepCC_TRUE$ac_delim
 am__fastdepCC_FALSE!$am__fastdepCC_FALSE$ac_delim
+RANLIB!$RANLIB$ac_delim
 CPP!$CPP$ac_delim
 GREP!$GREP$ac_delim
 EGREP!$EGREP$ac_delim
+build_own_argp_TRUE!$build_own_argp_TRUE$ac_delim
+build_own_argp_FALSE!$build_own_argp_FALSE$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 the_host_is_windows_TRUE!$the_host_is_windows_TRUE$ac_delim
 the_host_is_windows_FALSE!$the_host_is_windows_FALSE$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 90; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 93; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -6828,6 +6950,11 @@ if test "$no_create" != yes; then
   $ac_cs_success || { (exit 1); exit 1; }
 fi
 
+if test "z$build_own_argp" = "zyes"; then
+ argp_type=built-in
+else
+ argp_type=GNU
+fi
 
 { echo "$as_me:$LINENO: result:
 
@@ -6835,8 +6962,9 @@ Configuration summary for ${PACKAGE} ${VERSION}:
 
 prefix:               ${prefix}
 host:                 ${host}
-CPPFLAGS:             ${CPPFLAGS}
+argv parser:          ${argp_type}
 CFLAGS:               ${CFLAGS}
+LDFLAGS:              ${LDFLAGS}
 LIBS:                 ${LIBS}
 " >&5
 echo "${ECHO_T}
@@ -6845,7 +6973,8 @@ Configuration summary for ${PACKAGE} ${VERSION}:
 
 prefix:               ${prefix}
 host:                 ${host}
-CPPFLAGS:             ${CPPFLAGS}
+argv parser:          ${argp_type}
 CFLAGS:               ${CFLAGS}
+LDFLAGS:              ${LDFLAGS}
 LIBS:                 ${LIBS}
 " >&6; }
