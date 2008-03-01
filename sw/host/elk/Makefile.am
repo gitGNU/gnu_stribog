@@ -24,3 +24,4 @@ serial_source=serialia.c
 endif
 bin_PROGRAMS=elk
 elk_SOURCES=elk.c $(serial_source) serialia.h usage.c usage.h
+EXTRA_elk_SOURCES=serialia.c wser.c
