@@ -63,7 +63,8 @@ am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) error.$(OBJEXT) \
 	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) parse_tsip.$(OBJEXT) \
 	$(am__objects_1) verbosity_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
-conloq_DEPENDENCIES = $(argp_ldadd)
+am__DEPENDENCIES_1 =
+conloq_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_elig_OBJECTS = elig.$(OBJEXT) error.$(OBJEXT) parse_tsip.$(OBJEXT)
 elig_OBJECTS = $(am_elig_OBJECTS)
 elig_LDADD = $(LDADD)
@@ -160,6 +161,8 @@ am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
+argp_lib = @argp_lib@
+argp_lib_dir = @argp_lib_dir@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -221,7 +224,6 @@ top_srcdir = @top_srcdir@
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #forced to use non-free OS API
 @the_host_is_windows_TRUE@serial_source = wser.c
-@build_own_argp_TRUE@argp_ldadd = $(top_builddir)/lib/argp/libargp.a
 caed_SOURCES = caed.c crc32.c crc32.h error.c error.h get_u.h\
  parse_tsip.c parse_tsip.h
 
@@ -234,7 +236,7 @@ conloq_SOURCES = conloq.c crc32.c crc32.h\
  verbosity_level.c verbosity_level.h
 
 EXTRA_conloq_SOURCES = serialia.c wser.c
-conloq_LDADD = $(argp_ldadd)
+conloq_LDADD = $(argp_lib)
 elig_SOURCES = elig.c error.c error.h parse_tsip.c parse_tsip.h
 expon_SOURCES = expon.c crc32.c crc32.h error.c error.h exp.c exp.h\
  garmin_nmea.c exp_gps.h hodo.c hodo.h lla.c lla.h\

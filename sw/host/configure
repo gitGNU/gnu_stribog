@@ -702,8 +702,8 @@ RANLIB
 CPP
 GREP
 EGREP
-build_own_argp_TRUE
-build_own_argp_FALSE
+argp_lib
+argp_lib_dir
 LIBOBJS
 the_host_is_windows_TRUE
 the_host_is_windows_FALSE
@@ -3507,7 +3507,6 @@ fi
 # Checks for libraries.
 
 
-
 { echo "$as_me:$LINENO: checking for sqrt in -lm" >&5
 echo $ECHO_N "checking for sqrt in -lm... $ECHO_C" >&6; }
 if test "${ac_cv_lib_m_sqrt+set}" = set; then
@@ -4589,15 +4588,16 @@ fi
 
  ac_config_files="$ac_config_files argp.h:lib/argp/argp.h"
 
-fi
- if test "z$build_own_argp" = "zyes"; then
-  build_own_argp_TRUE=
-  build_own_argp_FALSE='#'
-else
-  build_own_argp_TRUE='#'
-  build_own_argp_FALSE=
-fi
+ argp_lib=../lib/argp/libargp.a
 
+ argp_lib_dir=lib/argp
+
+else
+ argp_lib=
+
+ argp_lib_dir=
+
+fi
 
 # Checks for typedefs, structures, and compiler characteristics.
 { echo "$as_me:$LINENO: checking for an ANSI C-conforming const" >&5
@@ -5591,9 +5591,6 @@ fi
 
 ac_config_files="$ac_config_files Makefile conloq/Makefile elk/Makefile intlpc/Makefile lib/argp/Makefile postproc/Makefile utils/Makefile"
 
-#if test "z$build_own_argp" = "zyes";then
-# AC_CONFIG_FILES([lib/argp/Makefile])
-#fi
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -5701,13 +5698,6 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${build_own_argp_TRUE}" && test -z "${build_own_argp_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"build_own_argp\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"build_own_argp\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -6344,8 +6334,8 @@ RANLIB!$RANLIB$ac_delim
 CPP!$CPP$ac_delim
 GREP!$GREP$ac_delim
 EGREP!$EGREP$ac_delim
-build_own_argp_TRUE!$build_own_argp_TRUE$ac_delim
-build_own_argp_FALSE!$build_own_argp_FALSE$ac_delim
+argp_lib!$argp_lib$ac_delim
+argp_lib_dir!$argp_lib_dir$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 the_host_is_windows_TRUE!$the_host_is_windows_TRUE$ac_delim
 the_host_is_windows_FALSE!$the_host_is_windows_FALSE$ac_delim
