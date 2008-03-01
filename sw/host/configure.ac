@@ -1,5 +1,20 @@
-#                                               -*- Autoconf -*-
+#stribog host tools: configure.ac 
 # Run autoreconf to regenerate the build system
+#Copyright (C) 2008\
+# Ineiev<ineiev@users.sourceforge.net>, super V 93
+#
+#This program is free software; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ(2.61)
 AC_INIT([stribog-hosttools], [0.0.0-rc0], [stribog-bug@nongnu.org])
@@ -9,9 +24,9 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
-
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_RANLIB
 
 if test "z$GCC" = "zyes"; then
  CFLAGS="${CFLAGS} -Wall"
@@ -43,9 +58,10 @@ if test "z$enable_own_argp" = "zno";then
  ])
 fi
 if test "z$build_own_argp" = "zyes";then
- CPPFLAGS="$CPPFLAGS -I$srcdir/lib/argp"
  AC_CHECK_TYPES([error_t])
+ AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
 fi
+AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -63,18 +79,27 @@ AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror])
 #Checks for system services
 case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-		the_host_is_windows=true
+		the_host_is_windows=yes
 		;;
 esac
-AM_CONDITIONAL(the_host_is_windows, test "x$the_host_is_windows" = "xtrue")
+AM_CONDITIONAL(the_host_is_windows, test "z$the_host_is_windows" = "zyes")
 
 AC_CONFIG_FILES([Makefile
                  conloq/Makefile
                  elk/Makefile
                  intlpc/Makefile
+                 lib/argp/Makefile
                  postproc/Makefile
                  utils/Makefile])
+#if test "z$build_own_argp" = "zyes";then
+# AC_CONFIG_FILES([lib/argp/Makefile])
+#fi
 AC_OUTPUT
+if test "z$build_own_argp" = "zyes"; then
+ argp_type=built-in
+else
+ argp_type=GNU
+fi
 
 AC_MSG_RESULT([
 
@@ -82,7 +107,8 @@ Configuration summary for ${PACKAGE} ${VERSION}:
 
 prefix:               ${prefix}
 host:                 ${host}
-CPPFLAGS:             ${CPPFLAGS}
+argv parser:          ${argp_type}
 CFLAGS:               ${CFLAGS}
+LDFLAGS:              ${LDFLAGS}
 LIBS:                 ${LIBS}
 ])
