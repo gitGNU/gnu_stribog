@@ -1,4 +1,8 @@
 01 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/Makefile.am elk/Makefile.am: EXTRA_.._SOURCES added
+ * lib/argp/Makefile.am: new
+ * configure.ac Makefile.am conloq/Makefile.am:
+   conditional lib/argp/ added
  * lib/argp/argp.c (argp_usage): length check for
    the first line corrected
 29 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
