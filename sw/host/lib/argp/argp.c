@@ -122,7 +122,7 @@ print_help(struct argp_state*state)
   "  -V, --version              Print program version\n\n"
   "Mandatory or optional arguments to long options "
   "are also mandatory or optional\n"
-  "for any corresponding short options.\n\n");
+  "for corresponding short options.\n\n");
  if(help_string)printf("%s\n",help_string);
  if(argp_program_bug_address)
   printf("Report bugs to %s.\n",argp_program_bug_address);
