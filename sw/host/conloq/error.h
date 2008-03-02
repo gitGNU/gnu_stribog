@@ -1,4 +1,6 @@
 /*gnu-like error messages
+Copyright (C) 2005, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,8 +14,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2005 D.Ineiev <ineiev@yahoo.co.uk>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 void error_(const char*fmt,...);
-#define error error_("%s:%i:",__FILE__,__LINE__),error_
+void output_prefix_for_error(void);
+void init_error(const char*program_name);
+#define error output_prefix_for_error(),\
+ error_("%s:%i:",__FILE__,__LINE__),error_
