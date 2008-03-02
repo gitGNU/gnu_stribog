@@ -15,7 +15,7 @@
    the first line corrected
 29 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/argp/argp.c lib/argp/argp.h lib/argp/argpex.c: new
- * configure.ac: test for error_t adde
+ * configure.ac: test for error_t added
 27 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * TODO: new
  * conloq/usage.c: removed
