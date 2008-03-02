@@ -15,7 +15,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-void error_(const char*fmt,...);
+void error_(const char*fmt,...)
+#ifdef __GNUC__
+__attribute__((format(printf,1,2)))
+#endif
+;
 void output_prefix_for_error(void);
 void init_error(const char*program_name);
 #define error output_prefix_for_error(),\
