@@ -59,11 +59,8 @@ fi
 if test "z$build_own_argp" = "zyes";then
  AC_CHECK_TYPES([error_t])
  AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
- AC_SUBST(argp_lib,[[../lib/argp/libargp.a]])
+ AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
  AC_SUBST(argp_lib_dir,lib/argp)
-else
- AC_SUBST(argp_lib,[[]])
- AC_SUBST(argp_lib_dir,[[]])
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
