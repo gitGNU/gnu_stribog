@@ -5,6 +5,7 @@
  * conloq.c: verbosity level checks moved to parse_opt()
  * conloq/error.h: when __GNUC__, error_ format is checked
  * conloq/parse_tsipex.c: missing argument of error_ added
+ * configure.ac: rm empty AC_SUBST; .. replaced with top_builddir
 01 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/Makefile.am elk/Makefile.am: EXTRA_.._SOURCES added
  * lib/argp/Makefile.am: new
