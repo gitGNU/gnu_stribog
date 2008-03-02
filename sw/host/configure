@@ -4588,14 +4588,9 @@ fi
 
  ac_config_files="$ac_config_files argp.h:lib/argp/argp.h"
 
- argp_lib=../lib/argp/libargp.a
+ argp_lib="\$(top_builddir)/lib/argp/libargp.a"
 
  argp_lib_dir=lib/argp
-
-else
- argp_lib=
-
- argp_lib_dir=
 
 fi
 
