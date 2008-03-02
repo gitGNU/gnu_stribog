@@ -111,33 +111,36 @@ static struct argp_option options[]=
 struct arguments{const char*port_name,*log_name;int verbosity;};
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
-{struct arguments*arguments = state->input;
+{struct arguments*arguments=state->input;char _;
  switch(key)
  {case 'd':arguments->port_name=arg;break;
   case 'o':arguments->log_name=arg;break;
-  case 'q':arguments->verbosity--;break;
+  case 'q':arguments->verbosity--;
+   if(arg_struct.verbosity<minimal_verbosity)
+    arg_struct.verbosity=minimal_verbosity;
+   break;
   case 'v':
-   if(arg&&1!=sscanf(arg,"%i",&(arguments->verbosity)))
+   if(arg&&1!=sscanf(arg,"%i%c",&(arguments->verbosity,&_)))
    {error("\"%s\" is not a valid verbosity level"
      " (should be an integer)\n",arg);
     return ARGP_ERR_UNKNOWN;
-   }else arguments->verbosity++;break;
+   }else arguments->verbosity++;
+   if(arg_struct.verbosity>maximal_verbosity)
+    arg_struct.verbosity=maximal_verbosity;
+   break;
   case ARGP_KEY_ARG:if(state->arg_num>=0)argp_usage(state);break;
   case ARGP_KEY_END:if(state->arg_num<0)argp_usage(state);break;
   default:return ARGP_ERR_UNKNOWN;
  }return 0;
 }
-static struct argp argp={options,parse_opt,/*args_doc*/0,doc};
+static struct argp argp={options,parse_opt,0,doc};
 int 
 main(int argc,char**argv)
 {int size,n,j,period=0x3F;const unsigned char*_;
  unsigned char s[11520];struct arguments arg_struct;
+ init_error(*argv);
  arg_struct.port_name=0;arg_struct.log_name=0;arg_struct.verbosity=0;
  argp_parse(&argp,argc,argv,0,0,&arg_struct);
- if(arg_struct.verbosity<minimal_verbosity)
-  arg_struct.verbosity=minimal_verbosity;
- if(arg_struct.verbosity>maximal_verbosity)
-  arg_struct.verbosity=maximal_verbosity;
  set_verbosity(arg_struct.verbosity);
  if(arg_struct.log_name)
  {if(!(f=fopen(arg_struct.log_name,"wb")))
