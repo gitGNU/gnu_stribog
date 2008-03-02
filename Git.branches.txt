@@ -1,0 +1,11 @@
+Git currently has the next branches
+
+master: no sources, meta-documentation of branches
+and release naming policy
+
+pre2008-fixes: frozen at 03 Jan 2008 version, 
+bugfixes only
+
+autobuild: the active branch, the main
+task is migrating to the GNU stantards 
+on build system and options style (for host tools).
