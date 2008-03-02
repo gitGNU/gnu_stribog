@@ -1,3 +1,10 @@
+02 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/error.c conloq/error.h conloq/conloq.c
+ conloq/parse_tsipex.c: 
+   optionally initialised errors prefix added
+ * conloq.c: verbosity level checks moved to parse_opt()
+ * conloq/error.h: when __GNUC__, error_ format is checked
+ * conloq/parse_tsipex.c: missing argument of error_ added
 01 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/Makefile.am elk/Makefile.am: EXTRA_.._SOURCES added
  * lib/argp/Makefile.am: new
