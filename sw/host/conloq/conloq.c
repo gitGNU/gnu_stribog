@@ -116,17 +116,17 @@ parse_opt(int key, char*arg, struct argp_state*state)
  {case 'd':arguments->port_name=arg;break;
   case 'o':arguments->log_name=arg;break;
   case 'q':arguments->verbosity--;
-   if(arg_struct.verbosity<minimal_verbosity)
-    arg_struct.verbosity=minimal_verbosity;
+   if(arguments->verbosity<minimal_verbosity)
+    arguments->verbosity=minimal_verbosity;
    break;
   case 'v':
-   if(arg&&1!=sscanf(arg,"%i%c",&(arguments->verbosity,&_)))
+   if(arg&&1!=sscanf(arg,"%i%c",&(arguments->verbosity),&_))
    {error("\"%s\" is not a valid verbosity level"
      " (should be an integer)\n",arg);
     return ARGP_ERR_UNKNOWN;
    }else arguments->verbosity++;
-   if(arg_struct.verbosity>maximal_verbosity)
-    arg_struct.verbosity=maximal_verbosity;
+   if(arguments->verbosity>maximal_verbosity)
+    arguments->verbosity=maximal_verbosity;
    break;
   case ARGP_KEY_ARG:if(state->arg_num>=0)argp_usage(state);break;
   case ARGP_KEY_END:if(state->arg_num<0)argp_usage(state);break;
