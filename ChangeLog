@@ -1,3 +1,5 @@
+03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * branch: new
 02 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/host/conloq/parse_tsipex.c: missing error_()
    argument added
