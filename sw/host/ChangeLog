@@ -1,3 +1,5 @@
+03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/argp/argp.c: check for options list != NULL
 02 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/error.c conloq/error.h conloq/conloq.c
  conloq/parse_tsipex.c: 
