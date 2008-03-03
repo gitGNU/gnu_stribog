@@ -1,5 +1,5 @@
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * branch: new
+ * branch: new; the branch (trunc) made of 'autobuild'
 25 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/Makefile: ROM-based programs are built, too
  * sw/target/src/2138.ld, sw/target/src/boot.s: 
