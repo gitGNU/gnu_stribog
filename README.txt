@@ -13,7 +13,7 @@ ChangeLog contains a log of creating-removing-merging
 the branches
 
 COPYING and copyright files have not been removed
-for clarity reasons.
+for political reasons.
 
 NOTES ON BRANCHES AND REVISIONS
 
