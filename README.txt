@@ -14,8 +14,44 @@ the branches
 
 COPYING and copyright files have not been removed
 for clarity reasons.
+
+NOTES ON BRANCHES AND REVISIONS
 
-HOW TO USE GIT
+Each branch should have a text file named 'branch'
+in the root directory. from this file the name
+of current branch (possibly with it's predecessors)
+and the purpose of the branch can be learnt.
+
+The revisions are named within the build system
+(configure.ac files) like 0.MAJOR.MINOR[-suffix]
+where MAJOR is the release branch number, MINOR is
+the number of release on the branch, optional suffix
+means unstable releases (rc[0-9]*) or marks interrelease
+revisions (plus), e.g.
+
+0.1.2-rc1-plus means a revision between 0.1.2-rc1 and
+0.1.2-rc2.
+
+0.1.2-rc[0-9]* preceeds stable version named 0.1.2
+
+trunc revisions are named like 0.1-plus, which means
+that the branch 0.1 is the latest revision branch
+that has been forked out.
+
+Git is branched and tagged accordingly.
+eventually a branch named 0.1 is created from trunc,
+and the revision in configure.ac is set to 0.1.0-rc0-plus.
+then release candidates 0.1.0-rc1, 0.1.0-rc2 and so on 
+are released and at last release 0.1.0 is published.
+after that the release name is changed to 0.1.1-rc0-plus
+
+All release and release candidates should be tagged with
+their numbers (e.g. 0.1.2-rc1); these tags should be
+signed like this:
+$ git tag -s -m "release candidate" 0.1.2-rc1
+
+
+HOW TO USE GIT (basic invocations)
 
 Git is the revision control system used by the project.
 
