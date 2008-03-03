@@ -1,7 +1,9 @@
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * branch: new
 
- trunc branch is made of autobuild;
+ trunc is made of autobuild;
+ autobuild is removed
+
 02 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * ChangeLog Git.branches.txt TODO: new
  * README.txt: copied from autobuild branch;
