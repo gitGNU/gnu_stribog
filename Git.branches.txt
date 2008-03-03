@@ -9,3 +9,5 @@ bugfixes only
 autobuild: the active branch, the main
 task is migrating to the GNU stantards 
 on build system and options style (for host tools).
+
+trunc: made of autobuild to replace it
