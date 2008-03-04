@@ -47,49 +47,48 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_caed_OBJECTS = caed.$(OBJEXT) crc32.$(OBJEXT) error.$(OBJEXT) \
-	parse_tsip.$(OBJEXT)
+am_caed_OBJECTS = caed.$(OBJEXT) crc32.$(OBJEXT) parse_tsip.$(OBJEXT)
 caed_OBJECTS = $(am_caed_OBJECTS)
-caed_LDADD = $(LDADD)
-am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h error.c error.h \
-	exp-brief.c exp.h exp_gps.h prepeoc_gps.h get_u.h \
-	process_keypress.c process_keypress.h garmin_nmea.c hodo.c \
-	hodo.h parse_tsip.c parse_tsip.h serialia.c wser.c serialia.h \
-	usage.h verbosity_level.c verbosity_level.h
+am__DEPENDENCIES_1 =
+caed_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h exp-brief.c exp.h \
+	exp_gps.h prepeoc_gps.h get_u.h process_keypress.c \
+	process_keypress.h garmin_nmea.c hodo.c hodo.h parse_tsip.c \
+	parse_tsip.h serialia.c wser.c serialia.h usage.h \
+	verbosity_level.c verbosity_level.h
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
-am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) error.$(OBJEXT) \
+am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) \
 	exp-brief.$(OBJEXT) process_keypress.$(OBJEXT) \
 	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) parse_tsip.$(OBJEXT) \
 	$(am__objects_1) verbosity_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
-am__DEPENDENCIES_1 =
-conloq_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am_elig_OBJECTS = elig.$(OBJEXT) error.$(OBJEXT) parse_tsip.$(OBJEXT)
+conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am_elig_OBJECTS = elig.$(OBJEXT) parse_tsip.$(OBJEXT)
 elig_OBJECTS = $(am_elig_OBJECTS)
-elig_LDADD = $(LDADD)
-am_expon_OBJECTS = expon.$(OBJEXT) crc32.$(OBJEXT) error.$(OBJEXT) \
-	exp.$(OBJEXT) garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) \
-	lla.$(OBJEXT) parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
+elig_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am_expon_OBJECTS = expon.$(OBJEXT) crc32.$(OBJEXT) exp.$(OBJEXT) \
+	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) lla.$(OBJEXT) \
+	parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
 	verbosity_level.$(OBJEXT)
 expon_OBJECTS = $(am_expon_OBJECTS)
-expon_LDADD = $(LDADD)
+expon_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__magex_conloq_SOURCES_DIST = magex-conloq.c serialia.c wser.c \
-	serialia.h error.c error.h parse_tsip.c parse_tsip.h magexp.c \
-	exp.h verbosity_level.c verbosity_level.h
+	serialia.h parse_tsip.c parse_tsip.h magexp.c exp.h \
+	verbosity_level.c verbosity_level.h
 am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) $(am__objects_1) \
-	error.$(OBJEXT) parse_tsip.$(OBJEXT) magexp.$(OBJEXT) \
+	parse_tsip.$(OBJEXT) magexp.$(OBJEXT) \
 	verbosity_level.$(OBJEXT)
 magex_conloq_OBJECTS = $(am_magex_conloq_OBJECTS)
-magex_conloq_LDADD = $(LDADD)
+magex_conloq_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
-	error.$(OBJEXT) magexp.$(OBJEXT) verbosity_level.$(OBJEXT)
+	magexp.$(OBJEXT) verbosity_level.$(OBJEXT)
 magexp_OBJECTS = $(am_magexp_OBJECTS)
-magexp_LDADD = $(LDADD)
+magexp_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_parse_tsipex_OBJECTS = parse_tsipex.$(OBJEXT) crc32.$(OBJEXT) \
-	error.$(OBJEXT) parse_tsip.$(OBJEXT)
+	parse_tsip.$(OBJEXT)
 parse_tsipex_OBJECTS = $(am_parse_tsipex_OBJECTS)
-parse_tsipex_LDADD = $(LDADD)
+parse_tsipex_DEPENDENCIES = $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -198,6 +197,7 @@ psdir = @psdir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
+stribog_lib = @stribog_lib@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
@@ -224,11 +224,12 @@ top_srcdir = @top_srcdir@
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #forced to use non-free OS API
 @the_host_is_windows_TRUE@serial_source = wser.c
-caed_SOURCES = caed.c crc32.c crc32.h error.c error.h get_u.h\
+caed_SOURCES = caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h
 
+caed_LDADD = $(stribog_lib)
 conloq_SOURCES = conloq.c crc32.c crc32.h\
- error.c error.h exp-brief.c exp.h\
+ exp-brief.c exp.h\
  exp_gps.h prepeoc_gps.h get_u.h\
  process_keypress.c process_keypress.h garmin_nmea.c hodo.c hodo.h\
  parse_tsip.c parse_tsip.h\
@@ -236,24 +237,29 @@ conloq_SOURCES = conloq.c crc32.c crc32.h\
  verbosity_level.c verbosity_level.h
 
 EXTRA_conloq_SOURCES = serialia.c wser.c
-conloq_LDADD = $(argp_lib)
-elig_SOURCES = elig.c error.c error.h parse_tsip.c parse_tsip.h
-expon_SOURCES = expon.c crc32.c crc32.h error.c error.h exp.c exp.h\
+conloq_LDADD = $(argp_lib) $(stribog_lib)
+elig_SOURCES = elig.c parse_tsip.c parse_tsip.h
+elig_LDADD = $(stribog_lib)
+expon_SOURCES = expon.c crc32.c crc32.h exp.c exp.h\
  garmin_nmea.c exp_gps.h hodo.c hodo.h lla.c lla.h\
  parse_tsip.c parse_tsip.h preproc_gps.c preproc_gps.h\
  verbosity_level.c verbosity_level.h
 
+expon_LDADD = $(stribog_lib)
 magex_conloq_SOURCES = magex-conloq.c $(serial_source) serialia.h\
- error.c error.h parse_tsip.c parse_tsip.h magexp.c exp.h\
+ parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
 
+magex_conloq_LDADD = $(stribog_lib)
 magexp_SOURCES = expon.c\
- parse_tsip.c parse_tsip.h error.c error.h magexp.c exp.h\
+ parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
 
+magexp_LDADD = $(stribog_lib)
 parse_tsipex_SOURCES = parse_tsipex.c crc32.c crc32.h\
- error.c error.h get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h
+ get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h
 
+parse_tsipex_LDADD = $(stribog_lib)
 all: all-am
 
 .SUFFIXES:
@@ -342,7 +348,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conloq.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crc32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exp-brief.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expon.Po@am__quote@
