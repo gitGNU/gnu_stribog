@@ -30,7 +30,7 @@ const char*argp_program_version=
 "see <http://www.gnu.org/licenses/>.";
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
 static char doc[]="decimate ADC messages from a stribog file\v"
-"elig puts every n-th ADC message from input to output\n"
+"elig puts every n-th ADC message from stdin to stdout\n"
 "while copying the rest messages as they are.\n"
 "the default decimation count is 200.\n"
 "this utility was to reduce volumes of certain stribog data files.\n\n",
