@@ -133,11 +133,11 @@ print_help(struct argp_state*state)
  if(help_string)printf("%s\n",help_string);
  if(argp_program_bug_address)
   printf("Report bugs to %s.\n",argp_program_bug_address);
- exit(argp_err_exit_status);
+ exit(0);
 }
 static void
 print_version(struct argp_state*state)
-{printf("%s\n",argp_program_version);exit(argp_err_exit_status);}
+{printf("%s\n",argp_program_version);exit(0);}
 static int
 options_match(char*option,const char*pattern,
  int arg_possible,char**arg)
@@ -155,7 +155,7 @@ parse_arg(struct argp*argp,int*argc,char**argv,
  if(*current!='-')/*not an option*/
  {argp->parse_option(ARGP_KEY_ARG,current,state);return;}
  if(current[1]=='-')/*long option*/
- {/*predefined options; any of them terminates the program with exit(0);*/
+ {/*predefined options; any of them terminates the program with exit();*/
   if(!strcmp("help",current+2))print_help(state);
   if(!strcmp("usage",current+2))argp_usage(state);
   if(!strcmp("version",current+2))print_version(state);
@@ -208,7 +208,7 @@ argp_parse(struct argp*argp,int argc,
  char**argv,int a,int b,struct arguments*arguments)
 {struct argp_state state;int i=1;
  state.input=arguments;state.argp=argp;
- state.arg_num=argp_err_exit_status=0;state.prog_name=*argv;
+ state.arg_num=0;argp_err_exit_status=EX_USAGE;state.prog_name=*argv;
  while(argv[i])parse_arg(argp,&i,argv,&state,arguments);
  argp->parse_option(ARGP_KEY_END,0,&state);
 }

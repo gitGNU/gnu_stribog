@@ -23,6 +23,11 @@ enum argp_key_values/*the positive values are option keys*/
 #else
 typedef int error_t;
 #endif
+#if HAVE_SYSEXITS_H
+ #include<sysexits.h>
+#else
+ enum sysexits_values{EX_OK=0,EX_USAGE=64};
+#endif
 enum argp_error_values{ARGP_ERR_UNKNOWN=-1};
 struct argp_option
 {const char*long_option;
