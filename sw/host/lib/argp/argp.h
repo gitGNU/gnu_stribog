@@ -50,5 +50,6 @@ struct argp
 /*the next two strings MUST be defined in the application sources*/
 extern const char*argp_program_version;
 extern const char*argp_program_bug_address;
+extern error_t argp_err_exit_status;/*this is module own variable*/
 void argp_parse(struct argp*,int argc,char**argv,int,int,struct arguments*);
 void argp_usage(struct argp_state*);

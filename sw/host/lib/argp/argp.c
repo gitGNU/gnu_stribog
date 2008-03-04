@@ -21,7 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
-#include"argp.h"
+#include<argp.h>
+error_t argp_err_exit_status;
 static int
 printable_option_key(int key){return(key>' '&&key<0x7F);}
 static int
@@ -79,7 +80,7 @@ argp_usage(struct argp_state*state)
  chars_printed+=printf("[--help] [--usage]");
  if(chars_printed>=line_length)chars_printed=new_line();
  if(state->argp->args_doc)printf(" %s",state->argp->args_doc);
- printf("\n");exit(0);
+ printf("\n");exit(argp_err_exit_status);
 }
 static void
 print_help(struct argp_state*state)
@@ -132,11 +133,11 @@ print_help(struct argp_state*state)
  if(help_string)printf("%s\n",help_string);
  if(argp_program_bug_address)
   printf("Report bugs to %s.\n",argp_program_bug_address);
- exit(0);
+ exit(argp_err_exit_status);
 }
 static void
 print_version(struct argp_state*state)
-{printf("%s\n",argp_program_version);exit(0);}
+{printf("%s\n",argp_program_version);exit(argp_err_exit_status);}
 static int
 options_match(char*option,const char*pattern,
  int arg_possible,char**arg)
@@ -207,7 +208,7 @@ argp_parse(struct argp*argp,int argc,
  char**argv,int a,int b,struct arguments*arguments)
 {struct argp_state state;int i=1;
  state.input=arguments;state.argp=argp;
- state.arg_num=0;state.prog_name=*argv;
+ state.arg_num=argp_err_exit_status=0;state.prog_name=*argv;
  while(argv[i])parse_arg(argp,&i,argv,&state,arguments);
  argp->parse_option(ARGP_KEY_END,0,&state);
 }
