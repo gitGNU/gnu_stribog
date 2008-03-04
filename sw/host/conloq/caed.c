@@ -15,11 +15,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-#include"parse_tsip.h"/* the filename is argv[1]; main board time moments */
-#include"crc32.h"     /* when to split go from stdin */
+#include<config.h>
+#include"parse_tsip.h"
+#include"crc32.h"
 #include<stribog_error.h>
 #include"get_u.h"
 #include<stdio.h>
+#include<argp.h>
 static double freq=14745600.+8550;static unsigned leaps;
 static unsigned long long time_stamp;
 static double
@@ -40,23 +42,73 @@ expone(const unsigned char*s,int size)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
   (unsigned long)crc,(unsigned long)cr,size);return;
  }if(size==adc_message_size)exp_adc(s);
-}int
+}const char*argp_program_version=
+"caed ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
+"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
+"stribog comes with NO WARRANTY, to the extent permitted by law.\n"
+"You may redistribute copies of stribog\n"
+"under the terms of the GNU General Public License V3+.\n"
+"For more information about these matters,\n"
+"see <http://www.gnu.org/licenses/>.";
+const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
+static char doc[]="listen to a stribog board\v"
+"caed splits a data file captured from stribog\n"
+"into parts at MCU time values given through stdin.\n\n",
+ arg_doc[]="input_file";
+static struct argp_option options[]=
+{
+ {"escapes",'e',0,0,
+  "enable packet-layer escapes (you don't want to use "
+   "this unless you really know what you are doing)"
+ },
+ {0}
+};
+struct arguments{char*file_name;int escapes;};
+static error_t
+parse_opt(int key, char*arg, struct argp_state*state)
+{struct arguments*arguments=state->input;char _;
+ switch(key)
+ {case 'e':arguments->escapes=!0;break;
+  case ARGP_KEY_ARG:arguments->file_name=arg;break;
+  case ARGP_KEY_END:
+   if(!arguments->file_name)
+   {error("no input file specified\n");
+    argp_err_exit_status=1;
+    argp_usage(state);
+   }break;
+  default:return ARGP_ERR_UNKNOWN;
+ }return 0;
+}
+static struct argp argp={options,parse_opt,arg_doc,doc};
+int
 main(int argc,char**argv)
 {tsip_buf*tb;int size,c,i=0;const unsigned char*_;
- FILE*f,*log;double t=0;char file_name[289];
- init_error(*argv);tb=new_tsip();
- if(argc<2){error("no file specified\n");return 1;}scanf("%lg",&t);
- snprintf(file_name,sizeof file_name,"%s.%3.3i",argv[1],i++);
- log=fopen(file_name,"wb");
- if(!(f=fopen(argv[1],"rb"))){printf("can't open \"%s\"\n",argv[1]);return 2;}
+ FILE*f,*log;double t=0;struct arguments arguments;char file_name[0x121];
+ arguments.file_name=0;arguments.escapes=0;
+ init_error(*argv);
+ argp_parse(&argp,argc,argv,0,0,&arguments);
+ if(arguments.escapes)enable_escapes(!0);
+ tb=new_tsip();
+ scanf("%lg",&t);
+ /*FIXME support long filenames*/
+ snprintf(file_name,sizeof file_name,"%s.%3.3i",arguments.file_name,i++);
+ if(!(log=fopen(file_name,"wb")))
+ {error("can't open output file '%s'\n",file_name);
+  return 3;
+ }
+ if(!(f=fopen(arguments.file_name,"rb")))
+ {printf("can't open input file \"%s\"\n",arguments.file_name);return 2;}
  while(!feof(f))
  {if((_=parse_tsip(tb,c=getc(f),&size)))
   {expone(_,size);
    if(!feof(stdin))if(mcu_stamp()>t)
-   {if(log)fclose(log);
-    snprintf(file_name,sizeof file_name,"%s.%3.3i",argv[1],i++);
-    log=fopen(file_name,"wb");scanf("%lg",&t);
+   {fclose(log);
+    snprintf(file_name,sizeof file_name,"%s.%3.3i",arguments.file_name,i++);
+    if(!(log=fopen(file_name,"wb")))
+    {error("can't open output file '%s'\n",file_name);
+     return 3;
+    }scanf("%lg",&t);
    }
-  }if(log)putc(c,log);
- }if(log)fclose(log);fclose(f);free_tsip(tb);return 0;
+  }putc(c,log);
+ }fclose(log);fclose(f);free_tsip(tb);return 0;
 }
