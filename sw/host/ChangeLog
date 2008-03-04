@@ -7,8 +7,11 @@
  conloq/process_keypress.c: error.[ch] moved 
    to lib/ (libstribog.a); init_error invoked;
    error.h renamed to stribog_error.h
- * conloq/magex-conloq.c conloq/Makefile.am:
+ * conloq/magex-conloq.c conloq/caed.c conloq/Makefile.am:
    GNU-standard options list added
+ * lib/argp/argp.c lib/argp/argp.h: argp_err_exit_status
+ added
+ * conloq/conloq.c: a necessary break in switch added
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/conloq.c: more help strings; UK English alias added;
    escapes option enabled
