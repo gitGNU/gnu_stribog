@@ -41,7 +41,7 @@ static int k=200;
 struct arguments{int escapes;};
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
-{struct arguments*arguments=state->input;int n,r;
+{struct arguments*arguments=state->input;int n=0,r;
  switch(key)
  {case 'e':arguments->escapes=!0;break;
   case ARGP_KEY_ARG:

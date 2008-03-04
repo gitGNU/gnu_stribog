@@ -124,7 +124,7 @@ parse_opt(int key, char*arg, struct argp_state*state)
   case 'e':arguments->escapes=!0;break;
   case 'v':
    if(arg)     
-   {int n,r;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
+   {int n=0,r;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
     if(r||arg[n])
     {error("\"%s\" is not a valid verbosity level"
       " (should be an integer)\n",arg);

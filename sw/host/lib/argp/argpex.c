@@ -71,7 +71,7 @@ parse_opt(int key,char*arg,struct argp_state*state)
   case's':arguments->verbosity--;printf("s found\n");break;
   case'f':case'v':printf("%c found\n",key);
    if(arg)
-   {int r,n;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
+   {int r,n=0;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
     if(1!=r||arg[n])
     {fprintf(stderr,"%s:%i: \"%s\" is not a valid verbosity level"
      " (should be an integer)\n",__FILE__,__LINE__,arg);
