@@ -117,7 +117,10 @@ you want to edit the hardware part of stribog.
 
 HOW TO USE GIT
 
-GIT is the revision control system used by the project.
+Git is the revision control system used by the project.
+
+To see meta-documentation on the project branches, 
+checkout 'master' branch and read the files it contains.
 
 Here is a typical ~/.gitconfig file contents
 (please replace the names and email with yours):
@@ -190,3 +193,6 @@ $git commit
 
 $git show
  to see the latest commit description
+
+$git status
+ to see what files are not in sync with the current branch
