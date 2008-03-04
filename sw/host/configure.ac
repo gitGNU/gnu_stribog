@@ -37,8 +37,7 @@ AC_CHECK_LIB([m], [sqrt])
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h string.h])
-AC_CHECK_HEADERS([sysexits.h termios.h unistd.h])
+AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h string.h termios.h unistd.h])
 
 #argp library configuration
 AC_MSG_CHECKING([if stribog argp implementation is asked for])
@@ -62,6 +61,7 @@ if test "z$build_own_argp" = "zyes";then
  AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
  AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
  AC_SUBST(argp_lib_dir,lib/argp)
+ AC_CHECK_HEADERS([sysexits.h])
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
