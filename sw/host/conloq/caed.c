@@ -42,7 +42,8 @@ expone(const unsigned char*s,int size)
  {error("wrong checksum (0x%8.8lX, received 0x%8.8lX), size %i\n",
   (unsigned long)crc,(unsigned long)cr,size);return;
  }if(size==adc_message_size)exp_adc(s);
-}const char*argp_program_version=
+}
+const char*argp_program_version=
 "caed ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
 "Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
 "stribog comes with NO WARRANTY, to the extent permitted by law.\n"
@@ -51,7 +52,7 @@ expone(const unsigned char*s,int size)
 "For more information about these matters,\n"
 "see <http://www.gnu.org/licenses/>.";
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
-static char doc[]="listen to a stribog board\v"
+static char doc[]="split stribog data\v"
 "caed splits a data file captured from stribog\n"
 "into parts at MCU time values given through stdin.\n\n",
  arg_doc[]="input_file";
