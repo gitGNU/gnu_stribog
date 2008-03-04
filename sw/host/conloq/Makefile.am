@@ -25,7 +25,7 @@ endif
 bin_PROGRAMS=caed conloq elig expon magex-conloq magexp parse_tsipex
 caed_SOURCES=caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h
-caed_LDADD=$(stribog_lib)
+caed_LDADD=$(argp_lib) $(stribog_lib)
 conloq_SOURCES=conloq.c crc32.c crc32.h\
  exp-brief.c exp.h\
  exp_gps.h prepeoc_gps.h get_u.h\
