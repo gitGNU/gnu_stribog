@@ -5,8 +5,10 @@
  conloq/magex-conloq.c conloq/magexp.c conloq/parse_tsip.c
  conloq/parse_tsipex.c conloq/exp-brief.c conloq/exp.c
  conloq/process_keypress.c: error.[ch] moved 
- to lib/ (libstribog.a); init_error invoked;
-  error.h renamed to stribog_error.h
+   to lib/ (libstribog.a); init_error invoked;
+   error.h renamed to stribog_error.h
+ * conloq/magex-conloq.c conloq/Makefile.am:
+   GNU-standard options list added
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/conloq.c: more help strings; UK English alias added;
    escapes option enabled
