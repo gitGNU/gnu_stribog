@@ -76,7 +76,7 @@ parse_opt(int key,char*arg,struct argp_state*state)
     {fprintf(stderr,"%s:%i: \"%s\" is not a valid verbosity level"
      " (should be an integer)\n",__FILE__,__LINE__,arg);
      return ARGP_ERR_UNKNOWN;
-    }printf("v arg %s\n",arg);
+    }printf("v arg '%s'\n",arg);
    }else
    {arguments->verbosity++;
     printf("no v argument\n");
