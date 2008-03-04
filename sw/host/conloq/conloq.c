@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include"exp.h"
 #include<stribog_error.h>
+#include<stribog_strings.h>
 #include"verbosity_level.h"
 #include"process_keypress.h"
 #include<stdlib.h>
@@ -74,14 +75,7 @@ sig_hunter(int sig)
   default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_signal;
  }exit(r);
 }
-const char*argp_program_version=
-"conloq ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
-"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
-"stribog comes with NO WARRANTY, to the extent permitted by law.\n"
-"You may redistribute copies of stribog\n"
-"under the terms of the GNU General Public License V3+.\n"
-"For more information about these matters,\n"
-"see <http://www.gnu.org/licenses/>.";
+const char*argp_program_version="conloq"PACKAGE_VERSION_COMMENTED;
 #define KEY_ASSIGNMENTS_HELP "some key assignments:\n"\
 "'h' Help\n'a' Toggle ADC messages\n'g' Toggle GPS messages\n"\
 "'m' Turn off all messages\n'n' Turn on all messages\n"\

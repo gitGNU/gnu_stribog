@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include"exp.h"
 #include<stribog_error.h>
+#include<stribog_strings.h>
 #include<stdlib.h>
 #include<stdio.h>
 #include<signal.h>
@@ -45,14 +46,7 @@ sighunter(int sig)
   default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_sig;
  }exit(r);
 }
-const char*argp_program_version=
-"magex-conloq ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
-"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
-"stribog comes with NO WARRANTY, to the extent permitted by law.\n"
-"You may redistribute copies of stribog\n"
-"under the terms of the GNU General Public License V3+.\n"
-"For more information about these matters,\n"
-"see <http://www.gnu.org/licenses/>.";
+const char*argp_program_version="magex-conloq"PACKAGE_VERSION_COMMENTED;
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
 static char doc[]="listen to a stribog board\v"
  "magex-conloq shows the incoming data and saves them in a file.\n"

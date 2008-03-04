@@ -18,16 +18,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<config.h>
 #include"parse_tsip.h"
 #include<stribog_error.h>
+#include<stribog_strings.h>
 #include<stdio.h>
 #include<argp.h>
-const char*argp_program_version=
-"elig ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
-"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
-"stribog comes with NO WARRANTY, to the extent permitted by law.\n"
-"You may redistribute copies of stribog\n"
-"under the terms of the GNU General Public License V3+.\n"
-"For more information about these matters,\n"
-"see <http://www.gnu.org/licenses/>.";
+const char*argp_program_version="elig"PACKAGE_VERSION_COMMENTED;
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
 static char doc[]="decimate ADC messages from a stribog file\v"
 "elig puts every n-th ADC message from stdin to stdout\n"
