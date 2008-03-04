@@ -157,7 +157,10 @@ parse_arg(struct argp*argp,int*argc,char**argv,
  if(current[1]=='-')/*long option*/
  {/*predefined options; any of them terminates the program with exit();*/
   if(!strcmp("help",current+2))print_help(state);
-  if(!strcmp("usage",current+2))argp_usage(state);
+  if(!strcmp("usage",current+2))
+  {argp_err_exit_status=0;
+   argp_usage(state);
+  }
   if(!strcmp("version",current+2))print_version(state);
   /*application-defined options*/
   if(state->argp->options)for(;valid_option(option);option++)
