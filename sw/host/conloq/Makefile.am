@@ -36,7 +36,7 @@ conloq_SOURCES=conloq.c crc32.c crc32.h\
 EXTRA_conloq_SOURCES=serialia.c wser.c
 conloq_LDADD=$(argp_lib) $(stribog_lib)
 elig_SOURCES=elig.c parse_tsip.c parse_tsip.h
-elig_LDADD=$(stribog_lib)
+elig_LDADD=$(argp_lib) $(stribog_lib)
 expon_SOURCES=expon.c crc32.c crc32.h exp.c exp.h\
  garmin_nmea.c exp_gps.h hodo.c hodo.h lla.c lla.h\
  parse_tsip.c parse_tsip.h preproc_gps.c preproc_gps.h\
