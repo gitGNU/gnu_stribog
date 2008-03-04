@@ -26,12 +26,16 @@ static int
 printable_option_key(int key){return(key>' '&&key<0x7F);}
 static int
 new_line(void){printf("\n");return printf("            ");}
+static int
+valid_option(const struct argp_option*o)
+{return o->long_option||o->key;}
 void
 argp_usage(struct argp_state*state)
 {int chars_printed,line_length=51,aliased_key=0;
  struct argp_option*options=state->argp->options,*option;
  chars_printed=printf("Usage: %s [-?V",state->prog_name);
- for(option=options;option->long_option||option->key;option++)
+ if(options)
+  for(option=options;valid_option(option);option++)
  {if(option->arg_name||aliased_key==option->key)continue;
   if(!(option->flags&OPTION_ALIAS))aliased_key=option->key;
   if(printable_option_key(option->key))
@@ -42,7 +46,8 @@ argp_usage(struct argp_state*state)
   }
  }chars_printed+=printf("] ");
  if(chars_printed>=line_length)chars_printed=new_line();
- for(option=options;option->long_option||option->key;option++)
+ if(options)
+  for(option=options;valid_option(option);option++)
  {int opt=option->flags&OPTION_ARG_OPTIONAL;
   if(aliased_key==option->key||!option->arg_name)continue;
   if(!(option->flags&OPTION_ALIAS))aliased_key=option->key;
@@ -55,7 +60,8 @@ argp_usage(struct argp_state*state)
   chars_printed+=printf("] ");
   if(chars_printed>=line_length)chars_printed=new_line();
  }
- for(option=options;option->long_option||option->key;option++)
+ if(options)
+  for(option=options;valid_option(option);option++)
  {int opt=option->flags&OPTION_ARG_OPTIONAL;
   if(!option->long_option)continue;
   chars_printed+=printf("[--%s",option->long_option);
@@ -86,7 +92,7 @@ print_help(struct argp_state*state)
  if(help_string)while(*help_string&&*help_string!='\v')
   printf("%c",*(help_string++));
  printf("\n\n");
- for(option=state->argp->options;option->long_option||option->key;option++)
+ if(option)for(;valid_option(option);option++)
  {struct argp_option*next_option;
   int opt=option->flags&OPTION_ARG_OPTIONAL,n,aliased_key=0;
   const char*delimiter=null_delimiter;
@@ -97,7 +103,7 @@ print_help(struct argp_state*state)
    {n+=printf("%s-%c",delimiter,next_option->key);
     delimiter=next_delimiter;
    }aliased_key=option->key;next_option++;
-  }while((next_option->long_option||option->key)&&
+  }while(valid_option(next_option)&&
     (next_option->flags&OPTION_ALIAS));
   next_option=option;
   if(null_delimiter==delimiter)n+=printf("    ");
@@ -111,7 +117,7 @@ print_help(struct argp_state*state)
      if(opt)n+=printf("]");
     }delimiter=next_delimiter;
    }next_option++;
-  }while(next_option->long_option&&(next_option->flags&OPTION_ALIAS));
+  }while(valid_option(next_option)&&(next_option->flags&OPTION_ALIAS));
   if(n>29){printf("\n");n=0;}
   printf("%*c",29-n,' ');
   printf("%s\n",option->help);
@@ -153,7 +159,8 @@ parse_arg(struct argp*argp,int*argc,char**argv,
   if(!strcmp("usage",current+2))argp_usage(state);
   if(!strcmp("version",current+2))print_version(state);
   /*application-defined options*/
-  for(option=state->argp->options;option->long_option||option->key;option++)
+  if(state->argp->options)
+   for(option=state->argp->options;valid_option(option);option++)
   {if(!(option->flags&OPTION_ALIAS))
    {arg_possible=option->arg_name!=0;
     arg_optional=option->flags&OPTION_ARG_OPTIONAL;
@@ -170,7 +177,8 @@ parse_arg(struct argp*argp,int*argc,char**argv,
  }/*long option*/
  while(*++current)/*short options*/
  {if('?'==*current)print_help(state);if('V'==*current)print_version(state);
-  for(option=state->argp->options;option->long_option||option->key;option++)
+  if(state->argp->options)
+   for(option=state->argp->options;valid_option(option);option++)
   {if(!(option->flags&OPTION_ALIAS))
    {arg_possible=option->arg_name!=0;
     arg_optional=option->flags&OPTION_ARG_OPTIONAL;
