@@ -73,7 +73,6 @@ parse_opt(int key, char*arg, struct argp_state*state)
   case ARGP_KEY_END:
    if(!arguments->file_name)
    {error("no input file specified\n");
-    argp_err_exit_status=1;
     argp_usage(state);
    }break;
   default:return ARGP_ERR_UNKNOWN;
