@@ -1,5 +1,16 @@
+04 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/error.c conloq/error.h lib/error.c lib/error.h
+ conloq/Makefile.am conloq/caed.c conloq/elig.c conloq/expon.c
+ conloq/garmin_nmea.c conloq/hodo.c 
+ conloq/magex-conloq.c conloq/magexp.c conloq/parse_tsip.c
+ conloq/parse_tsipex.c conloq/exp-brief.c conloq/exp.c
+ conloq/process_keypress.c: error.[ch] moved 
+ to lib/ (libstribog.a); init_error invoked;
+  error.h renamed to stribog_error.h
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * lib/argp/argp.c: check for options list != NULL
+ * conloq/conloq.c: more help strings; UK English alias added;
+   escapes option enabled
+ * configure.ac: version changed according to convensions
 02 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/error.c conloq/error.h conloq/conloq.c
  conloq/parse_tsipex.c: 
