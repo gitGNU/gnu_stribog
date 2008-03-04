@@ -11,8 +11,12 @@
  conloq/Makefile.am:
    GNU-standard options list added
  * lib/argp/argp.c lib/argp/argp.h: argp_err_exit_status
- added
+   added
  * conloq/conloq.c: a necessary break in switch added
+ * lib/stribog_strings.h: new
+ * conloq/conloq.c conloq/elig.c conloq/caed.c conloq/magex-conloq.c
+ configure.ac:
+   stribog_strings.h included
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/conloq.c: more help strings; UK English alias added;
    escapes option enabled
