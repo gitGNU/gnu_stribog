@@ -66,7 +66,7 @@ static struct argp_option options[]=
 struct arguments{char*file_name;int escapes;};
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
-{struct arguments*arguments=state->input;char _;
+{struct arguments*arguments=state->input;
  switch(key)
  {case 'e':arguments->escapes=!0;break;
   case ARGP_KEY_ARG:arguments->file_name=arg;break;
