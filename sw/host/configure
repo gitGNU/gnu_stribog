@@ -5736,6 +5736,8 @@ stribog_lib="\$(top_builddir)/lib/libstribog.a"
 #to be available the same as config.h
 ac_config_files="$ac_config_files stribog_error.h:lib/stribog_error.h"
 
+ac_config_files="$ac_config_files stribog_strings.h:lib/stribog_strings.h"
+
 #Makefiles are generated
 ac_config_files="$ac_config_files Makefile conloq/Makefile elk/Makefile intlpc/Makefile lib/Makefile lib/argp/Makefile postproc/Makefile utils/Makefile"
 
@@ -6327,6 +6329,7 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "argp.h") CONFIG_FILES="$CONFIG_FILES argp.h:lib/argp/argp.h" ;;
     "stribog_error.h") CONFIG_FILES="$CONFIG_FILES stribog_error.h:lib/stribog_error.h" ;;
+    "stribog_strings.h") CONFIG_FILES="$CONFIG_FILES stribog_strings.h:lib/stribog_strings.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "conloq/Makefile") CONFIG_FILES="$CONFIG_FILES conloq/Makefile" ;;
     "elk/Makefile") CONFIG_FILES="$CONFIG_FILES elk/Makefile" ;;

@@ -35,7 +35,8 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure $(top_srcdir)/lib/argp/argp.h \
-	$(top_srcdir)/lib/stribog_error.h AUTHORS COPYING ChangeLog \
+	$(top_srcdir)/lib/stribog_error.h \
+	$(top_srcdir)/lib/stribog_strings.h AUTHORS COPYING ChangeLog \
 	INSTALL NEWS TODO config.guess config.sub depcomp install-sh \
 	missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -46,7 +47,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = argp.h stribog_error.h
+CONFIG_CLEAN_FILES = argp.h stribog_error.h stribog_strings.h
 SOURCES =
 DIST_SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
@@ -243,6 +244,8 @@ distclean-hdr:
 argp.h: $(top_builddir)/config.status $(top_srcdir)/lib/argp/argp.h
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 stribog_error.h: $(top_builddir)/config.status $(top_srcdir)/lib/stribog_error.h
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+stribog_strings.h: $(top_builddir)/config.status $(top_srcdir)/lib/stribog_strings.h
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 # This directory's subdirectories are mostly independent; you can cd
