@@ -1,6 +1,23 @@
-#include"parse_tsip.h"/*caed: split stribog data file on pieces*/
-#include"crc32.h"/* the filename is argv[1]; main board time moments */
-#include"error.h"/* when to split go from stdin */
+/*caed: split stribog data file on pieces
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"parse_tsip.h"/* the filename is argv[1]; main board time moments */
+#include"crc32.h"     /* when to split go from stdin */
+#include<stribog_error.h>
 #include"get_u.h"
 #include<stdio.h>
 static double freq=14745600.+8550;static unsigned leaps;
@@ -25,8 +42,9 @@ expone(const unsigned char*s,int size)
  }if(size==adc_message_size)exp_adc(s);
 }int
 main(int argc,char**argv)
-{tsip_buf*tb=new_tsip();int size,c,i=0;const unsigned char*_;
+{tsip_buf*tb;int size,c,i=0;const unsigned char*_;
  FILE*f,*log;double t=0;char file_name[289];
+ init_error(*argv);tb=new_tsip();
  if(argc<2){error("no file specified\n");return 1;}scanf("%lg",&t);
  snprintf(file_name,sizeof file_name,"%s.%3.3i",argv[1],i++);
  log=fopen(file_name,"wb");
@@ -41,19 +59,4 @@ main(int argc,char**argv)
    }
   }if(log)putc(c,log);
  }if(log)fclose(log);fclose(f);free_tsip(tb);return 0;
-}/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+}

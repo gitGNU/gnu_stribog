@@ -1,8 +1,25 @@
 /*parsing TSIP-like messages (DLE ... DLE DLE ... DLE ETX)
- when the message begins with ESC=0x17 the first byte should be
- swallowed and the second should be DLE, ETX or ESC*/
+Copyright (C) 2005, 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+When the message begins with ESC=0x17 the first byte should be
+swallowed and the second should be DLE, ETX or ESC*/
 #include"parse_tsip.h"
-#include"error.h"
+#include<stribog_error.h>
 #include<stdlib.h>
 static const unsigned char dle=0x10,etx=3,esc=0x17;static int fix_escapes;
 struct tsip_buf
@@ -34,19 +51,4 @@ tsip_buf*new_tsip(void)
 {tsip_buf*t=malloc(sizeof(tsip_buf));if(!t)return 0;reset_tsip(t);return t;}
 void
 free_tsip(tsip_buf*t){if(t)free(t);}
-/*This program is a part of the stribog host software section
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2005, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/

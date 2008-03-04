@@ -17,7 +17,7 @@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ(2.61)
-AC_INIT([stribog-hosttools], [0.0.0-rc0], [stribog-bug@nongnu.org])
+AC_INIT([stribog-hosttools], [0.0-minus], [stribog-bug@nongnu.org])
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 
@@ -84,10 +84,16 @@ case $host in
 esac
 AM_CONDITIONAL(the_host_is_windows, test "z$the_host_is_windows" = "zyes")
 
+AC_SUBST(stribog_lib,["\$(top_builddir)/lib/libstribog.a"])
+#common headers are copied to top build directory
+#to be available the same as config.h
+AC_CONFIG_FILES([stribog_error.h:lib/stribog_error.h])
+#Makefiles are generated
 AC_CONFIG_FILES([Makefile
                  conloq/Makefile
                  elk/Makefile
                  intlpc/Makefile
+                 lib/Makefile
                  lib/argp/Makefile
                  postproc/Makefile
                  utils/Makefile])

@@ -1,4 +1,6 @@
 /*decode magexp messages
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,12 +14,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"exp.h"
 #include<stdint.h>
-#include"error.h"
+#include<stribog_error.h>
 #include<stdio.h>
 int
 init_exp(int x,int k){return 0;}void close_exp(void){}

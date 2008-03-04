@@ -1,4 +1,6 @@
 /*elig: output every k-th stribog "adc" message; other messages unchanged
+Copyright (C) 2006, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,11 +14,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
-#include"error.h"
+#include<stribog_error.h>
 #include<stdio.h>
 static const unsigned char dle=0x10,etx=0x03;static int k=200;
 static void put_message(const unsigned char*c,int size)
@@ -26,7 +26,8 @@ static void put_message(const unsigned char*c,int size)
 static void expone(const unsigned char*c,int size)
 {static int i;if(size==24){if(++i==k)i=0;else return;}put_message(c,size);}
 int main(int argc,char**argv)
-{tsip_buf*tb=new_tsip();int size;const unsigned char*_;
+{tsip_buf*tb;int size;const unsigned char*_;
+ init_error(*argv);tb=new_tsip();
  if(argc>1)sscanf(argv[1],"%i",&k);
  while(!feof(stdin)){if((_=parse_tsip(tb,getchar(),&size)))expone(_,size);}
  free_tsip(tb);return 0;

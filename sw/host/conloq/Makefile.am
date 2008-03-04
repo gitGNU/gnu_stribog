@@ -23,27 +23,33 @@ else
 serial_source=serialia.c
 endif
 bin_PROGRAMS=caed conloq elig expon magex-conloq magexp parse_tsipex
-caed_SOURCES=caed.c crc32.c crc32.h error.c error.h get_u.h\
+caed_SOURCES=caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h
+caed_LDADD=$(stribog_lib)
 conloq_SOURCES=conloq.c crc32.c crc32.h\
- error.c error.h exp-brief.c exp.h\
+ exp-brief.c exp.h\
  exp_gps.h prepeoc_gps.h get_u.h\
  process_keypress.c process_keypress.h garmin_nmea.c hodo.c hodo.h\
  parse_tsip.c parse_tsip.h\
  $(serial_source) serialia.h usage.h\
  verbosity_level.c verbosity_level.h
 EXTRA_conloq_SOURCES=serialia.c wser.c
-conloq_LDADD=$(argp_lib)
-elig_SOURCES=elig.c error.c error.h parse_tsip.c parse_tsip.h
-expon_SOURCES=expon.c crc32.c crc32.h error.c error.h exp.c exp.h\
+conloq_LDADD=$(argp_lib) $(stribog_lib)
+elig_SOURCES=elig.c parse_tsip.c parse_tsip.h
+elig_LDADD=$(stribog_lib)
+expon_SOURCES=expon.c crc32.c crc32.h exp.c exp.h\
  garmin_nmea.c exp_gps.h hodo.c hodo.h lla.c lla.h\
  parse_tsip.c parse_tsip.h preproc_gps.c preproc_gps.h\
  verbosity_level.c verbosity_level.h
+expon_LDADD=$(stribog_lib)
 magex_conloq_SOURCES=magex-conloq.c $(serial_source) serialia.h\
- error.c error.h parse_tsip.c parse_tsip.h magexp.c exp.h\
+ parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
+magex_conloq_LDADD=$(stribog_lib)
 magexp_SOURCES=expon.c\
- parse_tsip.c parse_tsip.h error.c error.h magexp.c exp.h\
+ parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
+magexp_LDADD=$(stribog_lib)
 parse_tsipex_SOURCES=parse_tsipex.c crc32.c crc32.h\
- error.c error.h get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h
+ get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h
+parse_tsipex_LDADD=$(stribog_lib)

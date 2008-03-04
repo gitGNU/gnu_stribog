@@ -1,5 +1,7 @@
 /*decode GARMIN GPS25 LP series NMEA messages
  uses GPGGA, PGRMV
+Copyright (C) 2006, 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -13,14 +15,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 #include"hodo.h"
 #include"exp_gps.h"
 #include"preproc_gps.h"
-#include"error.h"
+#include<stribog_error.h>
 #include"verbosity_level.h"
 #include<string.h>
 #include<math.h>

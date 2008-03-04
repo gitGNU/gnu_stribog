@@ -1,5 +1,21 @@
-#include"hodo.h"/*decode odometer messages*/
-#include"error.h"
+/*decode odometer messages
+Copyright (C) 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"hodo.h"
+#include<stribog_error.h>
 #include"verbosity_level.h"
 #include<stdio.h>
 static int output_next;static unsigned char s[8];static int i=-1;
@@ -52,19 +68,4 @@ int proc_hodo(unsigned char c,int silent,double t)
    }output_next=0;
   }_0=_;ts0=ts;t_prev=t_mess;
  }i=0;t_mess=-1;return r;
-}/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+}

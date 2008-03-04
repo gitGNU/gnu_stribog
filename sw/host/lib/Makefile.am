@@ -1,7 +1,7 @@
-#stribog host tools: Makefile.am
+#host tools common library: Makefile.am
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
-#
+#This file is a part of stribog
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation; either version 3 of the License, or
@@ -14,4 +14,5 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-SUBDIRS=$(argp_lib_dir) lib conloq elk intlpc postproc utils
+noinst_LIBRARIES=libstribog.a
+libstribog_a_SOURCES=error.c stribog_error.h

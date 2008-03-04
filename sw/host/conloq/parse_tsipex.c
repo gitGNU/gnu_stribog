@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
-#include"error.h"
+#include<stribog_error.h>
 #include"crc32.h"
 #define hostside_form_fix
 #include"../../common/form_fix.h"

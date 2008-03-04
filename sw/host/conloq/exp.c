@@ -1,6 +1,23 @@
-#include"exp.h"/*decode stribog messages*/
+/*decode stribog messages
+Copyright (C) 2006, 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"exp.h"
 #include"crc32.h"
-#include"error.h"
+#include<stribog_error.h>
 #include<stdio.h>
 #include"exp_gps.h"
 #include"get_u.h"
@@ -128,19 +145,4 @@ expone(const unsigned char*s,int size)
   case 20:return exp_stat(s);case 24:return exp_adc(s);
   default:error("wrong size (%i for 24 or 20 or 16 or 12 or 8)\n",size);
  }return!0;
-}/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+}

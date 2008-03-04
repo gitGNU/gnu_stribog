@@ -1,4 +1,6 @@
 /*expon: decode stribog messages
+Copyright (C) 2006, 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,16 +14,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include"exp.h"
-#include"error.h"
+#include<stribog_error.h>
 #include"verbosity_level.h"
 #include<stdio.h>
 int main(int argc,char**argv)
 {tsip_buf*tb;int size,period=1;const unsigned char*_;unsigned long long n=0;
+ init_error(*argv);
  if(argc>1)sscanf(argv[1],"%i",&period);init_exp(!0,period);init_turned_on();
  if(argc>3)enable_escapes(!0);tb=new_tsip();
  while(!feof(stdin))

@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"usage.h"
 #include"parse_tsip.h"
 #include"exp.h"
-#include"error.h"
+#include<stribog_error.h>
 #include"verbosity_level.h"
 #include"process_keypress.h"
 #include<stdlib.h>
@@ -94,8 +94,10 @@ void
 help(void){printf(KEY_ASSIGNMENTS_HELP);}
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
 static char doc[]="talk (currently just listen) to a stribog board\v"
- KEY_ASSIGNMENTS_HELP
-/*, args_doc[]=" [port]"*/;
+ "This is an interactive programme for stribog data acquisition.\n"
+ "It shows the incoming data and allows displayed messages filtering.\n"
+ "conloq assumes that the main application (multa.elf) runs on stribog.\n\n"
+ KEY_ASSIGNMENTS_HELP;
 static struct argp_option options[]=
 {
  {"output",'o',"FILE",0,
@@ -104,11 +106,17 @@ static struct argp_option options[]=
  {"device",'d',"PORT",0,
   "Open PORT instead of default (/dev/ttyS1 on GNU, COM1 on Windows)"
  },
+ {"escapes",'e',0,0,
+  "enable packet-layer escapes (don't use this unless you "
+   "really know what you are doing)"
+ },
  {"verbose",'v',"LEVEL",OPTION_ARG_OPTIONAL,"Be verbose"},
+ {"verbous",0,"LEVEL",OPTION_ALIAS},
  {"quiet",'q',0,0,"Be quiet"},
  {0}
 };
-struct arguments{const char*port_name,*log_name;int verbosity;};
+struct arguments
+{const char*port_name,*log_name;int verbosity,escapes;};
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
 {struct arguments*arguments=state->input;char _;
@@ -119,6 +127,7 @@ parse_opt(int key, char*arg, struct argp_state*state)
    if(arguments->verbosity<minimal_verbosity)
     arguments->verbosity=minimal_verbosity;
    break;
+  case 'e':arguments->escapes=!0;
   case 'v':
    if(arg&&1!=sscanf(arg,"%i%c",&(arguments->verbosity),&_))
    {error("\"%s\" is not a valid verbosity level"
@@ -137,31 +146,35 @@ static struct argp argp={options,parse_opt,0,doc};
 int 
 main(int argc,char**argv)
 {int size,n,j,period=0x3F;const unsigned char*_;
- unsigned char s[11520];struct arguments arg_struct;
+ unsigned char s[11520];struct arguments arguments;
  init_error(*argv);
- arg_struct.port_name=0;arg_struct.log_name=0;arg_struct.verbosity=0;
- argp_parse(&argp,argc,argv,0,0,&arg_struct);
- set_verbosity(arg_struct.verbosity);
- if(arg_struct.log_name)
- {if(!(f=fopen(arg_struct.log_name,"wb")))
-  {error("can't open log file \"%s\"\n",arg_struct.log_name);
+ arguments.port_name=arguments.log_name=0;
+ arguments.escapes=arguments.verbosity=0;
+ argp_parse(&argp,argc,argv,0,0,&arguments);
+ set_verbosity(arguments.verbosity);
+ if(arguments.log_name)
+ {if(!(f=fopen(arguments.log_name,"wb")))
+  {error("can't open log file \"%s\"\n",arguments.log_name);
    return no_log_file;
   }
- }else if(!(f=next_file(&(arg_struct.log_name))))
+ }else if(!(f=next_file(&(arguments.log_name))))
  {error("can't open log file\n");return no_log_file;}
  if(get_verbosity()>=pretty_verbose)
-  printf("Log file \"%s\" opened\n",arg_struct.log_name);
+  printf("Log file \"%s\" opened\n",arguments.log_name);
  if(setup_stdin())
  {error("can't setup your terminal\n");return stdin_unsetupable;}
  atexit(close_all);
  signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
  //if(argc>2)sscanf(argv[2],"%i",&period);
  init_exp(0,period);init_turned_on();
- //if(argc>4)enable_escapes(!0);
+ if(arguments.escapes)enable_escapes(!0);
+ if(get_verbosity()>=pretty_verbose)
+  printf(arguments.escapes?
+    "escapes are enabled\n":"escapes are disabled\n");
  tb=new_tsip();
- if(initserialia(arg_struct.port_name))
+ if(initserialia(arguments.port_name))
  {error("can't open serial port \"%s\"\n",
-   arg_struct.port_name?arg_struct.port_name:"[default]");
+   arguments.port_name?arguments.port_name:"[default]");
   return no_uart;
  }
  if(get_verbosity()>=pretty_verbose)
