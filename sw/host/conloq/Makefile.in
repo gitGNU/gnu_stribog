@@ -50,7 +50,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_caed_OBJECTS = caed.$(OBJEXT) crc32.$(OBJEXT) parse_tsip.$(OBJEXT)
 caed_OBJECTS = $(am_caed_OBJECTS)
 am__DEPENDENCIES_1 =
-caed_DEPENDENCIES = $(am__DEPENDENCIES_1)
+caed_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h exp-brief.c exp.h \
 	exp_gps.h prepeoc_gps.h get_u.h process_keypress.c \
 	process_keypress.h garmin_nmea.c hodo.c hodo.h parse_tsip.c \
@@ -228,7 +228,7 @@ top_srcdir = @top_srcdir@
 caed_SOURCES = caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h
 
-caed_LDADD = $(stribog_lib)
+caed_LDADD = $(argp_lib) $(stribog_lib)
 conloq_SOURCES = conloq.c crc32.c crc32.h\
  exp-brief.c exp.h\
  exp_gps.h prepeoc_gps.h get_u.h\
