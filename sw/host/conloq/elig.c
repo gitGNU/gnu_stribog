@@ -51,7 +51,7 @@ parse_opt(int key, char*arg, struct argp_state*state)
  switch(key)
  {case 'e':arguments->escapes=!0;break;
   case ARGP_KEY_ARG:
-   r=sscanf(arg,"%i%n",&k,&n)
+   r=sscanf(arg,"%i%n",&k,&n);
    if(1!=r||arg[n]||k<=0)
    {error("'%s' is not a valid decimation count "
      "(should be a positive integer)\n",arg);
