@@ -149,7 +149,7 @@ options_match(char*option,const char*pattern,
 static void/*parse the next option possibly with it's argument*/
 parse_arg(struct argp*argp,int*argc,char**argv,
  struct argp_state*state,struct arguments*arguments)
-{char*current,*arg;struct argp_option*option;
+{char*current,*arg;struct argp_option*option=state->argp->options;
  int arg_possible=0,arg_optional=0;
  state->arg_num=*argc-1;current=argv[(*argc)++];
  if(*current!='-')/*not an option*/
@@ -160,8 +160,7 @@ parse_arg(struct argp*argp,int*argc,char**argv,
   if(!strcmp("usage",current+2))argp_usage(state);
   if(!strcmp("version",current+2))print_version(state);
   /*application-defined options*/
-  if(state->argp->options)
-   for(option=state->argp->options;valid_option(option);option++)
+  if(state->argp->options)for(;valid_option(option);option++)
   {if(!(option->flags&OPTION_ALIAS))
    {arg_possible=option->arg_name!=0;
     arg_optional=option->flags&OPTION_ARG_OPTIONAL;
