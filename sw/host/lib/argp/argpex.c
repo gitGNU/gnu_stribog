@@ -59,7 +59,7 @@ static struct argp_option options[]=
 struct arguments{const char*port_name,*log_name;int verbosity;};
 static error_t
 parse_opt(int key,char*arg,struct argp_state*state)
-{struct arguments*arguments=state->input;char c;
+{struct arguments*arguments=state->input;
  switch(key)
  {case hungry_key:printf("hungry found\n");break;
   case'd':arguments->port_name=arg;
@@ -71,7 +71,8 @@ parse_opt(int key,char*arg,struct argp_state*state)
   case's':arguments->verbosity--;printf("s found\n");break;
   case'f':case'v':printf("%c found\n",key);
    if(arg)
-   {if(1!=sscanf(arg,"%i%c",&(arguments->verbosity),&c))
+   {int r,n;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
+    if(1!=r||arg[n])
     {fprintf(stderr,"%s:%i: \"%s\" is not a valid verbosity level"
      " (should be an integer)\n",__FILE__,__LINE__,arg);
      return ARGP_ERR_UNKNOWN;

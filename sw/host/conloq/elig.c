@@ -47,12 +47,14 @@ static int k=200;
 struct arguments{int escapes;};
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
-{struct arguments*arguments=state->input;char _;
+{struct arguments*arguments=state->input;int n,r;
  switch(key)
  {case 'e':arguments->escapes=!0;break;
   case ARGP_KEY_ARG:
-   if(1!=sscanf(arg,"%i%c",&k,&_)||k<0)
-   {error("'%s' is not a valid decimation count\n",arg);
+   r=sscanf(arg,"%i%n",&k,&n)
+   if(1!=r||arg[n]||k<=0)
+   {error("'%s' is not a valid decimation count "
+     "(should be a positive integer)\n",arg);
     argp_usage(state);
    }break;
   case ARGP_KEY_END:break;
@@ -74,7 +76,6 @@ int main(int argc,char**argv)
  argp_parse(&argp,argc,argv,0,0,&arguments);
  if(arguments.escapes)enable_escapes(!0);
  tb=new_tsip();
- if(argc>1)sscanf(argv[1],"%i",&k);
  while(!feof(stdin)){if((_=parse_tsip(tb,getchar(),&size)))expone(_,size);}
  free_tsip(tb);return 0;
 }
