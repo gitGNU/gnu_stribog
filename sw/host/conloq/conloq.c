@@ -127,7 +127,7 @@ parse_opt(int key, char*arg, struct argp_state*state)
    if(arguments->verbosity<minimal_verbosity)
     arguments->verbosity=minimal_verbosity;
    break;
-  case 'e':arguments->escapes=!0;
+  case 'e':arguments->escapes=!0;break;
   case 'v':
    if(arg&&1!=sscanf(arg,"%i%c",&(arguments->verbosity),&_))
    {error("\"%s\" is not a valid verbosity level"
