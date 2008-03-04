@@ -15,6 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include<config.h>
 #include"serialia.h"
 #include"parse_tsip.h"
 #include"exp.h"
@@ -22,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<signal.h>
+#include<argp.h>
 enum exit_codes{normal_exit=0,no_log_file=1,no_uart=2,unknown_sig=3};
 static FILE*
 next_file(void)
@@ -42,10 +44,28 @@ sighunter(int sig)
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
   default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_sig;
  }exit(r);
-}int 
+}
+const char*argp_program_version=
+"magex-conloq ("PACKAGE_NAME") "PACKAGE_VERSION"\n"
+"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"
+"stribog comes with NO WARRANTY, to the extent permitted by law.\n"
+"You may redistribute copies of stribog\n"
+"under the terms of the GNU General Public License V3+.\n"
+"For more information about these matters,\n"
+"see <http://www.gnu.org/licenses/>.";
+const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
+static char doc[]="listen to a stribog board\v"
+ "magex-conloq shows the incoming data and saves them in a file.\n"
+ "It assumes that magex.elf runs on stribog.\n\n",
+ arg_doc[]="[port]";
+static error_t
+parse_opt(int key, char*arg, struct argp_state*state){return 0;}
+static struct argp argp={0,parse_opt,arg_doc,doc};
+int 
 main(int argc,char**argv)
-{int size,i=0,n,j;const unsigned char*_;
- unsigned char s[0x121];f=next_file();tb=new_tsip();atexit(close_all);
+{int size,i=0,n,j;const unsigned char*_;unsigned char s[0x121];
+ argp_parse(&argp,argc,argv,0,0,0);
+ f=next_file();tb=new_tsip();atexit(close_all);
  signal(SIGINT,sighunter);signal(SIGTERM,sighunter);
  if(!f){error("can't open log file\n");return 1;}init_exp(0,0);
  if(initserialia(argc>1?argv[1]:0))
