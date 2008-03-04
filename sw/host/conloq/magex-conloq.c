@@ -64,6 +64,7 @@ static struct argp argp={0,parse_opt,arg_doc,doc};
 int 
 main(int argc,char**argv)
 {int size,i=0,n,j;const unsigned char*_;unsigned char s[0x121];
+ init_error(*argv);
  argp_parse(&argp,argc,argv,0,0,0);
  f=next_file();tb=new_tsip();atexit(close_all);
  signal(SIGINT,sighunter);signal(SIGTERM,sighunter);
