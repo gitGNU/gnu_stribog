@@ -6,6 +6,8 @@
  * conloq/verbosity_level.c conloq/verbosity_level.h:
    interactivity flags added
  * conloq/expon: new
+ * conloq/magex-conloq.c: arguments were misparsed
+ * README: copyright note for the file changed to "under GPLv3+"
 04 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/error.c conloq/error.h lib/error.c lib/error.h
  conloq/Makefile.am conloq/caed.c conloq/elig.c conloq/expon.c
