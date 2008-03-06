@@ -62,7 +62,7 @@ main(int argc,char**argv)
  argp_parse(&argp,argc,argv,0,0,0);
  f=next_file();tb=new_tsip();atexit(close_all);
  signal(SIGINT,sighunter);signal(SIGTERM,sighunter);
- if(!f){error("can't open log file\n");return 1;}init_exp(0,0);
+ if(!f){error("can't open log file\n");return 1;}init_exp(0);
  if(initserialia(argc>1?argv[1]:0))
  {error("can't open serial port\n");return 2;}
  while(1)if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))

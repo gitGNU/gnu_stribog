@@ -14,6 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2007 Ineiev <ineiev@users.sourceforge.net>*/
-int init_exp(int expone_gps,int period);void close_exp(void);
+Copyright (C) 2006, 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+int init_exp(int period);void close_exp(void);
 int expone(const unsigned char*s,int size);
+void adjust_frequency(double dF);

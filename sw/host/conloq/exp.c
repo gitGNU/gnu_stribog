@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 #include"exp_gps.h"
 #include"get_u.h"
+#include"verbosity_level.h"
 static double freq=14745600.+8794;static FILE*gps_extracted;
 static unsigned leaps;static int period=1,verbous=0;
 static unsigned long long time_stamp;
@@ -32,8 +33,10 @@ mcu_time(unsigned long t)
  if(t>(~0)-(1<<30))cycled=0;time_stamp=t|(((unsigned long long)leaps)<<32);
  return mcu_stamp();
 }int
-init_exp(int x,int p)
-{init_gps(x);if(x)gps_extracted=fopen("gps.log","wb");
+init_exp(int p)
+{init_gps();
+ if(get_interaction_mode()!=interactive_mode)
+  gps_extracted=/*FIXME customize this*/fopen("gps.log","wb");
  if(p>0)period=p;else verbous=-p+1;return 0;
 }void
 close_exp(void){close_gps();if(gps_extracted)fclose(gps_extracted);}

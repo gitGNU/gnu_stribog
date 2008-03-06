@@ -20,7 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_error.h>
 #include<stdio.h>
 int
-init_exp(int x,int k){return 0;}void close_exp(void){}
+init_exp(int k){return 0;}
+void
+close_exp(void){}
 int
 expone(const unsigned char*s,int size)
 {int mag[3],missed,i;unsigned char sum;

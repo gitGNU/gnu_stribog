@@ -23,7 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 int main(int argc,char**argv)
 {tsip_buf*tb;int size,period=1;const unsigned char*_;unsigned long long n=0;
  init_error(*argv);
- if(argc>1)sscanf(argv[1],"%i",&period);init_exp(!0,period);init_turned_on();
+ if(argc>1)sscanf(argv[1],"%i",&period);
+ init_turned_on();init_exp(period);
  if(argc>3)enable_escapes(!0);tb=new_tsip();
  while(!feof(stdin))
  {if((_=parse_tsip(tb,getchar(),&size)))if(expone(_,size))

@@ -28,9 +28,10 @@ caed_SOURCES=caed.c crc32.c crc32.h get_u.h\
 caed_LDADD=$(argp_lib) $(stribog_lib)
 conloq_SOURCES=conloq.c crc32.c crc32.h\
  exp-brief.c exp.h\
- exp_gps.h prepeoc_gps.h get_u.h\
+ exp_gps.h get_u.h\
  process_keypress.c process_keypress.h garmin_nmea.c hodo.c hodo.h\
- parse_tsip.c parse_tsip.h\
+ lla.c lla.h parse_tsip.c parse_tsip.h\
+ preproc_gps.c preproc_gps.h\
  $(serial_source) serialia.h usage.h\
  verbosity_level.c verbosity_level.h
 EXTRA_conloq_SOURCES=serialia.c wser.c

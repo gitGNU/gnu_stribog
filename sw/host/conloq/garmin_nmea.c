@@ -32,7 +32,9 @@ add_point(void)
  g.utc=t_pos;g.lat=lla[0];g.lon=lla[1];g.alt=lla[2];
  g.east_vel=vel[0];g.north_vel=vel[1];g.up_vel=vel[2];add_gps_point(&g);
 }int
-init_gps(int exp){brief=!exp;return 0;}void close_gps(void){}
+init_gps(void){brief=get_interaction_mode()==interactive_mode;return 0;}
+void
+close_gps(void){}
 static int field_cmp(const char*s,const char*c)
 {const char*_=strchr(s,',');if(!_)return!0;return strncmp(s,c,_-s);}
 static const char*nmea_field(const char*s,int n)

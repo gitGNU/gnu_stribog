@@ -64,8 +64,11 @@ reset_stdin(void)
  error("system error message \"%s\"",strerror(err));
 }static void 
 close_all(void)
-{closeserialia();close_exp();free_tsip(tb);tb=0;
- if(f)fclose(f);f=0;reset_stdin();
+{int interactive=get_interaction_mode()==interactive_mode;
+ if(interactive)closeserialia();
+ close_exp();free_tsip(tb);tb=0;
+ if(f)fclose(f);f=0;
+ if(interactive)reset_stdin();
 }static void 
 sig_hunter(int sig)
 {int r=normal_exit;
@@ -100,6 +103,15 @@ static struct argp_option options[]=
  {"device",'d',"PORT",0,
   "Open PORT instead of default (/dev/ttyS1 on GNU, COM1 on Windows)"
  },
+ {"stdin",'c',0,0,
+  "Read non-interactively from stdin instead of UART device"
+ },
+ {"adc-decimation",'n',"N",0,
+  "ADC messages decimation number"
+ },
+ {"frequency",'f',"[dFREQ]",0,
+  "MCU ticks frequency adjustment in Hz"
+ },
  {"escapes",'e',0,0,
   "enable packet-layer escapes (don't use this unless you "
    "really know what you are doing)"
@@ -110,17 +122,34 @@ static struct argp_option options[]=
  {0}
 };
 struct arguments
-{const char*port_name,*log_name;int verbosity,escapes;};
+{const char*port_name,*log_name;double dfreq;
+ int verbosity,escapes,file_input,period;
+};
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
 {struct arguments*arguments=state->input;
  switch(key)
- {case 'd':arguments->port_name=arg;break;
+ {case 'c':arguments->port_name=0;arguments->file_input=!0;break;
+  case 'd':arguments->port_name=arg;arguments->file_input=0;break;
+  case 'f':
+   {int n=0,r;r=sscanf(arg,"%lg%n",&(arguments->dfreq),&n);
+    if(r||arg[n])
+    {error("\"%s\" is not a valid frequency adjustment"
+      " (should be a real number)\n",arg);
+     return ARGP_ERR_UNKNOWN;
+    }
+   }break;
+
+  case 'n':
+   {int n=0,r;r=sscanf(arg,"%i%n",&(arguments->period),&n);
+    if(r||arg[n]||arguments->period<=0)
+    {error("\"%s\" is not a valid decimation number"
+      " (should be an integer > 0)\n",arg);
+     return ARGP_ERR_UNKNOWN;
+    }
+   }break;
   case 'o':arguments->log_name=arg;break;
-  case 'q':arguments->verbosity--;
-   if(arguments->verbosity<minimal_verbosity)
-    arguments->verbosity=minimal_verbosity;
-   break;
+  case 'q':arguments->verbosity--;break;
   case 'e':arguments->escapes=!0;break;
   case 'v':
    if(arg)     
@@ -131,8 +160,6 @@ parse_opt(int key, char*arg, struct argp_state*state)
      return ARGP_ERR_UNKNOWN;
     }
    }else arguments->verbosity++;
-   if(arguments->verbosity>maximal_verbosity)
-    arguments->verbosity=maximal_verbosity;
    break;
   case ARGP_KEY_ARG:if(state->arg_num>=0)argp_usage(state);break;
   case ARGP_KEY_END:if(state->arg_num<0)argp_usage(state);break;
@@ -140,15 +167,36 @@ parse_opt(int key, char*arg, struct argp_state*state)
  }return 0;
 }
 static struct argp argp={options,parse_opt,0,doc};
+static FILE*input_file;/*input if the file is not an UART device*/
+static int
+there_is_something_to_read(void)
+{return!(feof(input_file)||ferror(input_file));}
+static int
+keypress_check(void)
+{return process_keypress(getc(stdin));}
+static int(*
+dont_exit)(void)=keypress_check;
+static int
+data_lege(unsigned char*s,int n){return lege(s,n);}
+static int
+read_data_from_file(unsigned char*s,int n)
+{return fread(s,1,n,input_file);}
+static int(*
+get_next_data)(unsigned char*,int)=data_lege;
 int 
 main(int argc,char**argv)
-{int size,n,j,period=0x3F;const unsigned char*_;
- unsigned char s[11520];struct arguments arguments;
+{int period;struct arguments arguments;
  init_error(*argv);
- arguments.port_name=arguments.log_name=0;
- arguments.escapes=arguments.verbosity=0;
+ arguments.dfreq=8550;arguments.port_name=arguments.log_name=0;
+ arguments.escapes=arguments.verbosity=arguments.file_input=0;
+ arguments.period=-1;
  argp_parse(&argp,argc,argv,0,0,&arguments);
  set_verbosity(arguments.verbosity);
+ if(!arguments.file_input)set_interaction_mode(deaf_mode);
+ if(get_interaction_mode()==deaf_mode)
+  period=1;else period=0x3F;
+ init_turned_on();
+ if(arguments.period>=0)period=arguments.period;
  if(arguments.log_name)
  {if(!(f=fopen(arguments.log_name,"wb")))
   {error("can't open log file \"%s\"\n",arguments.log_name);
@@ -158,26 +206,36 @@ main(int argc,char**argv)
  {error("can't open log file\n");return no_log_file;}
  if(get_verbosity()>=pretty_verbose)
   printf("Log file \"%s\" opened\n",arguments.log_name);
- if(setup_stdin())
- {error("can't setup your terminal\n");return stdin_unsetupable;}
  atexit(close_all);
  signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
- //if(argc>2)sscanf(argv[2],"%i",&period);
- init_exp(0,period);init_turned_on();
  if(arguments.escapes)enable_escapes(!0);
  if(get_verbosity()>=pretty_verbose)
   printf(arguments.escapes?
     "escapes are enabled\n":"escapes are disabled\n");
- tb=new_tsip();
- if(initserialia(arguments.port_name))
- {error("can't open serial port \"%s\"\n",
-   arguments.port_name?arguments.port_name:"[default]");
-  return no_uart;
+ tb=new_tsip();init_exp(period);
+ adjust_frequency(arguments.dfreq);
+ if(get_interaction_mode()==interactive_mode)
+ {if(setup_stdin())
+  {error("can't setup your terminal\n");return stdin_unsetupable;}
+  if(initserialia(arguments.port_name))
+  {error("can't open serial port \"%s\"\n",
+    arguments.port_name?arguments.port_name:"[default]");
+   return no_uart;
+  }
+  if(get_verbosity()>=pretty_verbose)
+   printf("for help on keypresses press 'h'\n");
+ }else
+ {input_file=stdin;
+  dont_exit=there_is_something_to_read;
+  get_next_data=read_data_from_file;
+  if(get_verbosity()>=pretty_verbose)
+   printf("the data are waited to come from stdin\n");
  }
- if(get_verbosity()>=pretty_verbose)
-  printf("for help on keypresses press 'h'\n");
- do
- {if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))
-   if((_=parse_tsip(tb,s[j],&size)))expone(_,size);
- }while(process_keypress(getc(stdin)));return normal_exit;
+ {static int size,n,j;const unsigned char*_;
+  unsigned char s[11520];unsigned long long N=0;
+  while(dont_exit())if(0<(n=get_next_data(s,sizeof s)))
+   for(j=0;j<n;putc(s[j++],f),N++)
+    if((_=parse_tsip(tb,s[j],&size)))if(expone(_,size))
+     error("(error at position %llu)\n",N);
+ }return normal_exit;
 }
