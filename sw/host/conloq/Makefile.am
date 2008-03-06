@@ -49,6 +49,7 @@ magex_conloq_SOURCES=magex-conloq.c $(serial_source) serialia.h\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
 magex_conloq_LDADD=$(argp_lib) $(stribog_lib)
+EXTRA_magex_conloq_SOURCES=serialia.c wser.c
 magexp_SOURCES=expon.c\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
