@@ -109,7 +109,7 @@ static struct argp_option options[]=
  {"adc-decimation",'n',"N",0,
   "ADC messages decimation number"
  },
- {"frequency",'f',"[dFREQ]",0,
+ {"frequency",'f',"dFREQ",0,
   "MCU ticks frequency adjustment in Hz"
  },
  {"escapes",'e',0,0,
