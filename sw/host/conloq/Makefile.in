@@ -52,16 +52,17 @@ caed_OBJECTS = $(am_caed_OBJECTS)
 am__DEPENDENCIES_1 =
 caed_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h exp-brief.c exp.h \
-	exp_gps.h prepeoc_gps.h get_u.h process_keypress.c \
-	process_keypress.h garmin_nmea.c hodo.c hodo.h parse_tsip.c \
-	parse_tsip.h serialia.c wser.c serialia.h usage.h \
-	verbosity_level.c verbosity_level.h
+	exp_gps.h get_u.h process_keypress.c process_keypress.h \
+	garmin_nmea.c hodo.c hodo.h lla.c lla.h parse_tsip.c \
+	parse_tsip.h preproc_gps.c preproc_gps.h serialia.c wser.c \
+	serialia.h usage.h verbosity_level.c verbosity_level.h
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) \
 	exp-brief.$(OBJEXT) process_keypress.$(OBJEXT) \
-	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) parse_tsip.$(OBJEXT) \
-	$(am__objects_1) verbosity_level.$(OBJEXT)
+	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) lla.$(OBJEXT) \
+	parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) $(am__objects_1) \
+	verbosity_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
 conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_elig_OBJECTS = elig.$(OBJEXT) parse_tsip.$(OBJEXT)
@@ -231,9 +232,10 @@ caed_SOURCES = caed.c crc32.c crc32.h get_u.h\
 caed_LDADD = $(argp_lib) $(stribog_lib)
 conloq_SOURCES = conloq.c crc32.c crc32.h\
  exp-brief.c exp.h\
- exp_gps.h prepeoc_gps.h get_u.h\
+ exp_gps.h get_u.h\
  process_keypress.c process_keypress.h garmin_nmea.c hodo.c hodo.h\
- parse_tsip.c parse_tsip.h\
+ lla.c lla.h parse_tsip.c parse_tsip.h\
+ preproc_gps.c preproc_gps.h\
  $(serial_source) serialia.h usage.h\
  verbosity_level.c verbosity_level.h
 
