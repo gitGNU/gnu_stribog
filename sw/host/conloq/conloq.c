@@ -75,7 +75,7 @@ sig_hunter(int sig)
  switch(sig)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_signal;
+  default:error("unregistered signum %i; exiting\n",sig);r=unknown_signal;
  }exit(r);
 }
 const char*argp_program_version="conloq"PACKAGE_VERSION_COMMENTED;
@@ -188,7 +188,7 @@ main(int argc,char**argv)
  if(get_interaction_mode()==deaf_mode)
   period=1;else period=0x3F;
  init_turned_on();
- if(arguments.period>=0)period=arguments.period;
+ if(arguments.period>0)period=arguments.period;
  if(arguments.log_name)
  {if(!(f=fopen(arguments.log_name,"wb")))
   {error("can't open log file \"%s\"\n",arguments.log_name);
