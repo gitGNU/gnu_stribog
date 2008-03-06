@@ -127,40 +127,34 @@ struct arguments
 };
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
-{struct arguments*arguments=state->input;
+{struct arguments*arguments=state->input;int n,r;
  switch(key)
  {case 'c':arguments->port_name=0;arguments->file_input=!0;break;
   case 'd':arguments->port_name=arg;arguments->file_input=0;break;
-  case 'f':
-   {int n=0,r;r=sscanf(arg,"%lg%n",&(arguments->dfreq),&n);
-    if(r||arg[n])
-    {error("\"%s\" is not a valid frequency adjustment"
-      " (should be a real number)\n",arg);
-     return ARGP_ERR_UNKNOWN;
-    }
+  case 'f':n=0;r=sscanf(arg,"%lg%n",&(arguments->dfreq),&n);
+   if(r!=1||arg[n])
+   {error("\"%s\" is not a valid frequency adjustment"
+     " (should be a real number)\n",arg);
+    return ARGP_ERR_UNKNOWN;
    }break;
-
-  case 'n':
-   {int n=0,r;r=sscanf(arg,"%i%n",&(arguments->period),&n);
-    if(r||arg[n]||arguments->period<=0)
-    {error("\"%s\" is not a valid decimation number"
-      " (should be an integer > 0)\n",arg);
-     return ARGP_ERR_UNKNOWN;
-    }
+  case 'n':n=0;r=sscanf(arg,"%i%n",&(arguments->period),&n);
+   if(r!=1||arg[n]||arguments->period<=0)
+   {error("\"%s\" is not a valid decimation number"
+     " (should be an integer > 0)\n",arg);
+    return ARGP_ERR_UNKNOWN;
    }break;
   case 'o':arguments->log_name=arg;break;
   case 'q':arguments->verbosity--;break;
   case 'e':arguments->escapes=!0;break;
   case 'v':
    if(arg)     
-   {int n=0,r;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
-    if(r||arg[n])
+   {n=0;r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
+    if(r!=1||arg[n])
     {error("\"%s\" is not a valid verbosity level"
       " (should be an integer)\n",arg);
      return ARGP_ERR_UNKNOWN;
     }
-   }else arguments->verbosity++;
-   break;
+   }else arguments->verbosity++;break;
   case ARGP_KEY_ARG:if(state->arg_num>=0)argp_usage(state);break;
   case ARGP_KEY_END:if(state->arg_num<0)argp_usage(state);break;
   default:return ARGP_ERR_UNKNOWN;
