@@ -1,4 +1,22 @@
-#include"verbosity_level.h"/*programme verbosity control*/
+/*programme output control
+Copyright (C) 2007, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"verbosity_level.h"
+#include<stribog_error.h>
 static enum verbosity_level verbosity;
 enum verbosity_level
 set_verbosity(enum verbosity_level v)
@@ -24,21 +42,9 @@ turn_message(enum stribog_message_type type,int on)
   return;
  }if(on)turned_on|=1<<type;else turned_on&=~(1<<type);
 }void
-init_turned_on(void)
-{turn_message(any_message,1);}
-/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2007 Ineiev <ineiev@users.sourceforge.net>*/
+init_turned_on(void){turn_message(any_message,1);}
+static enum interaction_mode interaction_mode=deaf_mode;
+void
+set_interaction_mode(enum interaction_mode m){interaction_mode=m;}
+enum interaction_mode
+get_interaction_mode(void){return interaction_mode;}
