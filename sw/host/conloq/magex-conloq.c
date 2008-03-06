@@ -52,18 +52,29 @@ static char doc[]="listen to a stribog board\v"
  "magex-conloq shows the incoming data and saves them in a file.\n"
  "It assumes that magex.elf runs on stribog.\n\n",
  arg_doc[]="[port]";
+struct arguments{const char*port;};
 static error_t
-parse_opt(int key, char*arg, struct argp_state*state){return 0;}
+parse_opt(int key,char*arg,struct argp_state*state)
+{struct arguments*arguments=state->input;
+ switch(key)
+ {case ARGP_KEY_ARG:arguments->port=arg;break;
+  case ARGP_KEY_END:break;
+  default:return ARGP_ERR_UNKNOWN;
+ }return 0;
+ return 0;
+}
 static struct argp argp={0,parse_opt,arg_doc,doc};
 int 
 main(int argc,char**argv)
 {int size,i=0,n,j;const unsigned char*_;unsigned char s[0x121];
+ struct arguments arguments;
+ arguments.port=0;
  init_error(*argv);
- argp_parse(&argp,argc,argv,0,0,0);
+ argp_parse(&argp,argc,argv,0,0,&arguments);
  f=next_file();tb=new_tsip();atexit(close_all);
  signal(SIGINT,sighunter);signal(SIGTERM,sighunter);
  if(!f){error("can't open log file\n");return 1;}init_exp(0);
- if(initserialia(argc>1?argv[1]:0))
+ if(initserialia(arguments.port))
  {error("can't open serial port\n");return 2;}
  while(1)if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))
   if((_=parse_tsip(tb,s[j],&size)))if(!(i++&0x3F))expone(_,size);
