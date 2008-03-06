@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -33,8 +34,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = caed$(EXEEXT) conloq$(EXEEXT) elig$(EXEEXT) \
-	expon$(EXEEXT) magex-conloq$(EXEEXT) magexp$(EXEEXT) \
-	parse_tsipex$(EXEEXT)
+	magex-conloq$(EXEEXT) magexp$(EXEEXT) parse_tsipex$(EXEEXT)
+noinst_PROGRAMS = expon.legacy$(EXEEXT)
 subdir = conloq
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -44,9 +45,9 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
-PROGRAMS = $(bin_PROGRAMS)
+PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
 am_caed_OBJECTS = caed.$(OBJEXT) crc32.$(OBJEXT) parse_tsip.$(OBJEXT)
 caed_OBJECTS = $(am_caed_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -68,12 +69,12 @@ conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_elig_OBJECTS = elig.$(OBJEXT) parse_tsip.$(OBJEXT)
 elig_OBJECTS = $(am_elig_OBJECTS)
 elig_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_expon_OBJECTS = expon.$(OBJEXT) crc32.$(OBJEXT) exp.$(OBJEXT) \
-	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) lla.$(OBJEXT) \
-	parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
+am_expon_legacy_OBJECTS = expon.$(OBJEXT) crc32.$(OBJEXT) \
+	exp.$(OBJEXT) garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) \
+	lla.$(OBJEXT) parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
 	verbosity_level.$(OBJEXT)
-expon_OBJECTS = $(am_expon_OBJECTS)
-expon_DEPENDENCIES = $(am__DEPENDENCIES_1)
+expon_legacy_OBJECTS = $(am_expon_legacy_OBJECTS)
+expon_legacy_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__magex_conloq_SOURCES_DIST = magex-conloq.c serialia.c wser.c \
 	serialia.h parse_tsip.c parse_tsip.h magexp.c exp.h \
 	verbosity_level.c verbosity_level.h
@@ -91,6 +92,8 @@ am_parse_tsipex_OBJECTS = parse_tsipex.$(OBJEXT) crc32.$(OBJEXT) \
 	parse_tsip.$(OBJEXT)
 parse_tsipex_OBJECTS = $(am_parse_tsipex_OBJECTS)
 parse_tsipex_DEPENDENCIES = $(am__DEPENDENCIES_1)
+binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+SCRIPTS = $(bin_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -99,12 +102,13 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(caed_SOURCES) $(conloq_SOURCES) $(EXTRA_conloq_SOURCES) \
-	$(elig_SOURCES) $(expon_SOURCES) $(magex_conloq_SOURCES) \
-	$(magexp_SOURCES) $(parse_tsipex_SOURCES)
-DIST_SOURCES = $(caed_SOURCES) $(am__conloq_SOURCES_DIST) \
-	$(EXTRA_conloq_SOURCES) $(elig_SOURCES) $(expon_SOURCES) \
-	$(am__magex_conloq_SOURCES_DIST) $(magexp_SOURCES) \
+	$(elig_SOURCES) $(expon_legacy_SOURCES) \
+	$(magex_conloq_SOURCES) $(magexp_SOURCES) \
 	$(parse_tsipex_SOURCES)
+DIST_SOURCES = $(caed_SOURCES) $(am__conloq_SOURCES_DIST) \
+	$(EXTRA_conloq_SOURCES) $(elig_SOURCES) \
+	$(expon_legacy_SOURCES) $(am__magex_conloq_SOURCES_DIST) \
+	$(magexp_SOURCES) $(parse_tsipex_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -226,6 +230,7 @@ top_srcdir = @top_srcdir@
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #forced to use non-free OS API
 @the_host_is_windows_TRUE@serial_source = wser.c
+bin_SCRIPTS = expon
 caed_SOURCES = caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h
 
@@ -243,12 +248,12 @@ EXTRA_conloq_SOURCES = serialia.c wser.c
 conloq_LDADD = $(argp_lib) $(stribog_lib)
 elig_SOURCES = elig.c parse_tsip.c parse_tsip.h
 elig_LDADD = $(argp_lib) $(stribog_lib)
-expon_SOURCES = expon.c crc32.c crc32.h exp.c exp.h\
+expon_legacy_SOURCES = expon.c crc32.c crc32.h exp.c exp.h\
  garmin_nmea.c exp_gps.h hodo.c hodo.h lla.c lla.h\
  parse_tsip.c parse_tsip.h preproc_gps.c preproc_gps.h\
  verbosity_level.c verbosity_level.h
 
-expon_LDADD = $(stribog_lib)
+expon_legacy_LDADD = $(stribog_lib)
 magex_conloq_SOURCES = magex-conloq.c $(serial_source) serialia.h\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
@@ -319,6 +324,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+clean-noinstPROGRAMS:
+	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
 caed$(EXEEXT): $(caed_OBJECTS) $(caed_DEPENDENCIES) 
 	@rm -f caed$(EXEEXT)
 	$(LINK) $(caed_OBJECTS) $(caed_LDADD) $(LIBS)
@@ -328,9 +336,9 @@ conloq$(EXEEXT): $(conloq_OBJECTS) $(conloq_DEPENDENCIES)
 elig$(EXEEXT): $(elig_OBJECTS) $(elig_DEPENDENCIES) 
 	@rm -f elig$(EXEEXT)
 	$(LINK) $(elig_OBJECTS) $(elig_LDADD) $(LIBS)
-expon$(EXEEXT): $(expon_OBJECTS) $(expon_DEPENDENCIES) 
-	@rm -f expon$(EXEEXT)
-	$(LINK) $(expon_OBJECTS) $(expon_LDADD) $(LIBS)
+expon.legacy$(EXEEXT): $(expon_legacy_OBJECTS) $(expon_legacy_DEPENDENCIES) 
+	@rm -f expon.legacy$(EXEEXT)
+	$(LINK) $(expon_legacy_OBJECTS) $(expon_legacy_LDADD) $(LIBS)
 magex-conloq$(EXEEXT): $(magex_conloq_OBJECTS) $(magex_conloq_DEPENDENCIES) 
 	@rm -f magex-conloq$(EXEEXT)
 	$(LINK) $(magex_conloq_OBJECTS) $(magex_conloq_LDADD) $(LIBS)
@@ -340,6 +348,25 @@ magexp$(EXEEXT): $(magexp_OBJECTS) $(magexp_DEPENDENCIES)
 parse_tsipex$(EXEEXT): $(parse_tsipex_OBJECTS) $(parse_tsipex_DEPENDENCIES) 
 	@rm -f parse_tsipex$(EXEEXT)
 	$(LINK) $(parse_tsipex_OBJECTS) $(parse_tsipex_LDADD) $(LIBS)
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(binSCRIPT_INSTALL) '$$d$$p' '$(DESTDIR)$(bindir)/$$f'"; \
+	    $(binSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(bindir)/$$f"; \
+	  else :; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
+	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -457,9 +484,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -488,7 +515,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-noinstPROGRAMS \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -510,7 +538,7 @@ install-data-am:
 
 install-dvi: install-dvi-am
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-binSCRIPTS
 
 install-html: install-html-am
 
@@ -541,22 +569,23 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic ctags distclean distclean-compile \
-	distclean-generic distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	clean-generic clean-noinstPROGRAMS ctags distclean \
+	distclean-compile distclean-generic distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-binSCRIPTS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	uninstall-am uninstall-binPROGRAMS uninstall-binSCRIPTS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
