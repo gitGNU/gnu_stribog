@@ -14,8 +14,10 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
+if build_own_argp
 noinst_LIBRARIES=libargp.a
-libargp_a_SOURCES=argp.c
 noinst_PROGRAMS=argpex
+endif
+libargp_a_SOURCES=argp.c
 argpex_SOURCES=argpex.c
 argpex_LDADD=libargp.a

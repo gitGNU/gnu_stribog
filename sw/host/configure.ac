@@ -66,6 +66,7 @@ if test "z$build_own_argp" = "zyes";then
  AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
  AC_CHECK_HEADERS([sysexits.h])
 fi
+AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
