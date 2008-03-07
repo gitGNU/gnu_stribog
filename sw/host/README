@@ -52,7 +52,6 @@ in a separate directory out of the source tree, so
 the configure invocation sounds like this:
 
 ../stribog/sw/host/configure --prefix=$HOME/stribog
-
 ----------------------------------
 How to (re)mount the GNU build system (as of Mar 2008)
 using Autoconf 2.61 and Automake 1.10
