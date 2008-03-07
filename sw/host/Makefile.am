@@ -14,4 +14,4 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-SUBDIRS=$(argp_lib_dir) lib conloq elk intlpc postproc utils
+SUBDIRS=lib/argp lib conloq elk intlpc postproc utils
