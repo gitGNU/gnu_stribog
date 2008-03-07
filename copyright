@@ -11,17 +11,9 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright (C) 2005, 2006, 2007 Ineiev <ineiev@users.sourceforge.net>
+    Copyright (C) 2005, 2006, 2007, 2008 Ineiev <ineiev@users.sourceforge.net>
 
 Currently, stribog is distributed by Ineiev under the terms of the GNU GPL v3.
-
-It is not certain, whether a printed board contains a "derived" from
-the sources "work". once stribog's author believed that a PCB layout files 
-(as hw/main_board.pcb) did form a derived work, but the result of PCB print 
-command (GERBER/EXCELLON, PostScript files) contained no "derived work", to say
-nothing of printed boards and assembled devices. this was inconsistent,
-so since 17 Nov 2007 the official point of view is as follows. at the same
-time we migrate to the GNU GPL v3.
 
 All that comes from the project forms a derived work, including the assembled
 boards. they should be distributed in a the GPL-compliant way as "Object Code".
