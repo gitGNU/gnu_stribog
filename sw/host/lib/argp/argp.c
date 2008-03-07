@@ -15,6 +15,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+/*NB this library is NOT under the LGPL, it is under the GPL. 
+there is absolutely no need to release it under the LGPL:
+if you want an LGPLed implementation,
+get GLibC, it is much better to begin with*/
 #ifdef HAVE_CONFIG_H
  #include<config.h>
 #endif
