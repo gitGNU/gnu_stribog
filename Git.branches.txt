@@ -6,6 +6,9 @@ and release naming policy
 pre2008-fixes: frozen at 03 Jan 2008 version, 
 bugfixes only
 
-trunc: the active branch, the main
-task is migrating to the GNU stantards 
+trunc: the active branch
+
+Migrate to the GNU stantards 
 on build system and options style (for host tools).
+
+Fix some usability issues before forking the first release branch
