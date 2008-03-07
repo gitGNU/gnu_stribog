@@ -128,7 +128,6 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 argp_lib = @argp_lib@
-argp_lib_dir = @argp_lib_dir@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -186,7 +185,7 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-SUBDIRS = $(argp_lib_dir) lib conloq elk intlpc postproc utils
+SUBDIRS = lib/argp lib conloq elk intlpc postproc utils
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 

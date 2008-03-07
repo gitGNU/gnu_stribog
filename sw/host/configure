@@ -703,7 +703,8 @@ CPP
 GREP
 EGREP
 argp_lib
-argp_lib_dir
+build_own_argp_TRUE
+build_own_argp_FALSE
 LIBOBJS
 the_host_is_windows_TRUE
 the_host_is_windows_FALSE
@@ -4596,8 +4597,6 @@ fi
 
  argp_lib="\$(top_builddir)/lib/argp/libargp.a"
 
- argp_lib_dir=lib/argp
-
 
 for ac_header in sysexits.h
 do
@@ -4744,6 +4743,14 @@ fi
 done
 
 fi
+ if test "z$build_own_argp" = "zyes"; then
+  build_own_argp_TRUE=
+  build_own_argp_FALSE='#'
+else
+  build_own_argp_TRUE='#'
+  build_own_argp_FALSE=
+fi
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 { echo "$as_me:$LINENO: checking for an ANSI C-conforming const" >&5
@@ -5856,6 +5863,13 @@ echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${build_own_argp_TRUE}" && test -z "${build_own_argp_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"build_own_argp\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"build_own_argp\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${the_host_is_windows_TRUE}" && test -z "${the_host_is_windows_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"the_host_is_windows\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -6493,7 +6507,8 @@ CPP!$CPP$ac_delim
 GREP!$GREP$ac_delim
 EGREP!$EGREP$ac_delim
 argp_lib!$argp_lib$ac_delim
-argp_lib_dir!$argp_lib_dir$ac_delim
+build_own_argp_TRUE!$build_own_argp_TRUE$ac_delim
+build_own_argp_FALSE!$build_own_argp_FALSE$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 the_host_is_windows_TRUE!$the_host_is_windows_TRUE$ac_delim
 the_host_is_windows_FALSE!$the_host_is_windows_FALSE$ac_delim
@@ -6501,7 +6516,7 @@ stribog_lib!$stribog_lib$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 94; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 95; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

@@ -33,7 +33,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = argpex$(EXEEXT)
+@build_own_argp_TRUE@noinst_PROGRAMS = argpex$(EXEEXT)
 subdir = lib/argp
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -121,7 +121,6 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 argp_lib = @argp_lib@
-argp_lib_dir = @argp_lib_dir@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -179,7 +178,7 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-noinst_LIBRARIES = libargp.a
+@build_own_argp_TRUE@noinst_LIBRARIES = libargp.a
 libargp_a_SOURCES = argp.c
 argpex_SOURCES = argpex.c
 argpex_LDADD = libargp.a
