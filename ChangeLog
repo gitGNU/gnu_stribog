@@ -1,4 +1,6 @@
 07 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * copyright: obsolete notes on deriving hardware works
+   removed
  * README.txt README: renamed
  * configure.ac configure Makefile.am Makefile.in AUTHORS INSTALL NEWS
  aclocal.m4 config.h.in install-sh missing:new
