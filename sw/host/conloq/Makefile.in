@@ -103,12 +103,13 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(caed_SOURCES) $(conloq_SOURCES) $(EXTRA_conloq_SOURCES) \
 	$(elig_SOURCES) $(expon_legacy_SOURCES) \
-	$(magex_conloq_SOURCES) $(magexp_SOURCES) \
-	$(parse_tsipex_SOURCES)
+	$(magex_conloq_SOURCES) $(EXTRA_magex_conloq_SOURCES) \
+	$(magexp_SOURCES) $(parse_tsipex_SOURCES)
 DIST_SOURCES = $(caed_SOURCES) $(am__conloq_SOURCES_DIST) \
 	$(EXTRA_conloq_SOURCES) $(elig_SOURCES) \
 	$(expon_legacy_SOURCES) $(am__magex_conloq_SOURCES_DIST) \
-	$(magexp_SOURCES) $(parse_tsipex_SOURCES)
+	$(EXTRA_magex_conloq_SOURCES) $(magexp_SOURCES) \
+	$(parse_tsipex_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -259,6 +260,7 @@ magex_conloq_SOURCES = magex-conloq.c $(serial_source) serialia.h\
  verbosity_level.c verbosity_level.h
 
 magex_conloq_LDADD = $(argp_lib) $(stribog_lib)
+EXTRA_magex_conloq_SOURCES = serialia.c wser.c
 magexp_SOURCES = expon.c\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
