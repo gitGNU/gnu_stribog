@@ -5,8 +5,8 @@ For license and copyright notes see 'copyright'.
 ATTENTION stribog is in his alpha stage. he is not functional yet.
 
 The project is located at http://savannah.nongnu.org/projects/stribog
-
-SOME TECHNICAL NOTES FOLLOW
+----------------------------------
+SOME TECHNICAL NOTES
 
 This project consists of hardware and software sections. the former is
 developed with gEDA, the latter with GNU toolchains.
@@ -74,7 +74,7 @@ for set/reset strap duty cycle. carelessly increasing the sampling frequency
 can DAMAGE the sensors.
 
 Timer0 is occupied by accelerometers; VIC slot 3
-
+----------------------------------
 HOW TO INSTALL DEVELOPMENT TOOLS
 
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
@@ -114,7 +114,22 @@ http://savannah.gnu.org
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog.
+----------------------------------
+HOW TO BUILD (as of Mar 2008)
 
+Stribog use GNU-standard configuration procedure
+(see INSTALL). Though general build versus source directory
+positions should work, the usual way is to build the project 
+in a separate directory out of the source tree, so
+the configure invocation sounds like this:
+
+../stribog/configure --prefix=$HOME/stribog
+
+Currently, this procedure has been adopted for host tools
+only. for instructions on using host tools see sw/host/README.
+target and auxiliary software is built with GNU make utility.
+GERBER and EXCELLON files are produced manually with PCB.
+----------------------------------
 HOW TO USE GIT
 
 Git is the revision control system used by the project.
