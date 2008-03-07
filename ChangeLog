@@ -1,3 +1,7 @@
+07 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * README.txt README: renamed
+ * configure.ac configure Makefile.am Makefile.in AUTHORS INSTALL NEWS
+ aclocal.m4 config.h.in install-sh missing:new
 03 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * branch: new; the branch (trunc) made of 'autobuild'
 25 Feb 2008 P.Kharitonov <ineiev@users.sourceforge.net>
