@@ -40,21 +40,25 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h string.h termios.h unistd.h])
 
 #argp library configuration
-AC_MSG_CHECKING([if stribog argp implementation is asked for])
-AC_ARG_ENABLE([own-argp],
- AS_HELP_STRING([--enable-own-argp],
-  [Use stribog implementation of argp library [[no]]]),,
-)
-if test "z$enable_own_argp" != "zyes";then
- enable_own_argp=no
-fi
-AC_MSG_RESULT([$enable_own_argp])
-build_own_argp=$enable_own_argp
-if test "z$enable_own_argp" = "zno";then
- AC_CHECK_HEADER([argp.h],,
-  [AC_MSG_RESULT([no usable argp.h found; stribog version will be used])
-   build_own_argp=yes
- ])
+if test "z$build_own_argp" == "z";then
+ AC_MSG_CHECKING([if stribog argp implementation is asked for])
+ AC_ARG_ENABLE([own-argp],
+  AS_HELP_STRING([--enable-own-argp],
+   [Use stribog implementation of argp library [[no]]]),,
+ )
+ if test "z$enable_own_argp" != "zyes";then
+  enable_own_argp=no
+ fi
+ AC_MSG_RESULT([$enable_own_argp])
+ build_own_argp=$enable_own_argp
+ if test "z$enable_own_argp" = "zno";then
+  AC_CHECK_HEADER([argp.h],,
+   [AC_MSG_RESULT([no usable argp.h found; stribog version will be used])
+    build_own_argp=yes
+  ])
+ fi
+else
+ AC_MSG_RESULT([argp implementation seems to have been already selected])
 fi
 if test "z$build_own_argp" = "zyes";then
  AC_CHECK_TYPES([error_t])
@@ -106,14 +110,17 @@ else
  argp_type=GNU
 fi
 
-AC_MSG_RESULT([
+echo >summary;echo >>summary
+echo "Configuration summary for ${PACKAGE} ${VERSION}:" >>summary
+echo >>summary
+echo "prefix:               ${prefix}">>summary
+echo "host:                 ${host}">>summary
+echo "argv parser:          ${argp_type}">>summary
+echo "CFLAGS:               ${CFLAGS}">>summary
+echo "LDFLAGS:              ${LDFLAGS}">>summary
+echo "LIBS:                 ${LIBS}">>summary
+echo >>summary
 
-Configuration summary for ${PACKAGE} ${VERSION}:
-
-prefix:               ${prefix}
-host:                 ${host}
-argv parser:          ${argp_type}
-CFLAGS:               ${CFLAGS}
-LDFLAGS:              ${LDFLAGS}
-LIBS:                 ${LIBS}
-])
+if test "z$recursive_stribog_build" != "zyes";then
+ AC_MSG_RESULT([[$(cat summary)]])
+fi
