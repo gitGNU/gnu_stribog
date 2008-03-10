@@ -4370,7 +4370,7 @@ done
 
 
 #argp library configuration
-if test "z$build_own_argp" == "z";then
+if test "z$build_own_argp" = "z";then
  { echo "$as_me:$LINENO: checking if stribog argp implementation is asked for" >&5
 echo $ECHO_N "checking if stribog argp implementation is asked for... $ECHO_C" >&6; }
  # Check whether --enable-own-argp was given.
