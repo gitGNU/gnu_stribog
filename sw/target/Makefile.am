@@ -1,4 +1,4 @@
-#stribog: Makefile.am
+#stribog target tools: Makefile.am
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -14,4 +14,8 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-SUBDIRS=sw/host sw/target
+if build_target_programs
+
+else
+
+endif

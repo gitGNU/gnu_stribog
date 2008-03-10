@@ -24,7 +24,6 @@ AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
 AC_PROG_CC
-
 # Checks for libraries.
 
 # Checks for header files.
@@ -53,6 +52,25 @@ if test "z$enable_own_argp" = "zno";then
  ])
 fi
 export build_own_argp
+AC_MSG_CHECKING([if stribog target programs build is asked for])
+AC_ARG_ENABLE([target-programs],
+ AS_HELP_STRING([--enable-target-programs],
+  [Rebuild LPC213?-targeted software [[yes]]]),,
+)
+if test "z$enable_target_programs" != "zno";then
+ enable_target_programs=yes
+fi
+AC_MSG_RESULT([$enable_target_programs])
+build_target_programs=$enable_target_programs
+if test "z$enable_target_programs" = "zyes";then
+ AC_CHECK_PROG([arm_elf_tools],[arm-elf-gcc],[yes],[no],,)
+ if test "z$arm_elf_tools" = "zno";then
+  AC_MSG_RESULT([no usable ARM crosstools found; the distributed programs will be installed])
+  build_target_programs=no
+ fi
+fi
+AM_CONDITIONAL([arm_elf_tools], test "z" = "zyes")
+export build_target_programs
 export recursive_stribog_build=yes
 # Checks for library functions.
 AC_CHECK_FUNCS([sqrt])
@@ -62,6 +80,6 @@ AC_CONFIG_FILES([Makefile])
 #                 sw/auxilia/odo/Makefile
 #                 sw/auxilia/odo/host/Makefile
 #                 sw/target/Makefile])
-AC_CONFIG_SUBDIRS([sw/host])
+AC_CONFIG_SUBDIRS([sw/host sw/target])
 AC_OUTPUT
-cat sw/host/summary
+cat sw/host/summary sw/target/summary
