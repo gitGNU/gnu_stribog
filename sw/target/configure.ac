@@ -17,9 +17,20 @@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 AC_PREREQ(2.61)
 AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
+AC_CANONICAL_BUILD
+host=arm-elf
+#we could not force cross-compilation mode
+#if test "z$host_alias" != "zarm-elf"; then
+# AC_MSG_RESULT([host '$host_alias' was requested; should be strictly '$host'])
+# exit 1; 
+#fi
+#the next line is to force cross-compilation (doesn't work)
+build_alias=$build
+host_alias=$host
 AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_SRCDIR([src/dacex.c])
 AC_CONFIG_HEADER([config.h])
+
 if test "z$build_target_programs" = "z";then
  AC_MSG_CHECKING([if stribog target build is asked for])
  AC_ARG_ENABLE([target-programs],
@@ -55,9 +66,12 @@ AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = "zyes")
 # we do not test whether we are really building
 # the programs. perhaps this is not the right way
 #if test "z$build_target_programs" = "zyes";then
- AC_C_CONST
- AC_C_INLINE
- AC_C_VOLATILE
+
+#check nothing: I couldn't force cross-compilation mode of configure
+#and the build tools are unique (we have nothing besides GNU)
+# AC_C_CONST
+# AC_C_INLINE
+# AC_C_VOLATILE
 
 # Checks for library functions.
 #sqrt is used in host-side test only
