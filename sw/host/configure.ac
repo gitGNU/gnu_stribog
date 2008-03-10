@@ -40,7 +40,7 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h string.h termios.h unistd.h])
 
 #argp library configuration
-if test "z$build_own_argp" == "z";then
+if test "z$build_own_argp" = "z";then
  AC_MSG_CHECKING([if stribog argp implementation is asked for])
  AC_ARG_ENABLE([own-argp],
   AS_HELP_STRING([--enable-own-argp],
