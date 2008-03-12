@@ -136,6 +136,18 @@ only. for instructions on using host tools see sw/host/README.
 target and auxiliary software is built with GNU make utility.
 GERBER and EXCELLON files are produced manually with PCB.
 
+HOW TO REGENERATE BUILD SYSTEM
+
+You should need this only to improve the configuring scripts
+and to change the structure of the sources (add/remove source files
+and so on). you typically shall not want this.
+
+The configuring scripts are updated by scripts 'regen_configure'.
+The scripts recurse into the subdirectories. if a directory
+has 'configure' script but no 'regen_configure', then
+the build system is regenerated with
+'autoreconf -v'; you may 'rm -r autom4te.cache' after that.
+
 HOW TO USE GIT
 
 Git is the revision control system used by the project.
