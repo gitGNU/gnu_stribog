@@ -15,7 +15,8 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-autoreconf -v;rm -fr autom4te.cache config.h.in~;
+if test $# -lt 1;then autoreconf -v;fi
+rm -fr autom4te.cache config.h.in~
 cat configure.pre configure >t
 mv t configure
 chmod a+x configure
