@@ -1,3 +1,7 @@
+12 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.pre: new
+ * configure.ac: host is forced to be arm-elf; cross-build
+ configuration by default
 08 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * README configure.ac configure Makefile.am Makefile.in 
  AUTHORS INSTALL NEWS aclocal.m4 config.h.in install-sh missing: new
