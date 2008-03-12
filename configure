@@ -694,8 +694,6 @@ CPP
 GREP
 EGREP
 arm_elf_tools
-arm_elf_tools_TRUE
-arm_elf_tools_FALSE
 subdirs
 LIBOBJS
 LTLIBOBJS'
@@ -4344,13 +4342,13 @@ if test "${enable_own_argp+set}" = set; then
   enableval=$enable_own_argp;
 fi
 
-if test "z$enable_own_argp" != "zyes";then
+if test "z$enable_own_argp" != zyes;then
  enable_own_argp=no
 fi
 { echo "$as_me:$LINENO: result: $enable_own_argp" >&5
 echo "${ECHO_T}$enable_own_argp" >&6; }
 build_own_argp=$enable_own_argp
-if test "z$enable_own_argp" = "zno";then
+if test "z$enable_own_argp" = zno;then
  if test "${ac_cv_header_argp_h+set}" = set; then
   { echo "$as_me:$LINENO: checking for argp.h" >&5
 echo $ECHO_N "checking for argp.h... $ECHO_C" >&6; }
@@ -4500,13 +4498,13 @@ if test "${enable_target_programs+set}" = set; then
   enableval=$enable_target_programs;
 fi
 
-if test "z$enable_target_programs" != "zno";then
+if test "z$enable_target_programs" != zno;then
  enable_target_programs=yes
 fi
 { echo "$as_me:$LINENO: result: $enable_target_programs" >&5
 echo "${ECHO_T}$enable_target_programs" >&6; }
 build_target_programs=$enable_target_programs
-if test "z$enable_target_programs" = "zyes";then
+if test "z$enable_target_programs" = zyes;then
  # Extract the first word of "arm-elf-gcc", so it can be a program name with args.
 set dummy arm-elf-gcc; ac_word=$2
 { echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -4545,20 +4543,12 @@ echo "${ECHO_T}no" >&6; }
 fi
 
 
- if test "z$arm_elf_tools" = "zno";then
+ if test "z$arm_elf_tools" = zno;then
   { echo "$as_me:$LINENO: result: no usable ARM crosstools found; the distributed programs will be installed" >&5
 echo "${ECHO_T}no usable ARM crosstools found; the distributed programs will be installed" >&6; }
   build_target_programs=no
  fi
 fi
- if test "z" = "zyes"; then
-  arm_elf_tools_TRUE=
-  arm_elf_tools_FALSE='#'
-else
-  arm_elf_tools_TRUE='#'
-  arm_elf_tools_FALSE=
-fi
-
 export build_target_programs
 export recursive_stribog_build=yes
 # Checks for library functions.
@@ -4662,7 +4652,7 @@ ac_config_files="$ac_config_files Makefile"
 #AC_CONFIG_FILES([sw/auxilia/coil/Makefile
 #                 sw/auxilia/odo/Makefile
 #                 sw/auxilia/odo/host/Makefile
-#                 sw/target/Makefile])
+#                 ])
 subdirs="$subdirs sw/host sw/target"
 
 cat >confcache <<\_ACEOF
@@ -4772,13 +4762,6 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${arm_elf_tools_TRUE}" && test -z "${arm_elf_tools_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"arm_elf_tools\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"arm_elf_tools\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -5393,14 +5376,12 @@ CPP!$CPP$ac_delim
 GREP!$GREP$ac_delim
 EGREP!$EGREP$ac_delim
 arm_elf_tools!$arm_elf_tools$ac_delim
-arm_elf_tools_TRUE!$arm_elf_tools_TRUE$ac_delim
-arm_elf_tools_FALSE!$arm_elf_tools_FALSE$ac_delim
 subdirs!$subdirs$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 84; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 82; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
