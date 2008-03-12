@@ -1,11 +1,11 @@
 Stribog the sensing platform README file.
 
-For license and copyright notes see 'copyright'.
+For license and copyright notes read 'copyright'.
 
 ATTENTION stribog is in his alpha stage. he is not functional yet.
 
 The project is located at http://savannah.nongnu.org/projects/stribog
-----------------------------------
+
 SOME TECHNICAL NOTES
 
 This project consists of hardware and software sections. the former is
@@ -44,15 +44,17 @@ I wrote my own host tools (see sw/host/*) because
 My tools are hardly functional, but they work somehow for me and they are free.
 
 There are two linker scripts in sw/target/src directory: ram2138.ld and
-2138.ld. the former is currently used (the program is to be just loaded into RAM
-and run), the latter was tested some time ago and will be corrected again when 
-stribog needs to keep his program in ROM.
+2138.ld.  the former is used to link the program which will be loaded via elk
+into RAM and run immediately. the latter used for programs saved in LPC2138 ROM;
+on startup the program will be loaded into RAM and run there.
+as of Feb 2008 programs don't always work correctly when linked with ram2138.ld:
+usually it either work well or don't work at all.
 
-The program is written in C (the ld scripts don't support C++). 
+The programs are written in C (the ld scripts don't support C++). 
 main() is executed in supervisor mode. no THUMB code. fast interrupt reserved. 
 VPB divider equals 4, as by default. PLL is configured to multiply by 4.
 
-The program will run from RAM, when possible. even when written in ROM, boot.s
+The programs will run from RAM, when possible. even when written in ROM, boot.s
 will copy it to RAM. the program uses single library: libgcc.a. 
 all computations should be in fixed point.
 
@@ -74,14 +76,15 @@ for set/reset strap duty cycle. carelessly increasing the sampling frequency
 can DAMAGE the sensors.
 
 Timer0 is occupied by accelerometers; VIC slot 3
-----------------------------------
+
 HOW TO INSTALL DEVELOPMENT TOOLS
 
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
 get binutils and gcc. generally, we use the latest releases, though there is 
 nothing dependent on any supernew features in stribog. currently we use 
-binutils-2.18 with gcc-4.2.2. we used also binutils-2.17, binutils-2.16.1, 
-binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2.
+binutils-2.18 with gcc-4.2.3. we used also binutils-2.17, binutils-2.16.1, 
+binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2,
+gcc-4.2.2.
 they should work, too. once we tried binutils-2.15 and they failed; maybe,
 we had not configured them properly.
 
@@ -96,14 +99,17 @@ $ ../binutils-2.18/configure --target=arm-elf --prefix=$armprefix --enable-inter
 $ make all install
 $ export PATH=$armprefix/bin:$PATH; rm -fr *;cd ..
          (add this path in your shell profile after install, too)
-$ gpg --verify gcc-4.2.2.tar.bz2.sig && tar xjf gcc-4.2.2.tar.bz2;cd bui
-$ ../gcc-4.2.2/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
+$ gpg --verify gcc-4.2.3.tar.bz2.sig && tar xjf gcc-4.2.3.tar.bz2;cd bui
+$ ../gcc-4.2.3/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
 $ make all-gcc install-gcc
 
 That's all. we don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
-This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
+This sequence worked on Fedora Core 4 (32-bit).
+On RedHat 7.3 binutils-2.18 will not build themselves without
+manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
+generally, binutils-2.18 release is not very stable.
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
@@ -114,7 +120,7 @@ http://savannah.gnu.org
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog.
-----------------------------------
+
 HOW TO BUILD (as of Mar 2008)
 
 Stribog use GNU-standard configuration procedure
@@ -129,7 +135,7 @@ Currently, this procedure has been adopted for host tools
 only. for instructions on using host tools see sw/host/README.
 target and auxiliary software is built with GNU make utility.
 GERBER and EXCELLON files are produced manually with PCB.
-----------------------------------
+
 HOW TO USE GIT
 
 Git is the revision control system used by the project.
@@ -139,7 +145,7 @@ checkout 'master' branch and read the files it contains.
 
 Here is a typical ~/.gitconfig file contents
 (please replace the names and email with yours):
-<<<EOF
+<<EOF
 [user]
  name = Ineiev (favourite host)
  email = ineiev@users.sourceforge.net
