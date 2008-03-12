@@ -1,3 +1,4 @@
+#! /bin/sh
 #stribog target: hat for 'configure' script
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
@@ -1722,7 +1723,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 #the cross-build is forced in configure.pre which is
-#written at the begin of 'configure' e.g. with ./regen_configure
+#written at the begin of 'configure'
 { echo "$as_me:$LINENO: result: NB here we force cross-build" >&5
 echo "${ECHO_T}NB here we force cross-build" >&6; }
 
@@ -2217,9 +2218,7 @@ ac_config_headers="$ac_config_headers config.h"
 
 
 # Checks for programs.
-
-#manage variables passed from top configure down hither
-if test "z$build_target_programs" = z;then
+if test "z$recursive_stribog_build" != zyes;then
  { echo "$as_me:$LINENO: checking if stribog target build is asked for" >&5
 echo $ECHO_N "checking if stribog target build is asked for... $ECHO_C" >&6; }
  # Check whether --enable-target-programs was given.
@@ -2227,12 +2226,14 @@ if test "${enable_target_programs+set}" = set; then
   enableval=$enable_target_programs;
 fi
 
- if test "z$enable_target_programs" != "zno";then
+ if test "z$enable_target_programs" != zno;then
   enable_target_programs=yes
  fi
  { echo "$as_me:$LINENO: result: $enable_target_programs" >&5
 echo "${ECHO_T}$enable_target_programs" >&6; }
  build_target_programs=$enable_target_programs
+fi
+if test "z$build_target_programs" = zyes;then
  # Extract the first word of "arm-elf-gcc", so it can be a program name with args.
 set dummy arm-elf-gcc; ac_word=$2
 { echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -2271,27 +2272,36 @@ echo "${ECHO_T}no" >&6; }
 fi
 
 
-
- if test "z$arm_elf_tools" != "zno";then
- { echo "$as_me:$LINENO: checking the arm-elf-gcc version" >&5
+ if test "z$arm_elf_tools" != zno;then
+  { echo "$as_me:$LINENO: checking the arm-elf-gcc version" >&5
 echo $ECHO_N "checking the arm-elf-gcc version... $ECHO_C" >&6; }
   arm_gcc_version=$(arm-elf-gcc --version|head -1|sed "s/^.* //")
   arm_gcc_version_maior=$(($(echo $arm_gcc_version|sed "s/[.].*//")+0))
+  { echo "$as_me:$LINENO: result: $arm_gcc_version" >&5
+echo "${ECHO_T}$arm_gcc_version" >&6; }
   if test $arm_gcc_version_maior -lt 3;then
    #we see gcc 2.x or gcc 1.x or gcc 0.x or less which is suspicious
    echo "arm-elf-gcc version '$arm_gcc_version' less than minimal tested (3.4.6)" >warnings
    echo "arm-elf-gcc version_maior '$arm_gcc_version_maior'"
   fi
-  { echo "$as_me:$LINENO: result: $arm_gcc_version" >&5
-echo "${ECHO_T}$arm_gcc_version" >&6; }
- fi
- if test "z$arm_elf_tools" = "zno";then
+ else
   { echo "$as_me:$LINENO: result: no usable ARM crosstools found; the distributed programs will be installed" >&5
 echo "${ECHO_T}no usable ARM crosstools found; the distributed programs will be installed" >&6; }
   build_target_programs=no
  fi
 fi
- if test "z$build_target_programs" = "zyes"; then
+if test "z$build_target_programs" = zyes;then
+#make our minimalistic crosstools generate executables
+ export ldscript="${srcdir}/src/2138.ld"
+ export ldscript_rom="${srcdir}/src/2138.ld"
+ export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
+#FIXME these variables should be completely defined by the user
+ ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
+ CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
+ LDFLAGS="$LDFLAGS -nostartup -nostdlib -static -T${ldscript}"
+ LIBS="$LIBS ${libgcc}"
+fi
+ if test "z$build_target_programs" = zyes; then
   build_target_programs_TRUE=
   build_target_programs_FALSE='#'
 else
@@ -2299,84 +2309,9 @@ else
   build_target_programs_FALSE=
 fi
 
-if test "z$build_target_programs" = zyes;then
-#this is to make our minimalistic crosstools installation
-#generate executables
- ldscript="${srcdir}/src/2138.ld"
- LDFLAGS="-nostartup -nostdlib -static -T${ldscript}"
-fi
-# Checks for libraries.
 
-# Checks for header files.
-#no external headers are currently used
-
-# Checks for typedefs, structures, and compiler characteristics.
-#check nothing autotools suggest: our tools seem to be too minimalistic
-#to build any grown-up program.
-#the build tools are unique (we have nothing besides GNU), so we can
-#predict their properties very well
- DEPDIR="${am__leading_dot}deps"
-
-ac_config_commands="$ac_config_commands depfiles"
-
-
-am_make=${MAKE-make}
-cat > confinc << 'END'
-am__doit:
-	@echo done
-.PHONY: am__doit
-END
-# If we don't find an include directive, just comment out the code.
-{ echo "$as_me:$LINENO: checking for style of include used by $am_make" >&5
-echo $ECHO_N "checking for style of include used by $am_make... $ECHO_C" >&6; }
-am__include="#"
-am__quote=
-_am_result=none
-# First try GNU make style include.
-echo "include confinc" > confmf
-# We grep out `Entering directory' and `Leaving directory'
-# messages which can occur if `w' ends up in MAKEFLAGS.
-# In particular we don't look at `^make:' because GNU make might
-# be invoked under some other name (usually "gmake"), in which
-# case it prints its new name instead of `make'.
-if test "`$am_make -s -f confmf 2> /dev/null | grep -v 'ing directory'`" = "done"; then
-   am__include=include
-   am__quote=
-   _am_result=GNU
-fi
-# Now try BSD make style include.
-if test "$am__include" = "#"; then
-   echo '.include "confinc"' > confmf
-   if test "`$am_make -s -f confmf 2> /dev/null`" = "done"; then
-      am__include=.include
-      am__quote="\""
-      _am_result=BSD
-   fi
-fi
-
-
-{ echo "$as_me:$LINENO: result: $_am_result" >&5
-echo "${ECHO_T}$_am_result" >&6; }
-rm -f confinc confmf
-
-# Check whether --enable-dependency-tracking was given.
-if test "${enable_dependency_tracking+set}" = set; then
-  enableval=$enable_dependency_tracking;
-fi
-
-if test "x$enable_dependency_tracking" != xno; then
-  am_depcomp="$ac_aux_dir/depcomp"
-  AMDEPBACKSLASH='\'
-fi
- if test "x$enable_dependency_tracking" != xno; then
-  AMDEP_TRUE=
-  AMDEP_FALSE='#'
-else
-  AMDEP_TRUE='#'
-  AMDEP_FALSE=
-fi
-
-
+#would anybody like to install the distributed target programs
+#on a system with no native compiler available? this script can't do it
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -3295,6 +3230,68 @@ ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
+DEPDIR="${am__leading_dot}deps"
+
+ac_config_commands="$ac_config_commands depfiles"
+
+
+am_make=${MAKE-make}
+cat > confinc << 'END'
+am__doit:
+	@echo done
+.PHONY: am__doit
+END
+# If we don't find an include directive, just comment out the code.
+{ echo "$as_me:$LINENO: checking for style of include used by $am_make" >&5
+echo $ECHO_N "checking for style of include used by $am_make... $ECHO_C" >&6; }
+am__include="#"
+am__quote=
+_am_result=none
+# First try GNU make style include.
+echo "include confinc" > confmf
+# We grep out `Entering directory' and `Leaving directory'
+# messages which can occur if `w' ends up in MAKEFLAGS.
+# In particular we don't look at `^make:' because GNU make might
+# be invoked under some other name (usually "gmake"), in which
+# case it prints its new name instead of `make'.
+if test "`$am_make -s -f confmf 2> /dev/null | grep -v 'ing directory'`" = "done"; then
+   am__include=include
+   am__quote=
+   _am_result=GNU
+fi
+# Now try BSD make style include.
+if test "$am__include" = "#"; then
+   echo '.include "confinc"' > confmf
+   if test "`$am_make -s -f confmf 2> /dev/null`" = "done"; then
+      am__include=.include
+      am__quote="\""
+      _am_result=BSD
+   fi
+fi
+
+
+{ echo "$as_me:$LINENO: result: $_am_result" >&5
+echo "${ECHO_T}$_am_result" >&6; }
+rm -f confinc confmf
+
+# Check whether --enable-dependency-tracking was given.
+if test "${enable_dependency_tracking+set}" = set; then
+  enableval=$enable_dependency_tracking;
+fi
+
+if test "x$enable_dependency_tracking" != xno; then
+  am_depcomp="$ac_aux_dir/depcomp"
+  AMDEPBACKSLASH='\'
+fi
+ if test "x$enable_dependency_tracking" != xno; then
+  AMDEP_TRUE=
+  AMDEP_FALSE='#'
+else
+  AMDEP_TRUE='#'
+  AMDEP_FALSE=
+fi
+
+
 
 depcc="$CC"   am_compiler_list=
 
@@ -3405,6 +3402,15 @@ fi
 
 
 
+# Checks for libraries.
+
+# Checks for header files.
+
+# Checks for typedefs, structures, and compiler characteristics.
+#actually there is absolutely no need to check this when
+#we are just to install the distributed executables,
+#but this 'configure' won't work when no tests are run
+
 { echo "$as_me:$LINENO: checking for an ANSI C-conforming const" >&5
 echo $ECHO_N "checking for an ANSI C-conforming const... $ECHO_C" >&6; }
 if test "${ac_cv_c_const+set}" = set; then
@@ -3511,6 +3517,7 @@ _ACEOF
 
 fi
 
+if test "z$build_target_programs" = zyes;then
  { echo "$as_me:$LINENO: checking for inline" >&5
 echo $ECHO_N "checking for inline... $ECHO_C" >&6; }
 if test "${ac_cv_c_inline+set}" = set; then
@@ -3640,9 +3647,8 @@ _ACEOF
 
 fi
 
+fi
 
-
-CFLAGS="-O2 -Wall"
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -4983,7 +4989,7 @@ echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 cat warnings >>summary
 
-if test "z$recursive_stribog_build" != "zyes";then
+if test "z$recursive_stribog_build" != zyes;then
  { echo "$as_me:$LINENO: result: $(cat summary)" >&5
 echo "${ECHO_T}$(cat summary)" >&6; }
 fi
