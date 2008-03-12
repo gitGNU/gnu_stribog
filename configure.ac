@@ -40,12 +40,12 @@ AC_ARG_ENABLE([own-argp],
  AS_HELP_STRING([--enable-own-argp],
   [Use stribog implementation of argp library when building host tools [[no]]]),,
 )
-if test "z$enable_own_argp" != "zyes";then
+if test "z$enable_own_argp" != zyes;then
  enable_own_argp=no
 fi
 AC_MSG_RESULT([$enable_own_argp])
 build_own_argp=$enable_own_argp
-if test "z$enable_own_argp" = "zno";then
+if test "z$enable_own_argp" = zno;then
  AC_CHECK_HEADER([argp.h],,
   [AC_MSG_RESULT([no usable argp.h found; stribog version will be used])
    build_own_argp=yes
@@ -57,19 +57,18 @@ AC_ARG_ENABLE([target-programs],
  AS_HELP_STRING([--enable-target-programs],
   [Rebuild LPC213?-targeted software [[yes]]]),,
 )
-if test "z$enable_target_programs" != "zno";then
+if test "z$enable_target_programs" != zno;then
  enable_target_programs=yes
 fi
 AC_MSG_RESULT([$enable_target_programs])
 build_target_programs=$enable_target_programs
-if test "z$enable_target_programs" = "zyes";then
+if test "z$enable_target_programs" = zyes;then
  AC_CHECK_PROG([arm_elf_tools],[arm-elf-gcc],[yes],[no],,)
- if test "z$arm_elf_tools" = "zno";then
+ if test "z$arm_elf_tools" = zno;then
   AC_MSG_RESULT([no usable ARM crosstools found; the distributed programs will be installed])
   build_target_programs=no
  fi
 fi
-AM_CONDITIONAL([arm_elf_tools], test "z" = "zyes")
 export build_target_programs
 export recursive_stribog_build=yes
 # Checks for library functions.
@@ -79,7 +78,7 @@ AC_CONFIG_FILES([Makefile])
 #AC_CONFIG_FILES([sw/auxilia/coil/Makefile
 #                 sw/auxilia/odo/Makefile
 #                 sw/auxilia/odo/host/Makefile
-#                 sw/target/Makefile])
+#                 ])
 AC_CONFIG_SUBDIRS([sw/host sw/target])
 AC_OUTPUT
 cat sw/host/summary sw/target/summary
