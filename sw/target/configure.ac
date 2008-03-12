@@ -1,5 +1,5 @@
 #stribog target: configure.ac 
-# Run autoreconf to regenerate the build system
+# run ./regen_configure regenerate the build system
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -18,7 +18,7 @@
 AC_PREREQ(2.61)
 AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
 #the cross-build is forced in configure.pre which is
-#written at the begin of 'configure' e.g. with ./regen_configure
+#written at the begin of 'configure'
 AC_MSG_RESULT([NB here we force cross-build])
 
 #'warnings' is the file where some notanda will be written
@@ -29,61 +29,67 @@ AC_CONFIG_SRCDIR([src/dacex.c])
 AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
-
-#manage variables passed from top configure down hither
-if test "z$build_target_programs" = z;then
+if test "z$recursive_stribog_build" != zyes;then
  AC_MSG_CHECKING([if stribog target build is asked for])
  AC_ARG_ENABLE([target-programs],
   AS_HELP_STRING([--enable-target-programs],
    [Rebuild software [[yes]]]),,
  )
- if test "z$enable_target_programs" != "zno";then
+ if test "z$enable_target_programs" != zno;then
   enable_target_programs=yes
  fi
  AC_MSG_RESULT([$enable_target_programs])
  build_target_programs=$enable_target_programs
+fi
+if test "z$build_target_programs" = zyes;then
  AC_CHECK_PROG([arm_elf_tools],[arm-elf-gcc],[yes],[no],,)
-
- if test "z$arm_elf_tools" != "zno";then
- AC_MSG_CHECKING([the arm-elf-gcc version])
+ if test "z$arm_elf_tools" != zno;then
+  AC_MSG_CHECKING([the arm-elf-gcc version])
   arm_gcc_version=$(arm-elf-gcc --version|head -1|sed "s/^.* //")
 dnl        autoconf removes quotes even here: note double [[ ]]
   arm_gcc_version_maior=$(($(echo $arm_gcc_version|sed "s/[[.]].*//")+0))
+  AC_MSG_RESULT([$arm_gcc_version])
   if test $arm_gcc_version_maior -lt 3;then
    #we see gcc 2.x or gcc 1.x or gcc 0.x or less which is suspicious
    echo "arm-elf-gcc version '$arm_gcc_version' less than minimal tested (3.4.6)" >warnings
    echo "arm-elf-gcc version_maior '$arm_gcc_version_maior'"
   fi
-  AC_MSG_RESULT([$arm_gcc_version])
- fi
- if test "z$arm_elf_tools" = "zno";then
+ else
   AC_MSG_RESULT([no usable ARM crosstools found; the distributed programs will be installed])
   build_target_programs=no
  fi
 fi
-AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = "zyes")
 if test "z$build_target_programs" = zyes;then
-#this is to make our minimalistic crosstools installation
-#generate executables
- ldscript="${srcdir}/src/2138.ld"
- LDFLAGS="-nostartup -nostdlib -static -T${ldscript}"
+#make our minimalistic crosstools generate executables
+ export ldscript="${srcdir}/src/2138.ld"
+ export ldscript_rom="${srcdir}/src/2138.ld"
+ export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
+#FIXME these variables should be completely defined by the user
+ ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
+ CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
+ LDFLAGS="$LDFLAGS -nostartup -nostdlib -static -T${ldscript}"
+ LIBS="$LIBS ${libgcc}"
 fi
+AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = zyes)
+
+#would anybody like to install the distributed target programs 
+#on a system with no native compiler available? this script can't do it
+AC_PROG_CC
+
 # Checks for libraries.
 
 # Checks for header files.
-#no external headers are currently used
 
 # Checks for typedefs, structures, and compiler characteristics.
-#check nothing autotools suggest: our tools seem to be too minimalistic
-#to build any grown-up program.
-#the build tools are unique (we have nothing besides GNU), so we can
-#predict their properties very well
+#actually there is absolutely no need to check this when
+#we are just to install the distributed executables,
+#but this 'configure' won't work when no tests are run
  AC_C_CONST
+if test "z$build_target_programs" = zyes;then
  AC_C_INLINE
  AC_C_VOLATILE
+fi
 
-
-CFLAGS="-O2 -Wall"
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
@@ -95,6 +101,6 @@ echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 cat warnings >>summary
 
-if test "z$recursive_stribog_build" != "zyes";then
+if test "z$recursive_stribog_build" != zyes;then
  AC_MSG_RESULT([[$(cat summary)]])
 fi
