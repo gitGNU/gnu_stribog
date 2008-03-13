@@ -14,8 +14,10 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-if build_target_programs
-
-else
-
-endif
+AM_CFLAGS="-mcpu=arm7tdmi -Wall -O2"
+AM_LDFLAGS="-Map $@.map -nostartup -nostdlib -static"
+AM_LIBS=$(libgcc)
+ram_ldscript=$(srcdir)/src/ram2138.ld
+ram_script_flag="-T$(ldscript)"
+rom_ldscript=$(srcdir)/src/2138.ld
+rom_script_flag="-T$(rom_ldscript)"
