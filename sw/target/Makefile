@@ -15,7 +15,6 @@
 #
 #Copyright (C) 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
-ram_based=1
 ifndef MCU_UNOFFENDED
  PPS_BURNT=1
 endif
