@@ -147,6 +147,8 @@ The scripts recurse into the subdirectories. if a directory
 has 'configure' script but no 'regen_configure', then
 the build system is regenerated with
 'autoreconf -v'; you may 'rm -r autom4te.cache' after that.
+
+As of Mar 2008, the versions used are autoconf-2.61 and automake-1.10.
 
 HOW TO USE GIT
 
