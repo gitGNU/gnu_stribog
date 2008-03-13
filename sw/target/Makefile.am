@@ -14,10 +14,15 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-AM_CFLAGS="-mcpu=arm7tdmi -Wall -O2"
-AM_LDFLAGS="-Map $@.map -nostartup -nostdlib -static"
+common_sources=src/boot.s include/lpc2138.h
+AM_CFLAGS=-mcpu=arm7tdmi -Wall -O2
+AM_LDFLAGS=-Wl,-Map,$@.map -nostartfiles -nodefaultlibs -nostdlib -static
 AM_LIBS=$(libgcc)
 ram_ldscript=$(srcdir)/src/ram2138.ld
-ram_script_flag="-T$(ldscript)"
+ram_flag=-Wl,-T$(ram_ldscript)
 rom_ldscript=$(srcdir)/src/2138.ld
-rom_script_flag="-T$(rom_ldscript)"
+rom_flag=-Wl,-T$(rom_ldscript)
+noinst_PROGRAMS=pllex
+pllex_SOURCES=$(common_sources)\
+ src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
+pllex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)

@@ -70,6 +70,8 @@ if test "z$build_target_programs" = zyes;then
  ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
  CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
  LDFLAGS="$LDFLAGS -nostartup -nostdlib -static -T${ldscript} ${libgcc}"
+# assign assembler-related variables
+ AM_PROG_AS
 fi
 AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = zyes)
 
