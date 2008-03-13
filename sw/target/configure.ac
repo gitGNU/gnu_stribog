@@ -61,14 +61,15 @@ dnl        autoconf removes quotes even here: note double [[ ]]
 fi
 if test "z$build_target_programs" = zyes;then
 #make our minimalistic crosstools generate executables
- export ldscript="${srcdir}/src/2138.ld"
- export ldscript_rom="${srcdir}/src/2138.ld"
+ ldscript="${srcdir}/src/2138.ld"
  export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
-#FIXME these variables should be completely defined by the user
+ saved_ASFLAGS="$ASFLAGS"
+ saved_CFLAGS="$CFLAGS"
+ saved_LDFLAGS="$LDFLAGS"
+ saved_LIBS="$LIBS"
  ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
  CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
- LDFLAGS="$LDFLAGS -nostartup -nostdlib -static -T${ldscript}"
- LIBS="$LIBS ${libgcc}"
+ LDFLAGS="$LDFLAGS -nostartup -nostdlib -static -T${ldscript} ${libgcc}"
 fi
 AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = zyes)
 
@@ -89,6 +90,11 @@ if test "z$build_target_programs" = zyes;then
  AC_C_INLINE
  AC_C_VOLATILE
 fi
+
+#return to user-requested values
+ASFLAGS="$saved_ASFLAGS"
+CFLAGS="$saved_CFLAGS"
+LDFLAGS="$saved_LDFLAGS"
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
