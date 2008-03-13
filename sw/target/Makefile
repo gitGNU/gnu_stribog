@@ -13,7 +13,8 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2006, 2007, 2008\
+# Ineiev<ineiev@users.sourceforge.net>, super V 93
 ram_based=1
 ifndef MCU_UNOFFENDED
  PPS_BURNT=1
@@ -32,7 +33,7 @@ ifdef ram_based
 else
  ldscript=$(src)/2138.ld
 endif
-LDFLAGS=-s -Map $@.map -nostartup -nostdlib -T$(ldscript) -static -O2
+LDFLAGS=-s -Map $@.map -nostartfiles -nostdlib -T$(ldscript) -static -O2
 src=src
 o=o
 bin=bin
