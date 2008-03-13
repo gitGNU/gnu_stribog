@@ -1,3 +1,6 @@
+13 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/target/Makefile: -nostartup should be -nostartfiles
+ * sw/target/src/multa: uninitialized use fixed
 07 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * copyright: obsolete notes on deriving hardware works
    removed
