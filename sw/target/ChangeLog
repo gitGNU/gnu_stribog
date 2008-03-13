@@ -1,3 +1,5 @@
+13 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/multa.c: fixed possible uninitialized use
 12 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.pre: new
  * configure.ac: host is forced to be arm-elf; cross-build
