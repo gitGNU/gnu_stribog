@@ -104,7 +104,7 @@ send_temp(int ms)
  if(!send_fix(t,temp_length))i=0;
 }static void
 parse_settings(const unsigned char*s,int n)
-{int kx,ky=0,kz=0,acc_prescaler=9;
+{int kx=0,ky=0,kz=0,acc_prescaler=9;
  if(n>0)kx=*s;if(n>1)ky=s[1];if(n>2)kz=s[2];set_mag_gains(kx,ky,kz);
  if(n>3)acc_prescaler=s[3];init_accel(acc_prescaler);
 }static void
