@@ -1,5 +1,10 @@
+14 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/fake-cc: new
+ * configure.ac Makefile.am: search for the right way
+ to configure
 13 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/multa.c: fixed possible uninitialized use
+ * lib/atexit.c: new
 12 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.pre: new
  * configure.ac: host is forced to be arm-elf; cross-build
