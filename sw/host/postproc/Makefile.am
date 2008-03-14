@@ -16,5 +16,5 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 bin_PROGRAMS=exvel
-bin_SCRIPTS=process
+dist_bin_SCRIPTS=process
 exvel_SOURCES=exvel.c error.c error.h lege_lineam.c lege_lineam.h
