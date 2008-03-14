@@ -30,7 +30,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = pllex$(EXEEXT)
+@add_own_atexit_TRUE@am__append_1 = lib/atexit.c
+noinst_PROGRAMS = pllex$(EXEEXT) pllex-rom$(EXEEXT)
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
@@ -46,12 +47,23 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-am__objects_1 = boot.$(OBJEXT)
-am_pllex_OBJECTS = $(am__objects_1) pllex.$(OBJEXT) pll.$(OBJEXT) \
+am__pllex_SOURCES_DIST = src/boot.s include/lpc2138.h lib/atexit.c \
+	src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
+@add_own_atexit_TRUE@am__objects_1 = atexit.$(OBJEXT)
+am__objects_2 = boot.$(OBJEXT) $(am__objects_1)
+am__objects_3 = $(am__objects_2) pllex.$(OBJEXT) pll.$(OBJEXT) \
 	led.$(OBJEXT)
+am_pllex_OBJECTS = $(am__objects_3)
 pllex_OBJECTS = $(am_pllex_OBJECTS)
 pllex_LDADD = $(LDADD)
 pllex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(pllex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__pllex_rom_SOURCES_DIST = src/boot.s include/lpc2138.h lib/atexit.c \
+	src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
+am_pllex_rom_OBJECTS = $(am__objects_3)
+pllex_rom_OBJECTS = $(am_pllex_rom_OBJECTS)
+pllex_rom_LDADD = $(LDADD)
+pllex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(pllex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -61,8 +73,10 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CCASCOMPILE = $(CCAS) $(AM_CCASFLAGS) $(CCASFLAGS)
-SOURCES = $(pllex_SOURCES)
-DIST_SOURCES = $(pllex_SOURCES)
+SOURCES = $(pllex_SOURCES) $(EXTRA_pllex_SOURCES) $(pllex_rom_SOURCES) \
+	$(EXTRA_pllex_rom_SOURCES)
+DIST_SOURCES = $(am__pllex_SOURCES_DIST) $(EXTRA_pllex_SOURCES) \
+	$(am__pllex_rom_SOURCES_DIST) $(EXTRA_pllex_rom_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -178,18 +192,29 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-common_sources = src/boot.s include/lpc2138.h
+EXTRA_DIST = lib/fake-cc
+common_sources = src/boot.s include/lpc2138.h $(am__append_1)
+extra_common_sources = lib/atexit.c
 AM_CFLAGS = -mcpu=arm7tdmi -Wall -O2
-AM_LDFLAGS = -Wl,-Map,$@.map -nostartfiles -nodefaultlibs -nostdlib -static
+AM_LDFLAGS = -Wl,-Map,$@.map -nostdlib -static
 AM_LIBS = $(libgcc)
-ram_ldscript = $(srcdir)/src/ram2138.ld
-ram_flag = -Wl,-T$(ram_ldscript)
-rom_ldscript = $(srcdir)/src/2138.ld
-rom_flag = -Wl,-T$(rom_ldscript)
-pllex_SOURCES = $(common_sources)\
+ram_ld = src/ram2138.ld
+ram_ldscript = $(srcdir)/$(ram_ld)
+ram_flag = -T$(ram_ldscript)
+rom_ld = src/2138.ld
+rom_ldscript = $(srcdir)/$(rom_ld)
+rom_flag = -T$(rom_ldscript)
+pllex_sources = $(common_sources)\
  src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
 
+pllex_SOURCES = $(pllex_sources)
 pllex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_pllex_SOURCES = $(extra_common_sources)
+pllex_DEPENDENCIES = $(ram_ld)
+pllex_rom_SOURCES = $(pllex_sources)
+pllex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_pllex_rom_SOURCES = $(extra_common_sources)
+pllex_rom_DEPENDENCIES = $(rom_ld)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -251,6 +276,9 @@ clean-noinstPROGRAMS:
 pllex$(EXEEXT): $(pllex_OBJECTS) $(pllex_DEPENDENCIES) 
 	@rm -f pllex$(EXEEXT)
 	$(pllex_LINK) $(pllex_OBJECTS) $(pllex_LDADD) $(LIBS)
+pllex-rom$(EXEEXT): $(pllex_rom_OBJECTS) $(pllex_rom_DEPENDENCIES) 
+	@rm -f pllex-rom$(EXEEXT)
+	$(pllex_rom_LINK) $(pllex_rom_OBJECTS) $(pllex_rom_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -258,6 +286,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/atexit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/led.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pllex.Po@am__quote@
@@ -275,6 +304,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+atexit.o: lib/atexit.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT atexit.o -MD -MP -MF $(DEPDIR)/atexit.Tpo -c -o atexit.o `test -f 'lib/atexit.c' || echo '$(srcdir)/'`lib/atexit.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/atexit.Tpo $(DEPDIR)/atexit.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/atexit.c' object='atexit.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o atexit.o `test -f 'lib/atexit.c' || echo '$(srcdir)/'`lib/atexit.c
+
+atexit.obj: lib/atexit.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT atexit.obj -MD -MP -MF $(DEPDIR)/atexit.Tpo -c -o atexit.obj `if test -f 'lib/atexit.c'; then $(CYGPATH_W) 'lib/atexit.c'; else $(CYGPATH_W) '$(srcdir)/lib/atexit.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/atexit.Tpo $(DEPDIR)/atexit.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/atexit.c' object='atexit.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o atexit.obj `if test -f 'lib/atexit.c'; then $(CYGPATH_W) 'lib/atexit.c'; else $(CYGPATH_W) '$(srcdir)/lib/atexit.c'; fi`
 
 pllex.o: src/pllex.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pllex.o -MD -MP -MF $(DEPDIR)/pllex.Tpo -c -o pllex.o `test -f 'src/pllex.c' || echo '$(srcdir)/'`src/pllex.c
