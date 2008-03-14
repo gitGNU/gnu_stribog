@@ -14,15 +14,29 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
+EXTRA_DIST=lib/fake-cc
 common_sources=src/boot.s include/lpc2138.h
+if add_own_atexit
+ common_sources+=lib/atexit.c
+endif
+extra_common_sources=lib/atexit.c
 AM_CFLAGS=-mcpu=arm7tdmi -Wall -O2
-AM_LDFLAGS=-Wl,-Map,$@.map -nostartfiles -nodefaultlibs -nostdlib -static
+AM_LDFLAGS=-Wl,-Map,$@.map -nostdlib -static
 AM_LIBS=$(libgcc)
-ram_ldscript=$(srcdir)/src/ram2138.ld
-ram_flag=-Wl,-T$(ram_ldscript)
-rom_ldscript=$(srcdir)/src/2138.ld
-rom_flag=-Wl,-T$(rom_ldscript)
-noinst_PROGRAMS=pllex
-pllex_SOURCES=$(common_sources)\
+ram_ld=src/ram2138.ld
+ram_ldscript=$(srcdir)/$(ram_ld)
+ram_flag=-T$(ram_ldscript)
+rom_ld=src/2138.ld
+rom_ldscript=$(srcdir)/$(rom_ld)
+rom_flag=-T$(rom_ldscript)
+noinst_PROGRAMS=pllex pllex-rom
+pllex_sources=$(common_sources)\
  src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
+pllex_SOURCES=$(pllex_sources)
 pllex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
+EXTRA_pllex_SOURCES=$(extra_common_sources)
+pllex_DEPENDENCIES=$(ram_ld)
+pllex_rom_SOURCES=$(pllex_sources)
+pllex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
+EXTRA_pllex_rom_SOURCES=$(extra_common_sources)
+pllex_rom_DEPENDENCIES=$(rom_ld)

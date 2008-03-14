@@ -41,60 +41,75 @@ if test "z$recursive_stribog_build" != zyes;then
  AC_MSG_RESULT([$enable_target_programs])
  build_target_programs=$enable_target_programs
 fi
-if test "z$build_target_programs" = zyes;then
- AC_CHECK_PROG([arm_elf_tools],[arm-elf-gcc],[yes],[no],,)
- if test "z$arm_elf_tools" != zno;then
-  AC_MSG_CHECKING([the arm-elf-gcc version])
-  arm_gcc_version=$(arm-elf-gcc --version|head -1|sed "s/^.* //")
-dnl        autoconf removes quotes even here: note double [[ ]]
-  arm_gcc_version_maior=$(($(echo $arm_gcc_version|sed "s/[[.]].*//")+0))
-  AC_MSG_RESULT([$arm_gcc_version])
-  if test $arm_gcc_version_maior -lt 3;then
+AC_CHECK_PROG([arm_elf_tools],[arm-elf-gcc],[yes],[no],,)
+if test "z$arm_elf_tools" = zyes;then
+ AC_MSG_CHECKING([the arm-elf-gcc version])
+ arm_gcc_version=$(arm-elf-gcc --version|head -1|sed "s/^.* //")
+dnl       autoconf removes quotes even here: note double [[ ]]
+ arm_gcc_version_maior=$(($(echo $arm_gcc_version|sed "s/[[.]].*//")+0))
+ AC_MSG_RESULT([$arm_gcc_version])
+ if test $arm_gcc_version_maior -lt 3;then
+  if "z$build_target_programs" = z;then
    #we see gcc 2.x or gcc 1.x or gcc 0.x or less which is suspicious
-   echo "arm-elf-gcc version '$arm_gcc_version' less than minimal tested (3.4.6)" >warnings
+   echo "NOTE: arm-elf-gcc version '$arm_gcc_version' less than minimal tested (3.4.6)" >warnings
    echo "arm-elf-gcc version_maior '$arm_gcc_version_maior'"
   fi
- else
-  AC_MSG_RESULT([no usable ARM crosstools found; the distributed programs will be installed])
-  build_target_programs=no
+ fi
+else
+ AC_MSG_RESULT([no usable ARM crosstools found; the distributed programs will be installed])
+ build_target_programs=no
+fi
+saved_CFLAGS="$CFLAGS"
+saved_LDFLAGS="$LDFLAGS"
+if test "z$arm_elf_tools" = zyes;then
+#make our minimalistic crosstools generate executables
+ ldscript="${srcdir}/src/ram2138.ld"
+ export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
+ CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
+ LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
+ LIBS="${libgcc}"
+ if test $arm_gcc_version_maior = 2;then
+  #libgcc of gcc-2.95.3 needs atexit, 
+  #which can safely be stubbed in embedded programs
+  #TODO: check if the programs built with gcc-2.95.3 really work
+  arm-elf-gcc -c -o atexit.o ${CFLAGS} ${srcdir}/lib/atexit.c
+  arm-elf-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s
+  LDFLAGS="$LDFLAGS atexit.o boot.o"
  fi
 fi
-if test "z$build_target_programs" = zyes;then
-#make our minimalistic crosstools generate executables
- ldscript="${srcdir}/src/2138.ld"
- export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
- saved_ASFLAGS="$ASFLAGS"
- saved_CFLAGS="$CFLAGS"
- saved_LDFLAGS="$LDFLAGS"
- saved_LIBS="$LIBS"
- ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
- CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
- LDFLAGS="$LDFLAGS -nostartup -nostdlib -static -T${ldscript} ${libgcc}"
-# assign assembler-related variables
- AM_PROG_AS
-fi
+AM_CONDITIONAL([add_own_atexit], test "z$arm_gcc_version_maior" = z2)
 AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = zyes)
+if test "z$arm_elf_tools" != zyes;then
+#FIXME wouldn't it be better to point to lib/fake-cc
+#when there is no ARM assembler?
+ AS=as
+ CC=lib/fake-cc
+ for i in cl egcs cc gcc;do
+  echo $PATH |sed "s/:/\n/g"|while read j;do
+   if test -x "$j/$i";then echo $i>cc_name;fi
+  done
+ done
+ CC=$(cat cc_name)
+ AC_MSG_RESULT([we cowardly return to native CC='$CC'])
+fi
 
-#would anybody like to install the distributed target programs 
-#on a system with no native compiler available? this script can't do it
+#these tools are needed to check dependencies even when
+#we are just to install the distributed executables;
+#if we have not been provided with native compiler,
+#we can't build ../host subproject so the process necessarily fails.
 AC_PROG_CC
+AM_PROG_AS
 
 # Checks for libraries.
 
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
-#actually there is absolutely no need to check this when
-#we are just to install the distributed executables,
-#but this 'configure' won't work when no tests are run
  AC_C_CONST
-if test "z$build_target_programs" = zyes;then
  AC_C_INLINE
  AC_C_VOLATILE
-fi
 
-#return to user-requested values
-ASFLAGS="$saved_ASFLAGS"
+#return to user-defined values
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
 
