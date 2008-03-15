@@ -27,10 +27,7 @@ ram_ld=src/ram2138.ld
 ram_ldscript=$(srcdir)/$(ram_ld)
 rom_ld=src/2138.ld
 rom_ldscript=$(srcdir)/$(rom_ld)
-if arm_elf_tools
-if add_own_atexit
  common_sources+=lib/atexit.c
-endif
 #ifndef MCU_UNOFFENDED
 #TODO make this work
 #  PPS_BURNT=1
@@ -45,7 +42,6 @@ endif
  AM_LIBS=$(libgcc)
  ram_flag=-T$(ram_ldscript)
  rom_flag=-T$(rom_ldscript)
-endif
 extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
 EXTRA_DIST=lib/fake-cc src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 $(rom_ld) $(ram_ld)
@@ -116,3 +112,6 @@ ST_TARGET(`tempusex',
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
+nodist_pkgdata_DATA+=summary
+dist-hook:
+	$(RM) ram_programs/* rom_programs/* *.map summary
