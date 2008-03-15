@@ -7,7 +7,6 @@
  * regen_configure: unconditionally autoreconf
  * configure.ac: improving the distribution process
 14 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * lib/fake-cc: new
  * configure.ac Makefile.am: search for the right way
  to configure
 13 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
