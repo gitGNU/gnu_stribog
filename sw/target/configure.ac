@@ -25,7 +25,7 @@ AC_MSG_RESULT([NB here we force cross-build])
 echo > warnings
 
 AM_INIT_AUTOMAKE([-Wall])
-AC_CONFIG_SRCDIR([src/dacex.c])
+AC_CONFIG_SRCDIR([src/pll.c])
 AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
@@ -59,26 +59,29 @@ else
  AC_MSG_RESULT([no usable ARM crosstools found; the distributed programs will be installed])
  build_target_programs=no
 fi
+saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
 if test "z$arm_elf_tools" = zyes;then
 #make our minimalistic crosstools generate executables
  ldscript="${srcdir}/src/ram2138.ld"
  export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
- CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
+ ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
+ CFLAGS="$CFLAGS -mcpu=arm7tdmi"
  LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
  LIBS="${libgcc}"
  if test $arm_gcc_version_maior = 2;then
   #libgcc of gcc-2.95.3 needs atexit, 
   #which can safely be stubbed in embedded programs
   #TODO: check if the programs built with gcc-2.95.3 really work
-  arm-elf-gcc -c -o atexit.o ${CFLAGS} ${srcdir}/lib/atexit.c
-  arm-elf-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s
+  arm-elf-gcc -c -o atexit.o ${CFLAGS} "${srcdir}/lib/atexit.c"
+  arm-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s"
   LDFLAGS="$LDFLAGS atexit.o boot.o"
  fi
 fi
 AM_CONDITIONAL([add_own_atexit], test "z$arm_gcc_version_maior" = z2)
 AM_CONDITIONAL([build_target_programs], test "z$build_target_programs" = zyes)
+AM_CONDITIONAL([arm_elf_tools], test "z$arm_elf_tools" = zyes)
 if test "z$arm_elf_tools" != zyes;then
 #FIXME wouldn't it be better to point to lib/fake-cc
 #when there is no ARM assembler?
@@ -110,10 +113,22 @@ AM_PROG_AS
  AC_C_VOLATILE
 
 #return to user-defined values
+ASFLAGS="$saved_CFLAGS"
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
 
+#copy distributed arm-elf "executables" to builddir
+AS_MKDIR_P(ram_programs)
+cp ${srcdir}/ram_programs/* ram_programs
+AS_MKDIR_P(rom_programs)
+cp ${srcdir}/rom_programs/* rom_programs
+#remove temporarily generated files
+#so user will rebuild them with user-defined FLAGS
+rm -f atexit.o boot.o
 AC_CONFIG_FILES([Makefile])
+if test "z$arm_elf_tools" != zyes;then
+ AC_CONFIG_FILES([mutex.h:lib/mutex.h])
+fi
 AC_OUTPUT
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo >>summary
