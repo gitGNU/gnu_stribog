@@ -22,8 +22,9 @@ else
 #using POSIX RS-232 UART API by default
  serial_source=serialia.c
 endif
+AM_CPPFLAGS=-I@top_srcdir@/lib
 bin_PROGRAMS=caed conloq elig magex-conloq magexp parse_tsipex
-bin_SCRIPTS=expon
+dist_bin_SCRIPTS=expon
 noinst_PROGRAMS=expon.legacy
 caed_SOURCES=caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h

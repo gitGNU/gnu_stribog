@@ -14,7 +14,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 bin_PROGRAMS=50hz drift fdif lpfilter stat
-bin_SCRIPTS=cutdrift
+dist_bin_SCRIPTS=cutdrift
 50hz_SOURCES=50hz.c
 drift_SOURCES=drift.c
 fdif_SOURCES=fdif.c
