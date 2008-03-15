@@ -1,5 +1,5 @@
 #! /bin/sh
-#stribog target: autoreconf 'configure' and add host-forcing hat to it
+#stribog target: regenerate build system scripts
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -15,7 +15,8 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-if test $# -lt 1;then autoreconf -v;fi
+m4 Makefile.am.m4 > Makefile.am
+autoreconf -v
 rm -fr autom4te.cache config.h.in~
 cat configure.pre configure >t
 mv t configure

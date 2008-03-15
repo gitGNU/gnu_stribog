@@ -17,6 +17,6 @@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 autoreconf -v
 echo regen_configure: adding sw/target/configure.pre to sw/target/configure
-cd sw/target; ./regen_configure --no-autoreconf;cd ../..
+cd sw/target; ./regen_configure;cd ../..
 echo regen_configure: cleaning unfavoured files
 rm -fr autom4te.cache config.h.in~ sw/host/autom4te.cache
