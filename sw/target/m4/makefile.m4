@@ -17,9 +17,9 @@ divert(-1)
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 define(ST_TARGET,`
 #expanded "$1" program definition begins
-dist_pkgdata_DATA+=\
- ram_programs/$1.bin ram_programs/$1.vectors\
- rom_programs/$1-rom.bin
+nodist_pkgdata_DATA+=\
+ ram_programs/$1.bin ram_programs/$1.vectors $1.map\
+ rom_programs/$1-rom.bin $1-rom.map
 noinst_PROGRAMS+=$1 $1-rom
 $1_sources=$(common_sources)\
  $2
@@ -34,15 +34,16 @@ $1_rom_DEPENDENCIES=$(rom_ld)
 ram_programs/$1.bin: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
 	$(objcopy_bin) $1 ram_programs/$1.bin
-	chmod a-x ram_programs/$1.bin
+ram_programs/$1.map: $($1_sources)
+	$(MAKE) $(AM_MAKEFLAGS) $1
 ram_programs/$1.vectors: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
 	$(objcopy_vectors) $1 ram_programs/$1.vectors
-	chmod a-x ram_programs/$1.vectors
 rom_programs/$1-rom.bin: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1-rom
 	$(objcopy_bin) $1-rom rom_programs/$1-rom.bin
-	chmod a-x rom_programs/$1-rom.bin
+rom_programs/$1-rom.map: $($1_sources)
+	$(MAKE) $(AM_MAKEFLAGS) $1
 #expanded "$1" program definition ends')
 divert`'dnl
 #this file is generated with m4 from Automake.am.m4
@@ -63,5 +64,5 @@ divert`'dnl
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-dist_pkgdata_DATA=
+nodist_pkgdata_DATA=
 noinst_PROGRAMS=
