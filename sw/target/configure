@@ -612,7 +612,7 @@ PACKAGE_VERSION='0.0-minus'
 PACKAGE_STRING='stribog-target 0.0-minus'
 PACKAGE_BUGREPORT='stribog-bug@nongnu.org'
 
-ac_unique_file="src/dacex.c"
+ac_unique_file="src/pll.c"
 ac_subst_vars='SHELL
 PATH_SEPARATOR
 PACKAGE_NAME
@@ -677,6 +677,8 @@ add_own_atexit_TRUE
 add_own_atexit_FALSE
 build_target_programs_TRUE
 build_target_programs_FALSE
+arm_elf_tools_TRUE
+arm_elf_tools_FALSE
 CC
 CFLAGS
 LDFLAGS
@@ -2301,21 +2303,23 @@ else
 echo "${ECHO_T}no usable ARM crosstools found; the distributed programs will be installed" >&6; }
  build_target_programs=no
 fi
+saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
 if test "z$arm_elf_tools" = zyes;then
 #make our minimalistic crosstools generate executables
  ldscript="${srcdir}/src/ram2138.ld"
  export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
- CFLAGS="$CFLAGS -mcpu=arm7tdmi -Wall -O2"
+ ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
+ CFLAGS="$CFLAGS -mcpu=arm7tdmi"
  LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
  LIBS="${libgcc}"
  if test $arm_gcc_version_maior = 2;then
   #libgcc of gcc-2.95.3 needs atexit,
   #which can safely be stubbed in embedded programs
   #TODO: check if the programs built with gcc-2.95.3 really work
-  arm-elf-gcc -c -o atexit.o ${CFLAGS} ${srcdir}/lib/atexit.c
-  arm-elf-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s
+  arm-elf-gcc -c -o atexit.o ${CFLAGS} "${srcdir}/lib/atexit.c"
+  arm-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s"
   LDFLAGS="$LDFLAGS atexit.o boot.o"
  fi
 fi
@@ -2333,6 +2337,14 @@ fi
 else
   build_target_programs_TRUE='#'
   build_target_programs_FALSE=
+fi
+
+ if test "z$arm_elf_tools" = zyes; then
+  arm_elf_tools_TRUE=
+  arm_elf_tools_FALSE='#'
+else
+  arm_elf_tools_TRUE='#'
+  arm_elf_tools_FALSE=
 fi
 
 if test "z$arm_elf_tools" != zyes;then
@@ -3802,11 +3814,104 @@ fi
 
 
 #return to user-defined values
+ASFLAGS="$saved_CFLAGS"
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
 
+#copy distributed arm-elf "executables" to builddir
+{ as_dir=ram_programs
+  case $as_dir in #(
+  -*) as_dir=./$as_dir;;
+  esac
+  test -d "$as_dir" || { $as_mkdir_p && mkdir -p "$as_dir"; } || {
+    as_dirs=
+    while :; do
+      case $as_dir in #(
+      *\'*) as_qdir=`echo "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #(
+      *) as_qdir=$as_dir;;
+      esac
+      as_dirs="'$as_qdir' $as_dirs"
+      as_dir=`$as_dirname -- "$as_dir" ||
+$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$as_dir" : 'X\(//\)[^/]' \| \
+	 X"$as_dir" : 'X\(//\)$' \| \
+	 X"$as_dir" : 'X\(/\)' \| . 2>/dev/null ||
+echo X"$as_dir" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)[^/].*/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\).*/{
+	    s//\1/
+	    q
+	  }
+	  s/.*/./; q'`
+      test -d "$as_dir" && break
+    done
+    test -z "$as_dirs" || eval "mkdir $as_dirs"
+  } || test -d "$as_dir" || { { echo "$as_me:$LINENO: error: cannot create directory $as_dir" >&5
+echo "$as_me: error: cannot create directory $as_dir" >&2;}
+   { (exit 1); exit 1; }; }; }
+cp ${srcdir}/ram_programs/* ram_programs
+{ as_dir=rom_programs
+  case $as_dir in #(
+  -*) as_dir=./$as_dir;;
+  esac
+  test -d "$as_dir" || { $as_mkdir_p && mkdir -p "$as_dir"; } || {
+    as_dirs=
+    while :; do
+      case $as_dir in #(
+      *\'*) as_qdir=`echo "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #(
+      *) as_qdir=$as_dir;;
+      esac
+      as_dirs="'$as_qdir' $as_dirs"
+      as_dir=`$as_dirname -- "$as_dir" ||
+$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$as_dir" : 'X\(//\)[^/]' \| \
+	 X"$as_dir" : 'X\(//\)$' \| \
+	 X"$as_dir" : 'X\(/\)' \| . 2>/dev/null ||
+echo X"$as_dir" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)[^/].*/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\/\)$/{
+	    s//\1/
+	    q
+	  }
+	  /^X\(\/\).*/{
+	    s//\1/
+	    q
+	  }
+	  s/.*/./; q'`
+      test -d "$as_dir" && break
+    done
+    test -z "$as_dirs" || eval "mkdir $as_dirs"
+  } || test -d "$as_dir" || { { echo "$as_me:$LINENO: error: cannot create directory $as_dir" >&5
+echo "$as_me: error: cannot create directory $as_dir" >&2;}
+   { (exit 1); exit 1; }; }; }
+cp ${srcdir}/rom_programs/* rom_programs
+#remove temporarily generated files
+#so user will rebuild them with user-defined FLAGS
+rm -f atexit.o boot.o
 ac_config_files="$ac_config_files Makefile"
 
+if test "z$arm_elf_tools" != zyes;then
+ ac_config_files="$ac_config_files mutex.h:lib/mutex.h"
+
+fi
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -3914,6 +4019,13 @@ if test -z "${build_target_programs_TRUE}" && test -z "${build_target_programs_F
   { { echo "$as_me:$LINENO: error: conditional \"build_target_programs\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"build_target_programs\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${arm_elf_tools_TRUE}" && test -z "${arm_elf_tools_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"arm_elf_tools\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"arm_elf_tools\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -4408,6 +4520,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "mutex.h") CONFIG_FILES="$CONFIG_FILES mutex.h:lib/mutex.h" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -4534,6 +4647,8 @@ add_own_atexit_TRUE!$add_own_atexit_TRUE$ac_delim
 add_own_atexit_FALSE!$add_own_atexit_FALSE$ac_delim
 build_target_programs_TRUE!$build_target_programs_TRUE$ac_delim
 build_target_programs_FALSE!$build_target_programs_FALSE$ac_delim
+arm_elf_tools_TRUE!$arm_elf_tools_TRUE$ac_delim
+arm_elf_tools_FALSE!$arm_elf_tools_FALSE$ac_delim
 CC!$CC$ac_delim
 CFLAGS!$CFLAGS$ac_delim
 LDFLAGS!$LDFLAGS$ac_delim
@@ -4559,7 +4674,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 87; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 89; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

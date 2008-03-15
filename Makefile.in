@@ -155,7 +155,7 @@ target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 
-#stribog: Makefile.am
+#stribog: top Makefile.am
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -172,6 +172,7 @@ top_srcdir = @top_srcdir@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 SUBDIRS = sw/host sw/target
+EXTRA_DIST = common/form_fix.h
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -604,6 +605,11 @@ uninstall-am:
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
 	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am
 
+all: $(srcdir)/sw/target/include/form_fix.h
+$(srcdir)/sw/target/include/form_fix.h: $(srcdir)/sw/common/form_fix.h
+	@echo NOTE: the primary file is common/form_fix.h
+	@echo NOTE: target/include/form_fix.h is regenerated
+	cp $(srcdir)/common/form_fix.h $(srcdir)/target/include/form_fix.h
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

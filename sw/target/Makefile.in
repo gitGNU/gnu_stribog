@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -30,13 +31,27 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-@add_own_atexit_TRUE@am__append_1 = lib/atexit.c
-noinst_PROGRAMS = pllex$(EXEEXT) pllex-rom$(EXEEXT)
+noinst_PROGRAMS = accelex$(EXEEXT) accelex-rom$(EXEEXT) adcex$(EXEEXT) \
+	adcex-rom$(EXEEXT) crcex$(EXEEXT) crcex-rom$(EXEEXT) \
+	dacex$(EXEEXT) dacex-rom$(EXEEXT) inledex$(EXEEXT) \
+	inledex-rom$(EXEEXT) ledex$(EXEEXT) ledex-rom$(EXEEXT) \
+	lm74ex$(EXEEXT) lm74ex-rom$(EXEEXT) magex$(EXEEXT) \
+	magex-rom$(EXEEXT) mag_response$(EXEEXT) \
+	mag_response-rom$(EXEEXT) multa$(EXEEXT) multa-rom$(EXEEXT) \
+	pllex$(EXEEXT) pllex-rom$(EXEEXT) powerex$(EXEEXT) \
+	powerex-rom$(EXEEXT) uart1ex$(EXEEXT) uart1ex-rom$(EXEEXT) \
+	tempusex$(EXEEXT) tempusex-rom$(EXEEXT)
+@add_own_atexit_TRUE@@arm_elf_tools_TRUE@am__append_1 = lib/atexit.c
+#if PPS_BURNT
+#  AM_CFLAGS+=-DPPS_BURNT=1
+#endif
+@arm_elf_tools_TRUE@am__append_2 = src/boot.s
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	config.guess config.sub depcomp install-sh missing
+DIST_COMMON = README $(am__configure_deps) $(dist_pkgdata_DATA) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/config.h.in $(top_srcdir)/configure \
+	$(top_srcdir)/lib/mutex.h AUTHORS COPYING ChangeLog INSTALL \
+	NEWS config.guess config.sub depcomp install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -45,26 +60,283 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = mutex.h
 PROGRAMS = $(noinst_PROGRAMS)
-am__pllex_SOURCES_DIST = src/boot.s include/lpc2138.h lib/atexit.c \
+am__accelex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/accelex.c src/accel.c src/accel.h src/mutex.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+@add_own_atexit_TRUE@@arm_elf_tools_TRUE@am__objects_1 =  \
+@add_own_atexit_TRUE@@arm_elf_tools_TRUE@	atexit.$(OBJEXT)
+@arm_elf_tools_TRUE@am__objects_2 = boot.$(OBJEXT)
+am__objects_3 = $(am__objects_1) $(am__objects_2)
+am__objects_4 = $(am__objects_3) accelex.$(OBJEXT) accel.$(OBJEXT) \
+	led.$(OBJEXT) pll.$(OBJEXT)
+am_accelex_OBJECTS = $(am__objects_4)
+accelex_OBJECTS = $(am_accelex_OBJECTS)
+accelex_LDADD = $(LDADD)
+accelex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(accelex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__accelex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/accelex.c src/accel.c src/accel.h src/mutex.h \
+	src/led.c src/led.h src/pll.c src/pll.h
+am_accelex_rom_OBJECTS = $(am__objects_4)
+accelex_rom_OBJECTS = $(am_accelex_rom_OBJECTS)
+accelex_rom_LDADD = $(LDADD)
+accelex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(accelex_rom_LDFLAGS) $(LDFLAGS) -o $@
+am__adcex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/adcex.c src/adc.c src/adc.h src/dac.c src/dac.h \
+	src/mutex.h src/led.c src/led.h src/pll.c src/pll.h
+am__objects_5 = $(am__objects_3) adcex.$(OBJEXT) adc.$(OBJEXT) \
+	dac.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
+am_adcex_OBJECTS = $(am__objects_5)
+adcex_OBJECTS = $(am_adcex_OBJECTS)
+adcex_LDADD = $(LDADD)
+adcex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(adcex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__adcex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/adcex.c src/adc.c src/adc.h src/dac.c src/dac.h \
+	src/mutex.h src/led.c src/led.h src/pll.c src/pll.h
+am_adcex_rom_OBJECTS = $(am__objects_5)
+adcex_rom_OBJECTS = $(am_adcex_rom_OBJECTS)
+adcex_rom_LDADD = $(LDADD)
+adcex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(adcex_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__crcex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/crcex.c src/crc32.c src/crc32.h src/pll.c src/pll.h \
+	src/led.c src/led.h
+am__objects_6 = $(am__objects_3) crcex.$(OBJEXT) crc32.$(OBJEXT) \
+	pll.$(OBJEXT) led.$(OBJEXT)
+am_crcex_OBJECTS = $(am__objects_6)
+crcex_OBJECTS = $(am_crcex_OBJECTS)
+crcex_LDADD = $(LDADD)
+crcex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(crcex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__crcex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/crcex.c src/crc32.c src/crc32.h src/pll.c src/pll.h \
+	src/led.c src/led.h
+am_crcex_rom_OBJECTS = $(am__objects_6)
+crcex_rom_OBJECTS = $(am_crcex_rom_OBJECTS)
+crcex_rom_LDADD = $(LDADD)
+crcex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(crcex_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__dacex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/dacex.c src/dac.c src/dac.h src/led.c src/led.h src/pll.c \
+	src/pll.h
+am__objects_7 = $(am__objects_3) dacex.$(OBJEXT) dac.$(OBJEXT) \
+	led.$(OBJEXT) pll.$(OBJEXT)
+am_dacex_OBJECTS = $(am__objects_7)
+dacex_OBJECTS = $(am_dacex_OBJECTS)
+dacex_LDADD = $(LDADD)
+dacex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(dacex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__dacex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/dacex.c src/dac.c src/dac.h src/led.c src/led.h src/pll.c \
+	src/pll.h
+am_dacex_rom_OBJECTS = $(am__objects_7)
+dacex_rom_OBJECTS = $(am_dacex_rom_OBJECTS)
+dacex_rom_LDADD = $(LDADD)
+dacex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(dacex_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__inledex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/inledex.c src/pll.c src/pll.h
+am__objects_8 = $(am__objects_3) inledex.$(OBJEXT) pll.$(OBJEXT)
+am_inledex_OBJECTS = $(am__objects_8)
+inledex_OBJECTS = $(am_inledex_OBJECTS)
+inledex_LDADD = $(LDADD)
+inledex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(inledex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__inledex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/inledex.c src/pll.c src/pll.h
+am_inledex_rom_OBJECTS = $(am__objects_8)
+inledex_rom_OBJECTS = $(am_inledex_rom_OBJECTS)
+inledex_rom_LDADD = $(LDADD)
+inledex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(inledex_rom_LDFLAGS) $(LDFLAGS) -o $@
+am__ledex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/ledex.c src/led.c src/led.h
+am__objects_9 = $(am__objects_3) ledex.$(OBJEXT) led.$(OBJEXT)
+am_ledex_OBJECTS = $(am__objects_9)
+ledex_OBJECTS = $(am_ledex_OBJECTS)
+ledex_LDADD = $(LDADD)
+ledex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(ledex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__ledex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/ledex.c src/led.c src/led.h
+am_ledex_rom_OBJECTS = $(am__objects_9)
+ledex_rom_OBJECTS = $(am_ledex_rom_OBJECTS)
+ledex_rom_LDADD = $(LDADD)
+ledex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(ledex_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__lm74ex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h src/tempus.c \
+	src/tempus.h src/pll.c src/pll.h src/led.c src/led.h
+am__objects_10 = $(am__objects_3) lm74ex.$(OBJEXT) lm74.$(OBJEXT) \
+	tempus.$(OBJEXT) pll.$(OBJEXT) led.$(OBJEXT)
+am_lm74ex_OBJECTS = $(am__objects_10)
+lm74ex_OBJECTS = $(am_lm74ex_OBJECTS)
+lm74ex_LDADD = $(LDADD)
+lm74ex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(lm74ex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__lm74ex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h \
+	src/tempus.c src/tempus.h src/pll.c src/pll.h src/led.c \
+	src/led.h
+am_lm74ex_rom_OBJECTS = $(am__objects_10)
+lm74ex_rom_OBJECTS = $(am_lm74ex_rom_OBJECTS)
+lm74ex_rom_LDADD = $(LDADD)
+lm74ex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(lm74ex_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__mag_response_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/mag_response.c src/adc.c src/adc.h src/crc32.c \
+	src/crc32.h src/dac.c src/dac.h src/mutex.h src/uart.config.h \
+	src/freq.h src/power.c src/power.h src/tempus.c src/tempus.h \
+	src/uart1.c src/uart1.h include/form_fix.h src/led.c src/led.h \
+	src/pll.c src/pll.h
+am__objects_11 = $(am__objects_3) mag_response.$(OBJEXT) adc.$(OBJEXT) \
+	crc32.$(OBJEXT) dac.$(OBJEXT) power.$(OBJEXT) tempus.$(OBJEXT) \
+	uart1.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
+am_mag_response_OBJECTS = $(am__objects_11)
+mag_response_OBJECTS = $(am_mag_response_OBJECTS)
+mag_response_LDADD = $(LDADD)
+mag_response_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(mag_response_LDFLAGS) $(LDFLAGS) -o $@
+am__mag_response_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/mag_response.c src/adc.c src/adc.h src/crc32.c \
+	src/crc32.h src/dac.c src/dac.h src/mutex.h src/uart.config.h \
+	src/freq.h src/power.c src/power.h src/tempus.c src/tempus.h \
+	src/uart1.c src/uart1.h include/form_fix.h src/led.c src/led.h \
+	src/pll.c src/pll.h
+am_mag_response_rom_OBJECTS = $(am__objects_11)
+mag_response_rom_OBJECTS = $(am_mag_response_rom_OBJECTS)
+mag_response_rom_LDADD = $(LDADD)
+mag_response_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(mag_response_rom_LDFLAGS) $(LDFLAGS) -o $@
+am__magex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/magex.c src/mag.c src/mag.h src/adc.c src/adc.h src/dac.c \
+	src/dac.h src/mutex.h src/uart.config.h src/freq.h src/uart0.c \
+	src/uart0.h src/uart1out.c src/uart1out.h src/tempus.c \
+	src/tempus.h src/led.c src/led.h src/pll.c src/pll.h
+am__objects_12 = $(am__objects_3) magex.$(OBJEXT) mag.$(OBJEXT) \
+	adc.$(OBJEXT) dac.$(OBJEXT) uart0.$(OBJEXT) uart1out.$(OBJEXT) \
+	tempus.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
+am_magex_OBJECTS = $(am__objects_12)
+magex_OBJECTS = $(am_magex_OBJECTS)
+magex_LDADD = $(LDADD)
+magex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(magex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__magex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/magex.c src/mag.c src/mag.h src/adc.c src/adc.h src/dac.c \
+	src/dac.h src/mutex.h src/uart.config.h src/freq.h src/uart0.c \
+	src/uart0.h src/uart1out.c src/uart1out.h src/tempus.c \
+	src/tempus.h src/led.c src/led.h src/pll.c src/pll.h
+am_magex_rom_OBJECTS = $(am__objects_12)
+magex_rom_OBJECTS = $(am_magex_rom_OBJECTS)
+magex_rom_LDADD = $(LDADD)
+magex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(magex_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__multa_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/multa.c src/accel.c src/accel.h src/adc.c src/adc.h \
+	src/crc32.c src/crc32.h src/dac.c src/dac.h src/lm74.c \
+	src/lm74.h src/mag.c src/mag.h src/mutex.h src/uart.config.h \
+	src/freq.h src/power.c src/power.h src/tempus.c src/tempus.h \
+	src/uart0.c src/uart0.h src/uart1.c src/uart1.h \
+	include/form_fix.h src/led.c src/led.h src/pll.c src/pll.h
+am__objects_13 = $(am__objects_3) multa.$(OBJEXT) accel.$(OBJEXT) \
+	adc.$(OBJEXT) crc32.$(OBJEXT) dac.$(OBJEXT) lm74.$(OBJEXT) \
+	mag.$(OBJEXT) power.$(OBJEXT) tempus.$(OBJEXT) uart0.$(OBJEXT) \
+	uart1.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
+am_multa_OBJECTS = $(am__objects_13)
+multa_OBJECTS = $(am_multa_OBJECTS)
+multa_LDADD = $(LDADD)
+multa_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(multa_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__multa_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/multa.c src/accel.c src/accel.h src/adc.c src/adc.h \
+	src/crc32.c src/crc32.h src/dac.c src/dac.h src/lm74.c \
+	src/lm74.h src/mag.c src/mag.h src/mutex.h src/uart.config.h \
+	src/freq.h src/power.c src/power.h src/tempus.c src/tempus.h \
+	src/uart0.c src/uart0.h src/uart1.c src/uart1.h \
+	include/form_fix.h src/led.c src/led.h src/pll.c src/pll.h
+am_multa_rom_OBJECTS = $(am__objects_13)
+multa_rom_OBJECTS = $(am_multa_rom_OBJECTS)
+multa_rom_LDADD = $(LDADD)
+multa_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(multa_rom_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__pllex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
 	src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
-@add_own_atexit_TRUE@am__objects_1 = atexit.$(OBJEXT)
-am__objects_2 = boot.$(OBJEXT) $(am__objects_1)
-am__objects_3 = $(am__objects_2) pllex.$(OBJEXT) pll.$(OBJEXT) \
+am__objects_14 = $(am__objects_3) pllex.$(OBJEXT) pll.$(OBJEXT) \
 	led.$(OBJEXT)
-am_pllex_OBJECTS = $(am__objects_3)
+am_pllex_OBJECTS = $(am__objects_14)
 pllex_OBJECTS = $(am_pllex_OBJECTS)
 pllex_LDADD = $(LDADD)
 pllex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(pllex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__pllex_rom_SOURCES_DIST = src/boot.s include/lpc2138.h lib/atexit.c \
+am__pllex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
 	src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
-am_pllex_rom_OBJECTS = $(am__objects_3)
+am_pllex_rom_OBJECTS = $(am__objects_14)
 pllex_rom_OBJECTS = $(am_pllex_rom_OBJECTS)
 pllex_rom_LDADD = $(LDADD)
 pllex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(pllex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am__powerex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/powerex.c src/power.c src/power.h
+am__objects_15 = $(am__objects_3) powerex.$(OBJEXT) power.$(OBJEXT)
+am_powerex_OBJECTS = $(am__objects_15)
+powerex_OBJECTS = $(am_powerex_OBJECTS)
+powerex_LDADD = $(LDADD)
+powerex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(powerex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__powerex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/powerex.c src/power.c src/power.h
+am_powerex_rom_OBJECTS = $(am__objects_15)
+powerex_rom_OBJECTS = $(am_powerex_rom_OBJECTS)
+powerex_rom_LDADD = $(LDADD)
+powerex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(powerex_rom_LDFLAGS) $(LDFLAGS) -o $@
+am__tempusex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/tempusex.c src/mutex.h src/pll.c src/pll.h src/led.c \
+	src/led.h
+am__objects_16 = $(am__objects_3) tempusex.$(OBJEXT) pll.$(OBJEXT) \
+	led.$(OBJEXT)
+am_tempusex_OBJECTS = $(am__objects_16)
+tempusex_OBJECTS = $(am_tempusex_OBJECTS)
+tempusex_LDADD = $(LDADD)
+tempusex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(tempusex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__tempusex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/tempusex.c src/mutex.h src/pll.c src/pll.h \
+	src/led.c src/led.h
+am_tempusex_rom_OBJECTS = $(am__objects_16)
+tempusex_rom_OBJECTS = $(am_tempusex_rom_OBJECTS)
+tempusex_rom_LDADD = $(LDADD)
+tempusex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(tempusex_rom_LDFLAGS) $(LDFLAGS) -o $@
+am__uart1ex_SOURCES_DIST = include/lpc2138.h lib/atexit.c src/boot.s \
+	src/uart1ex.c src/crc32.c src/crc32.h src/dac.c src/dac.h \
+	src/lm74.c src/lm74.h src/mag.c src/mag.h src/mutex.h \
+	src/uart.config.h src/freq.h src/power.c src/power.h \
+	src/tempus.c src/tempus.h src/uart1.c src/uart1.h \
+	include/form_fix.h src/led.c src/led.h src/pll.c src/pll.h
+am__objects_17 = $(am__objects_3) uart1ex.$(OBJEXT) crc32.$(OBJEXT) \
+	dac.$(OBJEXT) lm74.$(OBJEXT) mag.$(OBJEXT) power.$(OBJEXT) \
+	tempus.$(OBJEXT) uart1.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
+am_uart1ex_OBJECTS = $(am__objects_17)
+uart1ex_OBJECTS = $(am_uart1ex_OBJECTS)
+uart1ex_LDADD = $(LDADD)
+uart1ex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(uart1ex_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__uart1ex_rom_SOURCES_DIST = include/lpc2138.h lib/atexit.c \
+	src/boot.s src/uart1ex.c src/crc32.c src/crc32.h src/dac.c \
+	src/dac.h src/lm74.c src/lm74.h src/mag.c src/mag.h \
+	src/mutex.h src/uart.config.h src/freq.h src/power.c \
+	src/power.h src/tempus.c src/tempus.h src/uart1.c src/uart1.h \
+	include/form_fix.h src/led.c src/led.h src/pll.c src/pll.h
+am_uart1ex_rom_OBJECTS = $(am__objects_17)
+uart1ex_rom_OBJECTS = $(am_uart1ex_rom_OBJECTS)
+uart1ex_rom_LDADD = $(LDADD)
+uart1ex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(uart1ex_rom_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -73,10 +345,72 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CCASCOMPILE = $(CCAS) $(AM_CCASFLAGS) $(CCASFLAGS)
-SOURCES = $(pllex_SOURCES) $(EXTRA_pllex_SOURCES) $(pllex_rom_SOURCES) \
-	$(EXTRA_pllex_rom_SOURCES)
-DIST_SOURCES = $(am__pllex_SOURCES_DIST) $(EXTRA_pllex_SOURCES) \
-	$(am__pllex_rom_SOURCES_DIST) $(EXTRA_pllex_rom_SOURCES)
+SOURCES = $(accelex_SOURCES) $(EXTRA_accelex_SOURCES) \
+	$(accelex_rom_SOURCES) $(EXTRA_accelex_rom_SOURCES) \
+	$(adcex_SOURCES) $(EXTRA_adcex_SOURCES) $(adcex_rom_SOURCES) \
+	$(EXTRA_adcex_rom_SOURCES) $(crcex_SOURCES) \
+	$(EXTRA_crcex_SOURCES) $(crcex_rom_SOURCES) \
+	$(EXTRA_crcex_rom_SOURCES) $(dacex_SOURCES) \
+	$(EXTRA_dacex_SOURCES) $(dacex_rom_SOURCES) \
+	$(EXTRA_dacex_rom_SOURCES) $(inledex_SOURCES) \
+	$(EXTRA_inledex_SOURCES) $(inledex_rom_SOURCES) \
+	$(EXTRA_inledex_rom_SOURCES) $(ledex_SOURCES) \
+	$(EXTRA_ledex_SOURCES) $(ledex_rom_SOURCES) \
+	$(EXTRA_ledex_rom_SOURCES) $(lm74ex_SOURCES) \
+	$(EXTRA_lm74ex_SOURCES) $(lm74ex_rom_SOURCES) \
+	$(EXTRA_lm74ex_rom_SOURCES) $(mag_response_SOURCES) \
+	$(EXTRA_mag_response_SOURCES) $(mag_response_rom_SOURCES) \
+	$(EXTRA_mag_response_rom_SOURCES) $(magex_SOURCES) \
+	$(EXTRA_magex_SOURCES) $(magex_rom_SOURCES) \
+	$(EXTRA_magex_rom_SOURCES) $(multa_SOURCES) \
+	$(EXTRA_multa_SOURCES) $(multa_rom_SOURCES) \
+	$(EXTRA_multa_rom_SOURCES) $(pllex_SOURCES) \
+	$(EXTRA_pllex_SOURCES) $(pllex_rom_SOURCES) \
+	$(EXTRA_pllex_rom_SOURCES) $(powerex_SOURCES) \
+	$(EXTRA_powerex_SOURCES) $(powerex_rom_SOURCES) \
+	$(EXTRA_powerex_rom_SOURCES) $(tempusex_SOURCES) \
+	$(EXTRA_tempusex_SOURCES) $(tempusex_rom_SOURCES) \
+	$(EXTRA_tempusex_rom_SOURCES) $(uart1ex_SOURCES) \
+	$(EXTRA_uart1ex_SOURCES) $(uart1ex_rom_SOURCES) \
+	$(EXTRA_uart1ex_rom_SOURCES)
+DIST_SOURCES = $(am__accelex_SOURCES_DIST) $(EXTRA_accelex_SOURCES) \
+	$(am__accelex_rom_SOURCES_DIST) $(EXTRA_accelex_rom_SOURCES) \
+	$(am__adcex_SOURCES_DIST) $(EXTRA_adcex_SOURCES) \
+	$(am__adcex_rom_SOURCES_DIST) $(EXTRA_adcex_rom_SOURCES) \
+	$(am__crcex_SOURCES_DIST) $(EXTRA_crcex_SOURCES) \
+	$(am__crcex_rom_SOURCES_DIST) $(EXTRA_crcex_rom_SOURCES) \
+	$(am__dacex_SOURCES_DIST) $(EXTRA_dacex_SOURCES) \
+	$(am__dacex_rom_SOURCES_DIST) $(EXTRA_dacex_rom_SOURCES) \
+	$(am__inledex_SOURCES_DIST) $(EXTRA_inledex_SOURCES) \
+	$(am__inledex_rom_SOURCES_DIST) $(EXTRA_inledex_rom_SOURCES) \
+	$(am__ledex_SOURCES_DIST) $(EXTRA_ledex_SOURCES) \
+	$(am__ledex_rom_SOURCES_DIST) $(EXTRA_ledex_rom_SOURCES) \
+	$(am__lm74ex_SOURCES_DIST) $(EXTRA_lm74ex_SOURCES) \
+	$(am__lm74ex_rom_SOURCES_DIST) $(EXTRA_lm74ex_rom_SOURCES) \
+	$(am__mag_response_SOURCES_DIST) $(EXTRA_mag_response_SOURCES) \
+	$(am__mag_response_rom_SOURCES_DIST) \
+	$(EXTRA_mag_response_rom_SOURCES) $(am__magex_SOURCES_DIST) \
+	$(EXTRA_magex_SOURCES) $(am__magex_rom_SOURCES_DIST) \
+	$(EXTRA_magex_rom_SOURCES) $(am__multa_SOURCES_DIST) \
+	$(EXTRA_multa_SOURCES) $(am__multa_rom_SOURCES_DIST) \
+	$(EXTRA_multa_rom_SOURCES) $(am__pllex_SOURCES_DIST) \
+	$(EXTRA_pllex_SOURCES) $(am__pllex_rom_SOURCES_DIST) \
+	$(EXTRA_pllex_rom_SOURCES) $(am__powerex_SOURCES_DIST) \
+	$(EXTRA_powerex_SOURCES) $(am__powerex_rom_SOURCES_DIST) \
+	$(EXTRA_powerex_rom_SOURCES) $(am__tempusex_SOURCES_DIST) \
+	$(EXTRA_tempusex_SOURCES) $(am__tempusex_rom_SOURCES_DIST) \
+	$(EXTRA_tempusex_rom_SOURCES) $(am__uart1ex_SOURCES_DIST) \
+	$(EXTRA_uart1ex_SOURCES) $(am__uart1ex_rom_SOURCES_DIST) \
+	$(EXTRA_uart1ex_rom_SOURCES)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+am__installdirs = "$(DESTDIR)$(pkgdatadir)"
+dist_pkgdataDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(dist_pkgdata_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -176,9 +510,11 @@ target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 
-#stribog target tools: Makefile.am
-#Copyright (C) 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+#this file is generated with m4 from Automake.am.m4
+#use ./regen_configure to regenerate all our build scripts
+#
+#This file is a part of the stribog project
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -192,18 +528,231 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-EXTRA_DIST = lib/fake-cc
-common_sources = src/boot.s include/lpc2138.h $(am__append_1)
-extra_common_sources = lib/atexit.c
-AM_CFLAGS = -mcpu=arm7tdmi -Wall -O2
-AM_LDFLAGS = -Wl,-Map,$@.map -nostdlib -static
-AM_LIBS = $(libgcc)
+
+#expanded "accelex" program definition begins
+#expanded "accelex" program definition ends
+
+#expanded "adcex" program definition begins
+#expanded "adcex" program definition ends
+
+#expanded "crcex" program definition begins
+#expanded "crcex" program definition ends
+
+#expanded "dacex" program definition begins
+#expanded "dacex" program definition ends
+
+#expanded "inledex" program definition begins
+#expanded "inledex" program definition ends
+
+#expanded "ledex" program definition begins
+#expanded "ledex" program definition ends
+
+#expanded "lm74ex" program definition begins
+#expanded "lm74ex" program definition ends
+
+#expanded "magex" program definition begins
+#expanded "magex" program definition ends
+
+#expanded "mag_response" program definition begins
+#expanded "mag_response" program definition ends
+
+#expanded "multa" program definition begins
+#expanded "multa" program definition ends
+
+#expanded "pllex" program definition begins
+#expanded "pllex" program definition ends
+
+#expanded "powerex" program definition begins
+#expanded "powerex" program definition ends
+
+#expanded "uart1ex" program definition begins
+#expanded "uart1ex" program definition ends
+
+#expanded "tempusex" program definition begins
+dist_pkgdata_DATA = ram_programs/accelex.bin \
+	ram_programs/accelex.vectors rom_programs/accelex-rom.bin \
+	ram_programs/adcex.bin ram_programs/adcex.vectors \
+	rom_programs/adcex-rom.bin ram_programs/crcex.bin \
+	ram_programs/crcex.vectors rom_programs/crcex-rom.bin \
+	ram_programs/dacex.bin ram_programs/dacex.vectors \
+	rom_programs/dacex-rom.bin ram_programs/inledex.bin \
+	ram_programs/inledex.vectors rom_programs/inledex-rom.bin \
+	ram_programs/ledex.bin ram_programs/ledex.vectors \
+	rom_programs/ledex-rom.bin ram_programs/lm74ex.bin \
+	ram_programs/lm74ex.vectors rom_programs/lm74ex-rom.bin \
+	ram_programs/magex.bin ram_programs/magex.vectors \
+	rom_programs/magex-rom.bin ram_programs/mag_response.bin \
+	ram_programs/mag_response.vectors \
+	rom_programs/mag_response-rom.bin ram_programs/multa.bin \
+	ram_programs/multa.vectors rom_programs/multa-rom.bin \
+	ram_programs/pllex.bin ram_programs/pllex.vectors \
+	rom_programs/pllex-rom.bin ram_programs/powerex.bin \
+	ram_programs/powerex.vectors rom_programs/powerex-rom.bin \
+	ram_programs/uart1ex.bin ram_programs/uart1ex.vectors \
+	rom_programs/uart1ex-rom.bin ram_programs/tempusex.bin \
+	ram_programs/tempusex.vectors rom_programs/tempusex-rom.bin
+OBJCOPY = arm-elf-objcopy
+objcopy_bin = $(OBJCOPY) -I elf32-littlearm -O binary -R startup
+objcopy_vectors = $(OBJCOPY)\
+ --set-section-flags vectors=contents,alloc,load,readonly,code\
+ -j vectors -I elf32-littlearm -O binary
+
+common_sources = include/lpc2138.h $(am__append_1) $(am__append_2)
 ram_ld = src/ram2138.ld
 ram_ldscript = $(srcdir)/$(ram_ld)
-ram_flag = -T$(ram_ldscript)
 rom_ld = src/2138.ld
 rom_ldscript = $(srcdir)/$(rom_ld)
-rom_flag = -T$(rom_ldscript)
+#ifndef MCU_UNOFFENDED
+#TODO make this work
+#  PPS_BURNT=1
+#endif
+@arm_elf_tools_TRUE@AM_CFLAGS = -mcpu=arm7tdmi -Wall -O2
+@arm_elf_tools_TRUE@AM_CPPFLAGS = -I$(srcdir)/src
+@arm_elf_tools_TRUE@AM_LDFLAGS = -Wl,-Map,$@.map -nostdlib -static
+@arm_elf_tools_TRUE@AM_LIBS = $(libgcc)
+@arm_elf_tools_TRUE@ram_flag = -T$(ram_ldscript)
+@arm_elf_tools_TRUE@rom_flag = -T$(rom_ldscript)
+extra_common_sources = lib/atexit.c lib/mutex.h src/boot.s
+EXTRA_DIST = lib/fake-cc src/mutex.c\
+ Makefile.am.m4 m4/makefile.m4 $(rom_ld) $(ram_ld)
+
+accelex_sources = $(common_sources)\
+ src/accelex.c src/accel.c src/accel.h\
+ src/mutex.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+accelex_SOURCES = $(accelex_sources)
+accelex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_accelex_SOURCES = $(extra_common_sources)
+accelex_DEPENDENCIES = $(ram_ld)
+accelex_rom_SOURCES = $(accelex_sources)
+accelex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_accelex_rom_SOURCES = $(extra_common_sources)
+accelex_rom_DEPENDENCIES = $(rom_ld)
+adcex_sources = $(common_sources)\
+ src/adcex.c src/adc.c src/adc.h\
+ src/dac.c src/dac.h src/mutex.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+adcex_SOURCES = $(adcex_sources)
+adcex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_adcex_SOURCES = $(extra_common_sources)
+adcex_DEPENDENCIES = $(ram_ld)
+adcex_rom_SOURCES = $(adcex_sources)
+adcex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_adcex_rom_SOURCES = $(extra_common_sources)
+adcex_rom_DEPENDENCIES = $(rom_ld)
+crcex_sources = $(common_sources)\
+ src/crcex.c src/crc32.c src/crc32.h\
+ src/pll.c src/pll.h src/led.c src/led.h
+
+crcex_SOURCES = $(crcex_sources)
+crcex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_crcex_SOURCES = $(extra_common_sources)
+crcex_DEPENDENCIES = $(ram_ld)
+crcex_rom_SOURCES = $(crcex_sources)
+crcex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_crcex_rom_SOURCES = $(extra_common_sources)
+crcex_rom_DEPENDENCIES = $(rom_ld)
+dacex_sources = $(common_sources)\
+ src/dacex.c src/dac.c src/dac.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+dacex_SOURCES = $(dacex_sources)
+dacex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_dacex_SOURCES = $(extra_common_sources)
+dacex_DEPENDENCIES = $(ram_ld)
+dacex_rom_SOURCES = $(dacex_sources)
+dacex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_dacex_rom_SOURCES = $(extra_common_sources)
+dacex_rom_DEPENDENCIES = $(rom_ld)
+inledex_sources = $(common_sources)\
+ src/inledex.c src/pll.c src/pll.h
+
+inledex_SOURCES = $(inledex_sources)
+inledex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_inledex_SOURCES = $(extra_common_sources)
+inledex_DEPENDENCIES = $(ram_ld)
+inledex_rom_SOURCES = $(inledex_sources)
+inledex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_inledex_rom_SOURCES = $(extra_common_sources)
+inledex_rom_DEPENDENCIES = $(rom_ld)
+ledex_sources = $(common_sources)\
+ src/ledex.c src/led.c src/led.h
+
+ledex_SOURCES = $(ledex_sources)
+ledex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_ledex_SOURCES = $(extra_common_sources)
+ledex_DEPENDENCIES = $(ram_ld)
+ledex_rom_SOURCES = $(ledex_sources)
+ledex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_ledex_rom_SOURCES = $(extra_common_sources)
+ledex_rom_DEPENDENCIES = $(rom_ld)
+lm74ex_sources = $(common_sources)\
+ src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h\
+ src/tempus.c src/tempus.h\
+ src/pll.c src/pll.h src/led.c src/led.h
+
+lm74ex_SOURCES = $(lm74ex_sources)
+lm74ex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_lm74ex_SOURCES = $(extra_common_sources)
+lm74ex_DEPENDENCIES = $(ram_ld)
+lm74ex_rom_SOURCES = $(lm74ex_sources)
+lm74ex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_lm74ex_rom_SOURCES = $(extra_common_sources)
+lm74ex_rom_DEPENDENCIES = $(rom_ld)
+magex_sources = $(common_sources)\
+ src/magex.c src/mag.c src/mag.h\
+ src/adc.c src/adc.h src/dac.c src/dac.h\
+ src/mutex.h src/uart.config.h src/freq.h\
+ src/uart0.c src/uart0.h src/uart1out.c src/uart1out.h\
+ src/tempus.c src/tempus.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+magex_SOURCES = $(magex_sources)
+magex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_magex_SOURCES = $(extra_common_sources)
+magex_DEPENDENCIES = $(ram_ld)
+magex_rom_SOURCES = $(magex_sources)
+magex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_magex_rom_SOURCES = $(extra_common_sources)
+magex_rom_DEPENDENCIES = $(rom_ld)
+mag_response_sources = $(common_sources)\
+ src/mag_response.c\
+ src/adc.c src/adc.h src/crc32.c src/crc32.h\
+ src/dac.c src/dac.h\
+ src/mutex.h src/uart.config.h src/freq.h\
+ src/power.c src/power.h\
+ src/tempus.c src/tempus.h\
+ src/uart1.c src/uart1.h include/form_fix.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+mag_response_SOURCES = $(mag_response_sources)
+mag_response_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_mag_response_SOURCES = $(extra_common_sources)
+mag_response_DEPENDENCIES = $(ram_ld)
+mag_response_rom_SOURCES = $(mag_response_sources)
+mag_response_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_mag_response_rom_SOURCES = $(extra_common_sources)
+mag_response_rom_DEPENDENCIES = $(rom_ld)
+multa_sources = $(common_sources)\
+ src/multa.c\
+ src/accel.c src/accel.h src/adc.c src/adc.h\
+ src/crc32.c src/crc32.h src/dac.c src/dac.h\
+ src/lm74.c src/lm74.h src/mag.c src/mag.h\
+ src/mutex.h src/uart.config.h src/freq.h\
+ src/power.c src/power.h src/tempus.c src/tempus.h\
+ src/uart0.c src/uart0.h src/uart1.c src/uart1.h include/form_fix.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+multa_SOURCES = $(multa_sources)
+multa_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_multa_SOURCES = $(extra_common_sources)
+multa_DEPENDENCIES = $(ram_ld)
+multa_rom_SOURCES = $(multa_sources)
+multa_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_multa_rom_SOURCES = $(extra_common_sources)
+multa_rom_DEPENDENCIES = $(rom_ld)
 pllex_sources = $(common_sources)\
  src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
 
@@ -215,6 +764,46 @@ pllex_rom_SOURCES = $(pllex_sources)
 pllex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_pllex_rom_SOURCES = $(extra_common_sources)
 pllex_rom_DEPENDENCIES = $(rom_ld)
+powerex_sources = $(common_sources)\
+ src/powerex.c src/power.c src/power.h
+
+powerex_SOURCES = $(powerex_sources)
+powerex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_powerex_SOURCES = $(extra_common_sources)
+powerex_DEPENDENCIES = $(ram_ld)
+powerex_rom_SOURCES = $(powerex_sources)
+powerex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_powerex_rom_SOURCES = $(extra_common_sources)
+powerex_rom_DEPENDENCIES = $(rom_ld)
+uart1ex_sources = $(common_sources)\
+ src/uart1ex.c\
+ src/crc32.c src/crc32.h src/dac.c src/dac.h\
+ src/lm74.c src/lm74.h src/mag.c src/mag.h\
+ src/mutex.h src/uart.config.h src/freq.h\
+ src/power.c src/power.h src/tempus.c src/tempus.h\
+ src/uart1.c src/uart1.h include/form_fix.h\
+ src/led.c src/led.h src/pll.c src/pll.h
+
+uart1ex_SOURCES = $(uart1ex_sources)
+uart1ex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_uart1ex_SOURCES = $(extra_common_sources)
+uart1ex_DEPENDENCIES = $(ram_ld)
+uart1ex_rom_SOURCES = $(uart1ex_sources)
+uart1ex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_uart1ex_rom_SOURCES = $(extra_common_sources)
+uart1ex_rom_DEPENDENCIES = $(rom_ld)
+tempusex_sources = $(common_sources)\
+ src/tempusex.c src/mutex.h\
+ src/pll.c src/pll.h src/led.c src/led.h
+
+tempusex_SOURCES = $(tempusex_sources)
+tempusex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
+EXTRA_tempusex_SOURCES = $(extra_common_sources)
+tempusex_DEPENDENCIES = $(ram_ld)
+tempusex_rom_SOURCES = $(tempusex_sources)
+tempusex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
+EXTRA_tempusex_rom_SOURCES = $(extra_common_sources)
+tempusex_rom_DEPENDENCIES = $(rom_ld)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -270,15 +859,95 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+mutex.h: $(top_builddir)/config.status $(top_srcdir)/lib/mutex.h
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+accelex$(EXEEXT): $(accelex_OBJECTS) $(accelex_DEPENDENCIES) 
+	@rm -f accelex$(EXEEXT)
+	$(accelex_LINK) $(accelex_OBJECTS) $(accelex_LDADD) $(LIBS)
+accelex-rom$(EXEEXT): $(accelex_rom_OBJECTS) $(accelex_rom_DEPENDENCIES) 
+	@rm -f accelex-rom$(EXEEXT)
+	$(accelex_rom_LINK) $(accelex_rom_OBJECTS) $(accelex_rom_LDADD) $(LIBS)
+adcex$(EXEEXT): $(adcex_OBJECTS) $(adcex_DEPENDENCIES) 
+	@rm -f adcex$(EXEEXT)
+	$(adcex_LINK) $(adcex_OBJECTS) $(adcex_LDADD) $(LIBS)
+adcex-rom$(EXEEXT): $(adcex_rom_OBJECTS) $(adcex_rom_DEPENDENCIES) 
+	@rm -f adcex-rom$(EXEEXT)
+	$(adcex_rom_LINK) $(adcex_rom_OBJECTS) $(adcex_rom_LDADD) $(LIBS)
+crcex$(EXEEXT): $(crcex_OBJECTS) $(crcex_DEPENDENCIES) 
+	@rm -f crcex$(EXEEXT)
+	$(crcex_LINK) $(crcex_OBJECTS) $(crcex_LDADD) $(LIBS)
+crcex-rom$(EXEEXT): $(crcex_rom_OBJECTS) $(crcex_rom_DEPENDENCIES) 
+	@rm -f crcex-rom$(EXEEXT)
+	$(crcex_rom_LINK) $(crcex_rom_OBJECTS) $(crcex_rom_LDADD) $(LIBS)
+dacex$(EXEEXT): $(dacex_OBJECTS) $(dacex_DEPENDENCIES) 
+	@rm -f dacex$(EXEEXT)
+	$(dacex_LINK) $(dacex_OBJECTS) $(dacex_LDADD) $(LIBS)
+dacex-rom$(EXEEXT): $(dacex_rom_OBJECTS) $(dacex_rom_DEPENDENCIES) 
+	@rm -f dacex-rom$(EXEEXT)
+	$(dacex_rom_LINK) $(dacex_rom_OBJECTS) $(dacex_rom_LDADD) $(LIBS)
+inledex$(EXEEXT): $(inledex_OBJECTS) $(inledex_DEPENDENCIES) 
+	@rm -f inledex$(EXEEXT)
+	$(inledex_LINK) $(inledex_OBJECTS) $(inledex_LDADD) $(LIBS)
+inledex-rom$(EXEEXT): $(inledex_rom_OBJECTS) $(inledex_rom_DEPENDENCIES) 
+	@rm -f inledex-rom$(EXEEXT)
+	$(inledex_rom_LINK) $(inledex_rom_OBJECTS) $(inledex_rom_LDADD) $(LIBS)
+ledex$(EXEEXT): $(ledex_OBJECTS) $(ledex_DEPENDENCIES) 
+	@rm -f ledex$(EXEEXT)
+	$(ledex_LINK) $(ledex_OBJECTS) $(ledex_LDADD) $(LIBS)
+ledex-rom$(EXEEXT): $(ledex_rom_OBJECTS) $(ledex_rom_DEPENDENCIES) 
+	@rm -f ledex-rom$(EXEEXT)
+	$(ledex_rom_LINK) $(ledex_rom_OBJECTS) $(ledex_rom_LDADD) $(LIBS)
+lm74ex$(EXEEXT): $(lm74ex_OBJECTS) $(lm74ex_DEPENDENCIES) 
+	@rm -f lm74ex$(EXEEXT)
+	$(lm74ex_LINK) $(lm74ex_OBJECTS) $(lm74ex_LDADD) $(LIBS)
+lm74ex-rom$(EXEEXT): $(lm74ex_rom_OBJECTS) $(lm74ex_rom_DEPENDENCIES) 
+	@rm -f lm74ex-rom$(EXEEXT)
+	$(lm74ex_rom_LINK) $(lm74ex_rom_OBJECTS) $(lm74ex_rom_LDADD) $(LIBS)
+mag_response$(EXEEXT): $(mag_response_OBJECTS) $(mag_response_DEPENDENCIES) 
+	@rm -f mag_response$(EXEEXT)
+	$(mag_response_LINK) $(mag_response_OBJECTS) $(mag_response_LDADD) $(LIBS)
+mag_response-rom$(EXEEXT): $(mag_response_rom_OBJECTS) $(mag_response_rom_DEPENDENCIES) 
+	@rm -f mag_response-rom$(EXEEXT)
+	$(mag_response_rom_LINK) $(mag_response_rom_OBJECTS) $(mag_response_rom_LDADD) $(LIBS)
+magex$(EXEEXT): $(magex_OBJECTS) $(magex_DEPENDENCIES) 
+	@rm -f magex$(EXEEXT)
+	$(magex_LINK) $(magex_OBJECTS) $(magex_LDADD) $(LIBS)
+magex-rom$(EXEEXT): $(magex_rom_OBJECTS) $(magex_rom_DEPENDENCIES) 
+	@rm -f magex-rom$(EXEEXT)
+	$(magex_rom_LINK) $(magex_rom_OBJECTS) $(magex_rom_LDADD) $(LIBS)
+multa$(EXEEXT): $(multa_OBJECTS) $(multa_DEPENDENCIES) 
+	@rm -f multa$(EXEEXT)
+	$(multa_LINK) $(multa_OBJECTS) $(multa_LDADD) $(LIBS)
+multa-rom$(EXEEXT): $(multa_rom_OBJECTS) $(multa_rom_DEPENDENCIES) 
+	@rm -f multa-rom$(EXEEXT)
+	$(multa_rom_LINK) $(multa_rom_OBJECTS) $(multa_rom_LDADD) $(LIBS)
 pllex$(EXEEXT): $(pllex_OBJECTS) $(pllex_DEPENDENCIES) 
 	@rm -f pllex$(EXEEXT)
 	$(pllex_LINK) $(pllex_OBJECTS) $(pllex_LDADD) $(LIBS)
 pllex-rom$(EXEEXT): $(pllex_rom_OBJECTS) $(pllex_rom_DEPENDENCIES) 
 	@rm -f pllex-rom$(EXEEXT)
 	$(pllex_rom_LINK) $(pllex_rom_OBJECTS) $(pllex_rom_LDADD) $(LIBS)
+powerex$(EXEEXT): $(powerex_OBJECTS) $(powerex_DEPENDENCIES) 
+	@rm -f powerex$(EXEEXT)
+	$(powerex_LINK) $(powerex_OBJECTS) $(powerex_LDADD) $(LIBS)
+powerex-rom$(EXEEXT): $(powerex_rom_OBJECTS) $(powerex_rom_DEPENDENCIES) 
+	@rm -f powerex-rom$(EXEEXT)
+	$(powerex_rom_LINK) $(powerex_rom_OBJECTS) $(powerex_rom_LDADD) $(LIBS)
+tempusex$(EXEEXT): $(tempusex_OBJECTS) $(tempusex_DEPENDENCIES) 
+	@rm -f tempusex$(EXEEXT)
+	$(tempusex_LINK) $(tempusex_OBJECTS) $(tempusex_LDADD) $(LIBS)
+tempusex-rom$(EXEEXT): $(tempusex_rom_OBJECTS) $(tempusex_rom_DEPENDENCIES) 
+	@rm -f tempusex-rom$(EXEEXT)
+	$(tempusex_rom_LINK) $(tempusex_rom_OBJECTS) $(tempusex_rom_LDADD) $(LIBS)
+uart1ex$(EXEEXT): $(uart1ex_OBJECTS) $(uart1ex_DEPENDENCIES) 
+	@rm -f uart1ex$(EXEEXT)
+	$(uart1ex_LINK) $(uart1ex_OBJECTS) $(uart1ex_LDADD) $(LIBS)
+uart1ex-rom$(EXEEXT): $(uart1ex_rom_OBJECTS) $(uart1ex_rom_DEPENDENCIES) 
+	@rm -f uart1ex-rom$(EXEEXT)
+	$(uart1ex_rom_LINK) $(uart1ex_rom_OBJECTS) $(uart1ex_rom_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -286,10 +955,34 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/accel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/accelex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/adc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/adcex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/atexit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crc32.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crcex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dac.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dacex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/inledex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/led.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ledex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lm74.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lm74ex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mag.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mag_response.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/multa.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pllex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/power.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/powerex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tempus.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tempusex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uart0.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uart1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uart1ex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uart1out.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -319,33 +1012,33 @@ atexit.obj: lib/atexit.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o atexit.obj `if test -f 'lib/atexit.c'; then $(CYGPATH_W) 'lib/atexit.c'; else $(CYGPATH_W) '$(srcdir)/lib/atexit.c'; fi`
 
-pllex.o: src/pllex.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pllex.o -MD -MP -MF $(DEPDIR)/pllex.Tpo -c -o pllex.o `test -f 'src/pllex.c' || echo '$(srcdir)/'`src/pllex.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pllex.Tpo $(DEPDIR)/pllex.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pllex.c' object='pllex.o' libtool=no @AMDEPBACKSLASH@
+accelex.o: src/accelex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT accelex.o -MD -MP -MF $(DEPDIR)/accelex.Tpo -c -o accelex.o `test -f 'src/accelex.c' || echo '$(srcdir)/'`src/accelex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/accelex.Tpo $(DEPDIR)/accelex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/accelex.c' object='accelex.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pllex.o `test -f 'src/pllex.c' || echo '$(srcdir)/'`src/pllex.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o accelex.o `test -f 'src/accelex.c' || echo '$(srcdir)/'`src/accelex.c
 
-pllex.obj: src/pllex.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pllex.obj -MD -MP -MF $(DEPDIR)/pllex.Tpo -c -o pllex.obj `if test -f 'src/pllex.c'; then $(CYGPATH_W) 'src/pllex.c'; else $(CYGPATH_W) '$(srcdir)/src/pllex.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pllex.Tpo $(DEPDIR)/pllex.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pllex.c' object='pllex.obj' libtool=no @AMDEPBACKSLASH@
+accelex.obj: src/accelex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT accelex.obj -MD -MP -MF $(DEPDIR)/accelex.Tpo -c -o accelex.obj `if test -f 'src/accelex.c'; then $(CYGPATH_W) 'src/accelex.c'; else $(CYGPATH_W) '$(srcdir)/src/accelex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/accelex.Tpo $(DEPDIR)/accelex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/accelex.c' object='accelex.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pllex.obj `if test -f 'src/pllex.c'; then $(CYGPATH_W) 'src/pllex.c'; else $(CYGPATH_W) '$(srcdir)/src/pllex.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o accelex.obj `if test -f 'src/accelex.c'; then $(CYGPATH_W) 'src/accelex.c'; else $(CYGPATH_W) '$(srcdir)/src/accelex.c'; fi`
 
-pll.o: src/pll.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pll.o -MD -MP -MF $(DEPDIR)/pll.Tpo -c -o pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pll.Tpo $(DEPDIR)/pll.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='pll.o' libtool=no @AMDEPBACKSLASH@
+accel.o: src/accel.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT accel.o -MD -MP -MF $(DEPDIR)/accel.Tpo -c -o accel.o `test -f 'src/accel.c' || echo '$(srcdir)/'`src/accel.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/accel.Tpo $(DEPDIR)/accel.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/accel.c' object='accel.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o accel.o `test -f 'src/accel.c' || echo '$(srcdir)/'`src/accel.c
 
-pll.obj: src/pll.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pll.obj -MD -MP -MF $(DEPDIR)/pll.Tpo -c -o pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pll.Tpo $(DEPDIR)/pll.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='pll.obj' libtool=no @AMDEPBACKSLASH@
+accel.obj: src/accel.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT accel.obj -MD -MP -MF $(DEPDIR)/accel.Tpo -c -o accel.obj `if test -f 'src/accel.c'; then $(CYGPATH_W) 'src/accel.c'; else $(CYGPATH_W) '$(srcdir)/src/accel.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/accel.Tpo $(DEPDIR)/accel.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/accel.c' object='accel.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o accel.obj `if test -f 'src/accel.c'; then $(CYGPATH_W) 'src/accel.c'; else $(CYGPATH_W) '$(srcdir)/src/accel.c'; fi`
 
 led.o: src/led.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT led.o -MD -MP -MF $(DEPDIR)/led.Tpo -c -o led.o `test -f 'src/led.c' || echo '$(srcdir)/'`src/led.c
@@ -361,6 +1054,342 @@ led.obj: src/led.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o led.obj `if test -f 'src/led.c'; then $(CYGPATH_W) 'src/led.c'; else $(CYGPATH_W) '$(srcdir)/src/led.c'; fi`
 
+pll.o: src/pll.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pll.o -MD -MP -MF $(DEPDIR)/pll.Tpo -c -o pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pll.Tpo $(DEPDIR)/pll.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='pll.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
+
+pll.obj: src/pll.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pll.obj -MD -MP -MF $(DEPDIR)/pll.Tpo -c -o pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pll.Tpo $(DEPDIR)/pll.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='pll.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
+
+adcex.o: src/adcex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT adcex.o -MD -MP -MF $(DEPDIR)/adcex.Tpo -c -o adcex.o `test -f 'src/adcex.c' || echo '$(srcdir)/'`src/adcex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/adcex.Tpo $(DEPDIR)/adcex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/adcex.c' object='adcex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o adcex.o `test -f 'src/adcex.c' || echo '$(srcdir)/'`src/adcex.c
+
+adcex.obj: src/adcex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT adcex.obj -MD -MP -MF $(DEPDIR)/adcex.Tpo -c -o adcex.obj `if test -f 'src/adcex.c'; then $(CYGPATH_W) 'src/adcex.c'; else $(CYGPATH_W) '$(srcdir)/src/adcex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/adcex.Tpo $(DEPDIR)/adcex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/adcex.c' object='adcex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o adcex.obj `if test -f 'src/adcex.c'; then $(CYGPATH_W) 'src/adcex.c'; else $(CYGPATH_W) '$(srcdir)/src/adcex.c'; fi`
+
+adc.o: src/adc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT adc.o -MD -MP -MF $(DEPDIR)/adc.Tpo -c -o adc.o `test -f 'src/adc.c' || echo '$(srcdir)/'`src/adc.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/adc.Tpo $(DEPDIR)/adc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/adc.c' object='adc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o adc.o `test -f 'src/adc.c' || echo '$(srcdir)/'`src/adc.c
+
+adc.obj: src/adc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT adc.obj -MD -MP -MF $(DEPDIR)/adc.Tpo -c -o adc.obj `if test -f 'src/adc.c'; then $(CYGPATH_W) 'src/adc.c'; else $(CYGPATH_W) '$(srcdir)/src/adc.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/adc.Tpo $(DEPDIR)/adc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/adc.c' object='adc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o adc.obj `if test -f 'src/adc.c'; then $(CYGPATH_W) 'src/adc.c'; else $(CYGPATH_W) '$(srcdir)/src/adc.c'; fi`
+
+dac.o: src/dac.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dac.o -MD -MP -MF $(DEPDIR)/dac.Tpo -c -o dac.o `test -f 'src/dac.c' || echo '$(srcdir)/'`src/dac.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/dac.Tpo $(DEPDIR)/dac.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/dac.c' object='dac.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dac.o `test -f 'src/dac.c' || echo '$(srcdir)/'`src/dac.c
+
+dac.obj: src/dac.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dac.obj -MD -MP -MF $(DEPDIR)/dac.Tpo -c -o dac.obj `if test -f 'src/dac.c'; then $(CYGPATH_W) 'src/dac.c'; else $(CYGPATH_W) '$(srcdir)/src/dac.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/dac.Tpo $(DEPDIR)/dac.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/dac.c' object='dac.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dac.obj `if test -f 'src/dac.c'; then $(CYGPATH_W) 'src/dac.c'; else $(CYGPATH_W) '$(srcdir)/src/dac.c'; fi`
+
+crcex.o: src/crcex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT crcex.o -MD -MP -MF $(DEPDIR)/crcex.Tpo -c -o crcex.o `test -f 'src/crcex.c' || echo '$(srcdir)/'`src/crcex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/crcex.Tpo $(DEPDIR)/crcex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crcex.c' object='crcex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o crcex.o `test -f 'src/crcex.c' || echo '$(srcdir)/'`src/crcex.c
+
+crcex.obj: src/crcex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT crcex.obj -MD -MP -MF $(DEPDIR)/crcex.Tpo -c -o crcex.obj `if test -f 'src/crcex.c'; then $(CYGPATH_W) 'src/crcex.c'; else $(CYGPATH_W) '$(srcdir)/src/crcex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/crcex.Tpo $(DEPDIR)/crcex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crcex.c' object='crcex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o crcex.obj `if test -f 'src/crcex.c'; then $(CYGPATH_W) 'src/crcex.c'; else $(CYGPATH_W) '$(srcdir)/src/crcex.c'; fi`
+
+crc32.o: src/crc32.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT crc32.o -MD -MP -MF $(DEPDIR)/crc32.Tpo -c -o crc32.o `test -f 'src/crc32.c' || echo '$(srcdir)/'`src/crc32.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/crc32.Tpo $(DEPDIR)/crc32.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crc32.c' object='crc32.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o crc32.o `test -f 'src/crc32.c' || echo '$(srcdir)/'`src/crc32.c
+
+crc32.obj: src/crc32.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT crc32.obj -MD -MP -MF $(DEPDIR)/crc32.Tpo -c -o crc32.obj `if test -f 'src/crc32.c'; then $(CYGPATH_W) 'src/crc32.c'; else $(CYGPATH_W) '$(srcdir)/src/crc32.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/crc32.Tpo $(DEPDIR)/crc32.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crc32.c' object='crc32.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o crc32.obj `if test -f 'src/crc32.c'; then $(CYGPATH_W) 'src/crc32.c'; else $(CYGPATH_W) '$(srcdir)/src/crc32.c'; fi`
+
+dacex.o: src/dacex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dacex.o -MD -MP -MF $(DEPDIR)/dacex.Tpo -c -o dacex.o `test -f 'src/dacex.c' || echo '$(srcdir)/'`src/dacex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/dacex.Tpo $(DEPDIR)/dacex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/dacex.c' object='dacex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dacex.o `test -f 'src/dacex.c' || echo '$(srcdir)/'`src/dacex.c
+
+dacex.obj: src/dacex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dacex.obj -MD -MP -MF $(DEPDIR)/dacex.Tpo -c -o dacex.obj `if test -f 'src/dacex.c'; then $(CYGPATH_W) 'src/dacex.c'; else $(CYGPATH_W) '$(srcdir)/src/dacex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/dacex.Tpo $(DEPDIR)/dacex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/dacex.c' object='dacex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dacex.obj `if test -f 'src/dacex.c'; then $(CYGPATH_W) 'src/dacex.c'; else $(CYGPATH_W) '$(srcdir)/src/dacex.c'; fi`
+
+inledex.o: src/inledex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT inledex.o -MD -MP -MF $(DEPDIR)/inledex.Tpo -c -o inledex.o `test -f 'src/inledex.c' || echo '$(srcdir)/'`src/inledex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/inledex.Tpo $(DEPDIR)/inledex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/inledex.c' object='inledex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o inledex.o `test -f 'src/inledex.c' || echo '$(srcdir)/'`src/inledex.c
+
+inledex.obj: src/inledex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT inledex.obj -MD -MP -MF $(DEPDIR)/inledex.Tpo -c -o inledex.obj `if test -f 'src/inledex.c'; then $(CYGPATH_W) 'src/inledex.c'; else $(CYGPATH_W) '$(srcdir)/src/inledex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/inledex.Tpo $(DEPDIR)/inledex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/inledex.c' object='inledex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o inledex.obj `if test -f 'src/inledex.c'; then $(CYGPATH_W) 'src/inledex.c'; else $(CYGPATH_W) '$(srcdir)/src/inledex.c'; fi`
+
+ledex.o: src/ledex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ledex.o -MD -MP -MF $(DEPDIR)/ledex.Tpo -c -o ledex.o `test -f 'src/ledex.c' || echo '$(srcdir)/'`src/ledex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/ledex.Tpo $(DEPDIR)/ledex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/ledex.c' object='ledex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ledex.o `test -f 'src/ledex.c' || echo '$(srcdir)/'`src/ledex.c
+
+ledex.obj: src/ledex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ledex.obj -MD -MP -MF $(DEPDIR)/ledex.Tpo -c -o ledex.obj `if test -f 'src/ledex.c'; then $(CYGPATH_W) 'src/ledex.c'; else $(CYGPATH_W) '$(srcdir)/src/ledex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/ledex.Tpo $(DEPDIR)/ledex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/ledex.c' object='ledex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ledex.obj `if test -f 'src/ledex.c'; then $(CYGPATH_W) 'src/ledex.c'; else $(CYGPATH_W) '$(srcdir)/src/ledex.c'; fi`
+
+lm74ex.o: src/lm74ex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lm74ex.o -MD -MP -MF $(DEPDIR)/lm74ex.Tpo -c -o lm74ex.o `test -f 'src/lm74ex.c' || echo '$(srcdir)/'`src/lm74ex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/lm74ex.Tpo $(DEPDIR)/lm74ex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/lm74ex.c' object='lm74ex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lm74ex.o `test -f 'src/lm74ex.c' || echo '$(srcdir)/'`src/lm74ex.c
+
+lm74ex.obj: src/lm74ex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lm74ex.obj -MD -MP -MF $(DEPDIR)/lm74ex.Tpo -c -o lm74ex.obj `if test -f 'src/lm74ex.c'; then $(CYGPATH_W) 'src/lm74ex.c'; else $(CYGPATH_W) '$(srcdir)/src/lm74ex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/lm74ex.Tpo $(DEPDIR)/lm74ex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/lm74ex.c' object='lm74ex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lm74ex.obj `if test -f 'src/lm74ex.c'; then $(CYGPATH_W) 'src/lm74ex.c'; else $(CYGPATH_W) '$(srcdir)/src/lm74ex.c'; fi`
+
+lm74.o: src/lm74.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lm74.o -MD -MP -MF $(DEPDIR)/lm74.Tpo -c -o lm74.o `test -f 'src/lm74.c' || echo '$(srcdir)/'`src/lm74.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/lm74.Tpo $(DEPDIR)/lm74.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/lm74.c' object='lm74.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lm74.o `test -f 'src/lm74.c' || echo '$(srcdir)/'`src/lm74.c
+
+lm74.obj: src/lm74.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lm74.obj -MD -MP -MF $(DEPDIR)/lm74.Tpo -c -o lm74.obj `if test -f 'src/lm74.c'; then $(CYGPATH_W) 'src/lm74.c'; else $(CYGPATH_W) '$(srcdir)/src/lm74.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/lm74.Tpo $(DEPDIR)/lm74.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/lm74.c' object='lm74.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lm74.obj `if test -f 'src/lm74.c'; then $(CYGPATH_W) 'src/lm74.c'; else $(CYGPATH_W) '$(srcdir)/src/lm74.c'; fi`
+
+tempus.o: src/tempus.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tempus.o -MD -MP -MF $(DEPDIR)/tempus.Tpo -c -o tempus.o `test -f 'src/tempus.c' || echo '$(srcdir)/'`src/tempus.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/tempus.Tpo $(DEPDIR)/tempus.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tempus.c' object='tempus.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tempus.o `test -f 'src/tempus.c' || echo '$(srcdir)/'`src/tempus.c
+
+tempus.obj: src/tempus.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tempus.obj -MD -MP -MF $(DEPDIR)/tempus.Tpo -c -o tempus.obj `if test -f 'src/tempus.c'; then $(CYGPATH_W) 'src/tempus.c'; else $(CYGPATH_W) '$(srcdir)/src/tempus.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/tempus.Tpo $(DEPDIR)/tempus.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tempus.c' object='tempus.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tempus.obj `if test -f 'src/tempus.c'; then $(CYGPATH_W) 'src/tempus.c'; else $(CYGPATH_W) '$(srcdir)/src/tempus.c'; fi`
+
+mag_response.o: src/mag_response.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mag_response.o -MD -MP -MF $(DEPDIR)/mag_response.Tpo -c -o mag_response.o `test -f 'src/mag_response.c' || echo '$(srcdir)/'`src/mag_response.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/mag_response.Tpo $(DEPDIR)/mag_response.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/mag_response.c' object='mag_response.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mag_response.o `test -f 'src/mag_response.c' || echo '$(srcdir)/'`src/mag_response.c
+
+mag_response.obj: src/mag_response.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mag_response.obj -MD -MP -MF $(DEPDIR)/mag_response.Tpo -c -o mag_response.obj `if test -f 'src/mag_response.c'; then $(CYGPATH_W) 'src/mag_response.c'; else $(CYGPATH_W) '$(srcdir)/src/mag_response.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/mag_response.Tpo $(DEPDIR)/mag_response.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/mag_response.c' object='mag_response.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mag_response.obj `if test -f 'src/mag_response.c'; then $(CYGPATH_W) 'src/mag_response.c'; else $(CYGPATH_W) '$(srcdir)/src/mag_response.c'; fi`
+
+power.o: src/power.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT power.o -MD -MP -MF $(DEPDIR)/power.Tpo -c -o power.o `test -f 'src/power.c' || echo '$(srcdir)/'`src/power.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/power.Tpo $(DEPDIR)/power.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/power.c' object='power.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o power.o `test -f 'src/power.c' || echo '$(srcdir)/'`src/power.c
+
+power.obj: src/power.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT power.obj -MD -MP -MF $(DEPDIR)/power.Tpo -c -o power.obj `if test -f 'src/power.c'; then $(CYGPATH_W) 'src/power.c'; else $(CYGPATH_W) '$(srcdir)/src/power.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/power.Tpo $(DEPDIR)/power.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/power.c' object='power.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o power.obj `if test -f 'src/power.c'; then $(CYGPATH_W) 'src/power.c'; else $(CYGPATH_W) '$(srcdir)/src/power.c'; fi`
+
+uart1.o: src/uart1.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart1.o -MD -MP -MF $(DEPDIR)/uart1.Tpo -c -o uart1.o `test -f 'src/uart1.c' || echo '$(srcdir)/'`src/uart1.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart1.Tpo $(DEPDIR)/uart1.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart1.c' object='uart1.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart1.o `test -f 'src/uart1.c' || echo '$(srcdir)/'`src/uart1.c
+
+uart1.obj: src/uart1.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart1.obj -MD -MP -MF $(DEPDIR)/uart1.Tpo -c -o uart1.obj `if test -f 'src/uart1.c'; then $(CYGPATH_W) 'src/uart1.c'; else $(CYGPATH_W) '$(srcdir)/src/uart1.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart1.Tpo $(DEPDIR)/uart1.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart1.c' object='uart1.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart1.obj `if test -f 'src/uart1.c'; then $(CYGPATH_W) 'src/uart1.c'; else $(CYGPATH_W) '$(srcdir)/src/uart1.c'; fi`
+
+magex.o: src/magex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magex.o -MD -MP -MF $(DEPDIR)/magex.Tpo -c -o magex.o `test -f 'src/magex.c' || echo '$(srcdir)/'`src/magex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/magex.Tpo $(DEPDIR)/magex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/magex.c' object='magex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magex.o `test -f 'src/magex.c' || echo '$(srcdir)/'`src/magex.c
+
+magex.obj: src/magex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magex.obj -MD -MP -MF $(DEPDIR)/magex.Tpo -c -o magex.obj `if test -f 'src/magex.c'; then $(CYGPATH_W) 'src/magex.c'; else $(CYGPATH_W) '$(srcdir)/src/magex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/magex.Tpo $(DEPDIR)/magex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/magex.c' object='magex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magex.obj `if test -f 'src/magex.c'; then $(CYGPATH_W) 'src/magex.c'; else $(CYGPATH_W) '$(srcdir)/src/magex.c'; fi`
+
+mag.o: src/mag.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mag.o -MD -MP -MF $(DEPDIR)/mag.Tpo -c -o mag.o `test -f 'src/mag.c' || echo '$(srcdir)/'`src/mag.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/mag.Tpo $(DEPDIR)/mag.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/mag.c' object='mag.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mag.o `test -f 'src/mag.c' || echo '$(srcdir)/'`src/mag.c
+
+mag.obj: src/mag.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mag.obj -MD -MP -MF $(DEPDIR)/mag.Tpo -c -o mag.obj `if test -f 'src/mag.c'; then $(CYGPATH_W) 'src/mag.c'; else $(CYGPATH_W) '$(srcdir)/src/mag.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/mag.Tpo $(DEPDIR)/mag.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/mag.c' object='mag.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mag.obj `if test -f 'src/mag.c'; then $(CYGPATH_W) 'src/mag.c'; else $(CYGPATH_W) '$(srcdir)/src/mag.c'; fi`
+
+uart0.o: src/uart0.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart0.o -MD -MP -MF $(DEPDIR)/uart0.Tpo -c -o uart0.o `test -f 'src/uart0.c' || echo '$(srcdir)/'`src/uart0.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart0.Tpo $(DEPDIR)/uart0.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart0.c' object='uart0.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart0.o `test -f 'src/uart0.c' || echo '$(srcdir)/'`src/uart0.c
+
+uart0.obj: src/uart0.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart0.obj -MD -MP -MF $(DEPDIR)/uart0.Tpo -c -o uart0.obj `if test -f 'src/uart0.c'; then $(CYGPATH_W) 'src/uart0.c'; else $(CYGPATH_W) '$(srcdir)/src/uart0.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart0.Tpo $(DEPDIR)/uart0.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart0.c' object='uart0.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart0.obj `if test -f 'src/uart0.c'; then $(CYGPATH_W) 'src/uart0.c'; else $(CYGPATH_W) '$(srcdir)/src/uart0.c'; fi`
+
+uart1out.o: src/uart1out.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart1out.o -MD -MP -MF $(DEPDIR)/uart1out.Tpo -c -o uart1out.o `test -f 'src/uart1out.c' || echo '$(srcdir)/'`src/uart1out.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart1out.Tpo $(DEPDIR)/uart1out.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart1out.c' object='uart1out.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart1out.o `test -f 'src/uart1out.c' || echo '$(srcdir)/'`src/uart1out.c
+
+uart1out.obj: src/uart1out.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart1out.obj -MD -MP -MF $(DEPDIR)/uart1out.Tpo -c -o uart1out.obj `if test -f 'src/uart1out.c'; then $(CYGPATH_W) 'src/uart1out.c'; else $(CYGPATH_W) '$(srcdir)/src/uart1out.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart1out.Tpo $(DEPDIR)/uart1out.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart1out.c' object='uart1out.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart1out.obj `if test -f 'src/uart1out.c'; then $(CYGPATH_W) 'src/uart1out.c'; else $(CYGPATH_W) '$(srcdir)/src/uart1out.c'; fi`
+
+multa.o: src/multa.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT multa.o -MD -MP -MF $(DEPDIR)/multa.Tpo -c -o multa.o `test -f 'src/multa.c' || echo '$(srcdir)/'`src/multa.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/multa.Tpo $(DEPDIR)/multa.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/multa.c' object='multa.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o multa.o `test -f 'src/multa.c' || echo '$(srcdir)/'`src/multa.c
+
+multa.obj: src/multa.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT multa.obj -MD -MP -MF $(DEPDIR)/multa.Tpo -c -o multa.obj `if test -f 'src/multa.c'; then $(CYGPATH_W) 'src/multa.c'; else $(CYGPATH_W) '$(srcdir)/src/multa.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/multa.Tpo $(DEPDIR)/multa.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/multa.c' object='multa.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o multa.obj `if test -f 'src/multa.c'; then $(CYGPATH_W) 'src/multa.c'; else $(CYGPATH_W) '$(srcdir)/src/multa.c'; fi`
+
+pllex.o: src/pllex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pllex.o -MD -MP -MF $(DEPDIR)/pllex.Tpo -c -o pllex.o `test -f 'src/pllex.c' || echo '$(srcdir)/'`src/pllex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pllex.Tpo $(DEPDIR)/pllex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pllex.c' object='pllex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pllex.o `test -f 'src/pllex.c' || echo '$(srcdir)/'`src/pllex.c
+
+pllex.obj: src/pllex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT pllex.obj -MD -MP -MF $(DEPDIR)/pllex.Tpo -c -o pllex.obj `if test -f 'src/pllex.c'; then $(CYGPATH_W) 'src/pllex.c'; else $(CYGPATH_W) '$(srcdir)/src/pllex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pllex.Tpo $(DEPDIR)/pllex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pllex.c' object='pllex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o pllex.obj `if test -f 'src/pllex.c'; then $(CYGPATH_W) 'src/pllex.c'; else $(CYGPATH_W) '$(srcdir)/src/pllex.c'; fi`
+
+powerex.o: src/powerex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT powerex.o -MD -MP -MF $(DEPDIR)/powerex.Tpo -c -o powerex.o `test -f 'src/powerex.c' || echo '$(srcdir)/'`src/powerex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/powerex.Tpo $(DEPDIR)/powerex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/powerex.c' object='powerex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o powerex.o `test -f 'src/powerex.c' || echo '$(srcdir)/'`src/powerex.c
+
+powerex.obj: src/powerex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT powerex.obj -MD -MP -MF $(DEPDIR)/powerex.Tpo -c -o powerex.obj `if test -f 'src/powerex.c'; then $(CYGPATH_W) 'src/powerex.c'; else $(CYGPATH_W) '$(srcdir)/src/powerex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/powerex.Tpo $(DEPDIR)/powerex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/powerex.c' object='powerex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o powerex.obj `if test -f 'src/powerex.c'; then $(CYGPATH_W) 'src/powerex.c'; else $(CYGPATH_W) '$(srcdir)/src/powerex.c'; fi`
+
+tempusex.o: src/tempusex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tempusex.o -MD -MP -MF $(DEPDIR)/tempusex.Tpo -c -o tempusex.o `test -f 'src/tempusex.c' || echo '$(srcdir)/'`src/tempusex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/tempusex.Tpo $(DEPDIR)/tempusex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tempusex.c' object='tempusex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tempusex.o `test -f 'src/tempusex.c' || echo '$(srcdir)/'`src/tempusex.c
+
+tempusex.obj: src/tempusex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tempusex.obj -MD -MP -MF $(DEPDIR)/tempusex.Tpo -c -o tempusex.obj `if test -f 'src/tempusex.c'; then $(CYGPATH_W) 'src/tempusex.c'; else $(CYGPATH_W) '$(srcdir)/src/tempusex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/tempusex.Tpo $(DEPDIR)/tempusex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tempusex.c' object='tempusex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tempusex.obj `if test -f 'src/tempusex.c'; then $(CYGPATH_W) 'src/tempusex.c'; else $(CYGPATH_W) '$(srcdir)/src/tempusex.c'; fi`
+
+uart1ex.o: src/uart1ex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart1ex.o -MD -MP -MF $(DEPDIR)/uart1ex.Tpo -c -o uart1ex.o `test -f 'src/uart1ex.c' || echo '$(srcdir)/'`src/uart1ex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart1ex.Tpo $(DEPDIR)/uart1ex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart1ex.c' object='uart1ex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart1ex.o `test -f 'src/uart1ex.c' || echo '$(srcdir)/'`src/uart1ex.c
+
+uart1ex.obj: src/uart1ex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uart1ex.obj -MD -MP -MF $(DEPDIR)/uart1ex.Tpo -c -o uart1ex.obj `if test -f 'src/uart1ex.c'; then $(CYGPATH_W) 'src/uart1ex.c'; else $(CYGPATH_W) '$(srcdir)/src/uart1ex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/uart1ex.Tpo $(DEPDIR)/uart1ex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/uart1ex.c' object='uart1ex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uart1ex.obj `if test -f 'src/uart1ex.c'; then $(CYGPATH_W) 'src/uart1ex.c'; else $(CYGPATH_W) '$(srcdir)/src/uart1ex.c'; fi`
+
 .s.o:
 	$(CCASCOMPILE) -c -o $@ $<
 
@@ -372,6 +1401,23 @@ boot.o: src/boot.s
 
 boot.obj: src/boot.s
 	$(CCAS) $(AM_CCASFLAGS) $(CCASFLAGS) -c -o boot.obj `if test -f 'src/boot.s'; then $(CYGPATH_W) 'src/boot.s'; else $(CYGPATH_W) '$(srcdir)/src/boot.s'; fi`
+install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(pkgdatadir)" || $(MKDIR_P) "$(DESTDIR)$(pkgdatadir)"
+	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(dist_pkgdataDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(pkgdatadir)/$$f'"; \
+	  $(dist_pkgdataDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(pkgdatadir)/$$f"; \
+	done
+
+uninstall-dist_pkgdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(pkgdatadir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(pkgdatadir)/$$f"; \
+	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -548,8 +1594,11 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) config.h
+all-am: Makefile $(PROGRAMS) $(DATA) config.h
 installdirs:
+	for dir in "$(DESTDIR)$(pkgdatadir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -595,7 +1644,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-dist_pkgdataDATA
 
 install-dvi: install-dvi-am
 
@@ -632,7 +1681,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-dist_pkgdataDATA
 
 .MAKE: install-am install-strip
 
@@ -642,15 +1691,188 @@ uninstall-am:
 	distclean distclean-compile distclean-generic distclean-hdr \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am
+	install-data install-data-am install-dist_pkgdataDATA \
+	install-dvi install-dvi-am install-exec install-exec-am \
+	install-html install-html-am install-info install-info-am \
+	install-man install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags uninstall uninstall-am \
+	uninstall-dist_pkgdataDATA
 
+ram_programs/accelex.bin: $(accelex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) accelex
+	$(objcopy_bin) accelex ram_programs/accelex.bin
+	chmod a-x ram_programs/accelex.bin
+ram_programs/accelex.vectors: $(accelex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) accelex
+	$(objcopy_vectors) accelex ram_programs/accelex.vectors
+	chmod a-x ram_programs/accelex.vectors
+rom_programs/accelex-rom.bin: $(accelex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) accelex-rom
+	$(objcopy_bin) accelex-rom rom_programs/accelex-rom.bin
+	chmod a-x rom_programs/accelex-rom.bin
+ram_programs/adcex.bin: $(adcex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) adcex
+	$(objcopy_bin) adcex ram_programs/adcex.bin
+	chmod a-x ram_programs/adcex.bin
+ram_programs/adcex.vectors: $(adcex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) adcex
+	$(objcopy_vectors) adcex ram_programs/adcex.vectors
+	chmod a-x ram_programs/adcex.vectors
+rom_programs/adcex-rom.bin: $(adcex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) adcex-rom
+	$(objcopy_bin) adcex-rom rom_programs/adcex-rom.bin
+	chmod a-x rom_programs/adcex-rom.bin
+ram_programs/crcex.bin: $(crcex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) crcex
+	$(objcopy_bin) crcex ram_programs/crcex.bin
+	chmod a-x ram_programs/crcex.bin
+ram_programs/crcex.vectors: $(crcex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) crcex
+	$(objcopy_vectors) crcex ram_programs/crcex.vectors
+	chmod a-x ram_programs/crcex.vectors
+rom_programs/crcex-rom.bin: $(crcex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) crcex-rom
+	$(objcopy_bin) crcex-rom rom_programs/crcex-rom.bin
+	chmod a-x rom_programs/crcex-rom.bin
+ram_programs/dacex.bin: $(dacex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) dacex
+	$(objcopy_bin) dacex ram_programs/dacex.bin
+	chmod a-x ram_programs/dacex.bin
+ram_programs/dacex.vectors: $(dacex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) dacex
+	$(objcopy_vectors) dacex ram_programs/dacex.vectors
+	chmod a-x ram_programs/dacex.vectors
+rom_programs/dacex-rom.bin: $(dacex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) dacex-rom
+	$(objcopy_bin) dacex-rom rom_programs/dacex-rom.bin
+	chmod a-x rom_programs/dacex-rom.bin
+ram_programs/inledex.bin: $(inledex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) inledex
+	$(objcopy_bin) inledex ram_programs/inledex.bin
+	chmod a-x ram_programs/inledex.bin
+ram_programs/inledex.vectors: $(inledex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) inledex
+	$(objcopy_vectors) inledex ram_programs/inledex.vectors
+	chmod a-x ram_programs/inledex.vectors
+rom_programs/inledex-rom.bin: $(inledex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) inledex-rom
+	$(objcopy_bin) inledex-rom rom_programs/inledex-rom.bin
+	chmod a-x rom_programs/inledex-rom.bin
+ram_programs/ledex.bin: $(ledex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) ledex
+	$(objcopy_bin) ledex ram_programs/ledex.bin
+	chmod a-x ram_programs/ledex.bin
+ram_programs/ledex.vectors: $(ledex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) ledex
+	$(objcopy_vectors) ledex ram_programs/ledex.vectors
+	chmod a-x ram_programs/ledex.vectors
+rom_programs/ledex-rom.bin: $(ledex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) ledex-rom
+	$(objcopy_bin) ledex-rom rom_programs/ledex-rom.bin
+	chmod a-x rom_programs/ledex-rom.bin
+ram_programs/lm74ex.bin: $(lm74ex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) lm74ex
+	$(objcopy_bin) lm74ex ram_programs/lm74ex.bin
+	chmod a-x ram_programs/lm74ex.bin
+ram_programs/lm74ex.vectors: $(lm74ex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) lm74ex
+	$(objcopy_vectors) lm74ex ram_programs/lm74ex.vectors
+	chmod a-x ram_programs/lm74ex.vectors
+rom_programs/lm74ex-rom.bin: $(lm74ex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) lm74ex-rom
+	$(objcopy_bin) lm74ex-rom rom_programs/lm74ex-rom.bin
+	chmod a-x rom_programs/lm74ex-rom.bin
+ram_programs/magex.bin: $(magex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) magex
+	$(objcopy_bin) magex ram_programs/magex.bin
+	chmod a-x ram_programs/magex.bin
+ram_programs/magex.vectors: $(magex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) magex
+	$(objcopy_vectors) magex ram_programs/magex.vectors
+	chmod a-x ram_programs/magex.vectors
+rom_programs/magex-rom.bin: $(magex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) magex-rom
+	$(objcopy_bin) magex-rom rom_programs/magex-rom.bin
+	chmod a-x rom_programs/magex-rom.bin
+ram_programs/mag_response.bin: $(mag_response_sources)
+	$(MAKE) $(AM_MAKEFLAGS) mag_response
+	$(objcopy_bin) mag_response ram_programs/mag_response.bin
+	chmod a-x ram_programs/mag_response.bin
+ram_programs/mag_response.vectors: $(mag_response_sources)
+	$(MAKE) $(AM_MAKEFLAGS) mag_response
+	$(objcopy_vectors) mag_response ram_programs/mag_response.vectors
+	chmod a-x ram_programs/mag_response.vectors
+rom_programs/mag_response-rom.bin: $(mag_response_sources)
+	$(MAKE) $(AM_MAKEFLAGS) mag_response-rom
+	$(objcopy_bin) mag_response-rom rom_programs/mag_response-rom.bin
+	chmod a-x rom_programs/mag_response-rom.bin
+ram_programs/multa.bin: $(multa_sources)
+	$(MAKE) $(AM_MAKEFLAGS) multa
+	$(objcopy_bin) multa ram_programs/multa.bin
+	chmod a-x ram_programs/multa.bin
+ram_programs/multa.vectors: $(multa_sources)
+	$(MAKE) $(AM_MAKEFLAGS) multa
+	$(objcopy_vectors) multa ram_programs/multa.vectors
+	chmod a-x ram_programs/multa.vectors
+rom_programs/multa-rom.bin: $(multa_sources)
+	$(MAKE) $(AM_MAKEFLAGS) multa-rom
+	$(objcopy_bin) multa-rom rom_programs/multa-rom.bin
+	chmod a-x rom_programs/multa-rom.bin
+ram_programs/pllex.bin: $(pllex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) pllex
+	$(objcopy_bin) pllex ram_programs/pllex.bin
+	chmod a-x ram_programs/pllex.bin
+ram_programs/pllex.vectors: $(pllex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) pllex
+	$(objcopy_vectors) pllex ram_programs/pllex.vectors
+	chmod a-x ram_programs/pllex.vectors
+rom_programs/pllex-rom.bin: $(pllex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) pllex-rom
+	$(objcopy_bin) pllex-rom rom_programs/pllex-rom.bin
+	chmod a-x rom_programs/pllex-rom.bin
+ram_programs/powerex.bin: $(powerex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) powerex
+	$(objcopy_bin) powerex ram_programs/powerex.bin
+	chmod a-x ram_programs/powerex.bin
+ram_programs/powerex.vectors: $(powerex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) powerex
+	$(objcopy_vectors) powerex ram_programs/powerex.vectors
+	chmod a-x ram_programs/powerex.vectors
+rom_programs/powerex-rom.bin: $(powerex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) powerex-rom
+	$(objcopy_bin) powerex-rom rom_programs/powerex-rom.bin
+	chmod a-x rom_programs/powerex-rom.bin
+ram_programs/uart1ex.bin: $(uart1ex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) uart1ex
+	$(objcopy_bin) uart1ex ram_programs/uart1ex.bin
+	chmod a-x ram_programs/uart1ex.bin
+ram_programs/uart1ex.vectors: $(uart1ex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) uart1ex
+	$(objcopy_vectors) uart1ex ram_programs/uart1ex.vectors
+	chmod a-x ram_programs/uart1ex.vectors
+rom_programs/uart1ex-rom.bin: $(uart1ex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) uart1ex-rom
+	$(objcopy_bin) uart1ex-rom rom_programs/uart1ex-rom.bin
+	chmod a-x rom_programs/uart1ex-rom.bin
+ram_programs/tempusex.bin: $(tempusex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) tempusex
+	$(objcopy_bin) tempusex ram_programs/tempusex.bin
+	chmod a-x ram_programs/tempusex.bin
+ram_programs/tempusex.vectors: $(tempusex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) tempusex
+	$(objcopy_vectors) tempusex ram_programs/tempusex.vectors
+	chmod a-x ram_programs/tempusex.vectors
+rom_programs/tempusex-rom.bin: $(tempusex_sources)
+	$(MAKE) $(AM_MAKEFLAGS) tempusex-rom
+	$(objcopy_bin) tempusex-rom rom_programs/tempusex-rom.bin
+	chmod a-x rom_programs/tempusex-rom.bin
+#expanded "tempusex" program definition ends
+
+$(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
+	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
