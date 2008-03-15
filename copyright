@@ -83,4 +83,8 @@ the AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
 as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
 'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
 
-The same is true for the GNU autobuild system files.
+The same is true for the GNU autobuild system files. we let our
+copyright notes come into these files like 'configure', and
+'Makefile.in', but one should undestand that they are result of
+compilation of several sources and such a file can not represent
+a single copyrighted unit.
