@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #define UNLOCKED	(0)/*static mutices are born unlocked by default*/
 #define LOCKED		(1)
 typedef int mutex;
-static inline int lock(mutex*m)
+static inline int
+lock(mutex*m)
 {int r=LOCKED,r1;asm("swp %0, %1, [%2]":"=&r"(r1):"r"(r),"r"(m));return r1;}
-static inline void unlock(mutex*m){*m=(mutex)UNLOCKED;}
+static inline void
+unlock(mutex*m){*m=(mutex)UNLOCKED;}
