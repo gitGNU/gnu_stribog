@@ -123,6 +123,19 @@ you want to edit the hardware part of stribog.
 
 HOW TO BUILD (as of Mar 2008)
 
+In order to build you will need
+1. native C compiler
+2. ARM tools (you have an arm-elf-gcc BUILD? then you are lucky)
+3. AVR crosstools (in the future, when auxiliary
+   software is mounted on the GNU build system)
+The executables are not distributed because you will need to
+configure them in any case.
+
+GERBERS and schematic PNGs will be distributed, 
+because the boards and schematics are not configurable and
+we don't want to force you to (figure out and) install a gEDA
+version compatible with ours.
+
 Stribog use GNU-standard configuration procedure
 (see INSTALL). Though general build versus source directory
 positions should work, the usual way is to build the project 
@@ -131,9 +144,10 @@ the configure invocation sounds like this:
 
 ../stribog/configure --prefix=$HOME/stribog
 
-Currently, this procedure has been adopted for host tools
-only. for instructions on using host tools see sw/host/README.
-target and auxiliary software is built with GNU make utility.
+Currently, this procedure has been adopted for programs
+in sw/host and sw/target only. for instructions on using host tools
+read sw/host/README.
+auxiliary software is built with GNU make utility.
 GERBER and EXCELLON files are produced manually with PCB.
 
 HOW TO REGENERATE BUILD SYSTEM
@@ -156,7 +170,7 @@ Git is the revision control system used by the project.
 
 To see meta-documentation on the project branches, 
 checkout 'master' branch and read the files it contains.
-
+
 Here is a typical ~/.gitconfig file contents
 (please replace the names and email with yours):
 <<EOF
@@ -166,7 +180,7 @@ Here is a typical ~/.gitconfig file contents
 [core]
  editor = vim
 EOF
-
+
 If you are a maintainer, your usual spells are
 (replace ineiev with your login name)
 
@@ -185,7 +199,7 @@ $ git push savannah
 
 $ git push savannah :refs/heads/feb2008
  to remove branch feb2008 from remote savannah
-
+
 For anonymous access, use these:
 
 $ git clone git://git.savannah.nongnu.org/stribog.git
@@ -200,7 +214,7 @@ $ git fetch
 $ git pull
  to fetch all remote branches and merge
  one of them into your current branch
-
+
 Common to both access types:
 
 $ git checkout master
@@ -231,3 +245,30 @@ $git show
 
 $git status
  to see what files are not in sync with the current branch
+
+What will go to Git
+
+We currently don't put into the repository gEDA-generated files.
+however, we do put all Autotools-generated files
+that will be distributed.
+
+The general rules are to be worked on yet; the bottomline consideration
+should be that Git serves as a source of most recent package version.
+
+Now we think that today state may be right because
+1. the schematics and PCB layouts change slowly; there is almost no chance
+  that the programs in Git work with Git PCBs and won't work with the PCBs
+  of the most recent release (wich certainly includes printed layouts).
+2. after a compatible version of gEDA has been installed, there is
+  no difficulty to reproduce the GERBERS and schematics. it is easier
+  than fix anything on the board.
+3. on the contrary, if there is no build scripts, the programs
+  can't be developped. this is quite bad because the programs
+  can be changed very quickly.
+  to rebuild the scripts one must have a compatible Autotools version
+  installed; but this is not enough. the configuration process is
+  very uniform and straightforward; the regeneration of the scripts
+  is not trivial and probably package-specific, it requires a knowledge
+  of several languages other than C, so it can take a lot of time
+  when done by a person new to the package. this can be much harder
+  than just fix a bug or add even a complicated feature.
