@@ -1,3 +1,6 @@
+15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * regen_configure: unconditionally autoreconf in sw/target
+ * Makefile.am: form_fix.h is propagated down
 12 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * regen_configure: new
  * configure.ac: sw/target is mounted on GNU autotools

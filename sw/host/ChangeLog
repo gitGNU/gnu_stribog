@@ -1,5 +1,6 @@
-14 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * Makefile.am: SCRIPTS are dist_
+15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/Makefile.am utils/Makefile.am postproc/Makefile.am:
+   SCRIPTS are dist_
 07 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac Makefile.am: dist-gzip target fixed
 06 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>

@@ -1,3 +1,11 @@
+15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am.m4 include/form_fix.h lib/mutex.h
+ m4/makefile.m4: new
+ * src/accel.c src/adc.c src/tempus.c src/tempusex.c
+ src/uart0.c src/uart1.c src/uart1out.c: made compilable with native cc
+ * regen_configure Makefile.am: Makefile.am is made of Makefile.am.m4
+ * regen_configure: unconditionally autoreconf
+ * configure.ac: improving the distribution process
 14 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/fake-cc: new
  * configure.ac Makefile.am: search for the right way
