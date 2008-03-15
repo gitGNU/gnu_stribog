@@ -1,4 +1,4 @@
-#stribog: Makefile.am
+#stribog: top Makefile.am
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -15,3 +15,9 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 SUBDIRS=sw/host sw/target
+EXTRA_DIST=common/form_fix.h
+all: $(srcdir)/sw/target/include/form_fix.h
+$(srcdir)/sw/target/include/form_fix.h: $(srcdir)/sw/common/form_fix.h
+	@echo NOTE: the primary file is common/form_fix.h
+	@echo NOTE: target/include/form_fix.h is regenerated
+	cp $(srcdir)/common/form_fix.h $(srcdir)/target/include/form_fix.h
