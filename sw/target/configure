@@ -672,13 +672,6 @@ am__leading_dot
 AMTAR
 am__tar
 am__untar
-arm_elf_tools
-add_own_atexit_TRUE
-add_own_atexit_FALSE
-build_target_programs_TRUE
-build_target_programs_FALSE
-arm_elf_tools_TRUE
-arm_elf_tools_FALSE
 CC
 CFLAGS
 LDFLAGS
@@ -1288,8 +1281,6 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-target-programs
-                          Rebuild software [yes]
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
 
@@ -1737,11 +1728,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 #the cross-build is forced in configure.pre which is
 #written at the begin of 'configure'
-{ echo "$as_me:$LINENO: result: NB here we force cross-build" >&5
-echo "${ECHO_T}NB here we force cross-build" >&6; }
-
-#'warnings' is the file where some notanda will be written
-echo > warnings
+{ echo "$as_me:$LINENO: result: NB here we force arm-elf host" >&5
+echo "${ECHO_T}NB here we force arm-elf host" >&6; }
 
 am__api_version='1.10'
 
@@ -2231,82 +2219,9 @@ ac_config_headers="$ac_config_headers config.h"
 
 
 # Checks for programs.
-if test "z$recursive_stribog_build" != zyes;then
- { echo "$as_me:$LINENO: checking if stribog target build is asked for" >&5
-echo $ECHO_N "checking if stribog target build is asked for... $ECHO_C" >&6; }
- # Check whether --enable-target-programs was given.
-if test "${enable_target_programs+set}" = set; then
-  enableval=$enable_target_programs;
-fi
-
- if test "z$enable_target_programs" != zno;then
-  enable_target_programs=yes
- fi
- { echo "$as_me:$LINENO: result: $enable_target_programs" >&5
-echo "${ECHO_T}$enable_target_programs" >&6; }
- build_target_programs=$enable_target_programs
-fi
-# Extract the first word of "arm-elf-gcc", so it can be a program name with args.
-set dummy arm-elf-gcc; ac_word=$2
-{ echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
-if test "${ac_cv_prog_arm_elf_tools+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  if test -n "$arm_elf_tools"; then
-  ac_cv_prog_arm_elf_tools="$arm_elf_tools" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_arm_elf_tools="yes"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_arm_elf_tools" && ac_cv_prog_arm_elf_tools="no"
-fi
-fi
-arm_elf_tools=$ac_cv_prog_arm_elf_tools
-if test -n "$arm_elf_tools"; then
-  { echo "$as_me:$LINENO: result: $arm_elf_tools" >&5
-echo "${ECHO_T}$arm_elf_tools" >&6; }
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-
-
-if test "z$arm_elf_tools" = zyes;then
- { echo "$as_me:$LINENO: checking the arm-elf-gcc version" >&5
-echo $ECHO_N "checking the arm-elf-gcc version... $ECHO_C" >&6; }
- arm_gcc_version=$(arm-elf-gcc --version|head -1|sed "s/^.* //")
- arm_gcc_version_maior=$(($(echo $arm_gcc_version|sed "s/[.].*//")+0))
- { echo "$as_me:$LINENO: result: $arm_gcc_version" >&5
-echo "${ECHO_T}$arm_gcc_version" >&6; }
- if test $arm_gcc_version_maior -lt 3;then
-  if "z$build_target_programs" = z;then
-   #we see gcc 2.x or gcc 1.x or gcc 0.x or less which is suspicious
-   echo "NOTE: arm-elf-gcc version '$arm_gcc_version' less than minimal tested (3.4.6)" >warnings
-   echo "arm-elf-gcc version_maior '$arm_gcc_version_maior'"
-  fi
- fi
-else
- { echo "$as_me:$LINENO: result: no usable ARM crosstools found; the distributed programs will be installed" >&5
-echo "${ECHO_T}no usable ARM crosstools found; the distributed programs will be installed" >&6; }
- build_target_programs=no
-fi
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
-if test "z$arm_elf_tools" = zyes;then
 #make our minimalistic crosstools generate executables
  ldscript="${srcdir}/src/ram2138.ld"
  export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
@@ -2314,58 +2229,12 @@ if test "z$arm_elf_tools" = zyes;then
  CFLAGS="$CFLAGS -mcpu=arm7tdmi"
  LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
  LIBS="${libgcc}"
- if test $arm_gcc_version_maior = 2;then
   #libgcc of gcc-2.95.3 needs atexit,
-  #which can safely be stubbed in embedded programs
+  #which can safely be stubbed in our programs
   #TODO: check if the programs built with gcc-2.95.3 really work
   arm-elf-gcc -c -o atexit.o ${CFLAGS} "${srcdir}/lib/atexit.c"
   arm-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s"
   LDFLAGS="$LDFLAGS atexit.o boot.o"
- fi
-fi
- if test "z$arm_gcc_version_maior" = z2; then
-  add_own_atexit_TRUE=
-  add_own_atexit_FALSE='#'
-else
-  add_own_atexit_TRUE='#'
-  add_own_atexit_FALSE=
-fi
-
- if test "z$build_target_programs" = zyes; then
-  build_target_programs_TRUE=
-  build_target_programs_FALSE='#'
-else
-  build_target_programs_TRUE='#'
-  build_target_programs_FALSE=
-fi
-
- if test "z$arm_elf_tools" = zyes; then
-  arm_elf_tools_TRUE=
-  arm_elf_tools_FALSE='#'
-else
-  arm_elf_tools_TRUE='#'
-  arm_elf_tools_FALSE=
-fi
-
-if test "z$arm_elf_tools" != zyes;then
-#FIXME wouldn't it be better to point to lib/fake-cc
-#when there is no ARM assembler?
- AS=as
- CC=lib/fake-cc
- for i in cl egcs cc gcc;do
-  echo $PATH |sed "s/:/\n/g"|while read j;do
-   if test -x "$j/$i";then echo $i>cc_name;fi
-  done
- done
- CC=$(cat cc_name)
- { echo "$as_me:$LINENO: result: we cowardly return to native CC='$CC'" >&5
-echo "${ECHO_T}we cowardly return to native CC='$CC'" >&6; }
-fi
-
-#these tools are needed to check dependencies even when
-#we are just to install the distributed executables;
-#if we have not been provided with native compiler,
-#we can't build ../host subproject so the process necessarily fails.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -3817,101 +3686,11 @@ fi
 ASFLAGS="$saved_CFLAGS"
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
-
-#copy distributed arm-elf "executables" to builddir
-{ as_dir=ram_programs
-  case $as_dir in #(
-  -*) as_dir=./$as_dir;;
-  esac
-  test -d "$as_dir" || { $as_mkdir_p && mkdir -p "$as_dir"; } || {
-    as_dirs=
-    while :; do
-      case $as_dir in #(
-      *\'*) as_qdir=`echo "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #(
-      *) as_qdir=$as_dir;;
-      esac
-      as_dirs="'$as_qdir' $as_dirs"
-      as_dir=`$as_dirname -- "$as_dir" ||
-$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$as_dir" : 'X\(//\)[^/]' \| \
-	 X"$as_dir" : 'X\(//\)$' \| \
-	 X"$as_dir" : 'X\(/\)' \| . 2>/dev/null ||
-echo X"$as_dir" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\/\)[^/].*/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\/\)$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\).*/{
-	    s//\1/
-	    q
-	  }
-	  s/.*/./; q'`
-      test -d "$as_dir" && break
-    done
-    test -z "$as_dirs" || eval "mkdir $as_dirs"
-  } || test -d "$as_dir" || { { echo "$as_me:$LINENO: error: cannot create directory $as_dir" >&5
-echo "$as_me: error: cannot create directory $as_dir" >&2;}
-   { (exit 1); exit 1; }; }; }
-cp ${srcdir}/ram_programs/* ram_programs
-{ as_dir=rom_programs
-  case $as_dir in #(
-  -*) as_dir=./$as_dir;;
-  esac
-  test -d "$as_dir" || { $as_mkdir_p && mkdir -p "$as_dir"; } || {
-    as_dirs=
-    while :; do
-      case $as_dir in #(
-      *\'*) as_qdir=`echo "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #(
-      *) as_qdir=$as_dir;;
-      esac
-      as_dirs="'$as_qdir' $as_dirs"
-      as_dir=`$as_dirname -- "$as_dir" ||
-$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$as_dir" : 'X\(//\)[^/]' \| \
-	 X"$as_dir" : 'X\(//\)$' \| \
-	 X"$as_dir" : 'X\(/\)' \| . 2>/dev/null ||
-echo X"$as_dir" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\/\)[^/].*/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\/\)$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\).*/{
-	    s//\1/
-	    q
-	  }
-	  s/.*/./; q'`
-      test -d "$as_dir" && break
-    done
-    test -z "$as_dirs" || eval "mkdir $as_dirs"
-  } || test -d "$as_dir" || { { echo "$as_me:$LINENO: error: cannot create directory $as_dir" >&5
-echo "$as_me: error: cannot create directory $as_dir" >&2;}
-   { (exit 1); exit 1; }; }; }
-cp ${srcdir}/rom_programs/* rom_programs
 #remove temporarily generated files
 #so user will rebuild them with user-defined FLAGS
 rm -f atexit.o boot.o
 ac_config_files="$ac_config_files Makefile"
 
-if test "z$arm_elf_tools" != zyes;then
- ac_config_files="$ac_config_files mutex.h:lib/mutex.h"
-
-fi
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -4008,27 +3787,6 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
-if test -z "${add_own_atexit_TRUE}" && test -z "${add_own_atexit_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"add_own_atexit\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"add_own_atexit\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${build_target_programs_TRUE}" && test -z "${build_target_programs_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"build_target_programs\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"build_target_programs\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${arm_elf_tools_TRUE}" && test -z "${arm_elf_tools_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"arm_elf_tools\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"arm_elf_tools\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -4520,7 +4278,6 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "mutex.h") CONFIG_FILES="$CONFIG_FILES mutex.h:lib/mutex.h" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -4642,13 +4399,6 @@ am__leading_dot!$am__leading_dot$ac_delim
 AMTAR!$AMTAR$ac_delim
 am__tar!$am__tar$ac_delim
 am__untar!$am__untar$ac_delim
-arm_elf_tools!$arm_elf_tools$ac_delim
-add_own_atexit_TRUE!$add_own_atexit_TRUE$ac_delim
-add_own_atexit_FALSE!$add_own_atexit_FALSE$ac_delim
-build_target_programs_TRUE!$build_target_programs_TRUE$ac_delim
-build_target_programs_FALSE!$build_target_programs_FALSE$ac_delim
-arm_elf_tools_TRUE!$arm_elf_tools_TRUE$ac_delim
-arm_elf_tools_FALSE!$arm_elf_tools_FALSE$ac_delim
 CC!$CC$ac_delim
 CFLAGS!$CFLAGS$ac_delim
 LDFLAGS!$LDFLAGS$ac_delim
@@ -4674,7 +4424,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 89; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 82; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -5279,7 +5029,9 @@ echo "whether to build:     ${build_target_programs}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-cat warnings >>summary
+echo "tools versions:">>summary
+${AS} --version>>summary
+${CC} --version>>summary
 
 if test "z$recursive_stribog_build" != zyes;then
  { echo "$as_me:$LINENO: result: $(cat summary)" >&5

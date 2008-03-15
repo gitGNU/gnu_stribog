@@ -268,7 +268,7 @@ magexp_SOURCES = expon.c\
 
 magexp_LDADD = $(stribog_lib)
 parse_tsipex_SOURCES = parse_tsipex.c crc32.c crc32.h\
- get_u.h parse_tsip.c parse_tsip.h ../../common/form_fix.h
+ get_u.h parse_tsip.c parse_tsip.h ../include/form_fix.h
 
 parse_tsipex_LDADD = $(stribog_lib)
 all: all-am
