@@ -1,5 +1,7 @@
 /*LPC2138: simple timer1 test
-This file has been written for the stribog project.
+Copyright (C) 2006, 2008\
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+This file is a part of the stribog project.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,13 +14,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+/*FIXME configure PPS pin*/
 #include"led.h"
 #include"pll.h"
 #include"../include/lpc2138.h"
-#include"mutex.h"
+#include<mutex.h>
 static mutex pps_read;static unsigned aetas,pps;
 static void temporis_quaestus(void)__attribute__((interrupt("IRQ")));
 static void temporis_quaestus(void)

@@ -16,9 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"uart1.h"
-#include"mutex.h"
+#include<mutex.h>
 #include"crc32.h"
-#include"../../common/form_fix.h"
+#include"../include/form_fix.h"
 #include"../include/lpc2138.h"
 #include"freq.h"
 #include"uart.config.h"

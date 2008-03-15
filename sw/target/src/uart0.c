@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 someone running in system (rather than interrupt) mode
 will empty the buffer.*/
 #include"uart0.h"
-#include"mutex.h"
+#include<mutex.h>
 #include"../include/lpc2138.h"
 #include"uart.config.h"
 #include"freq.h"

@@ -1,4 +1,6 @@
 /*LPC2138: UART1 plain output
+Copyright (C) 2006, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
@@ -12,11 +14,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+/*TODO enable build-time UART configuration*/
 #include"uart1out.h"
-#include"mutex.h"
+#include<mutex.h>
 #include"../include/lpc2138.h"
 #define LCRsig	Ux8bit|Ux1stop
 #define HiDiv	(0)/*we use a high baud rate*/

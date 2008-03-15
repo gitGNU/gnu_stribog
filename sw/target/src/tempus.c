@@ -1,5 +1,6 @@
 /*LPC2138: timer1 (system clock) setup and queries
- PPS (rising edge) from a GPS receiver can go through CAP1.2 pin (signal A)
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This file has been written for the stribog project.
 
 This program is free software; you can redistribute it and/or modify
@@ -13,11 +14,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+/* PPS (rising edge) from a GPS receiver may go through 
+#if PPS_BURNT
+ CAP1.2 pin (signal A) 
+#else
+ CAP1.1
+#endif*/
 #include"tempus.h"
-#include"mutex.h"
+#include<mutex.h>
 #include"../include/lpc2138.h"
 #ifndef PPS_BURNT
  #define LEGACY_PPS	1

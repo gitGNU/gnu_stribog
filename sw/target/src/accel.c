@@ -1,6 +1,23 @@
-#include"accel.h"/*LPC2138: accelerometers PWM input*/
+/*LPC2138: accelerometers PWM input
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This file is a part of stribog
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"accel.h"
 #include"../include/lpc2138.h"
-#include"mutex.h"
+#include<mutex.h>
 enum accel_constants
 {channels=3/*if this changes the qu() and init_accel() should change, too */,
  resolution=14,res_mask=((1<<resolution)-1),res_cycle=res_mask+1
@@ -55,19 +72,4 @@ init_accel(int pr)
  T0CCR=TxCAP0RE|TxCAP0I|TxCAP1RE|TxCAP1I|TxCAP2RE|TxCAP2I;
  VICVectAddr3=(unsigned)qu;VICVectCntl3=VIC_CntlEnable|VIC_TIMER0;
  VICIntEnable=1<<VIC_TIMER0;lock(&data_read);accel_error_count=0;
-}/*This file is a part of stribog
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+}
