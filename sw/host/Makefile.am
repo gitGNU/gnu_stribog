@@ -15,3 +15,6 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 SUBDIRS=lib/argp lib conloq elk intlpc postproc utils
+nodist_pkgdata_DATA=summary
+dist-hook:
+	$(RM) summary
