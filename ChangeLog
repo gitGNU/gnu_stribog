@@ -1,3 +1,5 @@
+17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: unneeded checks removed
 15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * regen_configure: unconditionally autoreconf in sw/target
  * Makefile.am: form_fix.h is propagated down; branch distributed
