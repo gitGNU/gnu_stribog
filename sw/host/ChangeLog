@@ -1,3 +1,5 @@
+17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: checks should happen unconditionally
 15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/Makefile.am utils/Makefile.am postproc/Makefile.am:
    SCRIPTS are dist_
