@@ -1,3 +1,8 @@
+17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am.m4 configure.ac: made work with gcc-4.3.0
+ * configure.ac: check for assembler
+ * m4/makefile.m4: the binary results moved up one
+ directory level
 15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am.m4 include/form_fix.h lib/mutex.h
  m4/makefile.m4: new
