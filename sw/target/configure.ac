@@ -31,16 +31,30 @@ saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
 #make our minimalistic crosstools generate executables
  ldscript="${srcdir}/src/ram2138.ld"
- export libgcc="$(arm-elf-gcc -print-libgcc-file-name)"
  ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
  CFLAGS="$CFLAGS -mcpu=arm7tdmi"
  LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
- LIBS="${libgcc}"
+ LIBS=-lgcc
   #libgcc of gcc-2.95.3 needs atexit, 
   #which can safely be stubbed in our programs
   #TODO: check if the programs built with gcc-2.95.3 really work
   arm-elf-gcc -c -o atexit.o ${CFLAGS} "${srcdir}/lib/atexit.c"
-  arm-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s"
+  #arm-elf-as-2.10 does not assemble boot.s 
+AC_MSG_CHECKING([if arm-elf-as can assemble boot.s])
+if arm-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s" ;then
+ arm_elf_as=yes;
+else
+ arm_elf_as=no;
+fi
+AC_MSG_RESULT([$arm_elf_as])
+if test $arm_elf_as = no;then
+ AC_MSG_RESULT([
+ arm-elf-as can't assemble startup program
+ probably no arm-elf-as present or binutils are too old
+ (binutils-2.16 to 2.18 are known to work; 2.10 does not)
+])
+ exit 1; 
+fi
   LDFLAGS="$LDFLAGS atexit.o boot.o"
 AC_PROG_CC
 AM_PROG_AS
@@ -71,7 +85,7 @@ echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 echo "tools versions:">>summary
-${AS} --version>>summary
+arm-elf-as --version>>summary
 ${CC} --version>>summary
 
 if test "z$recursive_stribog_build" != zyes;then
