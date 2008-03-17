@@ -81,9 +81,12 @@ First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
 get binutils and gcc. generally, we use the latest releases, though there is 
 nothing dependent on any supernew features in stribog. currently we use 
 binutils-2.18 with gcc-4.2.2. we used also binutils-2.17, binutils-2.16.1, 
-binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2.
-they should work, too. once we tried binutils-2.15 and they failed; maybe,
-we had not configured them properly.
+binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2.
+they should work, too.
+
+binutils-2.15 don't work because their ld don't undestand expressions like
+_arm_stack_bottom = ORIGIN(ram) + LENGTH(ram) - 4;
+this has been fixed in 'trunc' branch of stribog.
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
@@ -96,14 +99,17 @@ $ ../binutils-2.18/configure --target=arm-elf --prefix=$armprefix --enable-inter
 $ make all install
 $ export PATH=$armprefix/bin:$PATH; rm -fr *;cd ..
          (add this path in your shell profile after install, too)
-$ gpg --verify gcc-4.2.2.tar.bz2.sig && tar xjf gcc-4.2.2.tar.bz2;cd bui
-$ ../gcc-4.2.2/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
+$ gpg --verify gcc-4.2.3.tar.bz2.sig && tar xjf gcc-4.2.3.tar.bz2;cd bui
+$ ../gcc-4.2.3/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
 $ make all-gcc install-gcc
 
 That's all. we don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
+binutils-2.18 won't build themselves on RedHat 7.3 without slightly editing.
+
+gcc-4.3.0 have new dependency, MPFR.
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
