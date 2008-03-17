@@ -28,7 +28,7 @@ AC_CONFIG_HEADER([config.h])
 AC_PROG_CC
 AC_PROG_RANLIB
 
-if test "z$GCC" = "zyes"; then
+if test "z$GCC" = zyes; then
  CFLAGS="${CFLAGS} -Wall"
 fi
 
@@ -38,37 +38,30 @@ AC_CHECK_LIB([m], [sqrt])
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h string.h termios.h unistd.h])
+AC_CHECK_HEADERS([sysexits.h])
 
 #argp library configuration
-if test "z$build_own_argp" = "z";then
- AC_MSG_CHECKING([if stribog argp implementation is asked for])
- AC_ARG_ENABLE([own-argp],
-  AS_HELP_STRING([--enable-own-argp],
-   [Use stribog implementation of argp library [[no]]]),,
- )
- if test "z$enable_own_argp" != "zyes";then
-  enable_own_argp=no
+AC_MSG_CHECKING([if stribog argp implementation is asked for])
+AC_ARG_ENABLE([own-argp],
+ AS_HELP_STRING([--enable-own-argp],
+  [Use stribog implementation of argp library [[no]]]),,
+)
+AC_MSG_RESULT([$enable_own_argp])
+AC_CHECK_HEADER([argp.h],,
+[AC_MSG_RESULT([no usable argp.h found; stribog version should be used])
+ build_own_argp=yes
+])
+if test "z$enable_own_argp" = zno; then
+ if "z$build_own_argp" = zyes; then
+  AC_MSG_RESULT([own argp disabled and no usable system argp available])
+  exit 1;
  fi
- AC_MSG_RESULT([$enable_own_argp])
- build_own_argp=$enable_own_argp
- if test "z$enable_own_argp" = "zno";then
-  AC_CHECK_HEADER([argp.h],,
-   [AC_MSG_RESULT([no usable argp.h found; stribog version will be used])
-    build_own_argp=yes
-  ])
- fi
-else
- AC_MSG_RESULT([argp implementation seems to have been already selected])
 fi
-if test "z$build_own_argp" = "zyes";then
- AC_CHECK_TYPES([error_t])
- AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
- AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
- AC_CHECK_HEADERS([sysexits.h])
+if test "z$enable_own_argp" = zyes; then
+ build_own_argp=yes
 fi
-AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
-
 # Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_TYPES([error_t])
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_UINT16_T
@@ -87,7 +80,12 @@ case $host in
 		the_host_is_windows=yes
 		;;
 esac
+if test "z$build_own_argp" = "zyes";then
+ AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
+ AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
+fi
 AM_CONDITIONAL(the_host_is_windows, test "z$the_host_is_windows" = "zyes")
+AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
 
 AC_SUBST(stribog_lib,["\$(top_builddir)/lib/libstribog.a"])
 #common headers are copied to top build directory
