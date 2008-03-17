@@ -85,8 +85,10 @@ nothing dependent on any supernew features in stribog. currently we use
 binutils-2.18 with gcc-4.2.3. we used also binutils-2.17, binutils-2.16.1, 
 binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2,
 gcc-4.2.2.
-they should work, too. once we tried binutils-2.15 and they failed; maybe,
-we had not configured them properly.
+
+The problem with binutils-2.15 is that their ld doesn't know expressions like
+_arm_stack_bottom=ORIGIN(ram) + LENGTH(ram) - 4;
+so our scripts don't work.
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
@@ -111,7 +113,7 @@ On RedHat 7.3 binutils-2.18 will not build themselves without
 manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
 generally, binutils-2.18 release is not very stable.
 
-GCC-4.3.0 has a new strong dependiecy, MFPR. we have not tried to build it yet.
+GCC-4.3.0 has a new strong dependency, MFPR. we have not tried to build it yet.
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
