@@ -3,6 +3,10 @@
  * configure.ac: check for assembler
  * m4/makefile.m4: the binary results moved up one
  directory level
+ * m4/makefile.m4 Makefile.am.m4 configure.ac src/ram2138.ld.in
+ src/2138.ld.in: MCU is selected at configuration time
+ * src/ram2138.ld src/ram2138.ld.in src/2138.ld src/2138.ld.in: renamed
+ * src/ram2138.ld.in: low RAM origin corrected
 15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am.m4 include/form_fix.h lib/mutex.h
  m4/makefile.m4: new
