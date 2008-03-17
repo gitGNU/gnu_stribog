@@ -1,3 +1,5 @@
+17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/target/src/ram2138.ld: low RAM origin corrected
 13 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/Makefile: -nostartup should be -nostartfiles
  * sw/target/src/multa: uninitialized use fixed
