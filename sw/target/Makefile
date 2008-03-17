@@ -52,7 +52,7 @@ autodeps.mk: $(src)/*.c
  do $(CC) $(CFLAGS) -M -MT $(o)/$$i.o $(src)/$$i.c >>$@;done
 include autodeps.mk
 $(o)/%.elf:$(o)/boot.o $(o)/%.o 
-	$(LD) $(LDFLAGS) -o $@ $^ `$(CC) -print-libgcc-file-name`
+	$(LD) $(LDFLAGS) -o $@ $^ -lgcc
 $(o)/%.o:$(src)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 %.s:$(src)/%.c
