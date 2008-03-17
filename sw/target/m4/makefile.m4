@@ -18,8 +18,8 @@ divert(-1)
 define(ST_TARGET,`
 #expanded "$1" program definition begins
 nodist_pkgdata_DATA+=\
- ram_programs/$1.bin ram_programs/$1.vectors $1.map\
- rom_programs/$1-rom.bin $1-rom.map
+ $1.bin $1.vectors $1.map\
+ $1-rom.bin $1-rom.map
 noinst_PROGRAMS+=$1 $1-rom
 $1_sources=$(common_sources)\
  $2
@@ -31,18 +31,18 @@ $1_rom_SOURCES=$($1_sources)
 $1_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_$1_rom_SOURCES=$(extra_common_sources)
 $1_rom_DEPENDENCIES=$(rom_ld)
-ram_programs/$1.bin: $($1_sources)
+$1.bin: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
-	$(objcopy_bin) $1 ram_programs/$1.bin
-ram_programs/$1.map: $($1_sources)
+	$(objcopy_bin) $1 $1.bin
+$1.map: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
-ram_programs/$1.vectors: $($1_sources)
+$1.vectors: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
-	$(objcopy_vectors) $1 ram_programs/$1.vectors
-rom_programs/$1-rom.bin: $($1_sources)
+	$(objcopy_vectors) $1 $1.vectors
+$1-rom.bin: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1-rom
-	$(objcopy_bin) $1-rom rom_programs/$1-rom.bin
-rom_programs/$1-rom.map: $($1_sources)
+	$(objcopy_bin) $1-rom $1-rom.bin
+$1-rom.map: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
 #expanded "$1" program definition ends')
 divert`'dnl
