@@ -29,8 +29,58 @@ AC_CONFIG_HEADER([config.h])
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
+AC_ARG_WITH([mainboard-mcu],
+AS_HELP_STRING([--with-mainboard-mcu],
+[Configure MCU on the main board (LPC2131 | LPC2132 | LPC2134
+ | LPC2136 | LPC2138) [[LPC2138]]]),,
+[with_mainboard_mcu=LPC2138
+]
+)
+case $with_mainboard_mcu in
+ LPC2131) 
+  ram_length=8k
+  rom_length=32k
+  ;;
+ LPC2132)
+  ram_length=16k
+  rom_length=64k
+  ;;
+ LPC2134)
+  ram_length=16k
+  rom_length=128k
+  ;;
+ LPC2136)
+  ram_length=32k
+  rom_length=256k
+  ;;
+ LPC2138)
+  ram_length=32k
+  rom_length=512k
+  ;;
+ *)
+  AC_MSG_RESULT([unknown MCU '$with_target_mcu' configured])
+  exit 1
+esac
+ROM_ram_origin=0x40000000
+ROM_ram_length=$ram_length;
+#0x200 is low memory used by the bootstrap loader
+#-32-256 is high memory used by the bootstrap loader
+#-8  are two words more to be sure
+RAM_ram_origin=$ROM_ram_origin+0x200
+RAM_ram_length=$ram_length-0x200-32-256-8;
+
+sed "s/\<ORIGIN_ram_\>/$RAM_ram_origin/g" < ${srcdir}/src/ram2138.ld.in | \
+sed "s/\<LENGTH_ram_\>/$RAM_ram_length/g" | \
+sed "s/\<LENGTH_rom_\>/$rom_length/g" | \
+sed "s/\<comment_on_the_cpu\>/the MCU is $with_mainboard_mcu/g" > ram2138.ld
+
+sed "s/\<ORIGIN_ram_\>/$ROM_ram_origin/g" < ${srcdir}/src/2138.ld.in | \
+sed "s/\<LENGTH_ram_\>/$ROM_ram_length/g" | \
+sed "s/\<LENGTH_rom_\>/$rom_length/g" | \
+sed "s/\<comment_on_the_cpu\>/the MCU is $with_mainboard_mcu/g" > 2138.ld
+
 #make our minimalistic crosstools generate executables
- ldscript="${srcdir}/src/ram2138.ld"
+ ldscript="./2138.ld"
  ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
  CFLAGS="$CFLAGS -mcpu=arm7tdmi"
  LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
@@ -84,6 +134,7 @@ echo "whether to build:     ${build_target_programs}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
+echo "MCU:                  $with_mainboard_mcu">>summary
 echo "tools versions:">>summary
 arm-elf-as --version>>summary
 ${CC} --version>>summary

@@ -23,10 +23,6 @@ objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
  -j vectors -I elf32-littlearm -O binary
 common_sources=include/lpc2138.h
-ram_ld=src/ram2138.ld
-ram_ldscript=$(srcdir)/$(ram_ld)
-rom_ld=src/2138.ld
-rom_ldscript=$(srcdir)/$(rom_ld)
  common_sources+=lib/atexit.c
 #ifndef MCU_UNOFFENDED
 #TODO make this work
@@ -39,12 +35,12 @@ rom_ldscript=$(srcdir)/$(rom_ld)
 #endif
  common_sources+=src/boot.s
  AM_LDFLAGS=-Wl,-Map,$@.map -nostdlib -static
- AM_LIBS=-lgcc
- ram_flag=-T$(ram_ldscript)
- rom_flag=-T$(rom_ldscript)
+AM_LIBS=-lgcc
+ram_flag=-T./ram2138.ld
+rom_flag=-T./2138.ld
 extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
-EXTRA_DIST=src/mutex.c\
- Makefile.am.m4 m4/makefile.m4 $(rom_ld) $(ram_ld)
+EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
+ Makefile.am.m4 m4/makefile.m4
 divert(-1)
  ST_TARGET(`name_of_program', `program_sources')
  It expands into a sequence of automake commands that define 
@@ -112,6 +108,6 @@ ST_TARGET(`tempusex',
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
-nodist_pkgdata_DATA+=summary
+nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA) summary
+	$(RM) $(nodist_pkgdata_DATA)
