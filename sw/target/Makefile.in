@@ -473,7 +473,8 @@ nodist_pkgdata_DATA = accelex.bin accelex.vectors accelex.map \
 	powerex.bin powerex.vectors powerex.map powerex-rom.bin \
 	powerex-rom.map uart1ex.bin uart1ex.vectors uart1ex.map \
 	uart1ex-rom.bin uart1ex-rom.map tempusex.bin tempusex.vectors \
-	tempusex.map tempusex-rom.bin tempusex-rom.map summary
+	tempusex.map tempusex-rom.bin tempusex-rom.map summary \
+	ram2138.ld 2138.ld
 OBJCOPY = arm-elf-objcopy
 objcopy_bin = $(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors = $(OBJCOPY)\
@@ -484,10 +485,6 @@ objcopy_vectors = $(OBJCOPY)\
 #  AM_CFLAGS+=-DPPS_BURNT=1
 #endif
 common_sources = include/lpc2138.h lib/atexit.c src/boot.s
-ram_ld = src/ram2138.ld
-ram_ldscript = $(srcdir)/$(ram_ld)
-rom_ld = src/2138.ld
-rom_ldscript = $(srcdir)/$(rom_ld)
 #ifndef MCU_UNOFFENDED
 #TODO make this work
 #  PPS_BURNT=1
@@ -496,11 +493,11 @@ AM_CFLAGS = -mcpu=arm7tdmi -Wall -O2
 AM_CPPFLAGS = -I$(srcdir)/src
 AM_LDFLAGS = -Wl,-Map,$@.map -nostdlib -static
 AM_LIBS = -lgcc
-ram_flag = -T$(ram_ldscript)
-rom_flag = -T$(rom_ldscript)
+ram_flag = -T./ram2138.ld
+rom_flag = -T./2138.ld
 extra_common_sources = lib/atexit.c lib/mutex.h src/boot.s
-EXTRA_DIST = src/mutex.c\
- Makefile.am.m4 m4/makefile.m4 $(rom_ld) $(ram_ld)
+EXTRA_DIST = src/ram2138.ld.in src/2138.ld.in src/mutex.c\
+ Makefile.am.m4 m4/makefile.m4
 
 accelex_sources = $(common_sources)\
  src/accelex.c src/accel.c src/accel.h\
@@ -510,11 +507,11 @@ accelex_sources = $(common_sources)\
 accelex_SOURCES = $(accelex_sources)
 accelex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_accelex_SOURCES = $(extra_common_sources)
-accelex_DEPENDENCIES = $(ram_ld)
+accelex_DEPENDENCIES = src/ram2138.ld.in
 accelex_rom_SOURCES = $(accelex_sources)
 accelex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_accelex_rom_SOURCES = $(extra_common_sources)
-accelex_rom_DEPENDENCIES = $(rom_ld)
+accelex_rom_DEPENDENCIES = src/2138.ld.in
 adcex_sources = $(common_sources)\
  src/adcex.c src/adc.c src/adc.h\
  src/dac.c src/dac.h src/mutex.h\
@@ -523,11 +520,11 @@ adcex_sources = $(common_sources)\
 adcex_SOURCES = $(adcex_sources)
 adcex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_adcex_SOURCES = $(extra_common_sources)
-adcex_DEPENDENCIES = $(ram_ld)
+adcex_DEPENDENCIES = src/ram2138.ld.in
 adcex_rom_SOURCES = $(adcex_sources)
 adcex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_adcex_rom_SOURCES = $(extra_common_sources)
-adcex_rom_DEPENDENCIES = $(rom_ld)
+adcex_rom_DEPENDENCIES = src/2138.ld.in
 crcex_sources = $(common_sources)\
  src/crcex.c src/crc32.c src/crc32.h\
  src/pll.c src/pll.h src/led.c src/led.h
@@ -535,11 +532,11 @@ crcex_sources = $(common_sources)\
 crcex_SOURCES = $(crcex_sources)
 crcex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_crcex_SOURCES = $(extra_common_sources)
-crcex_DEPENDENCIES = $(ram_ld)
+crcex_DEPENDENCIES = src/ram2138.ld.in
 crcex_rom_SOURCES = $(crcex_sources)
 crcex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_crcex_rom_SOURCES = $(extra_common_sources)
-crcex_rom_DEPENDENCIES = $(rom_ld)
+crcex_rom_DEPENDENCIES = src/2138.ld.in
 dacex_sources = $(common_sources)\
  src/dacex.c src/dac.c src/dac.h\
  src/led.c src/led.h src/pll.c src/pll.h
@@ -547,33 +544,33 @@ dacex_sources = $(common_sources)\
 dacex_SOURCES = $(dacex_sources)
 dacex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_dacex_SOURCES = $(extra_common_sources)
-dacex_DEPENDENCIES = $(ram_ld)
+dacex_DEPENDENCIES = src/ram2138.ld.in
 dacex_rom_SOURCES = $(dacex_sources)
 dacex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_dacex_rom_SOURCES = $(extra_common_sources)
-dacex_rom_DEPENDENCIES = $(rom_ld)
+dacex_rom_DEPENDENCIES = src/2138.ld.in
 inledex_sources = $(common_sources)\
  src/inledex.c src/pll.c src/pll.h
 
 inledex_SOURCES = $(inledex_sources)
 inledex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_inledex_SOURCES = $(extra_common_sources)
-inledex_DEPENDENCIES = $(ram_ld)
+inledex_DEPENDENCIES = src/ram2138.ld.in
 inledex_rom_SOURCES = $(inledex_sources)
 inledex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_inledex_rom_SOURCES = $(extra_common_sources)
-inledex_rom_DEPENDENCIES = $(rom_ld)
+inledex_rom_DEPENDENCIES = src/2138.ld.in
 ledex_sources = $(common_sources)\
  src/ledex.c src/led.c src/led.h
 
 ledex_SOURCES = $(ledex_sources)
 ledex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_ledex_SOURCES = $(extra_common_sources)
-ledex_DEPENDENCIES = $(ram_ld)
+ledex_DEPENDENCIES = src/ram2138.ld.in
 ledex_rom_SOURCES = $(ledex_sources)
 ledex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_ledex_rom_SOURCES = $(extra_common_sources)
-ledex_rom_DEPENDENCIES = $(rom_ld)
+ledex_rom_DEPENDENCIES = src/2138.ld.in
 lm74ex_sources = $(common_sources)\
  src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h\
  src/tempus.c src/tempus.h\
@@ -582,11 +579,11 @@ lm74ex_sources = $(common_sources)\
 lm74ex_SOURCES = $(lm74ex_sources)
 lm74ex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_lm74ex_SOURCES = $(extra_common_sources)
-lm74ex_DEPENDENCIES = $(ram_ld)
+lm74ex_DEPENDENCIES = src/ram2138.ld.in
 lm74ex_rom_SOURCES = $(lm74ex_sources)
 lm74ex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_lm74ex_rom_SOURCES = $(extra_common_sources)
-lm74ex_rom_DEPENDENCIES = $(rom_ld)
+lm74ex_rom_DEPENDENCIES = src/2138.ld.in
 magex_sources = $(common_sources)\
  src/magex.c src/mag.c src/mag.h\
  src/adc.c src/adc.h src/dac.c src/dac.h\
@@ -598,11 +595,11 @@ magex_sources = $(common_sources)\
 magex_SOURCES = $(magex_sources)
 magex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_magex_SOURCES = $(extra_common_sources)
-magex_DEPENDENCIES = $(ram_ld)
+magex_DEPENDENCIES = src/ram2138.ld.in
 magex_rom_SOURCES = $(magex_sources)
 magex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_magex_rom_SOURCES = $(extra_common_sources)
-magex_rom_DEPENDENCIES = $(rom_ld)
+magex_rom_DEPENDENCIES = src/2138.ld.in
 mag_response_sources = $(common_sources)\
  src/mag_response.c\
  src/adc.c src/adc.h src/crc32.c src/crc32.h\
@@ -616,11 +613,11 @@ mag_response_sources = $(common_sources)\
 mag_response_SOURCES = $(mag_response_sources)
 mag_response_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_mag_response_SOURCES = $(extra_common_sources)
-mag_response_DEPENDENCIES = $(ram_ld)
+mag_response_DEPENDENCIES = src/ram2138.ld.in
 mag_response_rom_SOURCES = $(mag_response_sources)
 mag_response_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_mag_response_rom_SOURCES = $(extra_common_sources)
-mag_response_rom_DEPENDENCIES = $(rom_ld)
+mag_response_rom_DEPENDENCIES = src/2138.ld.in
 multa_sources = $(common_sources)\
  src/multa.c\
  src/accel.c src/accel.h src/adc.c src/adc.h\
@@ -634,33 +631,33 @@ multa_sources = $(common_sources)\
 multa_SOURCES = $(multa_sources)
 multa_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_multa_SOURCES = $(extra_common_sources)
-multa_DEPENDENCIES = $(ram_ld)
+multa_DEPENDENCIES = src/ram2138.ld.in
 multa_rom_SOURCES = $(multa_sources)
 multa_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_multa_rom_SOURCES = $(extra_common_sources)
-multa_rom_DEPENDENCIES = $(rom_ld)
+multa_rom_DEPENDENCIES = src/2138.ld.in
 pllex_sources = $(common_sources)\
  src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
 
 pllex_SOURCES = $(pllex_sources)
 pllex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_pllex_SOURCES = $(extra_common_sources)
-pllex_DEPENDENCIES = $(ram_ld)
+pllex_DEPENDENCIES = src/ram2138.ld.in
 pllex_rom_SOURCES = $(pllex_sources)
 pllex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_pllex_rom_SOURCES = $(extra_common_sources)
-pllex_rom_DEPENDENCIES = $(rom_ld)
+pllex_rom_DEPENDENCIES = src/2138.ld.in
 powerex_sources = $(common_sources)\
  src/powerex.c src/power.c src/power.h
 
 powerex_SOURCES = $(powerex_sources)
 powerex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_powerex_SOURCES = $(extra_common_sources)
-powerex_DEPENDENCIES = $(ram_ld)
+powerex_DEPENDENCIES = src/ram2138.ld.in
 powerex_rom_SOURCES = $(powerex_sources)
 powerex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_powerex_rom_SOURCES = $(extra_common_sources)
-powerex_rom_DEPENDENCIES = $(rom_ld)
+powerex_rom_DEPENDENCIES = src/2138.ld.in
 uart1ex_sources = $(common_sources)\
  src/uart1ex.c\
  src/crc32.c src/crc32.h src/dac.c src/dac.h\
@@ -673,11 +670,11 @@ uart1ex_sources = $(common_sources)\
 uart1ex_SOURCES = $(uart1ex_sources)
 uart1ex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_uart1ex_SOURCES = $(extra_common_sources)
-uart1ex_DEPENDENCIES = $(ram_ld)
+uart1ex_DEPENDENCIES = src/ram2138.ld.in
 uart1ex_rom_SOURCES = $(uart1ex_sources)
 uart1ex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_uart1ex_rom_SOURCES = $(extra_common_sources)
-uart1ex_rom_DEPENDENCIES = $(rom_ld)
+uart1ex_rom_DEPENDENCIES = src/2138.ld.in
 tempusex_sources = $(common_sources)\
  src/tempusex.c src/mutex.h\
  src/pll.c src/pll.h src/led.c src/led.h
@@ -685,11 +682,11 @@ tempusex_sources = $(common_sources)\
 tempusex_SOURCES = $(tempusex_sources)
 tempusex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_tempusex_SOURCES = $(extra_common_sources)
-tempusex_DEPENDENCIES = $(ram_ld)
+tempusex_DEPENDENCIES = src/ram2138.ld.in
 tempusex_rom_SOURCES = $(tempusex_sources)
 tempusex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_tempusex_rom_SOURCES = $(extra_common_sources)
-tempusex_rom_DEPENDENCIES = $(rom_ld)
+tempusex_rom_DEPENDENCIES = src/2138.ld.in
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -1775,7 +1772,7 @@ tempusex-rom.map: $(tempusex_sources)
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA) summary
+	$(RM) $(nodist_pkgdata_DATA)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -25,10 +25,6 @@ objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
  -j vectors -I elf32-littlearm -O binary
 common_sources=include/lpc2138.h
-ram_ld=src/ram2138.ld
-ram_ldscript=$(srcdir)/$(ram_ld)
-rom_ld=src/2138.ld
-rom_ldscript=$(srcdir)/$(rom_ld)
  common_sources+=lib/atexit.c
 #ifndef MCU_UNOFFENDED
 #TODO make this work
@@ -41,12 +37,12 @@ rom_ldscript=$(srcdir)/$(rom_ld)
 #endif
  common_sources+=src/boot.s
  AM_LDFLAGS=-Wl,-Map,$@.map -nostdlib -static
- AM_LIBS=-lgcc
- ram_flag=-T$(ram_ldscript)
- rom_flag=-T$(rom_ldscript)
+AM_LIBS=-lgcc
+ram_flag=-T./ram2138.ld
+rom_flag=-T./2138.ld
 extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
-EXTRA_DIST=src/mutex.c\
- Makefile.am.m4 m4/makefile.m4 $(rom_ld) $(ram_ld)
+EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
+ Makefile.am.m4 m4/makefile.m4
 
 #expanded "accelex" program definition begins
 nodist_pkgdata_DATA+=\
@@ -60,11 +56,11 @@ accelex_sources=$(common_sources)\
 accelex_SOURCES=$(accelex_sources)
 accelex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_accelex_SOURCES=$(extra_common_sources)
-accelex_DEPENDENCIES=$(ram_ld)
+accelex_DEPENDENCIES=src/ram2138.ld.in
 accelex_rom_SOURCES=$(accelex_sources)
 accelex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_accelex_rom_SOURCES=$(extra_common_sources)
-accelex_rom_DEPENDENCIES=$(rom_ld)
+accelex_rom_DEPENDENCIES=src/2138.ld.in
 accelex.bin: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
 	$(objcopy_bin) accelex accelex.bin
@@ -92,11 +88,11 @@ adcex_sources=$(common_sources)\
 adcex_SOURCES=$(adcex_sources)
 adcex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_adcex_SOURCES=$(extra_common_sources)
-adcex_DEPENDENCIES=$(ram_ld)
+adcex_DEPENDENCIES=src/ram2138.ld.in
 adcex_rom_SOURCES=$(adcex_sources)
 adcex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_adcex_rom_SOURCES=$(extra_common_sources)
-adcex_rom_DEPENDENCIES=$(rom_ld)
+adcex_rom_DEPENDENCIES=src/2138.ld.in
 adcex.bin: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex
 	$(objcopy_bin) adcex adcex.bin
@@ -123,11 +119,11 @@ crcex_sources=$(common_sources)\
 crcex_SOURCES=$(crcex_sources)
 crcex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_crcex_SOURCES=$(extra_common_sources)
-crcex_DEPENDENCIES=$(ram_ld)
+crcex_DEPENDENCIES=src/ram2138.ld.in
 crcex_rom_SOURCES=$(crcex_sources)
 crcex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_crcex_rom_SOURCES=$(extra_common_sources)
-crcex_rom_DEPENDENCIES=$(rom_ld)
+crcex_rom_DEPENDENCIES=src/2138.ld.in
 crcex.bin: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex
 	$(objcopy_bin) crcex crcex.bin
@@ -154,11 +150,11 @@ dacex_sources=$(common_sources)\
 dacex_SOURCES=$(dacex_sources)
 dacex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_dacex_SOURCES=$(extra_common_sources)
-dacex_DEPENDENCIES=$(ram_ld)
+dacex_DEPENDENCIES=src/ram2138.ld.in
 dacex_rom_SOURCES=$(dacex_sources)
 dacex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_dacex_rom_SOURCES=$(extra_common_sources)
-dacex_rom_DEPENDENCIES=$(rom_ld)
+dacex_rom_DEPENDENCIES=src/2138.ld.in
 dacex.bin: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex
 	$(objcopy_bin) dacex dacex.bin
@@ -184,11 +180,11 @@ inledex_sources=$(common_sources)\
 inledex_SOURCES=$(inledex_sources)
 inledex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_inledex_SOURCES=$(extra_common_sources)
-inledex_DEPENDENCIES=$(ram_ld)
+inledex_DEPENDENCIES=src/ram2138.ld.in
 inledex_rom_SOURCES=$(inledex_sources)
 inledex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_inledex_rom_SOURCES=$(extra_common_sources)
-inledex_rom_DEPENDENCIES=$(rom_ld)
+inledex_rom_DEPENDENCIES=src/2138.ld.in
 inledex.bin: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex
 	$(objcopy_bin) inledex inledex.bin
@@ -214,11 +210,11 @@ ledex_sources=$(common_sources)\
 ledex_SOURCES=$(ledex_sources)
 ledex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_ledex_SOURCES=$(extra_common_sources)
-ledex_DEPENDENCIES=$(ram_ld)
+ledex_DEPENDENCIES=src/ram2138.ld.in
 ledex_rom_SOURCES=$(ledex_sources)
 ledex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_ledex_rom_SOURCES=$(extra_common_sources)
-ledex_rom_DEPENDENCIES=$(rom_ld)
+ledex_rom_DEPENDENCIES=src/2138.ld.in
 ledex.bin: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex
 	$(objcopy_bin) ledex ledex.bin
@@ -246,11 +242,11 @@ lm74ex_sources=$(common_sources)\
 lm74ex_SOURCES=$(lm74ex_sources)
 lm74ex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_lm74ex_SOURCES=$(extra_common_sources)
-lm74ex_DEPENDENCIES=$(ram_ld)
+lm74ex_DEPENDENCIES=src/ram2138.ld.in
 lm74ex_rom_SOURCES=$(lm74ex_sources)
 lm74ex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_lm74ex_rom_SOURCES=$(extra_common_sources)
-lm74ex_rom_DEPENDENCIES=$(rom_ld)
+lm74ex_rom_DEPENDENCIES=src/2138.ld.in
 lm74ex.bin: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex
 	$(objcopy_bin) lm74ex lm74ex.bin
@@ -281,11 +277,11 @@ magex_sources=$(common_sources)\
 magex_SOURCES=$(magex_sources)
 magex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_magex_SOURCES=$(extra_common_sources)
-magex_DEPENDENCIES=$(ram_ld)
+magex_DEPENDENCIES=src/ram2138.ld.in
 magex_rom_SOURCES=$(magex_sources)
 magex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_magex_rom_SOURCES=$(extra_common_sources)
-magex_rom_DEPENDENCIES=$(rom_ld)
+magex_rom_DEPENDENCIES=src/2138.ld.in
 magex.bin: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex
 	$(objcopy_bin) magex magex.bin
@@ -318,11 +314,11 @@ mag_response_sources=$(common_sources)\
 mag_response_SOURCES=$(mag_response_sources)
 mag_response_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_mag_response_SOURCES=$(extra_common_sources)
-mag_response_DEPENDENCIES=$(ram_ld)
+mag_response_DEPENDENCIES=src/ram2138.ld.in
 mag_response_rom_SOURCES=$(mag_response_sources)
 mag_response_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_mag_response_rom_SOURCES=$(extra_common_sources)
-mag_response_rom_DEPENDENCIES=$(rom_ld)
+mag_response_rom_DEPENDENCIES=src/2138.ld.in
 mag_response.bin: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response
 	$(objcopy_bin) mag_response mag_response.bin
@@ -355,11 +351,11 @@ multa_sources=$(common_sources)\
 multa_SOURCES=$(multa_sources)
 multa_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_multa_SOURCES=$(extra_common_sources)
-multa_DEPENDENCIES=$(ram_ld)
+multa_DEPENDENCIES=src/ram2138.ld.in
 multa_rom_SOURCES=$(multa_sources)
 multa_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_multa_rom_SOURCES=$(extra_common_sources)
-multa_rom_DEPENDENCIES=$(rom_ld)
+multa_rom_DEPENDENCIES=src/2138.ld.in
 multa.bin: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
 	$(objcopy_bin) multa multa.bin
@@ -385,11 +381,11 @@ pllex_sources=$(common_sources)\
 pllex_SOURCES=$(pllex_sources)
 pllex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_pllex_SOURCES=$(extra_common_sources)
-pllex_DEPENDENCIES=$(ram_ld)
+pllex_DEPENDENCIES=src/ram2138.ld.in
 pllex_rom_SOURCES=$(pllex_sources)
 pllex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_pllex_rom_SOURCES=$(extra_common_sources)
-pllex_rom_DEPENDENCIES=$(rom_ld)
+pllex_rom_DEPENDENCIES=src/2138.ld.in
 pllex.bin: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex
 	$(objcopy_bin) pllex pllex.bin
@@ -415,11 +411,11 @@ powerex_sources=$(common_sources)\
 powerex_SOURCES=$(powerex_sources)
 powerex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_powerex_SOURCES=$(extra_common_sources)
-powerex_DEPENDENCIES=$(ram_ld)
+powerex_DEPENDENCIES=src/ram2138.ld.in
 powerex_rom_SOURCES=$(powerex_sources)
 powerex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_powerex_rom_SOURCES=$(extra_common_sources)
-powerex_rom_DEPENDENCIES=$(rom_ld)
+powerex_rom_DEPENDENCIES=src/2138.ld.in
 powerex.bin: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex
 	$(objcopy_bin) powerex powerex.bin
@@ -451,11 +447,11 @@ uart1ex_sources=$(common_sources)\
 uart1ex_SOURCES=$(uart1ex_sources)
 uart1ex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_uart1ex_SOURCES=$(extra_common_sources)
-uart1ex_DEPENDENCIES=$(ram_ld)
+uart1ex_DEPENDENCIES=src/ram2138.ld.in
 uart1ex_rom_SOURCES=$(uart1ex_sources)
 uart1ex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_uart1ex_rom_SOURCES=$(extra_common_sources)
-uart1ex_rom_DEPENDENCIES=$(rom_ld)
+uart1ex_rom_DEPENDENCIES=src/2138.ld.in
 uart1ex.bin: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
 	$(objcopy_bin) uart1ex uart1ex.bin
@@ -482,11 +478,11 @@ tempusex_sources=$(common_sources)\
 tempusex_SOURCES=$(tempusex_sources)
 tempusex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_tempusex_SOURCES=$(extra_common_sources)
-tempusex_DEPENDENCIES=$(ram_ld)
+tempusex_DEPENDENCIES=src/ram2138.ld.in
 tempusex_rom_SOURCES=$(tempusex_sources)
 tempusex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_tempusex_rom_SOURCES=$(extra_common_sources)
-tempusex_rom_DEPENDENCIES=$(rom_ld)
+tempusex_rom_DEPENDENCIES=src/2138.ld.in
 tempusex.bin: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex
 	$(objcopy_bin) tempusex tempusex.bin
@@ -504,6 +500,6 @@ tempusex-rom.map: $(tempusex_sources)
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
-nodist_pkgdata_DATA+=summary
+nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA) summary
+	$(RM) $(nodist_pkgdata_DATA)
