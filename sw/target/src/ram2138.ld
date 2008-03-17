@@ -23,7 +23,7 @@ MEMORY
    -32-256/*high memory used by the bootstrap loader*/
    -8/*two words more to be sure*/
    +32k /*l = 8k for LPC2131, 16k for LPC213[24], 32k for LPC213[68]*/
-  lowram(!r) : o = 0x4000000, l = 0x40
+  lowram(!r) : o = 0x40000000, l = 0x40
   rom (rx) : o = 0, l = 512k/* l = 32k for LPC2131, 64k for LPC2132, 
                                    128k for LPC2134, 
                                    256k for LPC2136, 
