@@ -16,7 +16,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#This part forces host to be arm-elf and
+#This part forces host to be arm-unknown-elf and
 #swithes on cross-build configuration by default
 #we can't make this in configure.ac
 #because nothing goes into 'configure' before AC_INIT 
@@ -26,9 +26,9 @@ if test "z$target_recursion_trigger" = z;then
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
  case $# in
-  0) ${0} --build=${config_guessed} --host=arm-elf;;
+  0) ${0} --build=${config_guessed} --host=arm-unknown-elf;;
  #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=arm-elf;;
+  *) ${0} --build=${config_guessed} $@ --host=arm-unknown-elf;;
  esac
  exit $?
 fi

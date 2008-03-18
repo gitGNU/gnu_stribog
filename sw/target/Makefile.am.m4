@@ -17,7 +17,7 @@ divert(-1)
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 include(`m4/makefile.m4')
-OBJCOPY=arm-elf-objcopy
+OBJCOPY=arm-unknown-elf-objcopy
 objcopy_bin=$(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\

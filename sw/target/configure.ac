@@ -19,7 +19,7 @@ AC_PREREQ(2.61)
 AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
 #the cross-build is forced in configure.pre which is
 #written at the begin of 'configure'
-AC_MSG_RESULT([NB here we force arm-elf host])
+AC_MSG_RESULT([NB here we force arm-unknown-elf host])
 
 AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_SRCDIR([src/pll.c])
@@ -88,10 +88,10 @@ sed "s/\<comment_on_the_cpu\>/the MCU is $with_mainboard_mcu/g" > 2138.ld
   #libgcc of gcc-2.95.3 needs atexit, 
   #which can safely be stubbed in our programs
   #TODO: check if the programs built with gcc-2.95.3 really work
-  arm-elf-gcc -c -o atexit.o ${CFLAGS} "${srcdir}/lib/atexit.c"
-  #arm-elf-as-2.10 does not assemble boot.s 
-AC_MSG_CHECKING([if arm-elf-as can assemble boot.s])
-if arm-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s" ;then
+  arm-unknown-elf-gcc -c -o atexit.o ${CFLAGS} "${srcdir}/lib/atexit.c"
+  #arm-unknown-elf-as-2.10 does not assemble boot.s 
+AC_MSG_CHECKING([if arm-unknown-elf-as can assemble boot.s])
+if arm-unknown-elf-as -o boot.o ${ASFLAGS} "${srcdir}/src/boot.s" ;then
  arm_elf_as=yes;
 else
  arm_elf_as=no;
@@ -100,8 +100,8 @@ AC_MSG_RESULT([$arm_elf_as])
 if test $arm_elf_as = no;then
  AC_MSG_RESULT([
 
- arm-elf-as can't assemble startup program.
- probably no arm-elf-as present or binutils are too old
+ arm-unknown-elf-as can't assemble startup program.
+ probably no arm-unknown-elf-as present or binutils are too old
  (binutils-2.16 to 2.18 are known to work; 2.10 does not)
 ])
  exit 1; 
@@ -137,7 +137,7 @@ echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 echo "MCU:                  $with_mainboard_mcu">>summary
 echo "tools versions:">>summary
-arm-elf-as --version>>summary
+arm-unknown-elf-as --version>>summary
 ${CC} --version>>summary
 
 if test "z$recursive_stribog_build" != zyes;then
