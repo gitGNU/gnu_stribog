@@ -113,6 +113,12 @@ generally, binutils-2.18 release is not very stable.
 
 GCC-4.3.0 has a new strong dependency, MPFR. current version of MPFR, 2.3.1,
 requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
+not all. gcc-4.3.0 outputs 'libgcc.a' when asked for -print-libgcc-file-name;
+-print-file-name=$(arm-elf-gcc -print-libgcc-name) does not work, too.
+evidently the feature is broken.
+the older versions printed the absolute path to the library; and -lgcc worked
+with them and does not with gcc-4.3.0.
+
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
