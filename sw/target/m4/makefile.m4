@@ -46,7 +46,7 @@ $1-rom.map: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
 #expanded "$1" program definition ends')
 divert`'dnl
-#this file is generated with m4 from Automake.am.m4
+#Makefile.am is generated with m4 from Automake.am.m4
 #use ./regen_configure to regenerate all our build scripts
 #
 #This file is a part of the stribog project
