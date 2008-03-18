@@ -99,7 +99,8 @@ fi
 AC_MSG_RESULT([$arm_elf_as])
 if test $arm_elf_as = no;then
  AC_MSG_RESULT([
- arm-elf-as can't assemble startup program
+
+ arm-elf-as can't assemble startup program.
  probably no arm-elf-as present or binutils are too old
  (binutils-2.16 to 2.18 are known to work; 2.10 does not)
 ])
