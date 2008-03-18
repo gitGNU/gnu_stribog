@@ -18,10 +18,10 @@
 ifndef MCU_UNOFFENDED
  PPS_BURNT=1
 endif
-CC=arm-elf-gcc
-AS=arm-elf-as
-LD=arm-elf-ld
-OBJCOPY=arm-elf-objcopy
+CC=arm-unknown-elf-gcc
+AS=arm-unknown-elf-as
+LD=arm-unknown-elf-ld
+OBJCOPY=arm-unknown-elf-objcopy
 ASFLAGS=-mcpu=arm7tdmi
 CFLAGS=-mcpu=arm7tdmi -Wall -O2
 ifdef PPS_BURNT
