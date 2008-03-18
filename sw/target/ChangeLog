@@ -2,6 +2,9 @@
  * Makefile.am.m4: check whether ld scripts are up-to-date added
  * Makefile.am.m4 configure.ac configure.pre:
  replaced arm-elf with canonical arm-unknown-elf
+ * Makefile.am.m4 m4/makefile.m4 src/uart1.c: include/form_fix.h
+ removed; returned to ../../common/form_fix.h
+ * include/form_fix.h: removed
 17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am.m4 configure.ac: made work with gcc-4.3.0
  * configure.ac: check for assembler

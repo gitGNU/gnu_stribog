@@ -1,3 +1,6 @@
+18 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/parse_tsipex conloq/Makefile.am: form_fix.h unspread
+ * include/form_fix.h: removed
 17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: checks should happen unconditionally
 15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
