@@ -92,7 +92,6 @@ magexp_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_parse_tsipex_OBJECTS = parse_tsipex.$(OBJEXT) crc32.$(OBJEXT) \
 	parse_tsip.$(OBJEXT)
 parse_tsipex_OBJECTS = $(am_parse_tsipex_OBJECTS)
-parse_tsipex_DEPENDENCIES = $(am__DEPENDENCIES_1)
 dist_binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 SCRIPTS = $(dist_bin_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
@@ -268,8 +267,9 @@ magexp_SOURCES = expon.c\
 
 magexp_LDADD = $(stribog_lib)
 parse_tsipex_SOURCES = parse_tsipex.c crc32.c crc32.h\
- get_u.h parse_tsip.c parse_tsip.h ../include/form_fix.h
+ get_u.h parse_tsip.c parse_tsip.h 
 
+parse_tsipex_DEPENDENCIES = ../../common/form_fix.h
 parse_tsipex_LDADD = $(stribog_lib)
 all: all-am
 
