@@ -475,7 +475,7 @@ nodist_pkgdata_DATA = accelex.bin accelex.vectors accelex.map \
 	uart1ex-rom.bin uart1ex-rom.map tempusex.bin tempusex.vectors \
 	tempusex.map tempusex-rom.bin tempusex-rom.map summary \
 	ram2138.ld 2138.ld
-OBJCOPY = arm-elf-objcopy
+OBJCOPY = arm-unknown-elf-objcopy
 objcopy_bin = $(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors = $(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\

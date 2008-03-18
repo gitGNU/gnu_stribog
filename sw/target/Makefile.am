@@ -19,7 +19,7 @@
 nodist_pkgdata_DATA=
 noinst_PROGRAMS=
 
-OBJCOPY=arm-elf-objcopy
+OBJCOPY=arm-unknown-elf-objcopy
 objcopy_bin=$(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
