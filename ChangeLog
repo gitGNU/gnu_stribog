@@ -1,6 +1,7 @@
 18 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/common/Makefile.am: new
- * Makefile.am: new subdir sw/common;form_fix check removed
+ * Makefile.am configure.ac: new subdir sw/common;
+ * Makefile.am: form_fix check removed
 17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: unneeded checks removed
 15 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
