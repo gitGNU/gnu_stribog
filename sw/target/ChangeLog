@@ -1,3 +1,5 @@
+18 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am.m4: check whether ld scripts are up-to-date added
 17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am.m4 configure.ac: made work with gcc-4.3.0
  * configure.ac: check for assembler
