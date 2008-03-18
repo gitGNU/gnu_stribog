@@ -314,11 +314,11 @@ mag_response_sources=$(common_sources)\
 mag_response_SOURCES=$(mag_response_sources)
 mag_response_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_mag_response_SOURCES=$(extra_common_sources)
-mag_response_DEPENDENCIES=src/ram2138.ld.in ../../common/form_fix.h
+mag_response_DEPENDENCIES=src/ram2138.ld.in ../common/form_fix.h
 mag_response_rom_SOURCES=$(mag_response_sources)
 mag_response_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_mag_response_rom_SOURCES=$(extra_common_sources)
-mag_response_rom_DEPENDENCIES=src/2138.ld.in ../../common/form_fix.h
+mag_response_rom_DEPENDENCIES=src/2138.ld.in ../common/form_fix.h
 mag_response.bin: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response
 	$(objcopy_bin) mag_response mag_response.bin
@@ -351,11 +351,11 @@ multa_sources=$(common_sources)\
 multa_SOURCES=$(multa_sources)
 multa_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_multa_SOURCES=$(extra_common_sources)
-multa_DEPENDENCIES=src/ram2138.ld.in ../../common/form_fix.h
+multa_DEPENDENCIES=src/ram2138.ld.in ../common/form_fix.h
 multa_rom_SOURCES=$(multa_sources)
 multa_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_multa_rom_SOURCES=$(extra_common_sources)
-multa_rom_DEPENDENCIES=src/2138.ld.in ../../common/form_fix.h
+multa_rom_DEPENDENCIES=src/2138.ld.in ../common/form_fix.h
 multa.bin: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
 	$(objcopy_bin) multa multa.bin
@@ -447,11 +447,11 @@ uart1ex_sources=$(common_sources)\
 uart1ex_SOURCES=$(uart1ex_sources)
 uart1ex_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_uart1ex_SOURCES=$(extra_common_sources)
-uart1ex_DEPENDENCIES=src/ram2138.ld.in ../../common/form_fix.h
+uart1ex_DEPENDENCIES=src/ram2138.ld.in ../common/form_fix.h
 uart1ex_rom_SOURCES=$(uart1ex_sources)
 uart1ex_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_uart1ex_rom_SOURCES=$(extra_common_sources)
-uart1ex_rom_DEPENDENCIES=src/2138.ld.in ../../common/form_fix.h
+uart1ex_rom_DEPENDENCIES=src/2138.ld.in ../common/form_fix.h
 uart1ex.bin: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
 	$(objcopy_bin) uart1ex uart1ex.bin

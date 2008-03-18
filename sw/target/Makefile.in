@@ -613,11 +613,11 @@ mag_response_sources = $(common_sources)\
 mag_response_SOURCES = $(mag_response_sources)
 mag_response_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_mag_response_SOURCES = $(extra_common_sources)
-mag_response_DEPENDENCIES = src/ram2138.ld.in ../../common/form_fix.h
+mag_response_DEPENDENCIES = src/ram2138.ld.in ../common/form_fix.h
 mag_response_rom_SOURCES = $(mag_response_sources)
 mag_response_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_mag_response_rom_SOURCES = $(extra_common_sources)
-mag_response_rom_DEPENDENCIES = src/2138.ld.in ../../common/form_fix.h
+mag_response_rom_DEPENDENCIES = src/2138.ld.in ../common/form_fix.h
 multa_sources = $(common_sources)\
  src/multa.c\
  src/accel.c src/accel.h src/adc.c src/adc.h\
@@ -631,11 +631,11 @@ multa_sources = $(common_sources)\
 multa_SOURCES = $(multa_sources)
 multa_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_multa_SOURCES = $(extra_common_sources)
-multa_DEPENDENCIES = src/ram2138.ld.in ../../common/form_fix.h
+multa_DEPENDENCIES = src/ram2138.ld.in ../common/form_fix.h
 multa_rom_SOURCES = $(multa_sources)
 multa_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_multa_rom_SOURCES = $(extra_common_sources)
-multa_rom_DEPENDENCIES = src/2138.ld.in ../../common/form_fix.h
+multa_rom_DEPENDENCIES = src/2138.ld.in ../common/form_fix.h
 pllex_sources = $(common_sources)\
  src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
 
@@ -670,11 +670,11 @@ uart1ex_sources = $(common_sources)\
 uart1ex_SOURCES = $(uart1ex_sources)
 uart1ex_LDFLAGS = $(AM_LDFLAGS) $(ram_flag)
 EXTRA_uart1ex_SOURCES = $(extra_common_sources)
-uart1ex_DEPENDENCIES = src/ram2138.ld.in ../../common/form_fix.h
+uart1ex_DEPENDENCIES = src/ram2138.ld.in ../common/form_fix.h
 uart1ex_rom_SOURCES = $(uart1ex_sources)
 uart1ex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_uart1ex_rom_SOURCES = $(extra_common_sources)
-uart1ex_rom_DEPENDENCIES = src/2138.ld.in ../../common/form_fix.h
+uart1ex_rom_DEPENDENCIES = src/2138.ld.in ../common/form_fix.h
 tempusex_sources = $(common_sources)\
  src/tempusex.c src/mutex.h\
  src/pll.c src/pll.h src/led.c src/led.h
