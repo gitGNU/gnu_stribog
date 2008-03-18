@@ -42,37 +42,37 @@ extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4
 divert(-1)
- ST_TARGET(`name_of_program', `program_sources')
+ ST_TARGET(`program_name', `program_sources', `extra_dependencies')
  It expands into a sequence of automake commands that define 
  this target program. 
 divert`'dnl
 ST_TARGET(`accelex',
 `src/accelex.c src/accel.c src/accel.h\
  src/mutex.h\
- src/led.c src/led.h src/pll.c src/pll.h')
+ src/led.c src/led.h src/pll.c src/pll.h',)
 ST_TARGET(`adcex',
 `src/adcex.c src/adc.c src/adc.h\
  src/dac.c src/dac.h src/mutex.h\
- src/led.c src/led.h src/pll.c src/pll.h')
+ src/led.c src/led.h src/pll.c src/pll.h',)
 ST_TARGET(`crcex',
 `src/crcex.c src/crc32.c src/crc32.h\
- src/pll.c src/pll.h src/led.c src/led.h')
+ src/pll.c src/pll.h src/led.c src/led.h',)
 ST_TARGET(`dacex',
 `src/dacex.c src/dac.c src/dac.h\
- src/led.c src/led.h src/pll.c src/pll.h')
-ST_TARGET(`inledex',`src/inledex.c src/pll.c src/pll.h')
-ST_TARGET(`ledex',`src/ledex.c src/led.c src/led.h')
+ src/led.c src/led.h src/pll.c src/pll.h',)
+ST_TARGET(`inledex',`src/inledex.c src/pll.c src/pll.h',)
+ST_TARGET(`ledex',`src/ledex.c src/led.c src/led.h',)
 ST_TARGET(`lm74ex',
 `src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h\
  src/tempus.c src/tempus.h\
- src/pll.c src/pll.h src/led.c src/led.h')
+ src/pll.c src/pll.h src/led.c src/led.h',)
 ST_TARGET(`magex',
 `src/magex.c src/mag.c src/mag.h\
  src/adc.c src/adc.h src/dac.c src/dac.h\
  src/mutex.h src/uart.config.h src/freq.h\
  src/uart0.c src/uart0.h src/uart1out.c src/uart1out.h\
  src/tempus.c src/tempus.h\
- src/led.c src/led.h src/pll.c src/pll.h')
+ src/led.c src/led.h src/pll.c src/pll.h',)
 ST_TARGET(`mag_response',
 `src/mag_response.c\
  src/adc.c src/adc.h src/crc32.c src/crc32.h\
@@ -80,8 +80,9 @@ ST_TARGET(`mag_response',
  src/mutex.h src/uart.config.h src/freq.h\
  src/power.c src/power.h\
  src/tempus.c src/tempus.h\
- src/uart1.c src/uart1.h include/form_fix.h\
- src/led.c src/led.h src/pll.c src/pll.h')
+ src/uart1.c src/uart1.h\
+ src/led.c src/led.h src/pll.c src/pll.h',
+ `../../common/form_fix.h')
 ST_TARGET(`multa',
 `src/multa.c\
  src/accel.c src/accel.h src/adc.c src/adc.h\
@@ -89,8 +90,9 @@ ST_TARGET(`multa',
  src/lm74.c src/lm74.h src/mag.c src/mag.h\
  src/mutex.h src/uart.config.h src/freq.h\
  src/power.c src/power.h src/tempus.c src/tempus.h\
- src/uart0.c src/uart0.h src/uart1.c src/uart1.h include/form_fix.h\
- src/led.c src/led.h src/pll.c src/pll.h')
+ src/uart0.c src/uart0.h src/uart1.c src/uart1.h\
+ src/led.c src/led.h src/pll.c src/pll.h',
+ `../../common/form_fix.h')
 ST_TARGET(`pllex',
 `src/pllex.c src/pll.c src/pll.h src/led.c src/led.h')
 ST_TARGET(`powerex',`src/powerex.c src/power.c src/power.h')
@@ -100,11 +102,12 @@ ST_TARGET(`uart1ex',
  src/lm74.c src/lm74.h src/mag.c src/mag.h\
  src/mutex.h src/uart.config.h src/freq.h\
  src/power.c src/power.h src/tempus.c src/tempus.h\
- src/uart1.c src/uart1.h include/form_fix.h\
- src/led.c src/led.h src/pll.c src/pll.h')
+ src/uart1.c src/uart1.h\
+ src/led.c src/led.h src/pll.c src/pll.h',
+ `../../common/form_fix.h')
 ST_TARGET(`tempusex',
 `src/tempusex.c src/mutex.h\
- src/pll.c src/pll.h src/led.c src/led.h')
+ src/pll.c src/pll.h src/led.c src/led.h',)
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am

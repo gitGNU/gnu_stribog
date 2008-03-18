@@ -56,5 +56,6 @@ magexp_SOURCES=expon.c\
  verbosity_level.c verbosity_level.h
 magexp_LDADD=$(stribog_lib)
 parse_tsipex_SOURCES=parse_tsipex.c crc32.c crc32.h\
- get_u.h parse_tsip.c parse_tsip.h ../include/form_fix.h
+ get_u.h parse_tsip.c parse_tsip.h 
+parse_tsipex_DEPENDENCIES=../../common/form_fix.h
 parse_tsipex_LDADD=$(stribog_lib)

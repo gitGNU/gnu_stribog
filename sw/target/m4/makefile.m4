@@ -26,11 +26,11 @@ $1_sources=$(common_sources)\
 $1_SOURCES=$($1_sources)
 $1_LDFLAGS=$(AM_LDFLAGS) $(ram_flag)
 EXTRA_$1_SOURCES=$(extra_common_sources)
-$1_DEPENDENCIES=src/ram2138.ld.in
+$1_DEPENDENCIES=src/ram2138.ld.in $3
 $1_rom_SOURCES=$($1_sources)
 $1_rom_LDFLAGS=$(AM_LDFLAGS) $(rom_flag)
 EXTRA_$1_rom_SOURCES=$(extra_common_sources)
-$1_rom_DEPENDENCIES=src/2138.ld.in
+$1_rom_DEPENDENCIES=src/2138.ld.in $3
 $1.bin: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
 	$(objcopy_bin) $1 $1.bin
