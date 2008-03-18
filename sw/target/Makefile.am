@@ -1,4 +1,4 @@
-#this file is generated with m4 from Automake.am.m4
+#Makefile.am is generated with m4 from Automake.am.m4
 #use ./regen_configure to regenerate all our build scripts
 #
 #This file is a part of the stribog project
@@ -503,3 +503,19 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld
 dist-hook:
 	$(RM) $(nodist_pkgdata_DATA)
+ram2138.ld: $(srcdir)/src/ram2138.ld.in
+    @echo NOTE: ram2138.ld is generated from src/ram2138.ld.in during configuration.
+    @echo NOTE: your 'make' decided that ram2138.ld.in is newer, so ram2138.ld
+    @echo NOTE: must be regenerated. this currently can be done via configure script
+    @echo NOTE: run only. 
+    @echo NOTE: Please configure the package again. if you really don't want
+    @echo NOTE: to regenerate ram2138.ld, touch it. 
+    exit 1
+2138.ld: $(srcdir)/src/2138.ld.in
+    @echo NOTE: 2138.ld is generated from src/2138.ld.in during configuration.
+    @echo NOTE: your 'make' decided that 2138.ld.in is newer, so 2138.ld
+    @echo NOTE: must be regenerated. this currently can be done via configure script
+    @echo NOTE: run only.
+    @echo NOTE: Please configure the package again. if you really don't want
+    @echo NOTE: to regenerate 2138.ld, touch it. 
+    exit 1

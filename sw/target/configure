@@ -2304,12 +2304,14 @@ fi
 echo "${ECHO_T}$arm_elf_as" >&6; }
 if test $arm_elf_as = no;then
  { echo "$as_me:$LINENO: result:
- arm-elf-as can't assemble startup program
+
+ arm-elf-as can't assemble startup program.
  probably no arm-elf-as present or binutils are too old
  (binutils-2.16 to 2.18 are known to work; 2.10 does not)
 " >&5
 echo "${ECHO_T}
- arm-elf-as can't assemble startup program
+
+ arm-elf-as can't assemble startup program.
  probably no arm-elf-as present or binutils are too old
  (binutils-2.16 to 2.18 are known to work; 2.10 does not)
 " >&6; }
