@@ -82,7 +82,7 @@ ST_TARGET(`mag_response',
  src/tempus.c src/tempus.h\
  src/uart1.c src/uart1.h\
  src/led.c src/led.h src/pll.c src/pll.h',
- `../../common/form_fix.h')
+ `../common/form_fix.h')
 ST_TARGET(`multa',
 `src/multa.c\
  src/accel.c src/accel.h src/adc.c src/adc.h\
@@ -92,7 +92,7 @@ ST_TARGET(`multa',
  src/power.c src/power.h src/tempus.c src/tempus.h\
  src/uart0.c src/uart0.h src/uart1.c src/uart1.h\
  src/led.c src/led.h src/pll.c src/pll.h',
- `../../common/form_fix.h')
+ `../common/form_fix.h')
 ST_TARGET(`pllex',
 `src/pllex.c src/pll.c src/pll.h src/led.c src/led.h')
 ST_TARGET(`powerex',`src/powerex.c src/power.c src/power.h')
@@ -104,7 +104,7 @@ ST_TARGET(`uart1ex',
  src/power.c src/power.h src/tempus.c src/tempus.h\
  src/uart1.c src/uart1.h\
  src/led.c src/led.h src/pll.c src/pll.h',
- `../../common/form_fix.h')
+ `../common/form_fix.h')
 ST_TARGET(`tempusex',
 `src/tempusex.c src/mutex.h\
  src/pll.c src/pll.h src/led.c src/led.h',)

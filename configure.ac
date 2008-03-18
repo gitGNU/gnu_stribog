@@ -31,7 +31,8 @@ AC_PROG_CC
 export recursive_stribog_build=yes
 # Checks for library functions.
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile
+                 sw/common/Makefile])
 #AC_CONFIG_FILES([sw/auxilia/coil/Makefile
 #                 sw/auxilia/odo/Makefile
 #                 sw/auxilia/odo/host/Makefile
