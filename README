@@ -108,6 +108,10 @@ $ make all install
 That's all. we don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
+--disable-libssp is mandatory for the following gcc versions 
+(otherwize the compiler will not build itself):
+4.2.3
+
 This sequence worked on Fedora Core 4 (32-bit).
 On RedHat 7.3 binutils-2.18 will not build themselves without
 manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
