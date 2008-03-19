@@ -101,7 +101,7 @@ $ export PATH=$armprefix/bin:$PATH; rm -fr *;cd ..
          (add this path in your shell profile after install, too)
 $ gpg --verify gcc-4.2.3.tar.bz2.sig && tar xjf gcc-4.2.3.tar.bz2;cd bui
 $ ../gcc-4.2.3/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c --disable-libssp
-$ make all-gcc install-gcc
+$ make all install
 
 That's all. we don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
