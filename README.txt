@@ -100,7 +100,7 @@ $ make all install
 $ export PATH=$armprefix/bin:$PATH; rm -fr *;cd ..
          (add this path in your shell profile after install, too)
 $ gpg --verify gcc-4.2.3.tar.bz2.sig && tar xjf gcc-4.2.3.tar.bz2;cd bui
-$ ../gcc-4.2.3/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c
+$ ../gcc-4.2.3/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c --disable-libssp
 $ make all-gcc install-gcc
 
 That's all. we don't need newlib, and stribog main board has no contacts 
@@ -108,6 +108,10 @@ to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 binutils-2.18 won't build themselves on RedHat 7.3 without slightly editing.
+
+--disable-libssp is mandatory for the following gcc versions 
+(otherwize the compiler will not build itself):
+4.2.3
 
 gcc-4.3.0 have new dependency, MPFR.
 
