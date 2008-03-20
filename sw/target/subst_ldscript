@@ -1,0 +1,64 @@
+#! /bin/sh
+#stribog target: make ldscript
+#usage: subst_ldscript {RAM|ROM} {MCU} <script.ld.in >script.ld
+#Copyright (C) 2008\
+# Ineiev<ineiev@users.sourceforge.net>, super V 93
+#
+#This program is free software; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
+case $2 in
+ LPC2131) 
+  ram_length=8k
+  rom_length=32k
+  ;;
+ LPC2132)
+  ram_length=16k
+  rom_length=64k
+  ;;
+ LPC2134)
+  ram_length=16k
+  rom_length=128k
+  ;;
+ LPC2136)
+  ram_length=32k
+  rom_length=256k
+  ;;
+ LPC2138)
+  ram_length=32k
+  rom_length=512k
+  ;;
+ *)
+  echo unknown MCU '$2'
+  exit 1
+esac
+ROM_ram_origin=0x40000000
+ROM_ram_length=$ram_length;
+#0x200 is low memory used by the bootstrap loader
+#-32-256 is high memory used by the bootstrap loader
+#-8  are two words more to be sure
+RAM_ram_origin=$ROM_ram_origin+0x200
+RAM_ram_length=$ram_length-0x200-32-256-8;
+case $1 in
+ RAM) 
+  sed "s/\<ORIGIN_ram_\>/$RAM_ram_origin/g" | \
+  sed "s/\<LENGTH_ram_\>/$RAM_ram_length/g" | \
+  sed "s/\<LENGTH_rom_\>/$rom_length/g" | \
+  sed "s/\<comment_on_the_cpu\>/the MCU is $2/g"
+ ;;
+ ROM)
+  sed "s/\<ORIGIN_ram_\>/$ROM_ram_origin/g" | \
+  sed "s/\<LENGTH_ram_\>/$ROM_ram_length/g" | \
+  sed "s/\<LENGTH_rom_\>/$rom_length/g" | \
+  sed "s/\<comment_on_the_cpu\>/the MCU is $2/g"
+  ;;
+esac
