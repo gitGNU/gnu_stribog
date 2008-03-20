@@ -40,7 +40,7 @@ ram_flag=-T./ram2138.ld
 rom_flag=-T./2138.ld
 extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
- Makefile.am.m4 m4/makefile.m4
+ Makefile.am.m4 m4/makefile.m4 subst_ldscript
 divert(-1)
  ST_TARGET(`program_name', `program_sources', `extra_dependencies')
  It expands into a sequence of automake commands that define 
@@ -113,20 +113,10 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA)
-ram2138.ld: $(srcdir)/src/ram2138.ld.in
-	@echo NOTE: ram2138.ld is generated from src/ram2138.ld.in during configuration.
-	@echo NOTE: your 'make' decided that ram2138.ld.in is newer, so ram2138.ld
-	@echo NOTE: must be regenerated. this currently can be done via configure script
-	@echo NOTE: run only. 
-	@echo NOTE: Please configure the package again. if you really don't want
-	@echo NOTE: to regenerate ram2138.ld, touch it. 
-	exit 1
-2138.ld: $(srcdir)/src/2138.ld.in
-	@echo NOTE: 2138.ld is generated from src/2138.ld.in during configuration.
-	@echo NOTE: your 'make' decided that 2138.ld.in is newer, so 2138.ld
-	@echo NOTE: must be regenerated. this currently can be done via configure script
-	@echo NOTE: run only.
-	@echo NOTE: Please configure the package again. if you really don't want
-	@echo NOTE: to regenerate 2138.ld, touch it. 
-	exit 1;
+	$(RM) $(nodist_pkgdata_DATA) mcu.conf
+ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript mcu.conf
+	$(srcdir)/subst_ldscript RAM $$(cat mcu.conf) \
+ < $(srcdir)/src/ram2138.ld.in > ram2138.ld
+2138.ld: $(srcdir)/src/2138.ld.in $(srcdir)/subst_ldscript mcu.conf
+	$(srcdir)/subst_ldscript ROM $$(cat mcu.conf) \
+ < $(srcdir)/src/2138.ld.in > 2138.ld
