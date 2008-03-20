@@ -1,3 +1,5 @@
+20 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: intlpc embedded
 18 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/parse_tsipex conloq/Makefile.am: form_fix.h unspread
  * include/form_fix.h: removed
