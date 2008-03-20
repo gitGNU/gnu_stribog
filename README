@@ -86,7 +86,20 @@ binutils-2.18 with gcc-4.2.3. we used also binutils-2.17, binutils-2.16.1,
 binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2,
 gcc-4.2.2.
 
-Older versions are to be tested.
+The oldest versions of tools known to build the ARM programs are
+binutils-2.12.1 and gcc-2.95.3 (it is not tested whether correctly).
+binutils-2.11.2 have different syntax of options for CPU selection.
+out-of-box gcc-2.95.3 is not built with modern compilers because
+of typo in gcc/config/arm/arm.c:
+--- gcc-2.95.3fix/gcc/config/arm/arm.c	2008-03-13 18:38:42.000000000 +0300
++++ gcc-2.95.3/gcc/config/arm/arm.c	2008-03-13 18:39:12.000000000 +0300
+@@ -528,5 +528,5 @@
+     flag_schedule_insns = flag_schedule_insns_after_reload = 0;
+   
+-  arm_prog_mode = TARGET_APCS_32 ? PROG_MODE_PROG32 : PROG_MODE_PROG26;
++  arm_prgmode = TARGET_APCS_32 ? PROG_MODE_PROG32 : PROG_MODE_PROG26;
+   
+   if (structure_size_string != NULL)
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
@@ -112,8 +125,10 @@ to connect with gdb.
 (otherwize the compiler will not build itself):
 4.2.3
 4.3.0
-not needed for versions
+--disable-libssp presence in the 'configure' options has
+no influence for versions:
 3.4.6
+4.0.4
 
 This sequence worked on Fedora Core 4 (32-bit).
 On RedHat 7.3 binutils-2.18 will not build themselves without
