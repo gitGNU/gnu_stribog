@@ -1,4 +1,6 @@
 /*elk the LPC21x programmer: main function
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -12,9 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include"serialia.h"
@@ -245,7 +245,33 @@ write_string(const char*s,unsigned long addr,int n)
    i+=wait_for_chars(t+i,sizeof(t)-i,1);t[i]=0;if(strcmp(t,RESEND))return!0;
   }
  }while(strcmp(t,OK));return 0;
-}static const unsigned long ram=0x40000400,block=4096,step=36;
+}static const unsigned long ram=0x40000400,block=4096;
+enum {step=36,vectors_string_size=step*2,vectors_size=0x20,
+ checksum_size=4,checksum_offset=0x14};
+static char vectors[vectors_string_size];
+static unsigned long
+getul(char*s)/*lpc21xx are little-endian*/
+{return(((unsigned long)*s)&0xFF)|((((unsigned long)s[1])&0xFF)<<8)|
+ ((((unsigned long)s[2])&0xFF)<<16)|((((unsigned long)s[3])&0xFF)<<24);
+}
+static void
+putul(unsigned long u,char*s)
+{*s++=u&0xFF;u>>=8;*s++=u&0xFF;u>>=8;*s++=u&0xFF;u>>=8;*s=u&0xFF;}
+static void
+put_cksum(char s[vectors_size])
+{unsigned long cs;int i;
+ for(i=checksum_offset;i<checksum_offset+checksum_size;s[i++]=0);
+ for(cs=i=0;i<vectors_size;i+=4)cs+=getul(s+i);putul(0-cs,s+cksum_offset);
+}
+static int
+cache_checksum(FILE*f)
+{int i;
+ for(i=0;i<sizeof(vectors);i++)vectors[i]=getc(f);
+ if(feof(f))
+ {fprintf(stderr,"%s:%i: too short ARM program file\n",__FILE__,__LINE__);
+  return!0;
+ }put_cksum(vectors);return 0;
+}
 int
 copy_memory(unsigned long addr)
 {char s[289];int k,n;unsigned long bs,ra;if(prepare_sectors(0,8))return-1;
@@ -256,12 +282,23 @@ copy_memory(unsigned long addr)
  if(snprintf_checked(s,sizeof s,"M %lu %lu %lu\r\n",addr,ra,bs))return!0;k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
-}int
-write_file(void)
-{char s[289];FILE*f=fopen("elk.bin_rom","rb");int i,n=0;unsigned long addr=ram;
- if(!f)return!0;
+}
+static int
+write_file(const char*file_name)
+{char s[289];FILE*f=fopen(file_name,"rb");int i,n=0;unsigned long addr=ram;
+ if(!f)
+ {fprintf(stderr,"%s:%i: can't open file '%s'\n",__FILE__,__LINE__,file_name);
+  return!0;
+ }
+ if(cache_checksum(f))
+ {fprintf(stderr,"%s:%i: error while caching checksum for '%s' file\n",
+   __FILE__,__LINE__,file_name);
+  fclose(f);return!0;
+ }
+ for(addr=ram,i=0;i<sizeof(vectors);i+=step,addr+=step)
+ {write_string(vectors+i,addr,step);printf("^%i^",i);}
  while(!feof(f))
- {for(addr=ram;addr<ram+block;addr+=step)
+ {for(;addr<ram+block;addr+=step)
   {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);printf("^%li^",ftell(f));
    if(feof(f))
    {fclose(f);write_string(s,addr,step);copy_memory(n*block);return 0;}
@@ -347,17 +384,10 @@ void
 program_ram(int f)
 {clock_t t;synchronize(f);t=clock();while(clock()-t<CLOCKS_PER_SEC);
  echo_off();read_partid();unlock();load_and_go();
-}int
-main(int argc,char**argv)
-{char c=!0;int err,f=14746,freq_arg;
- if(argc>2)
- {sscanf(argv[2],"%i",&freq_arg);if((c=freq_arg>10))f=freq_arg;
-  if(freq_arg<-1)no_preferences=!0;
- }else no_preferences=!0;
- usage();printf("crystal frequency assumed %i kHz\n",f);
- drain_uart();
- if((err=init(argc<2?0:argv[1],f)))return err;
- if(!c){program_ram(f);close_all();return 0;}echo_off();read_partid();
+}static int f=14746;
+static void
+kbd_loop(void)
+{char c;
  do
  {printf(">");scanf("%c",&c);
   switch(c)
@@ -368,10 +398,23 @@ main(int argc,char**argv)
    case'e':erase();break;case'u':unlock();break;
    case'p':prepare();break;case'r':read_mem();break;
    case'a':echo_off();break;case'c':copy_mem();break;
-   case'b':write_file();break;case'l':load_and_go();break;
+   case'b':write_file("elk.bin-rom");break;case'l':load_and_go();break;
    case'h':help();break;
    case't':no_preferences=!no_preferences;
     printf("%spreferences will be loaded\n",no_preferences?"no ":"");
   } 
- }while(c!='q');close_all();return err;
+ }while(c!='q');
+}
+int
+main(int argc,char**argv)
+{char c=!0;int err,freq_arg;
+ if(argc>2)
+ {sscanf(argv[2],"%i",&freq_arg);if((c=freq_arg>10))f=freq_arg;
+  if(freq_arg<-1)no_preferences=!0;
+ }else no_preferences=!0;
+ usage();printf("crystal frequency assumed %i kHz\n",f);
+ drain_uart();
+ if((err=init(argc<2?0:argv[1],f)))return err;
+ if(!c){program_ram(f);close_all();return 0;}echo_off();read_partid();
+ kbd_loop();close_all();return 0;
 }
