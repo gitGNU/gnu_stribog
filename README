@@ -111,6 +111,7 @@ to connect with gdb.
 --disable-libssp is mandatory for the following gcc versions 
 (otherwize the compiler will not build itself):
 4.2.3
+4.3.0
 not needed for versions
 3.4.6
 
@@ -123,6 +124,9 @@ and it can't check new signatures; gnupg-1.4.8 quite buildable there.
 
 GCC-4.3.0 has a new strong dependency, MPFR. current version of MPFR, 2.3.1,
 requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
+after you install MPFR at prefix=$PREFIX you'll probably need to add 
+$PREFIX/lib to your LD_LIBRARY_PATH shell variable and append --with-mpfr=$PREFIX
+to the command line configuring the gcc (e.g. after --disable-libssp)
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
