@@ -266,7 +266,7 @@ put_cksum(char s[vectors_size])
 static int
 cache_checksum(FILE*f)
 {int i;
- for(i=0;i<sizeof(vectors);i++)vectors[i]=getc(f);
+ for(i=0;i<sizeof vectors;i++)vectors[i]=getc(f);
  if(feof(f))
  {fprintf(stderr,"%s:%i: too short ARM program file\n",__FILE__,__LINE__);
   return!0;
@@ -295,7 +295,7 @@ write_file(const char*file_name)
    __FILE__,__LINE__,file_name);
   fclose(f);return!0;
  }
- for(addr=ram,i=0;i<sizeof(vectors);i+=step,addr+=step)
+ for(addr=ram,i=0;i<sizeof vectors;i+=step,addr+=step)
  {write_string(vectors+i,addr,step);printf("^%i^",i);}
  while(!feof(f))
  {for(;addr<ram+block;addr+=step)
