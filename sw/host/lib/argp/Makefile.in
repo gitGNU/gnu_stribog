@@ -35,7 +35,8 @@ build_triplet = @build@
 host_triplet = @host@
 @build_own_argp_TRUE@noinst_PROGRAMS = argpex$(EXEEXT)
 subdir = lib/argp
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/argp.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
