@@ -672,6 +672,8 @@ am__leading_dot
 AMTAR
 am__tar
 am__untar
+multa_enabled_TRUE
+multa_enabled_FALSE
 CC
 CFLAGS
 LDFLAGS
@@ -2247,12 +2249,22 @@ case $with_mainboard_mcu in
 echo "${ECHO_T}unknown MCU '$with_mainboard_mcu' requested" >&6; }
   exit 1
 esac
+enable_multa=yes
 case $with_mainboard_mcu in
  LPC2131)
-  echo NOTE: LPC2131 has only 8k RAM. this is not enough for some programs\
+  echo NOTE: LPC2131 has only 8k RAM. 'multa' program is disabled\
   >> warnings
+  enable_multa=no
   ;;
 esac
+ if test "z$enable_multa" = zyes; then
+  multa_enabled_TRUE=
+  multa_enabled_FALSE='#'
+else
+  multa_enabled_TRUE='#'
+  multa_enabled_FALSE=
+fi
+
 
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld
@@ -3845,6 +3857,13 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
+if test -z "${multa_enabled_TRUE}" && test -z "${multa_enabled_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"multa_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"multa_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -4457,6 +4476,8 @@ am__leading_dot!$am__leading_dot$ac_delim
 AMTAR!$AMTAR$ac_delim
 am__tar!$am__tar$ac_delim
 am__untar!$am__untar$ac_delim
+multa_enabled_TRUE!$multa_enabled_TRUE$ac_delim
+multa_enabled_FALSE!$multa_enabled_FALSE$ac_delim
 CC!$CC$ac_delim
 CFLAGS!$CFLAGS$ac_delim
 LDFLAGS!$LDFLAGS$ac_delim
@@ -4482,7 +4503,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 82; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 84; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

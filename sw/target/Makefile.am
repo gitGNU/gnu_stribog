@@ -18,6 +18,7 @@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 nodist_pkgdata_DATA=
 noinst_PROGRAMS=
+EXTRA_PROGRAMS=
 
 OBJCOPY=arm-unknown-elf-objcopy
 objcopy_bin=$(OBJCOPY) -I elf32-littlearm -O binary -R startup
@@ -43,12 +44,11 @@ rom_flag=-T./2138.ld
 extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 subst_ldscript
-
-#expanded "accelex" program definition begins
 nodist_pkgdata_DATA+=\
  accelex.bin accelex.vectors accelex.map\
  accelex-rom.bin accelex-rom.map
 noinst_PROGRAMS+=accelex accelex-rom
+
 accelex_sources=$(common_sources)\
  src/accelex.c src/accel.c src/accel.h\
  src/mutex.h\
@@ -75,12 +75,11 @@ accelex-rom.bin: $(accelex_sources)
 accelex-rom.map: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
 #expanded "accelex" program definition ends
-
-#expanded "adcex" program definition begins
 nodist_pkgdata_DATA+=\
  adcex.bin adcex.vectors adcex.map\
  adcex-rom.bin adcex-rom.map
 noinst_PROGRAMS+=adcex adcex-rom
+
 adcex_sources=$(common_sources)\
  src/adcex.c src/adc.c src/adc.h\
  src/dac.c src/dac.h src/mutex.h\
@@ -107,12 +106,11 @@ adcex-rom.bin: $(adcex_sources)
 adcex-rom.map: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex
 #expanded "adcex" program definition ends
-
-#expanded "crcex" program definition begins
 nodist_pkgdata_DATA+=\
  crcex.bin crcex.vectors crcex.map\
  crcex-rom.bin crcex-rom.map
 noinst_PROGRAMS+=crcex crcex-rom
+
 crcex_sources=$(common_sources)\
  src/crcex.c src/crc32.c src/crc32.h\
  src/pll.c src/pll.h src/led.c src/led.h
@@ -138,12 +136,11 @@ crcex-rom.bin: $(crcex_sources)
 crcex-rom.map: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex
 #expanded "crcex" program definition ends
-
-#expanded "dacex" program definition begins
 nodist_pkgdata_DATA+=\
  dacex.bin dacex.vectors dacex.map\
  dacex-rom.bin dacex-rom.map
 noinst_PROGRAMS+=dacex dacex-rom
+
 dacex_sources=$(common_sources)\
  src/dacex.c src/dac.c src/dac.h\
  src/led.c src/led.h src/pll.c src/pll.h
@@ -169,12 +166,11 @@ dacex-rom.bin: $(dacex_sources)
 dacex-rom.map: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex
 #expanded "dacex" program definition ends
-
-#expanded "inledex" program definition begins
 nodist_pkgdata_DATA+=\
  inledex.bin inledex.vectors inledex.map\
  inledex-rom.bin inledex-rom.map
 noinst_PROGRAMS+=inledex inledex-rom
+
 inledex_sources=$(common_sources)\
  src/inledex.c src/pll.c src/pll.h
 inledex_SOURCES=$(inledex_sources)
@@ -199,12 +195,11 @@ inledex-rom.bin: $(inledex_sources)
 inledex-rom.map: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex
 #expanded "inledex" program definition ends
-
-#expanded "ledex" program definition begins
 nodist_pkgdata_DATA+=\
  ledex.bin ledex.vectors ledex.map\
  ledex-rom.bin ledex-rom.map
 noinst_PROGRAMS+=ledex ledex-rom
+
 ledex_sources=$(common_sources)\
  src/ledex.c src/led.c src/led.h
 ledex_SOURCES=$(ledex_sources)
@@ -229,12 +224,11 @@ ledex-rom.bin: $(ledex_sources)
 ledex-rom.map: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex
 #expanded "ledex" program definition ends
-
-#expanded "lm74ex" program definition begins
 nodist_pkgdata_DATA+=\
  lm74ex.bin lm74ex.vectors lm74ex.map\
  lm74ex-rom.bin lm74ex-rom.map
 noinst_PROGRAMS+=lm74ex lm74ex-rom
+
 lm74ex_sources=$(common_sources)\
  src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h\
  src/tempus.c src/tempus.h\
@@ -261,12 +255,11 @@ lm74ex-rom.bin: $(lm74ex_sources)
 lm74ex-rom.map: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex
 #expanded "lm74ex" program definition ends
-
-#expanded "magex" program definition begins
 nodist_pkgdata_DATA+=\
  magex.bin magex.vectors magex.map\
  magex-rom.bin magex-rom.map
 noinst_PROGRAMS+=magex magex-rom
+
 magex_sources=$(common_sources)\
  src/magex.c src/mag.c src/mag.h\
  src/adc.c src/adc.h src/dac.c src/dac.h\
@@ -296,12 +289,11 @@ magex-rom.bin: $(magex_sources)
 magex-rom.map: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex
 #expanded "magex" program definition ends
-
-#expanded "mag_response" program definition begins
 nodist_pkgdata_DATA+=\
  mag_response.bin mag_response.vectors mag_response.map\
  mag_response-rom.bin mag_response-rom.map
 noinst_PROGRAMS+=mag_response mag_response-rom
+
 mag_response_sources=$(common_sources)\
  src/mag_response.c\
  src/adc.c src/adc.h src/crc32.c src/crc32.h\
@@ -333,12 +325,14 @@ mag_response-rom.bin: $(mag_response_sources)
 mag_response-rom.map: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response
 #expanded "mag_response" program definition ends
-
-#expanded "multa" program definition begins
-nodist_pkgdata_DATA+=\
+EXTRA_PROGRAMS+=multa multa-rom
+if multa_enabled
+ nodist_pkgdata_DATA+=\
  multa.bin multa.vectors multa.map\
  multa-rom.bin multa-rom.map
 noinst_PROGRAMS+=multa multa-rom
+
+endif
 multa_sources=$(common_sources)\
  src/multa.c\
  src/accel.c src/accel.h src/adc.c src/adc.h\
@@ -370,12 +364,11 @@ multa-rom.bin: $(multa_sources)
 multa-rom.map: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
 #expanded "multa" program definition ends
-
-#expanded "pllex" program definition begins
 nodist_pkgdata_DATA+=\
  pllex.bin pllex.vectors pllex.map\
  pllex-rom.bin pllex-rom.map
 noinst_PROGRAMS+=pllex pllex-rom
+
 pllex_sources=$(common_sources)\
  src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
 pllex_SOURCES=$(pllex_sources)
@@ -400,12 +393,11 @@ pllex-rom.bin: $(pllex_sources)
 pllex-rom.map: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex
 #expanded "pllex" program definition ends
-
-#expanded "powerex" program definition begins
 nodist_pkgdata_DATA+=\
  powerex.bin powerex.vectors powerex.map\
  powerex-rom.bin powerex-rom.map
 noinst_PROGRAMS+=powerex powerex-rom
+
 powerex_sources=$(common_sources)\
  src/powerex.c src/power.c src/power.h
 powerex_SOURCES=$(powerex_sources)
@@ -430,12 +422,11 @@ powerex-rom.bin: $(powerex_sources)
 powerex-rom.map: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex
 #expanded "powerex" program definition ends
-
-#expanded "uart1ex" program definition begins
 nodist_pkgdata_DATA+=\
  uart1ex.bin uart1ex.vectors uart1ex.map\
  uart1ex-rom.bin uart1ex-rom.map
 noinst_PROGRAMS+=uart1ex uart1ex-rom
+
 uart1ex_sources=$(common_sources)\
  src/uart1ex.c\
  src/crc32.c src/crc32.h src/dac.c src/dac.h\
@@ -466,12 +457,11 @@ uart1ex-rom.bin: $(uart1ex_sources)
 uart1ex-rom.map: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
 #expanded "uart1ex" program definition ends
-
-#expanded "tempusex" program definition begins
 nodist_pkgdata_DATA+=\
  tempusex.bin tempusex.vectors tempusex.map\
  tempusex-rom.bin tempusex-rom.map
 noinst_PROGRAMS+=tempusex tempusex-rom
+
 tempusex_sources=$(common_sources)\
  src/tempusex.c src/mutex.h\
  src/pll.c src/pll.h src/led.c src/led.h

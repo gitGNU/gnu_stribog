@@ -37,10 +37,16 @@ noinst_PROGRAMS = accelex$(EXEEXT) accelex-rom$(EXEEXT) adcex$(EXEEXT) \
 	inledex-rom$(EXEEXT) ledex$(EXEEXT) ledex-rom$(EXEEXT) \
 	lm74ex$(EXEEXT) lm74ex-rom$(EXEEXT) magex$(EXEEXT) \
 	magex-rom$(EXEEXT) mag_response$(EXEEXT) \
-	mag_response-rom$(EXEEXT) multa$(EXEEXT) multa-rom$(EXEEXT) \
-	pllex$(EXEEXT) pllex-rom$(EXEEXT) powerex$(EXEEXT) \
-	powerex-rom$(EXEEXT) uart1ex$(EXEEXT) uart1ex-rom$(EXEEXT) \
-	tempusex$(EXEEXT) tempusex-rom$(EXEEXT)
+	mag_response-rom$(EXEEXT) $(am__EXEEXT_1) pllex$(EXEEXT) \
+	pllex-rom$(EXEEXT) powerex$(EXEEXT) powerex-rom$(EXEEXT) \
+	uart1ex$(EXEEXT) uart1ex-rom$(EXEEXT) tempusex$(EXEEXT) \
+	tempusex-rom$(EXEEXT)
+EXTRA_PROGRAMS = multa$(EXEEXT) multa-rom$(EXEEXT)
+@multa_enabled_TRUE@am__append_1 = \
+@multa_enabled_TRUE@ multa.bin multa.vectors multa.map\
+@multa_enabled_TRUE@ multa-rom.bin multa-rom.map
+
+@multa_enabled_TRUE@am__append_2 = multa multa-rom
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
@@ -55,6 +61,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
+@multa_enabled_TRUE@am__EXEEXT_1 = multa$(EXEEXT) multa-rom$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__objects_1 = atexit.$(OBJEXT) boot.$(OBJEXT)
 am__objects_2 = $(am__objects_1) accelex.$(OBJEXT) accel.$(OBJEXT) \
@@ -416,47 +423,18 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#expanded "accelex" program definition begins
 #expanded "accelex" program definition ends
-
-#expanded "adcex" program definition begins
 #expanded "adcex" program definition ends
-
-#expanded "crcex" program definition begins
 #expanded "crcex" program definition ends
-
-#expanded "dacex" program definition begins
 #expanded "dacex" program definition ends
-
-#expanded "inledex" program definition begins
 #expanded "inledex" program definition ends
-
-#expanded "ledex" program definition begins
 #expanded "ledex" program definition ends
-
-#expanded "lm74ex" program definition begins
 #expanded "lm74ex" program definition ends
-
-#expanded "magex" program definition begins
 #expanded "magex" program definition ends
-
-#expanded "mag_response" program definition begins
-#expanded "mag_response" program definition ends
-
-#expanded "multa" program definition begins
 #expanded "multa" program definition ends
-
-#expanded "pllex" program definition begins
 #expanded "pllex" program definition ends
-
-#expanded "powerex" program definition begins
 #expanded "powerex" program definition ends
-
-#expanded "uart1ex" program definition begins
 #expanded "uart1ex" program definition ends
-
-#expanded "tempusex" program definition begins
 nodist_pkgdata_DATA = accelex.bin accelex.vectors accelex.map \
 	accelex-rom.bin accelex-rom.map adcex.bin adcex.vectors \
 	adcex.map adcex-rom.bin adcex-rom.map crcex.bin crcex.vectors \
@@ -468,13 +446,12 @@ nodist_pkgdata_DATA = accelex.bin accelex.vectors accelex.map \
 	lm74ex-rom.map magex.bin magex.vectors magex.map magex-rom.bin \
 	magex-rom.map mag_response.bin mag_response.vectors \
 	mag_response.map mag_response-rom.bin mag_response-rom.map \
-	multa.bin multa.vectors multa.map multa-rom.bin multa-rom.map \
-	pllex.bin pllex.vectors pllex.map pllex-rom.bin pllex-rom.map \
-	powerex.bin powerex.vectors powerex.map powerex-rom.bin \
-	powerex-rom.map uart1ex.bin uart1ex.vectors uart1ex.map \
-	uart1ex-rom.bin uart1ex-rom.map tempusex.bin tempusex.vectors \
-	tempusex.map tempusex-rom.bin tempusex-rom.map summary \
-	ram2138.ld 2138.ld
+	$(am__append_1) pllex.bin pllex.vectors pllex.map \
+	pllex-rom.bin pllex-rom.map powerex.bin powerex.vectors \
+	powerex.map powerex-rom.bin powerex-rom.map uart1ex.bin \
+	uart1ex.vectors uart1ex.map uart1ex-rom.bin uart1ex-rom.map \
+	tempusex.bin tempusex.vectors tempusex.map tempusex-rom.bin \
+	tempusex-rom.map summary ram2138.ld 2138.ld
 OBJCOPY = arm-unknown-elf-objcopy
 objcopy_bin = $(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors = $(OBJCOPY)\
