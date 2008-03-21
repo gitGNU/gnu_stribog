@@ -158,7 +158,6 @@ CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
 #remove temporarily generated files
 #so user will rebuild them with user-defined FLAGS
-rm -f atexit.o boot.o
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
