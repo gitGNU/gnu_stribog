@@ -23,9 +23,10 @@ the non-swapped mode is useful when we need
 writing the measurements from the very beginning;
 the swapped is more convenient when we have got a GPS
 and don't want to change the connections*/
-#define SWAP_UARTS	(1)
-#ifndef SWAP_UARTS
- #define SWAP_UARTS	(0)
+#if HAVE_CONFIG_H
+ #include<config.h>
+#else
+ #define SWAP_UARTS	(1)
 #endif
 #if !SWAP_UARTS
  #define UIIR_0 U0IIR
