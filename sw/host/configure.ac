@@ -90,8 +90,8 @@ AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
 AC_SUBST(stribog_lib,["\$(top_builddir)/lib/libstribog.a"])
 #common headers are copied to top build directory
 #to be available the same as config.h
-AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h])
-AC_CONFIG_LINKS([stribog_strings.h:lib/stribog_strings.h])
+AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
+                 stribog_strings.h:lib/stribog_strings.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile
                  conloq/Makefile
