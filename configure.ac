@@ -18,6 +18,7 @@
 AC_PREREQ(2.61)
 AC_INIT([stribog],[0.0-minus],[stribog-bug@nongnu.org])
 AM_INIT_AUTOMAKE([-Wall])
+AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
