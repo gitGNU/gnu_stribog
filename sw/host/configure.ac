@@ -80,7 +80,7 @@ case $host in
 		the_host_is_windows=yes
 		;;
 esac
-if test "z$build_own_argp" = "zyes";then
+if test "z$build_own_argp" = zyes;then
  AC_CONFIG_LINKS([argp.h:lib/argp/argp.h])
  AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
 fi
@@ -102,7 +102,7 @@ AC_CONFIG_FILES([Makefile
                  postproc/Makefile
                  utils/Makefile])
 AC_OUTPUT
-if test "z$build_own_argp" = "zyes"; then
+if test "z$build_own_argp" = zyes; then
  argp_type=built-in
 else
  argp_type=GNU
@@ -119,6 +119,6 @@ echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 echo >>summary
 
-if test "z$recursive_stribog_build" != "zyes";then
+if test "z$recursive_stribog_build" != zyes;then
  AC_MSG_RESULT([[$(cat summary)]])
 fi
