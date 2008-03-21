@@ -22,11 +22,12 @@ AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
 AC_MSG_RESULT([NB here we force arm-unknown-elf host])
 
 AM_INIT_AUTOMAKE([-Wall])
+AC_PREFIX_DEFAULT([$HOME/stribog-install])
+
 AC_CONFIG_SRCDIR([src/pll.c])
 AC_CONFIG_HEADER([config.h])
 
 echo > warnings
-# Checks for programs.
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
@@ -41,32 +42,81 @@ case $with_mainboard_mcu in
   echo  $with_mainboard_mcu > mcu.conf
   ;;
  *)
-  AC_MSG_RESULT([unknown MCU '$with_mainboard_mcu' requested])
+  AC_MSG_RESULT([unknown MCU '$with_mainboard_mcu' is requested])
   exit 1
 esac
 enable_multa=yes
+adc1_present=yes
 case $with_mainboard_mcu in
  LPC2131)
-  echo NOTE: LPC2131 has only 8k RAM. 'multa' program is disabled\
+  echo NOTE: LPC2131 has only 8k RAM >> warnings
+  ;;
+esac
+case $with_mainboard_mcu in
+ LPC2131 | LPC2132)
+  echo NOTE: LPC213[[12]] have no ADC1. some parts of programs are disabled\
   >> warnings
+  adc1_present=no
   enable_multa=no
   ;;
 esac
-AM_CONDITIONAL(multa_enabled, test "z$enable_multa" = zyes)
+adc1_define=1
+case $adc1_present in
+ no) 
+  adc1_define=0
+  ;;
+esac
+AC_DEFINE_UNQUOTED([HAVE_ADC1],$adc1_define,
+ [Define to 0 if the MCU has no second ADC])
+case $enable_multa in
+ no)
+ echo NOTE: due to selected MCU limitations \'multa\' program is disabled\
+ >>warnings
+esac
+AM_CONDITIONAL(multa_enabled, test $enable_multa = yes)
+#CPU-relevant configuration is finished
+
+AC_MSG_CHECKING([whether original PPS is requested])
+AC_ARG_ENABLE([original-pps],
+ AS_HELP_STRING([--enable-original-pps],
+  [Input PPS signals through CAP1.1 rather than CAP1.2 [[no]]]),,
+)
+current_define=0
+case "z$enable_original_pps" in
+ zyes) current_define=1
+ ;;
+ *) enable_original_pps=no
+ ;;
+esac
+AC_MSG_RESULT([$enable_original_pps])
+AC_DEFINE_UNQUOTED([HAVE_ORIGINAL_PPS],$current_define,
+ [Define to 0 - PPS input is CAP1.1; 1 - CAP1.2])
+
+AC_MSG_CHECKING([whether UARTs should be swapped])
+AC_ARG_ENABLE([swap-uarts],
+ AS_HELP_STRING([--enable-swap-uarts],
+  [UARTs functions are swapped [[no]]]),,
+)
+current_define=0
+case "z$enable_swap_uarts" in
+ zyes) current_define=1
+ ;;
+ *) enable_swap_uarts=no
+ ;;
+esac
+AC_MSG_RESULT([$enable_swap_uarts])
+AC_DEFINE_UNQUOTED([SWAP_UARTS],$current_define,
+ [Define to 0 if UARTs are not swapped])
 
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld
-
+# Checks for programs.
 #make our minimalistic crosstools generate executables
  ldscript="./2138.ld"
  ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
  CFLAGS="$CFLAGS -mcpu=arm7tdmi"
- LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
+ LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript} ${srcdir}/src/boot.s"
  LIBS=-lgcc
-  #libgcc of gcc-2.95.3 needs atexit, 
-  #which can safely be stubbed in our programs
-  #TODO: check if the programs built with gcc-2.95.3 really work
-  arm-unknown-elf-gcc -c -o atexit.o ${CFLAGS} ${srcdir}/lib/atexit.c
   #arm-unknown-elf-as-2.10 does not assemble boot.s 
 AC_MSG_CHECKING([if arm-unknown-elf-as can assemble boot.s])
 if arm-unknown-elf-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s ;then
@@ -75,7 +125,8 @@ else
  arm_elf_as=no;
 fi
 AC_MSG_RESULT([$arm_elf_as])
-if test $arm_elf_as = no;then
+case $arm_elf_as in
+ no)
  AC_MSG_RESULT([
 
  arm-unknown-elf-as can't assemble startup program.
@@ -83,8 +134,12 @@ if test $arm_elf_as = no;then
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 ])
  exit 1; 
-fi
-  LDFLAGS="$LDFLAGS atexit.o boot.o"
+ ;;
+esac
+#libgcc of gcc-2.95.3 needs atexit, 
+#which can safely be stubbed in our programs
+#TODO: check if the programs built with gcc-2.95.3 really work
+LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
 AC_PROG_CC
 AM_PROG_AS
 
