@@ -1,3 +1,7 @@
+21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/crcex.c: reduced buffer length
+ * configure.ac Makefile.am.m4 m4/makefile.m4: multa build
+ is switched off for LPC2131
 20 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am.m4: ld scripts are regenerated on need
  * configure.ac: ld scripts regeneration is moved out to subst_ldscripts;
