@@ -1,3 +1,5 @@
+21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: default prefix is $HOME/stribog-install
 18 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/common/Makefile.am: new
  * Makefile.am configure.ac: new subdir sw/common;
