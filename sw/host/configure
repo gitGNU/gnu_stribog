@@ -578,6 +578,7 @@ PACKAGE_VERSION='0.0-minus'
 PACKAGE_STRING='stribog-hosttools 0.0-minus'
 PACKAGE_BUGREPORT='stribog-bug@nongnu.org'
 
+ac_default_prefix=$HOME/stribog-install
 ac_unique_file="config.h.in"
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -2305,6 +2306,7 @@ INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
 AMTAR=${AMTAR-"${am_missing_run}tar"}
 
 am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
+
 
 
 

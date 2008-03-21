@@ -612,6 +612,7 @@ PACKAGE_VERSION='0.0-minus'
 PACKAGE_STRING='stribog-target 0.0-minus'
 PACKAGE_BUGREPORT='stribog-bug@nongnu.org'
 
+ac_default_prefix=$HOME/stribog-install
 ac_unique_file="src/pll.c"
 ac_subst_vars='SHELL
 PATH_SEPARATOR
@@ -1283,6 +1284,9 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-original-pps   Input PPS signals through CAP1.1 rather than CAP1.2
+                          [no]
+  --enable-swap-uarts     UARTs functions are swapped [no]
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
 
@@ -2223,11 +2227,12 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
+
+
 ac_config_headers="$ac_config_headers config.h"
 
 
 echo > warnings
-# Checks for programs.
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
@@ -2245,19 +2250,42 @@ case $with_mainboard_mcu in
   echo  $with_mainboard_mcu > mcu.conf
   ;;
  *)
-  { echo "$as_me:$LINENO: result: unknown MCU '$with_mainboard_mcu' requested" >&5
-echo "${ECHO_T}unknown MCU '$with_mainboard_mcu' requested" >&6; }
+  { echo "$as_me:$LINENO: result: unknown MCU '$with_mainboard_mcu' is requested" >&5
+echo "${ECHO_T}unknown MCU '$with_mainboard_mcu' is requested" >&6; }
   exit 1
 esac
 enable_multa=yes
+adc1_present=yes
 case $with_mainboard_mcu in
  LPC2131)
-  echo NOTE: LPC2131 has only 8k RAM. 'multa' program is disabled\
+  echo NOTE: LPC2131 has only 8k RAM >> warnings
+  ;;
+esac
+case $with_mainboard_mcu in
+ LPC2131 | LPC2132)
+  echo NOTE: LPC213[12] have no ADC1. some parts of programs are disabled\
   >> warnings
+  adc1_present=no
   enable_multa=no
   ;;
 esac
- if test "z$enable_multa" = zyes; then
+adc1_define=1
+case $adc1_present in
+ no)
+  adc1_define=0
+  ;;
+esac
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_ADC1 $adc1_define
+_ACEOF
+
+case $enable_multa in
+ no)
+ echo NOTE: due to selected MCU limitations \'multa\' program is disabled\
+ >>warnings
+esac
+ if test $enable_multa = yes; then
   multa_enabled_TRUE=
   multa_enabled_FALSE='#'
 else
@@ -2265,20 +2293,61 @@ else
   multa_enabled_FALSE=
 fi
 
+#CPU-relevant configuration is finished
+
+{ echo "$as_me:$LINENO: checking whether original PPS is requested" >&5
+echo $ECHO_N "checking whether original PPS is requested... $ECHO_C" >&6; }
+# Check whether --enable-original-pps was given.
+if test "${enable_original_pps+set}" = set; then
+  enableval=$enable_original_pps;
+fi
+
+current_define=0
+case "z$enable_original_pps" in
+ zyes) current_define=1
+ ;;
+ *) enable_original_pps=no
+ ;;
+esac
+{ echo "$as_me:$LINENO: result: $enable_original_pps" >&5
+echo "${ECHO_T}$enable_original_pps" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_ORIGINAL_PPS $current_define
+_ACEOF
+
+
+{ echo "$as_me:$LINENO: checking whether UARTs should be swapped" >&5
+echo $ECHO_N "checking whether UARTs should be swapped... $ECHO_C" >&6; }
+# Check whether --enable-swap-uarts was given.
+if test "${enable_swap_uarts+set}" = set; then
+  enableval=$enable_swap_uarts;
+fi
+
+current_define=0
+case "z$enable_swap_uarts" in
+ zyes) current_define=1
+ ;;
+ *) enable_swap_uarts=no
+ ;;
+esac
+{ echo "$as_me:$LINENO: result: $enable_swap_uarts" >&5
+echo "${ECHO_T}$enable_swap_uarts" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define SWAP_UARTS $current_define
+_ACEOF
+
 
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld
-
+# Checks for programs.
 #make our minimalistic crosstools generate executables
  ldscript="./2138.ld"
  ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
  CFLAGS="$CFLAGS -mcpu=arm7tdmi"
- LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript}"
+ LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript} ${srcdir}/src/boot.s"
  LIBS=-lgcc
-  #libgcc of gcc-2.95.3 needs atexit,
-  #which can safely be stubbed in our programs
-  #TODO: check if the programs built with gcc-2.95.3 really work
-  arm-unknown-elf-gcc -c -o atexit.o ${CFLAGS} ${srcdir}/lib/atexit.c
   #arm-unknown-elf-as-2.10 does not assemble boot.s
 { echo "$as_me:$LINENO: checking if arm-unknown-elf-as can assemble boot.s" >&5
 echo $ECHO_N "checking if arm-unknown-elf-as can assemble boot.s... $ECHO_C" >&6; }
@@ -2289,7 +2358,8 @@ else
 fi
 { echo "$as_me:$LINENO: result: $arm_elf_as" >&5
 echo "${ECHO_T}$arm_elf_as" >&6; }
-if test $arm_elf_as = no;then
+case $arm_elf_as in
+ no)
  { echo "$as_me:$LINENO: result:
 
  arm-unknown-elf-as can't assemble startup program.
@@ -2303,8 +2373,12 @@ echo "${ECHO_T}
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 " >&6; }
  exit 1;
-fi
-  LDFLAGS="$LDFLAGS atexit.o boot.o"
+ ;;
+esac
+#libgcc of gcc-2.95.3 needs atexit,
+#which can safely be stubbed in our programs
+#TODO: check if the programs built with gcc-2.95.3 really work
+LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -3758,7 +3832,6 @@ CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
 #remove temporarily generated files
 #so user will rebuild them with user-defined FLAGS
-rm -f atexit.o boot.o
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF

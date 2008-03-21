@@ -1,5 +1,11 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 0 if the MCU has no second ADC */
+#undef HAVE_ADC1
+
+/* Define to 0 - PPS input is CAP1.1; 1 - CAP1.2 */
+#undef HAVE_ORIGINAL_PPS
+
 /* Name of package */
 #undef PACKAGE
 
@@ -17,6 +23,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* Define to 0 if UARTs are not swapped */
+#undef SWAP_UARTS
 
 /* Version number of package */
 #undef VERSION

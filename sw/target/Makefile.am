@@ -25,23 +25,16 @@ objcopy_bin=$(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
  -j vectors -I elf32-littlearm -O binary
-common_sources=include/lpc2138.h
+common_sources=include/lpc2138.h src/boot.s
+#atexit.c is needed for 2.95.3
  common_sources+=lib/atexit.c
-#ifndef MCU_UNOFFENDED
-#TODO make this work
-#  PPS_BURNT=1
-#endif
  AM_CFLAGS=-mcpu=arm7tdmi -Wall -O2
  AM_CPPFLAGS=-I$(srcdir)/src
-#if PPS_BURNT
-#  AM_CFLAGS+=-DPPS_BURNT=1
-#endif
- common_sources+=src/boot.s
  AM_LDFLAGS=-Wl,-Map,$@.map -nostdlib -static
 AM_LIBS=-lgcc
 ram_flag=-T./ram2138.ld
 rom_flag=-T./2138.ld
-extra_common_sources=lib/atexit.c lib/mutex.h src/boot.s
+extra_common_sources=lib/atexit.c
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 subst_ldscript
 nodist_pkgdata_DATA+=\
