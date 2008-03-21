@@ -81,7 +81,7 @@ case $host in
 		;;
 esac
 if test "z$build_own_argp" = "zyes";then
- AC_CONFIG_FILES([argp.h:lib/argp/argp.h])
+ AC_CONFIG_LINKS([argp.h:lib/argp/argp.h])
  AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
 fi
 AM_CONDITIONAL(the_host_is_windows, test "z$the_host_is_windows" = "zyes")
@@ -90,8 +90,8 @@ AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
 AC_SUBST(stribog_lib,["\$(top_builddir)/lib/libstribog.a"])
 #common headers are copied to top build directory
 #to be available the same as config.h
-AC_CONFIG_FILES([stribog_error.h:lib/stribog_error.h])
-AC_CONFIG_FILES([stribog_strings.h:lib/stribog_strings.h])
+AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h])
+AC_CONFIG_LINKS([stribog_strings.h:lib/stribog_strings.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile
                  conloq/Makefile
