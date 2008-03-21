@@ -15,23 +15,26 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#--help=recursive works well only after sources are somehow configured
+#when there is no tree in the build directory, there is no recursion
+#TODO understand why
 AC_PREREQ(2.61)
 AC_INIT([stribog],[0.0-minus],[stribog-bug@nongnu.org])
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
-AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 
 # Checks for programs.
+#without next line --help=short will be TOO short
 AC_PROG_CC
 # Checks for libraries.
 # Checks for header files.
 # Checks for typedefs, structures, and compiler characteristics.
-
-export recursive_stribog_build=yes
 # Checks for library functions.
 
+export recursive_stribog_build=yes
 AC_CONFIG_FILES([Makefile
                  sw/common/Makefile])
 #AC_CONFIG_FILES([sw/auxilia/coil/Makefile
