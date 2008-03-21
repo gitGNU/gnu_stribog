@@ -44,12 +44,15 @@ case $with_mainboard_mcu in
   AC_MSG_RESULT([unknown MCU '$with_mainboard_mcu' requested])
   exit 1
 esac
+enable_multa=yes
 case $with_mainboard_mcu in
  LPC2131)
-  echo NOTE: LPC2131 has only 8k RAM. this is not enough for some programs\
+  echo NOTE: LPC2131 has only 8k RAM. 'multa' program is disabled\
   >> warnings
+  enable_multa=no
   ;;
 esac
+AM_CONDITIONAL(multa_enabled, test "z$enable_multa" = zyes)
 
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld

@@ -83,7 +83,7 @@ ST_TARGET(`mag_response',
  src/uart1.c src/uart1.h\
  src/led.c src/led.h src/pll.c src/pll.h',
  `../common/form_fix.h')
-ST_TARGET(`multa',
+ST_EXTRA_TARGET(`multa',
 `src/multa.c\
  src/accel.c src/accel.h src/adc.c src/adc.h\
  src/crc32.c src/crc32.h src/dac.c src/dac.h\
