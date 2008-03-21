@@ -261,7 +261,7 @@ static void
 put_cksum(char s[vectors_size])
 {unsigned long cs;int i;
  for(i=checksum_offset;i<checksum_offset+checksum_size;s[i++]=0);
- for(cs=i=0;i<vectors_size;i+=4)cs+=getul(s+i);putul(0-cs,s+cksum_offset);
+ for(cs=i=0;i<vectors_size;i+=4)cs+=getul(s+i);putul(0-cs,s+checksum_offset);
 }
 static int
 cache_checksum(FILE*f)
@@ -398,7 +398,7 @@ kbd_loop(void)
    case'e':erase();break;case'u':unlock();break;
    case'p':prepare();break;case'r':read_mem();break;
    case'a':echo_off();break;case'c':copy_mem();break;
-   case'b':write_file("elk.bin-rom");break;case'l':load_and_go();break;
+   case'b':write_file("elk-rom.bin");break;case'l':load_and_go();break;
    case'h':help();break;
    case't':no_preferences=!no_preferences;
     printf("%spreferences will be loaded\n",no_preferences?"no ":"");
