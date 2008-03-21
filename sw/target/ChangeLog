@@ -1,7 +1,12 @@
 21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/crcex.c: reduced buffer length
- * configure.ac Makefile.am.m4 m4/makefile.m4: multa build
- is switched off for LPC2131
+ * configure.ac Makefile.am.m4 m4/makefile.m4: new configuration
+ options
+ * src/adc.c: ADC1 presence is configured
+ * src/tempus.c: PPS input is configured
+ * src/uart.config.h: swapping UARTs is configured
+ * lib/mutex.h: removed
+ * Makefile.am.m4: garbage collection
 20 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am.m4: ld scripts are regenerated on need
  * configure.ac: ld scripts regeneration is moved out to subst_ldscripts;
