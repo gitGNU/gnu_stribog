@@ -21,10 +21,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #else
  CAP1.1
 #endif*/
+#if HAVE_CONFIG_H
+ #include<config.h>
+#else
+ #define HAVE_ORIGINAL_PPS 0
+#endif
 #include"tempus.h"
 #include<mutex.h>
 #include"../include/lpc2138.h"
-#ifndef PPS_BURNT
+#if HAVE_ORIGINAL_PPS
+/*#ifndef PPS_BURNT*/
  #define LEGACY_PPS	1
  #define PPS_IR		TxIR_CR2
  #define PPS_CR 	T1CR2
