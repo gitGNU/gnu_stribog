@@ -148,6 +148,7 @@ AM_PROG_AS
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_PROG_MAKE_SET
  AC_C_CONST
  AC_C_INLINE
  AC_C_VOLATILE
