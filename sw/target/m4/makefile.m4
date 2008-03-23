@@ -48,10 +48,12 @@ define(ST_ENABLE_TARGET,
 noinst_PROGRAMS+=$1 $1-rom
 ')
 define(ST_TARGET,
-`ST_ENABLE_TARGET($1)
+`#expanded "$1" program definition begins
+ST_ENABLE_TARGET($1)
 ST_TARGET_PROGRAM($1,$2,$3)')
 define(ST_EXTRA_TARGET,
-`EXTRA_PROGRAMS+=$1 $1-rom
+`#conditional "$1" program definition begins
+EXTRA_PROGRAMS+=$1 $1-rom
 if $1_enabled
  ST_ENABLE_TARGET($1)
 endif
