@@ -423,18 +423,31 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
+#expanded "accelex" program definition begins
 #expanded "accelex" program definition ends
+#expanded "adcex" program definition begins
 #expanded "adcex" program definition ends
+#expanded "crcex" program definition begins
 #expanded "crcex" program definition ends
+#expanded "dacex" program definition begins
 #expanded "dacex" program definition ends
+#expanded "inledex" program definition begins
 #expanded "inledex" program definition ends
+#expanded "ledex" program definition begins
 #expanded "ledex" program definition ends
+#expanded "lm74ex" program definition begins
 #expanded "lm74ex" program definition ends
+#expanded "magex" program definition begins
 #expanded "magex" program definition ends
+#expanded "mag_response" program definition begins
 #expanded "multa" program definition ends
+#expanded "pllex" program definition begins
 #expanded "pllex" program definition ends
+#expanded "powerex" program definition begins
 #expanded "powerex" program definition ends
+#expanded "uart1ex" program definition begins
 #expanded "uart1ex" program definition ends
+#expanded "tempusex" program definition begins
 nodist_pkgdata_DATA = accelex.bin accelex.vectors accelex.map \
 	accelex-rom.bin accelex-rom.map adcex.bin adcex.vectors \
 	adcex.map adcex-rom.bin adcex-rom.map crcex.bin crcex.vectors \
