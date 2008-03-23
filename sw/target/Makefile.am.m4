@@ -42,30 +42,30 @@ divert`'dnl
 ST_TARGET(`accelex',
 `src/accelex.c src/accel.c src/accel.h\
  src/mutex.h\
- src/led.c src/led.h src/pll.c src/pll.h',)
+ src/led.c src/led.h src/pll.c src/pll.h')
 ST_TARGET(`adcex',
 `src/adcex.c src/adc.c src/adc.h\
  src/dac.c src/dac.h src/mutex.h\
- src/led.c src/led.h src/pll.c src/pll.h',)
+ src/led.c src/led.h src/pll.c src/pll.h')
 ST_TARGET(`crcex',
 `src/crcex.c src/crc32.c src/crc32.h\
- src/pll.c src/pll.h src/led.c src/led.h',)
+ src/pll.c src/pll.h src/led.c src/led.h')
 ST_TARGET(`dacex',
 `src/dacex.c src/dac.c src/dac.h\
- src/led.c src/led.h src/pll.c src/pll.h',)
-ST_TARGET(`inledex',`src/inledex.c src/pll.c src/pll.h',)
-ST_TARGET(`ledex',`src/ledex.c src/led.c src/led.h',)
+ src/led.c src/led.h src/pll.c src/pll.h')
+ST_TARGET(`inledex',`src/inledex.c src/pll.c src/pll.h')
+ST_TARGET(`ledex',`src/ledex.c src/led.c src/led.h')
 ST_TARGET(`lm74ex',
 `src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h\
  src/tempus.c src/tempus.h\
- src/pll.c src/pll.h src/led.c src/led.h',)
+ src/pll.c src/pll.h src/led.c src/led.h')
 ST_TARGET(`magex',
 `src/magex.c src/mag.c src/mag.h\
  src/adc.c src/adc.h src/dac.c src/dac.h\
  src/mutex.h src/uart.config.h src/freq.h\
  src/uart0.c src/uart0.h src/uart1out.c src/uart1out.h\
  src/tempus.c src/tempus.h\
- src/led.c src/led.h src/pll.c src/pll.h',)
+ src/led.c src/led.h src/pll.c src/pll.h')
 ST_TARGET(`mag_response',
 `src/mag_response.c\
  src/adc.c src/adc.h src/crc32.c src/crc32.h\
@@ -100,7 +100,7 @@ ST_TARGET(`uart1ex',
  `../common/form_fix.h')
 ST_TARGET(`tempusex',
 `src/tempusex.c src/mutex.h\
- src/pll.c src/pll.h src/led.c src/led.h',)
+ src/pll.c src/pll.h src/led.c src/led.h')
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
