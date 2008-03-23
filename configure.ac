@@ -1,5 +1,5 @@
 #stribog: configure.ac 
-# Run autoreconf to regenerate the build system
+# Run ./regen_configure to regenerate the build system
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
