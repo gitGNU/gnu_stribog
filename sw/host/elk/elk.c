@@ -15,6 +15,15 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#if HAVE_CONFIG_H
+ #include<config.h>
+#endif
+#ifndef PACKAGE_DATA_DIR
+ #define package_data_dir "."
+ #define PACKAGE_DATA_DIR "."
+#else
+ #define package_data_dir PACKAGE
+#endif
 #include<stdlib.h>
 #include<stdio.h>
 #include"serialia.h"
@@ -412,6 +421,7 @@ main(int argc,char**argv)
  {sscanf(argv[2],"%i",&freq_arg);if((c=freq_arg>10))f=freq_arg;
   if(freq_arg<-1)no_preferences=!0;
  }else no_preferences=!0;
+ chdir(PACKAGE_DATA_DIR);chdir(package_data_dir);
  usage();printf("crystal frequency assumed %i kHz\n",f);
  drain_uart();
  if((err=init(argc<2?0:argv[1],f)))return err;
