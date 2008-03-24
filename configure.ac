@@ -15,10 +15,6 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-#--help=recursive works well only after sources are somehow configured
-#when there is no tree in the build directory, there is no recursion
-#TODO understand why
 AC_PREREQ(2.61)
 AC_INIT([stribog],[0.0-minus],[stribog-bug@nongnu.org])
 AM_INIT_AUTOMAKE([-Wall])
