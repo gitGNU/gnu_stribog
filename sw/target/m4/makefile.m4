@@ -39,7 +39,7 @@ $1-rom.bin: $($1_sources)
 	$(objcopy_bin) $1-rom $1-rom.bin
 $1-rom.map: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
-#expanded "$1" program definition ends')
+##expanded "$1" program definition ends')
 
 define(ST_ENABLE_TARGET,
 `nodist_pkgdata_DATA+=\
@@ -48,22 +48,24 @@ define(ST_ENABLE_TARGET,
 noinst_PROGRAMS+=$1 $1-rom
 ')
 define(ST_TARGET,
-`#expanded "$1" program definition begins
+`##expanded "$1" program definition begins
 ST_ENABLE_TARGET($1)
 ST_TARGET_PROGRAM($1,$2,$3)')
 define(ST_EXTRA_TARGET,
-`#conditional "$1" program definition begins
+`##conditional "$1" program definition begins
 EXTRA_PROGRAMS+=$1 $1-rom
 if $1_enabled
  ST_ENABLE_TARGET($1)
 endif
 ST_TARGET_PROGRAM($1,$2,$3)')
 divert`'dnl
-#Makefile.am is generated with m4 from Automake.am.m4
+##Makefile.am is generated with m4 from Makefile.am.m4
+#Makefile.in is generated with automake from Makefile.am
+#Makefile is produced with configure script from Makefile.in
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #use ./regen_configure to regenerate all our build scripts
 #
 #This file is a part of the stribog project
-#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
