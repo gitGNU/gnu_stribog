@@ -27,36 +27,39 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([src/pll.c])
 AC_CONFIG_HEADER([config.h])
 
-echo > warnings
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
 AC_ARG_WITH([mainboard-mcu],
 AS_HELP_STRING([--with-mainboard-mcu],
-[Configure MCU on the main board (LPC2131 | LPC2132 | LPC2134
- | LPC2136 | LPC2138) [[LPC2138]]]),,
+[Configure MCU on the main board (LPC213[[12468]]) [[LPC2138]]]),,
 [with_mainboard_mcu=LPC2138
 ])
 case $with_mainboard_mcu in
- LPC2131 | LPC2132 | LPC2134 | LPC2136 | LPC2138 )
+ LPC213[[12468]])
   echo  $with_mainboard_mcu > mcu.conf
   ;;
  *)
   AC_MSG_RESULT([unknown MCU '$with_mainboard_mcu' is requested])
   exit 1
 esac
+enable_mag_response=yes
+enable_magex=yes
 enable_multa=yes
 adc1_present=yes
 case $with_mainboard_mcu in
  LPC2131)
   echo NOTE: LPC2131 has only 8k RAM >> warnings
+  enable_multa=no
   ;;
 esac
 case $with_mainboard_mcu in
- LPC2131 | LPC2132)
+ LPC213[[12]])
   echo NOTE: LPC213[[12]] have no ADC1. some parts of programs are disabled\
   >> warnings
   adc1_present=no
+  enable_mag_response=no
+  enable_magex=no
   enable_multa=no
   ;;
 esac
@@ -68,19 +71,27 @@ case $adc1_present in
 esac
 AC_DEFINE_UNQUOTED([HAVE_ADC1],$adc1_define,
  [Define to 0 if the MCU has no second ADC])
+#CPU-relevant configuration is finished
+case $enable_mag_response in
+ no)
+ echo NOTE: \'mag_response\' program is disabled >>warnings
+esac
+case $enable_magex in
+ no)
+ echo NOTE: \'magex\' program is disabled >>warnings
+esac
 case $enable_multa in
  no)
- echo NOTE: due to selected MCU limitations \'multa\' program is disabled\
- >>warnings
+ echo NOTE: \'multa\' program is disabled >>warnings
 esac
+AM_CONDITIONAL(mag_response_enabled, test $enable_mag_response = yes)
+AM_CONDITIONAL(magex_enabled, test $enable_magex = yes)
 AM_CONDITIONAL(multa_enabled, test $enable_multa = yes)
-#CPU-relevant configuration is finished
 
 AC_MSG_CHECKING([whether original PPS is requested])
 AC_ARG_ENABLE([original-pps],
  AS_HELP_STRING([--enable-original-pps],
-  [Input PPS signals through CAP1.1 rather than CAP1.2 [[no]]]),,
-)
+  [Input PPS signals through CAP1.1 rather than CAP1.2 [[no]]]))
 current_define=0
 case "z$enable_original_pps" in
  zyes) current_define=1

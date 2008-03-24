@@ -59,7 +59,7 @@ ST_TARGET(`lm74ex',
 `src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h\
  src/tempus.c src/tempus.h\
  src/pll.c src/pll.h src/led.c src/led.h')
-ST_TARGET(`magex',
+ST_EXTRA_TARGET(`magex',
 `src/magex.c src/mag.c src/mag.h\
  src/adc.c src/adc.h src/dac.c src/dac.h\
  src/mutex.h src/uart.config.h src/freq.h\
