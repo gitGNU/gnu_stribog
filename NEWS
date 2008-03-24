@@ -1,0 +1,6 @@
+0.0.0-rc0
+
+The project migrated to Autotools
+
+The ARM tools prefix is set to canonical
+arm-unknown-elf rather than arm-elf
