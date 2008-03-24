@@ -91,8 +91,8 @@ binutils-2.12.1 and gcc-2.95.3 (it is not tested whether correctly).
 binutils-2.11.2 have different syntax of options for CPU selection.
 out-of-box gcc-2.95.3 is not built with modern compilers because
 of typo in gcc/config/arm/arm.c:
---- gcc-2.95.3fix/gcc/config/arm/arm.c	2008-03-13 18:38:42.000000000 +0300
-+++ gcc-2.95.3/gcc/config/arm/arm.c	2008-03-13 18:39:12.000000000 +0300
+--- gcc-2.95.3/gcc/config/arm/arm.c	2008-03-13 18:38:42.000000000 +0300
++++ gcc-2.95.3fix/gcc/config/arm/arm.c	2008-03-13 18:39:12.000000000 +0300
 @@ -528,5 +528,5 @@
      flag_schedule_insns = flag_schedule_insns_after_reload = 0;
    
