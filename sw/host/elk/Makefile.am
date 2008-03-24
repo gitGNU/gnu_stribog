@@ -22,6 +22,7 @@ else
 #using POSIX RS-232 UART API by default
 serial_source=serialia.c
 endif
+AM_CPPFLAGS=-DPACKAGE_DATA_DIR="$(datadir)"
 bin_PROGRAMS=elk
 elk_SOURCES=elk.c $(serial_source) serialia.h usage.c usage.h
 EXTRA_elk_SOURCES=serialia.c wser.c
