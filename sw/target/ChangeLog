@@ -1,3 +1,6 @@
+24 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac Makefile.am.m4: magnetic targets are
+ disabled for LPC213[12]
 21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/crcex.c: reduced buffer length
  * configure.ac Makefile.am.m4 m4/makefile.m4: new configuration
