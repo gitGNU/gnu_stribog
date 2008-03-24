@@ -23,7 +23,7 @@ objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
  -j vectors -I elf32-littlearm -O binary
 common_sources=include/lpc2138.h src/boot.s
-#atexit.c is needed for 2.95.3
+#atexit.c is needed for gcc-2.95.3
  common_sources+=lib/atexit.c
  AM_CFLAGS=-mcpu=arm7tdmi -Wall -O2
  AM_CPPFLAGS=-I$(srcdir)/src
