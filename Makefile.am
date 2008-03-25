@@ -14,5 +14,12 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-SUBDIRS=sw/common sw/host sw/target
+SUBDIRS=sw/common sw/host
+if enable_arm_targets
+ SUBDIRS+=sw/target
+endif
+EXTRA_SUBDIRS=sw/target
 EXTRA_DIST=branch
+nodist_pkgdata_DATA=summary
+dist-hook:
+	$(RM) $(nodist_pkgdata_DATA)
