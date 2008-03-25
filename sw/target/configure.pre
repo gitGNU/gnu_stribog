@@ -25,10 +25,13 @@ if test "z$target_recursion_trigger" = z;then
  export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
+ case "z$ARM_TOOLS_PREFIX" in
+  z) export ARM_TOOLS_PREFIX=arm-unknown-elf;;
+ esac
  case $# in
-  0) ${0} --build=${config_guessed} --host=arm-unknown-elf;;
+  0) ${0} --build=${config_guessed} --host=$ARM_TOOLS_PREFIX;;
  #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=arm-unknown-elf;;
+  *) ${0} --build=${config_guessed} $@ --host=$ARM_TOOLS_PREFIX;;
  esac
  exit $?
 fi

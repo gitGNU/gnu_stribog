@@ -19,7 +19,9 @@ AC_PREREQ(2.61)
 AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
 #the cross-build is forced in configure.pre which is
 #written at the begin of 'configure'
-AC_MSG_RESULT([NB here we force arm-unknown-elf host])
+#TODO: migrate to autoconf-2.62 and move configure.pre contents hither
+AC_MSG_RESULT([NB here we force $host_alias host])
+echo >warnings
 
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
@@ -30,6 +32,8 @@ AC_CONFIG_HEADER([config.h])
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
+
+#Checks for features required via command-line arguments
 AC_ARG_WITH([mainboard-mcu],
 AS_HELP_STRING([--with-mainboard-mcu],
 [Configure MCU on the main board (LPC213[[12468]]) [[LPC2138]]]),,
@@ -119,38 +123,53 @@ AC_MSG_RESULT([$enable_swap_uarts])
 AC_DEFINE_UNQUOTED([SWAP_UARTS],$current_define,
  [Define to 0 if UARTs are not swapped])
 
-${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
- < ${srcdir}/src/2138.ld.in > 2138.ld
 # Checks for programs.
-#make our minimalistic crosstools generate executables
- ldscript="./2138.ld"
- ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
- CFLAGS="$CFLAGS -mcpu=arm7tdmi"
- LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript} ${srcdir}/src/boot.s"
- LIBS=-lgcc
-  #arm-unknown-elf-as-2.10 does not assemble boot.s 
-AC_MSG_CHECKING([if arm-unknown-elf-as can assemble boot.s])
-if arm-unknown-elf-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s ;then
- arm_elf_as=yes;
-else
- arm_elf_as=no;
+AC_MSG_CHECKING([if $host_alias-as is present])
+
+if $host_alias-as --version >/dev/null;then
+ arm_elf_as=yes;else arm_elf_as=no;
+fi
+case $arm_elf_as in
+ no)
+ AC_MSG_RESULT([
+
+ $host_alias-as is not available
+ probably no ARM toolchain has been installed
+])
+ exit 1; 
+ ;;
+esac
+AC_MSG_RESULT([[yes]])
+ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
+AC_MSG_CHECKING([if $host_alias-as can assemble boot.s])
+
+if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s;then
+ arm_elf_as=yes;else arm_elf_as=no;
 fi
 AC_MSG_RESULT([$arm_elf_as])
 case $arm_elf_as in
  no)
  AC_MSG_RESULT([
 
- arm-unknown-elf-as can't assemble startup program.
- probably no arm-unknown-elf-as present or binutils are too old
+ $host_alias-as can't assemble startup program.
+ probably the ARM binutils installed are too old
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 ])
  exit 1; 
  ;;
 esac
+
+#make our minimalistic crosstools generate executables
+${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
+ < ${srcdir}/src/2138.ld.in > 2138.ld
+CFLAGS="$CFLAGS -mcpu=arm7tdmi"
+LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld ${srcdir}/src/boot.s"
 #libgcc of gcc-2.95.3 needs atexit, 
 #which can safely be stubbed in our programs
 #TODO: check if the programs built with gcc-2.95.3 really work
 LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
+LIBS=-lgcc
+
 AC_PROG_CC
 AM_PROG_AS
 
@@ -167,24 +186,27 @@ AM_PROG_AS
 ASFLAGS="$saved_CFLAGS"
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
-#remove temporarily generated files
-#so user will rebuild them with user-defined FLAGS
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo >>summary
 echo "prefix:               ${prefix}">>summary
-echo "whether to build:     ${build_target_programs}">>summary
+echo "crosstools affix:     ${host_alias}">>summary
+echo "MCU:                  $with_mainboard_mcu">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-echo "MCU:                  $with_mainboard_mcu">>summary
+echo >>summary
 echo "tools versions:">>summary
-arm-unknown-elf-as --version>>summary
-${CC} --version>>summary
+$host_alias-as --version |grep assembler >>summary
+${CC} --version >>summary
 cat warnings >>summary
-rm warnings
+rm -f warnings
 
-if test "z$recursive_stribog_build" != zyes;then
- AC_MSG_RESULT([[$(cat summary)]])
-fi
+case "z$recursive_stribog_build" in
+ zyes)
+ ;;
+ *)
+ echo;cat summary
+ ;;
+esac
