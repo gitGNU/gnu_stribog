@@ -46,21 +46,21 @@ AC_MSG_CHECKING([if stribog argp implementation is asked for])
 AC_ARG_ENABLE([own-argp],
  AS_HELP_STRING([--enable-own-argp],
   [Use stribog implementation of argp library [[no]]]),,
+  [enable_own_argp=no
+]
 )
 AC_MSG_RESULT([$enable_own_argp])
 AC_CHECK_HEADER([argp.h],,
 [AC_MSG_RESULT([no usable argp.h found; stribog version should be used])
  build_own_argp=yes
 ])
-if test "z$enable_own_argp" = zno; then
- if "z$build_own_argp" = zyes; then
+if test $enable_own_argp = no; then
+ if test  "z$build_own_argp" = zyes; then
   AC_MSG_RESULT([own argp disabled and no usable system argp available])
   exit 1;
  fi
 fi
-if test "z$enable_own_argp" = zyes; then
- build_own_argp=yes
-fi
+build_own_argp=$enable_own_argp
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_TYPES([error_t])
 AC_C_CONST
@@ -109,8 +109,7 @@ else
  argp_type=GNU
 fi
 
-echo >summary;echo >>summary
-echo "Configuration summary for ${PACKAGE} ${VERSION}:" >>summary
+echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo >>summary
 echo "prefix:               ${prefix}">>summary
 echo "host:                 ${host}">>summary
@@ -118,8 +117,8 @@ echo "argv parser:          ${argp_type}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-echo >>summary
 
 if test "z$recursive_stribog_build" != zyes;then
- AC_MSG_RESULT([[$(cat summary)]])
+ echo
+ cat summary
 fi
