@@ -1,5 +1,6 @@
 /*stribog host part: Windows serial module
-
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
@@ -11,14 +12,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"serialia.h"
 #include<windows.h>
 static HANDLE port;
 void
-close_serialia(void){CloseHandle(port);port=0;}
+close_serialia(void){if(port)CloseHandle(port);port=0;}
 int
 init_serialia(const char*port_name,int freq)
 {DCB dcb;COMMTIMEOUTS to;if(!port_name)port_name="COM1";
