@@ -1,3 +1,9 @@
+25 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/error.c lib/stribog-error.h: init_error_dir() added
+ * conloq/Makefile.am: necessary _DEPENDENCIES added
+ * elk/wser.c conloq/wser.c: robust close serialia ()
+ * elk/elk.c: approaching to GNU-standard arg parsing
+ * elk/usage.c: removed
 21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * elk/elk.c: typo correction
  * configure.ac: default prefix is $HOME/stribog-install
