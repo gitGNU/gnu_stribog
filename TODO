@@ -6,3 +6,8 @@
  make sw/target programs work from the flash
 18 Feb 2008
  implement on-board attitude computation
+25 Mar 2008
+ migrate to autoconf-2.62 when it is released.
+ it should support
+  (1) --help=recursive
+  (2) recursive 'configure' calls
