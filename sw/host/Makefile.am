@@ -17,4 +17,4 @@
 SUBDIRS=lib/argp lib conloq elk intlpc postproc utils
 nodist_pkgdata_DATA=summary
 dist-hook:
-	$(RM) summary
+	$(RM) $(nodist_pkgdata_DATA)
