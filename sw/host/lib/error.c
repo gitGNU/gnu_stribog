@@ -18,7 +18,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_error.h>
 #include<stdio.h>
 #include<stdarg.h>
+#include<string.h>
 static const char*program_name=0;
+static int skipped_source_chars=0;
 void
 error_(const char*fmt,...)
 {va_list ap;va_start(ap,fmt);vfprintf(stderr,fmt,ap);va_end(ap);}
@@ -27,3 +29,11 @@ output_prefix_for_error(void)
 {if(program_name)error_("%s:",program_name);}
 void
 init_error(const char*prog_name){program_name=prog_name;}
+void
+error_location(const char*file,int line)
+{error_("%s:%i: ",file+skipped_source_chars,line);}
+void
+init_error_dir(const char*prog_name,const char*srcdir)
+{program_name=prog_name;
+ if(srcdir)skipped_source_chars=strlen(srcdir)+1;
+}

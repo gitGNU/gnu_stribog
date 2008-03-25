@@ -21,6 +21,8 @@ __attribute__((format(printf,1,2)))
 #endif
 ;
 void output_prefix_for_error(void);
+void error_location(const char*file,int line);
 void init_error(const char*program_name);
+void init_error_dir(const char*prog_name,const char*srcdir);
 #define error output_prefix_for_error(),\
- error_("%s:%i:",__FILE__,__LINE__),error_
+ error_location(__FILE__,__LINE__),error_
