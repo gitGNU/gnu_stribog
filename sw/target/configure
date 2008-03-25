@@ -25,10 +25,13 @@ if test "z$target_recursion_trigger" = z;then
  export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
+ case "z$ARM_TOOLS_PREFIX" in
+  z) export ARM_TOOLS_PREFIX=arm-unknown-elf;;
+ esac
  case $# in
-  0) ${0} --build=${config_guessed} --host=arm-unknown-elf;;
+  0) ${0} --build=${config_guessed} --host=$ARM_TOOLS_PREFIX;;
  #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=arm-unknown-elf;;
+  *) ${0} --build=${config_guessed} $@ --host=$ARM_TOOLS_PREFIX;;
  esac
  exit $?
 fi
@@ -673,6 +676,10 @@ am__leading_dot
 AMTAR
 am__tar
 am__untar
+mag_response_enabled_TRUE
+mag_response_enabled_FALSE
+magex_enabled_TRUE
+magex_enabled_FALSE
 multa_enabled_TRUE
 multa_enabled_FALSE
 CC
@@ -1293,8 +1300,8 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-mainboard-mcu    Configure MCU on the main board (LPC2131 | LPC2132 |
-                          LPC2134 | LPC2136 | LPC2138) [LPC2138]
+  --with-mainboard-mcu    Configure MCU on the main board (LPC213[12468])
+                          [LPC2138]
 
 Some influential environment variables:
   CC          C compiler command
@@ -1740,8 +1747,10 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 #the cross-build is forced in configure.pre which is
 #written at the begin of 'configure'
-{ echo "$as_me:$LINENO: result: NB here we force arm-unknown-elf host" >&5
-echo "${ECHO_T}NB here we force arm-unknown-elf host" >&6; }
+#TODO: migrate to autoconf-2.62 and move configure.pre contents hither
+{ echo "$as_me:$LINENO: result: NB here we force $host_alias host" >&5
+echo "${ECHO_T}NB here we force $host_alias host" >&6; }
+echo >warnings
 
 am__api_version='1.10'
 
@@ -2232,10 +2241,11 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 ac_config_headers="$ac_config_headers config.h"
 
 
-echo > warnings
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
+
+#Checks for features required via command-line arguments
 
 # Check whether --with-mainboard-mcu was given.
 if test "${with_mainboard_mcu+set}" = set; then
@@ -2246,7 +2256,7 @@ else
 fi
 
 case $with_mainboard_mcu in
- LPC2131 | LPC2132 | LPC2134 | LPC2136 | LPC2138 )
+ LPC213[12468])
   echo  $with_mainboard_mcu > mcu.conf
   ;;
  *)
@@ -2254,18 +2264,23 @@ case $with_mainboard_mcu in
 echo "${ECHO_T}unknown MCU '$with_mainboard_mcu' is requested" >&6; }
   exit 1
 esac
+enable_mag_response=yes
+enable_magex=yes
 enable_multa=yes
 adc1_present=yes
 case $with_mainboard_mcu in
  LPC2131)
   echo NOTE: LPC2131 has only 8k RAM >> warnings
+  enable_multa=no
   ;;
 esac
 case $with_mainboard_mcu in
- LPC2131 | LPC2132)
+ LPC213[12])
   echo NOTE: LPC213[12] have no ADC1. some parts of programs are disabled\
   >> warnings
   adc1_present=no
+  enable_mag_response=no
+  enable_magex=no
   enable_multa=no
   ;;
 esac
@@ -2280,11 +2295,35 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_ADC1 $adc1_define
 _ACEOF
 
+#CPU-relevant configuration is finished
+case $enable_mag_response in
+ no)
+ echo NOTE: \'mag_response\' program is disabled >>warnings
+esac
+case $enable_magex in
+ no)
+ echo NOTE: \'magex\' program is disabled >>warnings
+esac
 case $enable_multa in
  no)
- echo NOTE: due to selected MCU limitations \'multa\' program is disabled\
- >>warnings
+ echo NOTE: \'multa\' program is disabled >>warnings
 esac
+ if test $enable_mag_response = yes; then
+  mag_response_enabled_TRUE=
+  mag_response_enabled_FALSE='#'
+else
+  mag_response_enabled_TRUE='#'
+  mag_response_enabled_FALSE=
+fi
+
+ if test $enable_magex = yes; then
+  magex_enabled_TRUE=
+  magex_enabled_FALSE='#'
+else
+  magex_enabled_TRUE='#'
+  magex_enabled_FALSE=
+fi
+
  if test $enable_multa = yes; then
   multa_enabled_TRUE=
   multa_enabled_FALSE='#'
@@ -2293,7 +2332,6 @@ else
   multa_enabled_FALSE=
 fi
 
-#CPU-relevant configuration is finished
 
 { echo "$as_me:$LINENO: checking whether original PPS is requested" >&5
 echo $ECHO_N "checking whether original PPS is requested... $ECHO_C" >&6; }
@@ -2339,22 +2377,36 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
- < ${srcdir}/src/2138.ld.in > 2138.ld
 # Checks for programs.
-#make our minimalistic crosstools generate executables
- ldscript="./2138.ld"
- ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
- CFLAGS="$CFLAGS -mcpu=arm7tdmi"
- LDFLAGS="$LDFLAGS -nostdlib -static -T${ldscript} ${srcdir}/src/boot.s"
- LIBS=-lgcc
-  #arm-unknown-elf-as-2.10 does not assemble boot.s
-{ echo "$as_me:$LINENO: checking if arm-unknown-elf-as can assemble boot.s" >&5
-echo $ECHO_N "checking if arm-unknown-elf-as can assemble boot.s... $ECHO_C" >&6; }
-if arm-unknown-elf-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s ;then
- arm_elf_as=yes;
-else
- arm_elf_as=no;
+{ echo "$as_me:$LINENO: checking if $host_alias-as is present" >&5
+echo $ECHO_N "checking if $host_alias-as is present... $ECHO_C" >&6; }
+
+if $host_alias-as --version >/dev/null;then
+ arm_elf_as=yes;else arm_elf_as=no;
+fi
+case $arm_elf_as in
+ no)
+ { echo "$as_me:$LINENO: result:
+
+ $host_alias-as is not available
+ probably no ARM toolchain has been installed
+" >&5
+echo "${ECHO_T}
+
+ $host_alias-as is not available
+ probably no ARM toolchain has been installed
+" >&6; }
+ exit 1;
+ ;;
+esac
+{ echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
+{ echo "$as_me:$LINENO: checking if $host_alias-as can assemble boot.s" >&5
+echo $ECHO_N "checking if $host_alias-as can assemble boot.s... $ECHO_C" >&6; }
+
+if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s;then
+ arm_elf_as=yes;else arm_elf_as=no;
 fi
 { echo "$as_me:$LINENO: result: $arm_elf_as" >&5
 echo "${ECHO_T}$arm_elf_as" >&6; }
@@ -2362,23 +2414,31 @@ case $arm_elf_as in
  no)
  { echo "$as_me:$LINENO: result:
 
- arm-unknown-elf-as can't assemble startup program.
- probably no arm-unknown-elf-as present or binutils are too old
+ $host_alias-as can't assemble startup program.
+ probably the ARM binutils installed are too old
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 " >&5
 echo "${ECHO_T}
 
- arm-unknown-elf-as can't assemble startup program.
- probably no arm-unknown-elf-as present or binutils are too old
+ $host_alias-as can't assemble startup program.
+ probably the ARM binutils installed are too old
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 " >&6; }
  exit 1;
  ;;
 esac
+
+#make our minimalistic crosstools generate executables
+${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
+ < ${srcdir}/src/2138.ld.in > 2138.ld
+CFLAGS="$CFLAGS -mcpu=arm7tdmi"
+LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld ${srcdir}/src/boot.s"
 #libgcc of gcc-2.95.3 needs atexit,
 #which can safely be stubbed in our programs
 #TODO: check if the programs built with gcc-2.95.3 really work
 LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
+LIBS=-lgcc
+
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -3830,8 +3890,6 @@ fi
 ASFLAGS="$saved_CFLAGS"
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
-#remove temporarily generated files
-#so user will rebuild them with user-defined FLAGS
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -3930,6 +3988,20 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
+if test -z "${mag_response_enabled_TRUE}" && test -z "${mag_response_enabled_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"mag_response_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"mag_response_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${magex_enabled_TRUE}" && test -z "${magex_enabled_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"magex_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"magex_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${multa_enabled_TRUE}" && test -z "${multa_enabled_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"multa_enabled\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -4549,6 +4621,10 @@ am__leading_dot!$am__leading_dot$ac_delim
 AMTAR!$AMTAR$ac_delim
 am__tar!$am__tar$ac_delim
 am__untar!$am__untar$ac_delim
+mag_response_enabled_TRUE!$mag_response_enabled_TRUE$ac_delim
+mag_response_enabled_FALSE!$mag_response_enabled_FALSE$ac_delim
+magex_enabled_TRUE!$magex_enabled_TRUE$ac_delim
+magex_enabled_FALSE!$magex_enabled_FALSE$ac_delim
 multa_enabled_TRUE!$multa_enabled_TRUE$ac_delim
 multa_enabled_FALSE!$multa_enabled_FALSE$ac_delim
 CC!$CC$ac_delim
@@ -4576,7 +4652,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 84; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 88; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -5177,18 +5253,22 @@ fi
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo >>summary
 echo "prefix:               ${prefix}">>summary
-echo "whether to build:     ${build_target_programs}">>summary
+echo "crosstools affix:     ${host_alias}">>summary
+echo "MCU:                  $with_mainboard_mcu">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-echo "MCU:                  $with_mainboard_mcu">>summary
+echo >>summary
 echo "tools versions:">>summary
-arm-unknown-elf-as --version>>summary
-${CC} --version>>summary
+$host_alias-as --version |grep assembler >>summary
+${CC} --version >>summary
 cat warnings >>summary
-rm warnings
+rm -f warnings
 
-if test "z$recursive_stribog_build" != zyes;then
- { echo "$as_me:$LINENO: result: $(cat summary)" >&5
-echo "${ECHO_T}$(cat summary)" >&6; }
-fi
+case "z$recursive_stribog_build" in
+ zyes)
+ ;;
+ *)
+ echo;cat summary
+ ;;
+esac

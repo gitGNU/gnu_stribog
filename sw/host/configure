@@ -4522,6 +4522,10 @@ echo $ECHO_N "checking if stribog argp implementation is asked for... $ECHO_C" >
 # Check whether --enable-own-argp was given.
 if test "${enable_own_argp+set}" = set; then
   enableval=$enable_own_argp;
+else
+  enable_own_argp=no
+
+
 fi
 
 { echo "$as_me:$LINENO: result: $enable_own_argp" >&5
@@ -4666,16 +4670,14 @@ echo "${ECHO_T}no usable argp.h found; stribog version should be used" >&6; }
 fi
 
 
-if test "z$enable_own_argp" = zno; then
- if "z$build_own_argp" = zyes; then
+if test $enable_own_argp = no; then
+ if test  "z$build_own_argp" = zyes; then
   { echo "$as_me:$LINENO: result: own argp disabled and no usable system argp available" >&5
 echo "${ECHO_T}own argp disabled and no usable system argp available" >&6; }
   exit 1;
  fi
 fi
-if test "z$enable_own_argp" = zyes; then
- build_own_argp=yes
-fi
+build_own_argp=$enable_own_argp
 # Checks for typedefs, structures, and compiler characteristics.
 { echo "$as_me:$LINENO: checking for error_t" >&5
 echo $ECHO_N "checking for error_t... $ECHO_C" >&6; }
@@ -7149,8 +7151,7 @@ else
  argp_type=GNU
 fi
 
-echo >summary;echo >>summary
-echo "Configuration summary for ${PACKAGE} ${VERSION}:" >>summary
+echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo >>summary
 echo "prefix:               ${prefix}">>summary
 echo "host:                 ${host}">>summary
@@ -7158,9 +7159,8 @@ echo "argv parser:          ${argp_type}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-echo >>summary
 
 if test "z$recursive_stribog_build" != zyes;then
- { echo "$as_me:$LINENO: result: $(cat summary)" >&5
-echo "${ECHO_T}$(cat summary)" >&6; }
+ echo
+ cat summary
 fi

@@ -45,13 +45,12 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am__elk_SOURCES_DIST = elk.c serialia.c wser.c serialia.h usage.c \
-	usage.h
+am__elk_SOURCES_DIST = elk.c serialia.c wser.c serialia.h usage.h
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
-am_elk_OBJECTS = elk.$(OBJEXT) $(am__objects_1) usage.$(OBJEXT)
+am_elk_OBJECTS = elk.$(OBJEXT) $(am__objects_1)
 elk_OBJECTS = $(am_elk_OBJECTS)
-elk_LDADD = $(LDADD)
+am__DEPENDENCIES_1 =
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -163,6 +162,8 @@ top_srcdir = @top_srcdir@
 @the_host_is_windows_FALSE@serial_source = serialia.c
 
 #elk the LPC21x programmer: Makefile.am
+#Copyright (C) 2005, 2006, 2007, 2008\
+# Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -176,12 +177,12 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-#Copyright (C) 2005, 2006, 2007, 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
 #forced to use non-free OS API
 @the_host_is_windows_TRUE@serial_source = wser.c
-elk_SOURCES = elk.c $(serial_source) serialia.h usage.c usage.h
+AM_CPPFLAGS = -DPACKAGE_DATA_DIR="\"$(datadir)\"" -DSOURCE_DIR="\"$(srcdir)\""
+elk_SOURCES = elk.c $(serial_source) serialia.h usage.h
+elk_LDADD = $(argp_lib) $(stribog_lib)
+elk_DEPENDENCIES = $(argp_lib) $(stribog_lib)
 EXTRA_elk_SOURCES = serialia.c wser.c
 all: all-am
 
@@ -251,7 +252,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialia.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wser.Po@am__quote@
 
 .c.o:

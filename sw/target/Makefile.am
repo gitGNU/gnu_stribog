@@ -28,7 +28,7 @@ objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
  -j vectors -I elf32-littlearm -O binary
 common_sources=include/lpc2138.h src/boot.s
-#atexit.c is needed for 2.95.3
+#atexit.c is needed for gcc-2.95.3
  common_sources+=lib/atexit.c
  AM_CFLAGS=-mcpu=arm7tdmi -Wall -O2
  AM_CPPFLAGS=-I$(srcdir)/src
@@ -257,12 +257,15 @@ lm74ex-rom.bin: $(lm74ex_sources)
 lm74ex-rom.map: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex
 ##expanded "lm74ex" program definition ends
-##expanded "magex" program definition begins
-nodist_pkgdata_DATA+=\
+##conditional "magex" program definition begins
+EXTRA_PROGRAMS+=magex magex-rom
+if magex_enabled
+ nodist_pkgdata_DATA+=\
  magex.bin magex.vectors magex.map\
  magex-rom.bin magex-rom.map
 noinst_PROGRAMS+=magex magex-rom
 
+endif
 magex_sources=$(common_sources)\
  src/magex.c src/mag.c src/mag.h\
  src/adc.c src/adc.h src/dac.c src/dac.h\
@@ -499,7 +502,7 @@ tempusex-rom.map: $(tempusex_sources)
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
-nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld
+nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld config.h
 dist-hook:
 	$(RM) $(nodist_pkgdata_DATA) mcu.conf
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript mcu.conf
