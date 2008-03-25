@@ -1,3 +1,5 @@
+25 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac configure.pre: selectable ARM tools affix
 24 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac Makefile.am.m4: magnetic targets are
  disabled for LPC213[12]
