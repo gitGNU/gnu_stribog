@@ -30,7 +30,8 @@ AC_PROG_CC
 AC_PROG_RANLIB
 
 if test "z$GCC" = zyes; then
- CFLAGS="${CFLAGS} -Wall"
+ #enable all warnings and libc GNU extentions
+ CFLAGS="${CFLAGS} -Wall -D_GNU_SOURCE=1"
 fi
 
 # Checks for libraries.
@@ -68,12 +69,14 @@ AC_C_INLINE
 AC_TYPE_UINT16_T
 
 # Checks for library functions.
+#FIXME configure the sources accordingly
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror])
+AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror fchdir])
+AC_CHECK_FUNCS([get_current_dir_name])
 
 #Checks for system services
 case $host in
