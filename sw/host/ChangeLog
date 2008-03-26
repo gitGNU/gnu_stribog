@@ -1,3 +1,7 @@
+26 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/push_pop_wd.h lib/push_pop_wd.c lib/push_pop_wd.h: new
+ * lib/Makefile.am: push_pop_wdex added
+ * configure.ac: checking for chdir/getcwd functions
 25 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/error.c lib/stribog-error.h: init_error_dir() added
  * conloq/Makefile.am: necessary _DEPENDENCIES added
