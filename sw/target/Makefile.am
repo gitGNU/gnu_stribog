@@ -20,7 +20,11 @@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 nodist_pkgdata_DATA=
 noinst_PROGRAMS=
+nodist_ram_programs_DATA=
+nodist_rom_programs_DATA=
 EXTRA_PROGRAMS=
+ram_programsdir=$(pkgdatadir)/ram_programs
+rom_programsdir=$(pkgdatadir)/rom_programs
 
 OBJCOPY=arm-unknown-elf-objcopy
 objcopy_bin=$(OBJCOPY) -I elf32-littlearm -O binary -R startup
@@ -40,8 +44,9 @@ extra_common_sources=lib/atexit.c
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 subst_ldscript
 ##expanded "accelex" program definition begins
-nodist_pkgdata_DATA+=\
- accelex.bin accelex.vectors accelex.map\
+nodist_ram_programs_DATA+=\
+ accelex.bin accelex.vectors accelex.map
+nodist_rom_programs_DATA+=\
  accelex-rom.bin accelex-rom.map
 noinst_PROGRAMS+=accelex accelex-rom
 
@@ -72,8 +77,9 @@ accelex-rom.map: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
 ##expanded "accelex" program definition ends
 ##expanded "adcex" program definition begins
-nodist_pkgdata_DATA+=\
- adcex.bin adcex.vectors adcex.map\
+nodist_ram_programs_DATA+=\
+ adcex.bin adcex.vectors adcex.map
+nodist_rom_programs_DATA+=\
  adcex-rom.bin adcex-rom.map
 noinst_PROGRAMS+=adcex adcex-rom
 
@@ -104,8 +110,9 @@ adcex-rom.map: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex
 ##expanded "adcex" program definition ends
 ##expanded "crcex" program definition begins
-nodist_pkgdata_DATA+=\
- crcex.bin crcex.vectors crcex.map\
+nodist_ram_programs_DATA+=\
+ crcex.bin crcex.vectors crcex.map
+nodist_rom_programs_DATA+=\
  crcex-rom.bin crcex-rom.map
 noinst_PROGRAMS+=crcex crcex-rom
 
@@ -135,8 +142,9 @@ crcex-rom.map: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex
 ##expanded "crcex" program definition ends
 ##expanded "dacex" program definition begins
-nodist_pkgdata_DATA+=\
- dacex.bin dacex.vectors dacex.map\
+nodist_ram_programs_DATA+=\
+ dacex.bin dacex.vectors dacex.map
+nodist_rom_programs_DATA+=\
  dacex-rom.bin dacex-rom.map
 noinst_PROGRAMS+=dacex dacex-rom
 
@@ -166,8 +174,9 @@ dacex-rom.map: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex
 ##expanded "dacex" program definition ends
 ##expanded "inledex" program definition begins
-nodist_pkgdata_DATA+=\
- inledex.bin inledex.vectors inledex.map\
+nodist_ram_programs_DATA+=\
+ inledex.bin inledex.vectors inledex.map
+nodist_rom_programs_DATA+=\
  inledex-rom.bin inledex-rom.map
 noinst_PROGRAMS+=inledex inledex-rom
 
@@ -196,8 +205,9 @@ inledex-rom.map: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex
 ##expanded "inledex" program definition ends
 ##expanded "ledex" program definition begins
-nodist_pkgdata_DATA+=\
- ledex.bin ledex.vectors ledex.map\
+nodist_ram_programs_DATA+=\
+ ledex.bin ledex.vectors ledex.map
+nodist_rom_programs_DATA+=\
  ledex-rom.bin ledex-rom.map
 noinst_PROGRAMS+=ledex ledex-rom
 
@@ -226,8 +236,9 @@ ledex-rom.map: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex
 ##expanded "ledex" program definition ends
 ##expanded "lm74ex" program definition begins
-nodist_pkgdata_DATA+=\
- lm74ex.bin lm74ex.vectors lm74ex.map\
+nodist_ram_programs_DATA+=\
+ lm74ex.bin lm74ex.vectors lm74ex.map
+nodist_rom_programs_DATA+=\
  lm74ex-rom.bin lm74ex-rom.map
 noinst_PROGRAMS+=lm74ex lm74ex-rom
 
@@ -260,8 +271,9 @@ lm74ex-rom.map: $(lm74ex_sources)
 ##conditional "magex" program definition begins
 EXTRA_PROGRAMS+=magex magex-rom
 if magex_enabled
- nodist_pkgdata_DATA+=\
- magex.bin magex.vectors magex.map\
+ nodist_ram_programs_DATA+=\
+ magex.bin magex.vectors magex.map
+nodist_rom_programs_DATA+=\
  magex-rom.bin magex-rom.map
 noinst_PROGRAMS+=magex magex-rom
 
@@ -296,8 +308,9 @@ magex-rom.map: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex
 ##expanded "magex" program definition ends
 ##expanded "mag_response" program definition begins
-nodist_pkgdata_DATA+=\
- mag_response.bin mag_response.vectors mag_response.map\
+nodist_ram_programs_DATA+=\
+ mag_response.bin mag_response.vectors mag_response.map
+nodist_rom_programs_DATA+=\
  mag_response-rom.bin mag_response-rom.map
 noinst_PROGRAMS+=mag_response mag_response-rom
 
@@ -335,8 +348,9 @@ mag_response-rom.map: $(mag_response_sources)
 ##conditional "multa" program definition begins
 EXTRA_PROGRAMS+=multa multa-rom
 if multa_enabled
- nodist_pkgdata_DATA+=\
- multa.bin multa.vectors multa.map\
+ nodist_ram_programs_DATA+=\
+ multa.bin multa.vectors multa.map
+nodist_rom_programs_DATA+=\
  multa-rom.bin multa-rom.map
 noinst_PROGRAMS+=multa multa-rom
 
@@ -373,8 +387,9 @@ multa-rom.map: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
 ##expanded "multa" program definition ends
 ##expanded "pllex" program definition begins
-nodist_pkgdata_DATA+=\
- pllex.bin pllex.vectors pllex.map\
+nodist_ram_programs_DATA+=\
+ pllex.bin pllex.vectors pllex.map
+nodist_rom_programs_DATA+=\
  pllex-rom.bin pllex-rom.map
 noinst_PROGRAMS+=pllex pllex-rom
 
@@ -403,8 +418,9 @@ pllex-rom.map: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex
 ##expanded "pllex" program definition ends
 ##expanded "powerex" program definition begins
-nodist_pkgdata_DATA+=\
- powerex.bin powerex.vectors powerex.map\
+nodist_ram_programs_DATA+=\
+ powerex.bin powerex.vectors powerex.map
+nodist_rom_programs_DATA+=\
  powerex-rom.bin powerex-rom.map
 noinst_PROGRAMS+=powerex powerex-rom
 
@@ -433,8 +449,9 @@ powerex-rom.map: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex
 ##expanded "powerex" program definition ends
 ##expanded "uart1ex" program definition begins
-nodist_pkgdata_DATA+=\
- uart1ex.bin uart1ex.vectors uart1ex.map\
+nodist_ram_programs_DATA+=\
+ uart1ex.bin uart1ex.vectors uart1ex.map
+nodist_rom_programs_DATA+=\
  uart1ex-rom.bin uart1ex-rom.map
 noinst_PROGRAMS+=uart1ex uart1ex-rom
 
@@ -469,8 +486,9 @@ uart1ex-rom.map: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
 ##expanded "uart1ex" program definition ends
 ##expanded "tempusex" program definition begins
-nodist_pkgdata_DATA+=\
- tempusex.bin tempusex.vectors tempusex.map\
+nodist_ram_programs_DATA+=\
+ tempusex.bin tempusex.vectors tempusex.map
+nodist_rom_programs_DATA+=\
  tempusex-rom.bin tempusex-rom.map
 noinst_PROGRAMS+=tempusex tempusex-rom
 
@@ -504,7 +522,8 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld config.h
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA) mcu.conf
+	$(RM) $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
+ $(nodist_pkgdata_DATA) mcu.conf
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript mcu.conf
 	$(srcdir)/subst_ldscript RAM $$(cat mcu.conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld

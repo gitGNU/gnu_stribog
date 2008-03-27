@@ -43,15 +43,19 @@ noinst_PROGRAMS = accelex$(EXEEXT) accelex-rom$(EXEEXT) adcex$(EXEEXT) \
 EXTRA_PROGRAMS = magex$(EXEEXT) magex-rom$(EXEEXT) multa$(EXEEXT) \
 	multa-rom$(EXEEXT)
 @magex_enabled_TRUE@am__append_1 = \
-@magex_enabled_TRUE@ magex.bin magex.vectors magex.map\
+@magex_enabled_TRUE@ magex.bin magex.vectors magex.map
+
+@magex_enabled_TRUE@am__append_2 = \
 @magex_enabled_TRUE@ magex-rom.bin magex-rom.map
 
-@magex_enabled_TRUE@am__append_2 = magex magex-rom
-@multa_enabled_TRUE@am__append_3 = \
-@multa_enabled_TRUE@ multa.bin multa.vectors multa.map\
+@magex_enabled_TRUE@am__append_3 = magex magex-rom
+@multa_enabled_TRUE@am__append_4 = \
+@multa_enabled_TRUE@ multa.bin multa.vectors multa.map
+
+@multa_enabled_TRUE@am__append_5 = \
 @multa_enabled_TRUE@ multa-rom.bin multa-rom.map
 
-@multa_enabled_TRUE@am__append_4 = multa multa-rom
+@multa_enabled_TRUE@am__append_6 = multa multa-rom
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
@@ -310,9 +314,13 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(pkgdatadir)"
+am__installdirs = "$(DESTDIR)$(pkgdatadir)" \
+	"$(DESTDIR)$(ram_programsdir)" "$(DESTDIR)$(rom_programsdir)"
 nodist_pkgdataDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(nodist_pkgdata_DATA)
+nodist_ram_programsDATA_INSTALL = $(INSTALL_DATA)
+nodist_rom_programsDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(nodist_pkgdata_DATA) $(nodist_ram_programs_DATA) \
+	$(nodist_rom_programs_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -430,23 +438,26 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-nodist_pkgdata_DATA = accelex.bin accelex.vectors accelex.map \
-	accelex-rom.bin accelex-rom.map adcex.bin adcex.vectors \
-	adcex.map adcex-rom.bin adcex-rom.map crcex.bin crcex.vectors \
-	crcex.map crcex-rom.bin crcex-rom.map dacex.bin dacex.vectors \
-	dacex.map dacex-rom.bin dacex-rom.map inledex.bin \
-	inledex.vectors inledex.map inledex-rom.bin inledex-rom.map \
-	ledex.bin ledex.vectors ledex.map ledex-rom.bin ledex-rom.map \
-	lm74ex.bin lm74ex.vectors lm74ex.map lm74ex-rom.bin \
-	lm74ex-rom.map $(am__append_1) mag_response.bin \
-	mag_response.vectors mag_response.map mag_response-rom.bin \
-	mag_response-rom.map $(am__append_3) pllex.bin pllex.vectors \
-	pllex.map pllex-rom.bin pllex-rom.map powerex.bin \
-	powerex.vectors powerex.map powerex-rom.bin powerex-rom.map \
-	uart1ex.bin uart1ex.vectors uart1ex.map uart1ex-rom.bin \
-	uart1ex-rom.map tempusex.bin tempusex.vectors tempusex.map \
-	tempusex-rom.bin tempusex-rom.map summary ram2138.ld 2138.ld \
-	config.h
+nodist_pkgdata_DATA = summary ram2138.ld 2138.ld config.h
+nodist_ram_programs_DATA = accelex.bin accelex.vectors accelex.map \
+	adcex.bin adcex.vectors adcex.map crcex.bin crcex.vectors \
+	crcex.map dacex.bin dacex.vectors dacex.map inledex.bin \
+	inledex.vectors inledex.map ledex.bin ledex.vectors ledex.map \
+	lm74ex.bin lm74ex.vectors lm74ex.map $(am__append_1) \
+	mag_response.bin mag_response.vectors mag_response.map \
+	$(am__append_4) pllex.bin pllex.vectors pllex.map powerex.bin \
+	powerex.vectors powerex.map uart1ex.bin uart1ex.vectors \
+	uart1ex.map tempusex.bin tempusex.vectors tempusex.map
+nodist_rom_programs_DATA = accelex-rom.bin accelex-rom.map \
+	adcex-rom.bin adcex-rom.map crcex-rom.bin crcex-rom.map \
+	dacex-rom.bin dacex-rom.map inledex-rom.bin inledex-rom.map \
+	ledex-rom.bin ledex-rom.map lm74ex-rom.bin lm74ex-rom.map \
+	$(am__append_2) mag_response-rom.bin mag_response-rom.map \
+	$(am__append_5) pllex-rom.bin pllex-rom.map powerex-rom.bin \
+	powerex-rom.map uart1ex-rom.bin uart1ex-rom.map \
+	tempusex-rom.bin tempusex-rom.map
+ram_programsdir = $(pkgdatadir)/ram_programs
+rom_programsdir = $(pkgdatadir)/rom_programs
 OBJCOPY = arm-unknown-elf-objcopy
 objcopy_bin = $(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors = $(OBJCOPY)\
@@ -1265,6 +1276,40 @@ uninstall-nodist_pkgdataDATA:
 	  echo " rm -f '$(DESTDIR)$(pkgdatadir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(pkgdatadir)/$$f"; \
 	done
+install-nodist_ram_programsDATA: $(nodist_ram_programs_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(ram_programsdir)" || $(MKDIR_P) "$(DESTDIR)$(ram_programsdir)"
+	@list='$(nodist_ram_programs_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(nodist_ram_programsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(ram_programsdir)/$$f'"; \
+	  $(nodist_ram_programsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(ram_programsdir)/$$f"; \
+	done
+
+uninstall-nodist_ram_programsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_ram_programs_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(ram_programsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(ram_programsdir)/$$f"; \
+	done
+install-nodist_rom_programsDATA: $(nodist_rom_programs_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(rom_programsdir)" || $(MKDIR_P) "$(DESTDIR)$(rom_programsdir)"
+	@list='$(nodist_rom_programs_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(nodist_rom_programsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(rom_programsdir)/$$f'"; \
+	  $(nodist_rom_programsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(rom_programsdir)/$$f"; \
+	done
+
+uninstall-nodist_rom_programsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_rom_programs_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(rom_programsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(rom_programsdir)/$$f"; \
+	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -1446,7 +1491,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(DATA) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(pkgdatadir)"; do \
+	for dir in "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(ram_programsdir)" "$(DESTDIR)$(rom_programsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -1494,7 +1539,9 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nodist_pkgdataDATA
+install-data-am: install-nodist_pkgdataDATA \
+	install-nodist_ram_programsDATA \
+	install-nodist_rom_programsDATA
 
 install-dvi: install-dvi-am
 
@@ -1531,7 +1578,9 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-nodist_pkgdataDATA
+uninstall-am: uninstall-nodist_pkgdataDATA \
+	uninstall-nodist_ram_programsDATA \
+	uninstall-nodist_rom_programsDATA
 
 .MAKE: install-am install-strip
 
@@ -1544,12 +1593,15 @@ uninstall-am: uninstall-nodist_pkgdataDATA
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
-	install-nodist_pkgdataDATA install-pdf install-pdf-am \
+	install-nodist_pkgdataDATA install-nodist_ram_programsDATA \
+	install-nodist_rom_programsDATA install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-nodist_pkgdataDATA
+	uninstall-am uninstall-nodist_pkgdataDATA \
+	uninstall-nodist_ram_programsDATA \
+	uninstall-nodist_rom_programsDATA
 
 accelex.bin: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
@@ -1737,7 +1789,8 @@ tempusex-rom.map: $(tempusex_sources)
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA) mcu.conf
+	$(RM) $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
+ $(nodist_pkgdata_DATA) mcu.conf
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript mcu.conf
 	$(srcdir)/subst_ldscript RAM $$(cat mcu.conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld
