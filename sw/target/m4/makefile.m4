@@ -42,8 +42,9 @@ $1-rom.map: $($1_sources)
 ##expanded "$1" program definition ends')
 
 define(ST_ENABLE_TARGET,
-`nodist_pkgdata_DATA+=\
- $1.bin $1.vectors $1.map\
+`nodist_ram_programs_DATA+=\
+ $1.bin $1.vectors $1.map
+nodist_rom_programs_DATA+=\
  $1-rom.bin $1-rom.map
 noinst_PROGRAMS+=$1 $1-rom
 ')
@@ -81,4 +82,8 @@ divert`'dnl
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 nodist_pkgdata_DATA=
 noinst_PROGRAMS=
+nodist_ram_programs_DATA=
+nodist_rom_programs_DATA=
 EXTRA_PROGRAMS=
+ram_programsdir=$(pkgdatadir)/ram_programs
+rom_programsdir=$(pkgdatadir)/rom_programs

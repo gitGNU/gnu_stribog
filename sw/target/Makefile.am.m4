@@ -106,7 +106,8 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld config.h
 dist-hook:
-	$(RM) $(nodist_pkgdata_DATA) mcu.conf
+	$(RM) $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
+ $(nodist_pkgdata_DATA) mcu.conf
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript mcu.conf
 	$(srcdir)/subst_ldscript RAM $$(cat mcu.conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld
