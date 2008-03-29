@@ -18,7 +18,6 @@ SUBDIRS=sw/common sw/host
 if enable_arm_targets
  SUBDIRS+=sw/target
 endif
-EXTRA_SUBDIRS=sw/target
 EXTRA_DIST=branch
 nodist_pkgdata_DATA=summary
 dist-hook:
