@@ -1,3 +1,5 @@
+27 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am: EXTRA_SUBDIRS removed
 21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: default prefix is $HOME/stribog-install
 18 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
