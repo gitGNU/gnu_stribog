@@ -27,7 +27,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<argp.h>
 #include<stribog_strings.h>
 #include<stribog_error.h>
-const char prefs_file_name[]=".elk.prefs.rc";
+#include"../lib/save_wd.h"
+const char 
+ prefs_file_name[]=".elk.prefs.rc",/*default loaded preferences name*/
+ target_subdir[]="stribog-target",/*ARM stuff subdirectory*/
+ ram_subdir[]="ram_programs",/*RAM programs subdirectory*/
+ rom_subdir[]="rom_programs";/*ROM programs subdirectory*/
 enum program_exit_codes
 {normal_exit=0,no_uart=2,no_directory=3,wrong_args=4};
 static void
@@ -297,11 +302,46 @@ copy_memory(unsigned long addr)
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 static int
+chdir_to_package_data(void)
+{int ret;
+ if(save_wd())
+ {error("can't save current working directory\n");
+  return!0;
+ }
+ if(args.directory)
+ {ret=chdir(args.directory);
+  if(ret)error("can't cd to '%s'\n",args.directory);
+  return ret;
+ }
+ ret=chdir(PACKAGE_DATA_DIR);
+ if(ret)
+ {error("can't cd to '%s' (package data dir)\n",PACKAGE_DATA_DIR);
+  return ret;
+ }
+ ret=chdir(target_subdir);
+ if(ret)
+  error("can't cd to '%s' (ARM programs dir)\n",target_subdir);
+ return ret;
+}
+static int
+chdir_to_programs(const char*subdir)
+{int r=chdir_to_package_data();
+ if(args.directory)return r;if(r)return r;
+ r=chdir(subdir);
+ if(r)error("can't cd to '%s'\n",subdir);return r;
+}
+static int
 write_file(void)
 {char s[289];FILE*f;int i,n=0;unsigned long addr=ram;
+ if(chdir_to_programs(rom_subdir))
+ {if(reload_wd())
+   error("couldn't return to working directory after a failure\n");
+  return!0;
+ }
  /*it is impractical to have longer target names*/
  strncpy(s,args.target_name,sizeof s);strncat(s,"-rom.bin",sizeof s);
  f=fopen(s,"rb");
+ if(reload_wd())error("can't return back to working directory\n");
  if(!f){error("can't open file '%s'\n",s);return!0;}
  if(cache_checksum(f))
  {error("error while caching checksum for '%s' file\n",s);
@@ -377,28 +417,40 @@ load_prefs(void)
 int
 load_and_go(void)
 {static const unsigned long ram_org=0x40000000,used_ram=0x40000200;
- int i,m=mute;FILE*f;unsigned long addr;char s[289];mute=1;
+ int i,m=mute;FILE*f=0;unsigned long addr;char s[289];mute=1;
+ if(chdir_to_programs(ram_subdir))goto fail;
  strncpy(s,args.target_name,sizeof s);strncat(s,".vectors",sizeof s);
  if(!(f=fopen(s,"rb")))
- {printf("no interrupt vectors file found\n");return!0;}
+ {error("no interrupt vectors file '%s' found\n",s);
+  goto fail;
+ }
  for(addr=ram_org;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
-  if(write_string(s,addr,step)){fclose(f);return!0;}putchar('\n');
- }fclose(f);
+  if(write_string(s,addr,step))goto fail;putchar('\n');
+ }
  strncpy(s,args.target_name,sizeof s);strncat(s,".bin",sizeof s);
- if(!(f=fopen(s,"rb")))
- {printf("no programme found\n");return!0;}
+ fclose(f);f=fopen(s,"rb");
+ if(!f){printf("no programme '%s' found\n",s);goto fail;}
  for(addr=used_ram;!feof(f);addr+=step)
  {for(i=0;i<step;i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
-  if(write_string(s,addr,step)){fclose(f);return!0;}putchar('\n');
- }fclose(f);mute=m;i=run(used_ram);if(i)return i;return load_prefs();
-}int
-copy_mem(void){return copy_memory(0);}
+  if(write_string(s,addr,step))goto fail;putchar('\n');
+ }mute=m;
+ if(run(used_ram)||load_prefs())goto fail;fclose(f);
+ if(reload_wd())
+ {error("can't return back to working directory\n");return!0;}
+ return 0;
+ fail:if(f)fclose(f);
+ if(reload_wd())
+  error("couldn't return to working directory after a failure\n");
+ return!0;
+}
 void
 close_all(void)
-{if(preferences_file)fclose(preferences_file);close_serialia();}
+{if(preferences_file)fclose(preferences_file);close_serialia();
+ close_wd();
+}
 static void
 kbd_loop(void)
 {char c;
@@ -411,7 +463,7 @@ kbd_loop(void)
     printf("frequency assumed %i kHz\n",args.freq);break;
    case'e':erase();break;case'u':unlock();break;
    case'p':prepare();break;case'r':read_mem();break;
-   case'a':echo_off();break;case'c':copy_mem();break;
+   case'a':echo_off();break;case'c':copy_memory(0);break;
    case'b':write_file();break;case'l':load_and_go();break;
    case'h':help();break;
    case't':no_preferences=!0;
@@ -467,9 +519,12 @@ parse_opt(int key,char*arg,struct argp_state*state)
 {struct arguments*arguments=state->input;int n=0,r;
  switch(key)
  {case'c':
-   printf("data prefix: '%s'\n",PACKAGE_DATA_DIR);
-   printf("sources directory: '%s'\n",SOURCE_DIR);
-   printf("preferences file name: '%s'\n",prefs_file_name);
+   printf("data prefix:               '%s'\n",PACKAGE_DATA_DIR);
+   printf("sources directory:         '%s'\n",SOURCE_DIR);
+   printf("ARM programs directory:    '%s'\n",target_subdir);
+   printf("RAM programs subdirectory: '%s'\n",ram_subdir);
+   printf("ROM programs subdirectory: '%s'\n",rom_subdir);
+   printf("preferences file name:     '%s'\n",prefs_file_name);
    exit(normal_exit);
    break;
   case'd':arguments->port_name=arg;break;
@@ -506,21 +561,11 @@ main(int argc,char**argv)
  args.directory=args.package_data_dir=args.port_name=0;
  init_error_dir(*argv,SOURCE_DIR);
  argp_parse(&argp,argc,argv,0,0,&args);
- if(!args.directory)
- {args.directory=PACKAGE_DATA_DIR;
-  args.package_data_dir="stribog-target";
- }
  printf("crystal frequency assumed %i kHz\n",args.freq);
  if(!args.target_name&&(args.write||args.run))
  {error("target not specified\n");return wrong_args;}
  atexit(close_all);
  preferences_file=fopen(prefs_file_name,"rb");
- if(chdir(args.directory))
- {error("can't chdir to '%s'\n",args.directory);return no_directory;}
- if(args.package_data_dir&&chdir(args.package_data_dir))
- {error("can't chdir to '%s'\n",args.package_data_dir);
-  return no_directory;
- }
  err=init(args.port_name,args.freq);if(normal_exit!=err)return err;
  if(args.write||args.run)
  {clock_t t;synchronize();t=clock();while(clock()-t<CLOCKS_PER_SEC);
