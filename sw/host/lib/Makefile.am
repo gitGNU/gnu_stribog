@@ -16,5 +16,5 @@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 noinst_LIBRARIES=libstribog.a
 libstribog_a_SOURCES=error.c stribog_error.h
-noinst_PROGRAMS=push_pop_wdex
-push_pop_wdex_SOURCES=push_pop_wdex.c push_pop_wd.c push_pop_wd.h
+noinst_PROGRAMS=save_wdex
+save_wdex_SOURCES=save_wdex.c save_wd.c save_wd.h
