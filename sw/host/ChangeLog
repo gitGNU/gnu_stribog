@@ -1,3 +1,11 @@
+29 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/push_pop_wd.h lib/push_pop_wd.c lib/push_pop_wdex.c
+   lib/save_wd.h lib/save_wd.c lib/save_wdex.c
+   lib/Makefile.am: renamed
+ * lib/save_wd.h lib/save_wd.c: refactored
+ * elk/Makefile.am: save_wd.[ch] added to elk sources
+ * elk/elk.c: push_wd renamed; installation directories are honoured
+ * conloq/conloq.c: interactivity setup fixed
 26 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/push_pop_wd.h lib/push_pop_wd.c lib/push_pop_wd.h: new
  * lib/Makefile.am: push_pop_wdex added
