@@ -184,7 +184,8 @@ main(int argc,char**argv)
  arguments.period=-1;
  argp_parse(&argp,argc,argv,0,0,&arguments);
  set_verbosity(arguments.verbosity);
- if(!arguments.file_input)set_interaction_mode(deaf_mode);
+ set_interaction_mode(arguments.file_input?
+  deaf_mode:interactive_mode);
  if(get_interaction_mode()==deaf_mode)
   period=1;else period=0x3F;
  init_turned_on();
