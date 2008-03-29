@@ -1,4 +1,4 @@
-/*push-pop current working directory
+/*save-reload current working directory
 Copyright (C) 2008\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
@@ -15,4 +15,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-int push_wd(void);int pop_wd(void);
+int save_wd(void);/*saves current working directory, if not saved yet*/
+int reload_wd(void);/*returns to last saved working directory*/
+int close_wd(void);/*closes all internals; new cwd can be saved after that*/
