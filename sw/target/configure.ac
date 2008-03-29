@@ -163,7 +163,7 @@ esac
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld
 CFLAGS="$CFLAGS -mcpu=arm7tdmi"
-LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld ${srcdir}/src/boot.s"
+LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit, 
 #which can safely be stubbed in our programs
 #TODO: check if the programs built with gcc-2.95.3 really work
@@ -181,7 +181,8 @@ AM_PROG_AS
  AC_C_CONST
  AC_C_INLINE
  AC_C_VOLATILE
-
+#remove temporary object file so they will be remade with user-defined FLAGS
+rm boot.o
 #return to user-defined values
 ASFLAGS="$saved_CFLAGS"
 CFLAGS="$saved_CFLAGS"
@@ -197,7 +198,7 @@ echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 echo >>summary
-echo "tools versions:">>summary
+echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
 ${CC} --version >>summary
 cat warnings >>summary
