@@ -23,7 +23,8 @@ serial_source=serialia.c
 endif
 AM_CPPFLAGS=-DPACKAGE_DATA_DIR="\"$(datadir)\"" -DSOURCE_DIR="\"$(srcdir)\""
 bin_PROGRAMS=elk
-elk_SOURCES=elk.c $(serial_source) serialia.h usage.h
+elk_SOURCES=elk.c $(serial_source) serialia.h usage.h\
+ ../lib/save_wd.c ../lib/save_wd.h
 elk_LDADD=$(argp_lib) $(stribog_lib)
 elk_DEPENDENCIES=$(argp_lib) $(stribog_lib)
 EXTRA_elk_SOURCES=serialia.c wser.c
