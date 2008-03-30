@@ -113,7 +113,7 @@ init_all(void)
  start_pll();init_power();init_led();init_tempus();init_lm74();
  init_mag();connect_pll();init_adc();
  n=init_uart0(settings,sizeof(settings));
- init_uart1();led1_set();if(n>0)parse_settings(settings,n);
+ init_uart1();led1_set();parse_settings(settings,n);
 }enum multa_constants
 {ushort_bits=16,ushort_mask=(1<<ushort_bits)-1,
  tmin_initial=ushort_mask
