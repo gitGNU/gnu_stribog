@@ -1,5 +1,6 @@
 30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/Makefile: s/LD/CC/ to make ld find libgcc.a
+ * sw/target/src/magex.c sw/target/src/multa.c: setup fixed
 17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/src/ram2138.ld: low RAM origin corrected
  * sw/target/Makefile: made work with gcc-4.3.0
