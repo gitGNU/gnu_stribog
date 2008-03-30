@@ -1,3 +1,5 @@
+30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/conloq.c: s/init_error/init_error_dir/
 29 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/push_pop_wd.h lib/push_pop_wd.c lib/push_pop_wdex.c
    lib/save_wd.h lib/save_wd.c lib/save_wdex.c
