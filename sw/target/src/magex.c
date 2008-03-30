@@ -31,14 +31,14 @@ static void send_data(const int*mag_fix)
  missed=send_fix(fix,sizeof(fix));
 }static void 
 parse_settings(unsigned char*s,int n)
-{int kx,ky=0,kz=0;if(n<1)return;
- kx=*s;if(n>1)ky=s[1];if(n>2)kz=s[2];set_mag_gains(kx,ky,kz);
+{int kx,ky=0,kz=0;
+ if(n>0)kx=*s;if(n>1)ky=s[1];if(n>2)kz=s[2];set_mag_gains(kx,ky,kz);
 }static void
 init_all(void)
 {unsigned char settings[0x11];int n;
  start_pll();init_led();init_tempus();init_uart1();init_adc();init_mag();
  connect_pll();led1_set();
- n=init_uart0(settings,sizeof(settings));if(n>0)parse_settings(settings,n);
+ n=init_uart0(settings,sizeof(settings));parse_settings(settings,n);
 }int 
 main(void)
 {int i=0;const unsigned*a;init_all();
