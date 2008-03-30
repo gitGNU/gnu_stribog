@@ -178,7 +178,7 @@ get_next_data)(unsigned char*,int)=data_lege;
 int 
 main(int argc,char**argv)
 {int period;struct arguments arguments;
- init_error(*argv);
+ init_error_dir(*argv,SOURCE_DIR);
  arguments.dfreq=8550;arguments.port_name=arguments.log_name=0;
  arguments.escapes=arguments.verbosity=arguments.file_input=0;
  arguments.period=-1;
