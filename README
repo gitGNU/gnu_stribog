@@ -89,17 +89,12 @@ gcc-4.2.2.
 The oldest versions of tools known to build the ARM programs are
 binutils-2.12.1 and gcc-2.95.3 (it is not tested whether correctly).
 binutils-2.11.2 have different syntax of options for CPU selection.
-out-of-box gcc-2.95.3 is not built with modern compilers because
-of typo in gcc/config/arm/arm.c:
---- gcc-2.95.3/gcc/config/arm/arm.c	2008-03-13 18:38:42.000000000 +0300
-+++ gcc-2.95.3fix/gcc/config/arm/arm.c	2008-03-13 18:39:12.000000000 +0300
-@@ -528,5 +528,5 @@
-     flag_schedule_insns = flag_schedule_insns_after_reload = 0;
-   
--  arm_prog_mode = TARGET_APCS_32 ? PROG_MODE_PROG32 : PROG_MODE_PROG26;
-+  arm_prgmode = TARGET_APCS_32 ? PROG_MODE_PROG32 : PROG_MODE_PROG26;
-   
-   if (structure_size_string != NULL)
+
+Out-of-box gcc-3.2.3 and earlier are not built with modern compilers.
+
+In particular, gcc-3.0.4 is not recommended. it's libgcc.a demands
+too many external functions (like abort, malloc, free).
+since we don't provide them, stribog won't build itself.
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
@@ -121,15 +116,9 @@ $ make all install
 That's all. we don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
---disable-libssp is mandatory for the following gcc versions 
-(otherwize the compiler will not build itself):
-4.2.3
-4.3.0
---disable-libssp presence in the 'configure' options has
-no influence for versions:
-3.3.6
-3.4.6
-4.0.4
+--disable-libssp is mandatory for gcc-4.1.2 and later
+(currently up to gcc-4.3.0). otherwize the compiler
+will not build itself.
 
 This sequence worked on Fedora Core 4 (32-bit).
 On RedHat 7.3 binutils-2.18 will not build themselves without
