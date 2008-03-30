@@ -29,16 +29,18 @@ SECTIONS
 {vectors : {*(.vectors) }>lowram
  .text :
  {
-  *boot.o(.text)
-  *(.text)
-  *(.rodata)
+   *boot.o(.text)
+   *(.text)
+   *(.rodata)
 /* *(.ctors) *(.dtors) *(.jcr) /*these appear when I suddenly use c++*/
-  *(.data)
+   *(.data)
  } >ram
-/*. = ALIGN(4);
- .data : { *(.data)  } >ram*/
- . = ALIGN(4); _bss_data_begin = .;
- .bss : {*(.bss)} >ram
- . = ALIGN(4); _bss_data_end = .;
+ . = ALIGN(4);
+ .bss :
+ { _bss_data_begin = .;
+   *(.bss)
+   . = ALIGN(4);
+   _bss_data_end = .;
+ } >ram
  _rom_data_begin = .; _rom_data_end = .;
 }

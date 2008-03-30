@@ -30,15 +30,20 @@ SECTIONS
   *(.vectors) *boot.o(.text)
 /* *(.ctors) *(.dtors) *(.jcr) /*these appear when I suddenly use c++*/
   } >rom
- . = ALIGN(4); _rom_data_begin = .;
+ . = ALIGN(4);
  .rodata : 
- { *boot.o(.ramvectors)
+ { _rom_data_begin = .;
+   *boot.o(.ramvectors)
    *(.text) /*the program runs from RAM, too*/
    *(.rodata)
    *(.data)
  } >ram AT>rom
   _rom_data_end = _rom_data_begin + SIZEOF(.rodata);
- . = ALIGN(4); _bss_data_begin = .;
- .bss : {*(.bss)} >ram
- . = ALIGN(4); _bss_data_end = .;
+ . = ALIGN(4);
+ .bss : 
+ { _bss_data_begin = .;
+   *(.bss)
+   . = ALIGN(4);
+   _bss_data_end = .;
+ } >ram
 }
