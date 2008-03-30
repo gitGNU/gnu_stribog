@@ -19,10 +19,9 @@ ram_based=1
 ifndef MCU_UNOFFENDED
  PPS_BURNT=1
 endif
-CC=arm-elf-gcc
-AS=arm-elf-as
-LD=arm-elf-ld
-OBJCOPY=arm-elf-objcopy
+CC=arm-unknown-elf-gcc
+AS=arm-unknown-elf-as
+OBJCOPY=arm-unknown-elf-objcopy
 ASFLAGS=-mcpu=arm7tdmi
 CFLAGS=-mcpu=arm7tdmi -Wall -O2
 ifdef PPS_BURNT
@@ -33,7 +32,7 @@ ifdef ram_based
 else
  ldscript=$(src)/2138.ld
 endif
-LDFLAGS=-s -Map $@.map -nostartfiles -nostdlib -T$(ldscript) -static -O2
+LDFLAGS=-s -Wl,-Map,$@.map -nostartfiles -nostdlib -T$(ldscript) -static -O2
 src=src
 o=o
 bin=bin
@@ -52,7 +51,7 @@ autodeps.mk: $(src)/*.c
  do $(CC) $(CFLAGS) -M -MT $(o)/$$i.o $(src)/$$i.c >>$@;done
 include autodeps.mk
 $(o)/%.elf:$(o)/boot.o $(o)/%.o 
-	$(LD) $(LDFLAGS) -o $@ $^ -lgcc
+	$(CC) $(LDFLAGS) -o $@ $^ -lgcc
 $(o)/%.o:$(src)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 %.s:$(src)/%.c
