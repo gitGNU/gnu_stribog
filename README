@@ -127,6 +127,7 @@ to connect with gdb.
 4.3.0
 --disable-libssp presence in the 'configure' options has
 no influence for versions:
+3.3.6
 3.4.6
 4.0.4
 
