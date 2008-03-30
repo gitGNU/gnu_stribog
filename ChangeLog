@@ -1,3 +1,5 @@
+30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/target/Makefile: s/LD/CC/ to make ld find libgcc.a
 17 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/src/ram2138.ld: low RAM origin corrected
  * sw/target/Makefile: made work with gcc-4.3.0
