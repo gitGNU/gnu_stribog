@@ -5,7 +5,7 @@ For license and copyright notes see 'copyright'.
 ATTENTION stribog is in his alpha stage. he is not functional yet.
 
 The project is located at http://savannah.nongnu.org/projects/stribog
-
+
 SOME TECHNICAL NOTES FOLLOW
 
 This project consists of hardware and software sections. the former is
@@ -32,9 +32,11 @@ lpc2k_pgm by Paul Stoffregen (http://www.pjrc.com/arm/lpc2k_pgm)
 on Windows they have Philips flash ISP utility)
 
 If you use them, you'll have to adjust input files format (.hex, .srec 
-and so on) with arm-elf-objcopy(1).
+and so on) with arm-elf-objcopy(1). I don't know precisely
+how to do this.
 
-I wrote my own host tools (see sw/host/*) because
+
+I wrote my own host-side bootstrap loader (sw/host/elk) because
  1) some of those programs (like lpc21isp) lack clear terms of use,
  2) other (like Philips utility) are neither free nor capable to run 
     on a free OS,
@@ -74,7 +76,7 @@ for set/reset strap duty cycle. carelessly increasing the sampling frequency
 can DAMAGE the sensors.
 
 Timer0 is occupied by accelerometers; VIC slot 3
-
+
 HOW TO INSTALL DEVELOPMENT TOOLS
 
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
@@ -109,22 +111,26 @@ to connect with gdb.
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 binutils-2.18 won't build themselves on RedHat 7.3 without slightly editing.
 
---disable-libssp is mandatory for the following gcc versions 
-(otherwize the compiler will not build itself):
-4.2.3
+--disable-libssp is mandatory for gcc-4.1.2 and later
+(currently up to gcc-4.3.0). otherwize the compiler
+will not build itself.
 
-gcc-4.3.0 have new dependency, MPFR.
+gcc-4.3.0 have new dependency, MPFR. current version of MPFR, 2.3.1,
+requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
+after you install MPFR at prefix=$PREFIX you'll probably need to add 
+$PREFIX/lib to your LD_LIBRARY_PATH shell variable and append --with-mpfr=$PREFIX
+to the command line configuring the gcc (e.g. after --disable-libssp)
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
 instructions how to build this toolchain can be found in avr-libc 
 documentation. for historical reasons we use uisp to load programs into these 
-processors. generally avrdude is much better. all these live in 
+processors. generally avrdude is much better. they all live in 
 http://savannah.gnu.org
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog.
-
+
 HOW TO USE GIT
 
 GIT is the revision control system used by the project.
