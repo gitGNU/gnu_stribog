@@ -1,3 +1,7 @@
 02 Mar 2008 [03 Mar 2008 start]
 work out a distinct conception on branches and revision
 naming conventions
+31 Mar 2008
+find a host and an archive form where we could put stribog
+sources together with tools needed (binutils, gcc, gEDA)
+to make a GPL-compiant distribution
