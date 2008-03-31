@@ -19,10 +19,9 @@ to perform the measurements; the software part also has some programs
 for POSIX host to receive obtained data.
 
 Stribog is primarily designed on LPC2138, but actually LPC213[46] can be used,
-too. the only change will be in ld scripts (2138.ld and ram2138.ld), as shown 
-in comments there.
+too. this is selected with configure script options.
 
-The board will be programmed via serial port using bootstrap loader.
+The board is programmed via serial port using a bootstrap loader.
 you can use any existing one (on Unix live 
 lpc_host_tools by Holly Gates <hgates@eink.com>, 
 lpc21isp by Martin Maurer <Martin.Maurer@clibb.de> 
@@ -32,23 +31,26 @@ lpc2k_pgm by Paul Stoffregen (http://www.pjrc.com/arm/lpc2k_pgm)
 on Windows they have Philips flash ISP utility)
 
 If you use them, you'll have to adjust input files format (.hex, .srec 
-and so on) with arm-unknown-elf-objcopy(1).
+and so on) with arm-unknown-elf-objcopy(1). I don't know precisely
+how to do this.
 
-I wrote my own host tools (see sw/host/*) because
+I wrote my own host-side bootstrap loader (sw/host/elk) because
  1) some of those programs (like lpc21isp) lack clear terms of use,
  2) other (like Philips utility) are neither free nor capable to run 
     on a free OS,
  3) some (like lpc2k_pgm) have graphic user interface and I don't like this,
  4) I wouldn't add external dependencies when possible.
 
-My tools are hardly functional, but they work somehow for me and they are free.
+My tools are not very reliable, but they work somehow for me and they are free.
 
-There are two linker scripts in sw/target/src directory: ram2138.ld and
-2138.ld.  the former is used to link the program which will be loaded via elk
+There are two linker script templates in sw/target/src directory:
+ram2138.ld.in and 2138.ld.in. the former is used to link the program
+which will be loaded via elk
 into RAM and run immediately. the latter used for programs saved in LPC2138 ROM;
 on startup the program will be loaded into RAM and run there.
-as of Feb 2008 programs don't always work correctly when linked with ram2138.ld:
-usually it either work well or don't work at all.
+as of Mar 2008 programs don't always work correctly when linked with
+ram2138.ld.in: usually it either work well or don't work at all. as a rule,
+inserting or removing led0_clr() in begin of the program helps.
 
 The programs are written in C (the ld scripts don't support C++). 
 main() is executed in supervisor mode. no THUMB code. fast interrupt reserved. 
@@ -69,13 +71,14 @@ UART1 is the basic port; uses VIC slot 7
 
 ADC use VIC slots 5 and 6; magnetic module functions used in such way
 (see magex.c, multa.c) that ADC sampling frequency defines frequency of
-set/reset pulses. this frequency is adjusted to be an integer of 50 Hz.
+set/reset pulses. this frequency is adjusted to be an integer
+multiplied by 50 Hz.
 
 Magnetoresistive sensors work not so far from the absolute maximum value 
 for set/reset strap duty cycle. carelessly increasing the sampling frequency 
 can DAMAGE the sensors.
 
-Timer0 is occupied by accelerometers; VIC slot 3
+Timer0 is occupied by the accelerometers; VIC slot 3
 
 HOW TO INSTALL DEVELOPMENT TOOLS
 
@@ -158,11 +161,11 @@ HOW TO BUILD (as of Mar 2008)
 
 In order to build you will need
 1. native C compiler
-2. ARM tools (you have an arm-unknown-elf-gcc BUILD? then you are lucky)
-3. AVR crosstools (in the future, when auxiliary
-   software is mounted on the GNU build system)
-The executables are not distributed because you will need to
-configure them in any case.
+2. ARM tools
+3. AVR crosstools
+
+The executables are not distributed because you will always need to
+configure the sources.
 
 GERBERS and schematic PNGs will be distributed, 
 because the boards and schematics are not configurable and
@@ -180,8 +183,16 @@ the configure invocation sounds like this:
 Currently, this procedure has been adopted for programs
 in sw/host and sw/target only. for instructions on using host tools
 read sw/host/README.
-auxiliary software is built with GNU make utility.
+
+Auxiliary software is built with GNU make utility.
+
 GERBER and EXCELLON files are produced manually with PCB.
+
+You can disable ARM targets with --disable-arm-targets option. then you
+can build and install just the host tools, so you don't need to install
+ARM tools on that host. this can be useful if the program has been written
+in the MCU ROM or the MCU programs have been built on another host
+and fetched from there.
 
 HOW TO REGENERATE BUILD SYSTEM
 
@@ -194,8 +205,12 @@ The scripts recurse into the subdirectories. if a directory
 has 'configure' script but no 'regen_configure', then
 the build system is regenerated with
 'autoreconf -v'; you may 'rm -r autom4te.cache' after that.
+using custom regeneration scripts instead of autoreconf has essential
+shortcomings, e.g. the build system is broken when autoreconf is triggered
+by an automakefile rule. this possibly will be corrected when migrating to
+autoconf-2.62.
 
-As of Mar 2008, the versions used are autoconf-2.61 and automake-1.10.
+As of Mar 2008, the versions used are autoconf-2.61 and automake-1.10.1.
 
 HOW TO USE GIT
 
@@ -306,4 +321,4 @@ Now we think that today state may be right because
   is not trivial and probably package-specific, it generally requires some knowledge
   of several languages other than C, so it can take a lot of time
   when done by a person new to the package. this can be much harder
-  than just fix a bug or add even a complicated feature.
+  than just fixing a bug or adding even a complicated feature.
