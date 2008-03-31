@@ -89,15 +89,9 @@ binutils-2.18 with gcc-4.2.3. we used also binutils-2.17, binutils-2.16.1,
 binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2,
 gcc-4.2.2.
 
-The oldest versions of tools known to build the ARM programs are
-binutils-2.12.1 and gcc-2.95.3 (it is not tested whether correctly).
-binutils-2.11.2 have different syntax of options for CPU selection.
-
-Out-of-box gcc-3.2.3 and earlier are not built with modern compilers.
-
-In particular, gcc-3.0.4 is not recommended. it's libgcc.a demands
-too many external functions (like abort, malloc, free).
-since we don't provide them, stribog won't build itself.
+The oldest versions of tools known to successfully build
+the ARM programs are binutils-2.12.1 and gcc-3.3.6.
+we can't make our buggy programs work with earlier releases.
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
@@ -130,15 +124,17 @@ generally, binutils-2.18 release is not very stable.
 BTW on RedHat 7.3 you shall need to update gnupg. it comes with 1.0.6 version
 and it can't check new signatures; gnupg-1.4.8 quite buildable there.
 
-GCC-4.3.0 has a new strong dependency, MPFR. current version of MPFR, 2.3.1,
-requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
+GCC-4.3.0 has a new strong dependency, MPFR. we can't recommend it
+because MPFR distribution comes without signature. current version of MPFR,
+2.3.1, requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
 after you install MPFR at prefix=$PREFIX you'll probably need to add 
-$PREFIX/lib to your LD_LIBRARY_PATH shell variable and append --with-mpfr=$PREFIX
-to the command line configuring the gcc (e.g. after --disable-libssp)
+$PREFIX/lib to your LD_LIBRARY_PATH shell variable and append
+--with-mpfr=$PREFIX to the command line configuring the gcc
+(e.g. after --disable-libssp)
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
-instructions how to build this toolchain can be found in avr-libc 
+instructions on how to build this toolchain can be found in avr-libc 
 documentation. for historical reasons we use uisp to load programs into these 
 processors. generally avrdude is much better. they all live in 
 http://savannah.gnu.org
@@ -312,6 +308,7 @@ Now we think that today state may be right because
 2. after a compatible version of gEDA has been installed, there is
   no difficulty to reproduce the GERBERS and schematics. it is easier
   than fix anything in the layout file.
+  [31 Mar 2008 probably there will be no harm if the printed files go to Git]
 3. As of the software, if there is no build scripts, the programs
   can't be developped. this would be wrong because the programs
   can be modified and rebuilt very quickly and at no cost.
