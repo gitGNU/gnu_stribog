@@ -2,5 +2,5 @@
 
 The project migrated to Autotools
 
-The ARM tools prefix is set to canonical
+The default ARM tools prefix is set to canonical
 arm-unknown-elf rather than arm-elf
