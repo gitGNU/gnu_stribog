@@ -25,13 +25,14 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
+AC_GNU_SOURCE
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_RANLIB
 
 if test "z$GCC" = zyes; then
- #enable all warnings and libc GNU extentions
- CFLAGS="${CFLAGS} -Wall -D_GNU_SOURCE=1"
+ #enable all warnings
+ CFLAGS="${CFLAGS} -Wall"
 fi
 
 # Checks for libraries.
