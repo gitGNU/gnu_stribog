@@ -2317,6 +2317,12 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 ac_config_headers="$ac_config_headers config.h"
 
 
+
+cat >>confdefs.h <<\_ACEOF
+#define _GNU_SOURCE 1
+_ACEOF
+
+
 # Checks for programs.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -3505,8 +3511,8 @@ fi
 
 
 if test "z$GCC" = zyes; then
- #enable all warnings and libc GNU extentions
- CFLAGS="${CFLAGS} -Wall -D_GNU_SOURCE=1"
+ #enable all warnings
+ CFLAGS="${CFLAGS} -Wall"
 fi
 
 # Checks for libraries.
