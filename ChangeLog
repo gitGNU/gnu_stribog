@@ -1,3 +1,6 @@
+01 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * copyright: possible differences in hardware distribution
+ conditions explained
 27 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am: EXTRA_SUBDIRS removed
 21 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
