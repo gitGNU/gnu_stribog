@@ -13,7 +13,22 @@
 
     Copyright (C) 2005, 2006, 2007, 2008 Ineiev <ineiev@users.sourceforge.net>
 
-Currently, stribog is distributed by Ineiev under the terms of the GNU GPL v3.
+Virtually, the implications of this can depend on your jurisdiction.
+three groups of cases are possible.
+
+1. Your government either
+a)does not honour copyright and Bern Convention,
+ or
+b) the law practice of your country does not consider technical articles
+like software and hardware descriptions as a pieces of art.
+
+Then you are lucky and GPL is not written about you. beware
+that this is the most impossible case, in spite of that
+it is the most reasonable one.
+
+2. Both programs and hardware are considered as works of art
+and printed circuit boards are treated as derived from the design description
+works. then the conditions are like following.
 
 All that comes from the project forms a derived work, including the assembled
 boards. they should be distributed in a the GPL-compliant way as "Object Code".
@@ -42,6 +57,17 @@ must be covered by the GPL. similarly, if you modify stribog so that
 it will require/provide complicated signals from/to your board, therefore
 making it unimaginable to function one without the other -- in this
 case the whole system shall be covered by the GNU GPL.
+
+3. Printed boards are not considered to be a derived work. this is
+probably the most frequent case (at least, this applies to the USA).
+
+You may produce the boards and do all you want with them. you are not
+obliged (though encouraged) to give the design files when you provide
+the board instances.
+
+Please note that the intention of these provisions is not to prepend you
+to use the project, but to create conditions leading to the society
+without copyright on technical information.
 
 The software part is released right under the terms of the GNU GPL v3 with
 all new statements on 'Installation Information'; there is few ambiguities.
@@ -86,5 +112,5 @@ as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
 The same is true for the GNU autobuild system files. we let our
 copyright notes come into these files like 'configure', and
 'Makefile.in', but one should undestand that they are result of
-compilation of several sources and such a file can not represent
+compilation of several sources and such a file can hardly represent
 a single copyrighted unit.
