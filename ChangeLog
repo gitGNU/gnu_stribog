@@ -1,3 +1,5 @@
+01 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * copyright: possible differences in hw distribution
 30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/Makefile: s/LD/CC/ to make ld find libgcc.a
  * sw/target/src/magex.c sw/target/src/multa.c: setup fixed
