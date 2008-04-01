@@ -1,3 +1,5 @@
+01 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: use AC_GNU_SOURCE
 30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/conloq.c: s/init_error/init_error_dir/
 29 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
