@@ -11,3 +11,14 @@
  it should support
   (1) --help=recursive
   (2) recursive 'configure' calls
+02 Apr 2008 [02 Apr 2008 start]
+ make sources look like a decent distribution:
+
+ (1) clean up copyright notices. take as a good example Emacs sources
+ (2) wait for 17 days for FSF answer on cross-compilers; decide on
+     these dependencies inclusion
+ (3) prepare documentation:
+     a. basically learn texinfo
+     b. get from savannah administration permission to change
+        the set of the licenses
+ 1. of course, finish mounting the project on Autotools 
