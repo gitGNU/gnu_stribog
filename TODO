@@ -12,6 +12,7 @@
   (1) --help=recursive
   (2) recursive 'configure' calls
 02 Apr 2008 [02 Apr 2008 start]
+ [02 Apr 2008 should we claim sym/footprints to be an external library?]
  make sources look like a decent distribution:
 
  (1) clean up copyright notices. take as a good example Emacs sources
@@ -19,6 +20,7 @@
      these dependencies inclusion
  (3) prepare documentation:
      a. basically learn texinfo
-     b. get from savannah administration permission to change
-        the set of the licenses
+     b. enrich the maintainer's memory with knowledge of the FDL
+     c. get from savannah administration permission to change
+        the set of the licenses (add the FDL)
  1. of course, finish mounting the project on Autotools 
