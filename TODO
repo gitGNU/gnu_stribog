@@ -1,7 +1,11 @@
 02 Mar 2008 [03 Mar 2008 start]
+ [02 Apr firstly complete: compare with the GNU standards 
+  and think once more
+ ]
 work out a distinct conception on branches and revision
 naming conventions
-31 Mar 2008
+31 Mar 2008 [02 Apr frozen: it is questionable in what form
+ the distribution may come]
 find a host and an archive form where we could put stribog
 sources together with tools needed (binutils, gcc, gEDA)
 to make a GPL-compiant distribution

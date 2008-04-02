@@ -3,12 +3,16 @@ Git currently has the next branches
 master: no sources, meta-documentation of branches
 and release naming policy
 
-pre2008-fixes: frozen at 03 Jan 2008 version, 
-bugfixes only
+pre2008-fixes: frozen at 03 Jan 2008 version, bugfixes only
+[02 Apr 2008] this branch is for historical purposes only;
+it is probably not faultless ethically.
+please use other branches whenever possible
 
 trunc: the active branch
 
 Migrate to the GNU stantards 
 on build system and options style (for host tools).
+
+Clean up ethical issues
 
 Fix some usability issues before forking the first release branch
