@@ -13,7 +13,7 @@
 
     Copyright (C) 2005, 2006, 2007, 2008 Ineiev <ineiev@users.sourceforge.net>
 
-Virtually, the implications of this can depend on your jurisdiction.
+In theory, the implications of this can depend on your jurisdiction.
 three groups of cases are possible.
 
 1. Your government either
@@ -99,7 +99,7 @@ under "GPL v2 or later". for using these files in your packages see discussions
 in the gEDA lists. stribog's authors' position is similar to the gEDA developers' 
 one, namely, "the symbols/packages contain 'derived work' therefore are to be 
 distributed under 'GPL v$(OUR_CURRENT_GPL_VERSION) or later', however 
-the schemes/boards containing those symbols contain no such work and 
+the schematics/boards files containing those symbols contain no such work and 
 the symbols/packages impose no such restriction on them". 
 
 Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
