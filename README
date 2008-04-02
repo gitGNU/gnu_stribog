@@ -1,6 +1,8 @@
-Stribog the sensing platform README file.
+Copyright (C) 2005, 2006, 2007, 2008
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+See the end of the file for license conditions.
 
-For license and copyright notes read 'copyright'.
+This is the README file for stribog the sensing platform.
 
 ATTENTION stribog is in his alpha stage. he is not functional yet.
 
@@ -319,3 +321,152 @@ Now we think that today state may be right because
   of several languages other than C, so it can take a lot of time
   when done by a person new to the package. this can be much harder
   than just fixing a bug or adding even a complicated feature.
+
+This file is part of stribog.
+
+Stribog is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+In theory, the implications of this on the hardware design
+can depend on your jurisdiction. three groups of cases are possible.
+
+1. Your government either
+(a)does not honour copyright and Bern Convention,
+ or
+(b) the law practice of your country does not consider technical articles
+like software and hardware descriptions as a pieces of art.
+
+Then you are lucky and the GPL is not about you. beware
+that this is the most impossible case, in spite of that
+it is the most reasonable one.
+
+2. Both programs and hardware are considered as works of art
+and printed circuit boards are treated as derived from the design description
+works. then the conditions are like following.
+
+All that comes from the project forms a derived work, including the assembled
+boards. they should be distributed in a the GPL-compliant way as "Object Code".
+essentially this means that if someone ships a stribog-derived board, 
+this person or organisation must make available (for those who get
+the product) a copy of documentation needed at least to reproduce this board;
+this supplier shall not prevent downstream distribution in terms other
+than that of the GPL. another thing to note is the Section 11 of the GNU GPL
+(on patents). while there should be no software patents, the hardware ones
+are ubiquitous.
+
+As a consequence using stribog-derived circuits in a device is permitted 
+in either of two ways:
+(a) the whole device is distributed under the terms of the GNU GPL 
+ (with the stribog's authors' interpretation for the hardware part).
+ this is the preferable way.
+(b) the device can reasonably be considered as an independent work. for
+example, connecting a board to stribog main board via connectors
+that provide power, UART signals and angular rate sensors output does not
+make the former board stribog-derived, because there is nothing very
+specific in those signals and the boards are distinct;
+but if some stribog circuits are incorporated into another board, 
+there is no more separable independent work, so that board 
+must be covered by the GPL. similarly, if you modify stribog so that
+it will require/provide complicated signals from/to your board, therefore
+making it unimaginable to function one without the other -- in this
+case the whole system shall be covered by the GNU GPL.
+
+3. Printed boards are not considered to be a derived work. this is
+probably the most frequent case (at least, this applies to the USA).
+
+You may produce the boards and do all you want with them. you are not
+obliged (though encouraged) to give the design files when you provide
+the board instances (till now, we have not been speaking of software,
+just about the hardware design).
+
+Please note that the intention of these provisions is not to prepend you
+to use the project, but to create conditions leading to the society
+without copyright restrictions on spreading technical ideas.
+
+The software part is released right under the terms of the GNU GPL v3 with
+all new statements on 'Installation Information'; there is few ambiguities.
+
+The following non-text source files possibly contain no copyright notices, 
+because it was practically hard or absurd to maintain them there,
+or they can go unnoticed there, and stribog's author
+decided to move/duplicate those notices here, namely:
+
+hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
+hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
+hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
+hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
+hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
+hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
+hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
+hw/packages/0603 hw/packages/0805 hw/packages/1210
+hw/packages/2.5mm_10pin_header hw/packages/qfp64 hw/packages/adxl210
+hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
+hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
+hw/packages/tp
+
+(See also README files in the respective directories)
+
+To all these files is applied the copyright and license notice placed earlier
+in this file. hw/sym/* and hw/packages/* should have also additional copyrights
+from their original and intermediate authors. it is very hard to figure out
+exact list of authors, because there is neither copyright notice in the files
+theirselves nor especially maintained lists of files with respective authors.
+all we could tell we are not original authors and the files are distributed
+under "GPL v2 or later". for using these files in your packages see discussions
+in the gEDA lists. stribog's authors' position is similar to the gEDA developers' 
+one, namely, "the symbols/packages contain 'derived work' therefore are to be 
+distributed under 'GPL v$(OUR_CURRENT_GPL_VERSION) or later', however 
+the schematics/boards files containing those symbols contain no such work and 
+the symbols/packages impose no such restriction on them". 
+
+Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
+(in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
+usually we just slightly corrected files from gEDA and PCB libraries.
+the AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
+as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
+'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
+
+The same is true for the GNU autobuild system files. we let our
+copyright notes come into these files like 'configure', and
+'Makefile.in', but one should undestand that they are result of
+compilation of several sources and such a file can hardly represent
+a single copyrighted unit.
+
+These files include (symbolic links are omitted):
+./aclocal.m4
+./sw/common/Makefile.in
+./sw/target/aclocal.m4
+./sw/target/config.guess
+./sw/target/configure
+./sw/target/config.sub
+./sw/host/postproc/Makefile.in
+./sw/host/INSTALL
+./sw/host/aclocal.m4
+./sw/host/config.h.in
+./sw/host/intlpc/Makefile.in
+./sw/host/lib/argp/Makefile.in
+./sw/host/lib/Makefile.in
+./sw/host/elk/Makefile.in
+./sw/host/Makefile.in
+./sw/host/depcomp
+./sw/host/missing
+./sw/host/config.guess
+./sw/host/configure
+./sw/host/config.sub
+./config.h.in
+./Makefile.in
+./configure
+
+The text of the GNU GPL, namely
+./COPYING
+is not a part of the project; it is copyrighted by FSF as stated in the file.
