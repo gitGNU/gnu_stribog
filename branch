@@ -8,4 +8,6 @@ Mounting the project on the GNU build system
 Parsing the command line arguments of the host tools in
 a GNU-standard way
 
+Clean up ethical issues
+
 Fixing some usability issues before forking the first release branch
