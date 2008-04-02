@@ -1,5 +1,8 @@
 02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * copyright: more accurate note on symbols/footprints
+ * copyright README: copyright stuff returned to README
+ * copyright: removed
+ * README: more details on Autotools files
 01 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * copyright: possible differences in hardware distribution
  conditions explained
@@ -337,3 +340,21 @@ R17..R20 changed to 2.2k, R21..R24 --- to 3.3k
 24 Feb 06
  LEDs added
  Tantalum capacitor C35 replaced with ceramic 0805
+
+ Copyright (C) 2006, 2007, 2008
+  Ineiev<ineiev@users.sourceforge.net>, super V 93
+
+ This file is part of stribog.
+
+ Stribog is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3, or (at your option)
+ any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
