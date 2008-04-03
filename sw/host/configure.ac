@@ -58,8 +58,7 @@ AC_CHECK_HEADER([argp.h],,
 ])
 if test $enable_own_argp = no; then
  if test  "z$build_own_argp" = zyes; then
-  AC_MSG_RESULT([own argp disabled and no usable system argp available])
-  exit 1;
+  AC_MSG_ERROR([own argp disabled and no usable system argp available])
  fi
 fi
 build_own_argp=$enable_own_argp

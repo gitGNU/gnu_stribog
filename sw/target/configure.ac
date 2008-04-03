@@ -44,8 +44,7 @@ case $with_mainboard_mcu in
   echo  $with_mainboard_mcu > mcu.conf
   ;;
  *)
-  AC_MSG_RESULT([unknown MCU '$with_mainboard_mcu' is requested])
-  exit 1
+  AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested])
 esac
 enable_mag_response=yes
 enable_magex=yes
@@ -131,12 +130,11 @@ if $host_alias-as --version >/dev/null;then
 fi
 case $arm_elf_as in
  no)
- AC_MSG_RESULT([
+ AC_MSG_ERROR([
 
  $host_alias-as is not available
  probably no ARM toolchain has been installed
 ])
- exit 1; 
  ;;
 esac
 AC_MSG_RESULT([[yes]])
@@ -149,13 +147,12 @@ fi
 AC_MSG_RESULT([$arm_elf_as])
 case $arm_elf_as in
  no)
- AC_MSG_RESULT([
+ AC_MSG_ERROR([
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 ])
- exit 1; 
  ;;
 esac
 
