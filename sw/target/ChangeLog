@@ -1,5 +1,8 @@
-30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: s/exit/AC_MSG_ERROR/
+02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * NEWS ChangeLog README: copyright notes added
+30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/multa.c src/magex.c: setup fixed
  * src/2138.ld.in src/ram2138.ld.in: bss pointer fixed
 27 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>

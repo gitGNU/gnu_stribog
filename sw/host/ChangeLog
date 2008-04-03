@@ -1,3 +1,5 @@
+03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: s/exit/AC_MSG_ERROR/
 02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * ChangeLog NEWS TODO: copyright note added
  * README: copyright note unified
