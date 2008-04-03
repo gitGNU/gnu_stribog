@@ -1,0 +1,64 @@
+Copyright (C) 2006, 2007, 2008
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+See the end of the file for license conditions.
+
+This directory contains gEDA footprints for the hardware part of stribog.
+
+This file is part of stribog.
+
+Stribog is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+The following non-text source in this directory possibly
+contain no copyright notices, 
+because it was practically hard or absurd to maintain them there,
+or they can go unnoticed there, and stribog's author
+decided to move/duplicate those notices here, namely:
+
+0.125W_resistor
+0603
+0805
+1210
+2.5mm_10pin_header
+README
+adxl210
+crystal
+hmc1021z
+jtag1.27x1
+led0805
+lp2980
+msop8
+pin
+qfp64
+tanA
+tanC
+tp
+
+These files should also have additional copyrights
+from their original and intermediate authors. it is very hard to figure out
+exact list of authors, because there is neither copyright notice in the files
+theirselves nor especially maintained lists of files with respective authors.
+all we could tell we are not original authors and the files are distributed
+under "GPL v2 or later". for using these files in your packages see discussions
+in the gEDA lists. stribog's authors' position is similar to the gEDA developers' 
+one, namely, "the symbols/packages contain 'derived work' therefore are to be 
+distributed under 'GPL v$(OUR_CURRENT_GPL_VERSION) or later', however 
+the schematics/boards files containing those symbols contain no such work and 
+the symbols/packages impose no such restriction on them". 
+
+Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
+(in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
+usually we just slightly corrected files from gEDA and PCB libraries.
+the AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
+as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
+'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
