@@ -4679,9 +4679,9 @@ fi
 
 if test $enable_own_argp = no; then
  if test  "z$build_own_argp" = zyes; then
-  { echo "$as_me:$LINENO: result: own argp disabled and no usable system argp available" >&5
-echo "${ECHO_T}own argp disabled and no usable system argp available" >&6; }
-  exit 1;
+  { { echo "$as_me:$LINENO: error: own argp disabled and no usable system argp available" >&5
+echo "$as_me: error: own argp disabled and no usable system argp available" >&2;}
+   { (exit 1); exit 1; }; }
  fi
 fi
 build_own_argp=$enable_own_argp

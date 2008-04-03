@@ -2260,9 +2260,9 @@ case $with_mainboard_mcu in
   echo  $with_mainboard_mcu > mcu.conf
   ;;
  *)
-  { echo "$as_me:$LINENO: result: unknown MCU '$with_mainboard_mcu' is requested" >&5
-echo "${ECHO_T}unknown MCU '$with_mainboard_mcu' is requested" >&6; }
-  exit 1
+  { { echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5
+echo "$as_me: error: unknown MCU '$with_mainboard_mcu' is requested" >&2;}
+   { (exit 1); exit 1; }; }
 esac
 enable_mag_response=yes
 enable_magex=yes
@@ -2386,17 +2386,17 @@ if $host_alias-as --version >/dev/null;then
 fi
 case $arm_elf_as in
  no)
- { echo "$as_me:$LINENO: result:
+ { { echo "$as_me:$LINENO: error:
 
  $host_alias-as is not available
  probably no ARM toolchain has been installed
 " >&5
-echo "${ECHO_T}
+echo "$as_me: error:
 
  $host_alias-as is not available
  probably no ARM toolchain has been installed
-" >&6; }
- exit 1;
+" >&2;}
+   { (exit 1); exit 1; }; }
  ;;
 esac
 { echo "$as_me:$LINENO: result: yes" >&5
@@ -2412,19 +2412,19 @@ fi
 echo "${ECHO_T}$arm_elf_as" >&6; }
 case $arm_elf_as in
  no)
- { echo "$as_me:$LINENO: result:
+ { { echo "$as_me:$LINENO: error:
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
 " >&5
-echo "${ECHO_T}
+echo "$as_me: error:
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
  (binutils-2.12.1 to 2.18 should work; 2.11 does not)
-" >&6; }
- exit 1;
+" >&2;}
+   { (exit 1); exit 1; }; }
  ;;
 esac
 
