@@ -1,6 +1,6 @@
 #! /bin/bash
 #makes files to feed elk
-#Copyright (C) 2005, 2006, 2007, 2008\
+#Copyright (C) 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #to load the resulting files into the mainboard, run
 #$./elk [serial port file] -1

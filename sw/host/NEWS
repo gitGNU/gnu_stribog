@@ -2,7 +2,7 @@
  the project migrated to the GNU build system
  arguments of conloq are parsed in a GNU-standard way
 
- Copyright (C) 2005, 2006, 2007, 2008
+ Copyright (C) 2008
   Ineiev<ineiev@users.sourceforge.net>, super V 93
 
  This file is part of stribog.

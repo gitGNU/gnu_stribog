@@ -13,7 +13,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2005, 2006, 2007, 2008\
+#Copyright (C) 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 if the_host_is_windows
 #forced to use non-free OS API

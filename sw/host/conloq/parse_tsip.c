@@ -1,5 +1,5 @@
 /*parsing TSIP-like messages (DLE ... DLE DLE ... DLE ETX)
-Copyright (C) 2005, 2007, 2008\
+Copyright (C) 2007, 2008\
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 

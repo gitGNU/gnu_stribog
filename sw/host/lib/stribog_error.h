@@ -1,6 +1,5 @@
 /*gnu-like error messages
-Copyright (C) 2005, 2008\
- Ineiev<ineiev@users.sourceforge.net>, super V 93
+Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify

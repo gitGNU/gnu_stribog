@@ -1,5 +1,9 @@
 03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: s/exit/AC_MSG_ERROR/
+ * NEWS README TODO conloq/Makefile.am conloq/lla.c
+   conloq/lla.h conloq/parse_tsip.c conloq/parse_tsip.h
+   conloq/preproc_gps.c elk/Makefile.am elk/maketarget
+   lib/error.c lib/stribog_error.h: copyright dates corrected
 02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * ChangeLog NEWS TODO: copyright note added
  * README: copyright note unified
@@ -138,7 +142,7 @@
    postproc/Makefile.am postproc/Makefile.in 
    utils/Makefile.am utils/Makefile.in: new
 
- Copyright (C) 2005, 2006, 2007, 2008
+ Copyright (C) 2006, 2007, 2008
   Ineiev<ineiev@users.sourceforge.net>, super V 93
 
  This file is part of stribog.

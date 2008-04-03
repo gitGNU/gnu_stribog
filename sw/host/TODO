@@ -6,7 +6,7 @@ provide host tools with decent command-line interface.
 04 Mar 2008 [06 Mar 2008 start] [02 Apr 2008 complete]
 merge conloq/expon into conloq/conloq
 
- Copyright (C) 2005, 2006, 2007, 2008
+ Copyright (C) 2006, 2007, 2008
   Ineiev<ineiev@users.sourceforge.net>, super V 93
 
  This file is part of stribog.

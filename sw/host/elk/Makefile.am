@@ -1,5 +1,5 @@
 #elk the LPC21x programmer: Makefile.am
-#Copyright (C) 2005, 2006, 2007, 2008\
+#Copyright (C) 2006, 2007, 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify

@@ -2,8 +2,10 @@
 #include<math.h>
 #include<float.h>
 static double alpha=1./298.257223563,axis=6378137.;
-int initlla(void){return 0;}
-int xyz2lla(double lla[],const double xyz[])
+int
+initlla(void){return 0;}
+int
+xyz2lla(double lla[],const double xyz[])
 {double x0=sqrt(xyz[0]*xyz[0]+xyz[1]*xyz[1]),y0=xyz[2],y,k,dk,x,sqk,
   ba_2=(1-alpha)*(1-alpha),r[2];int sign=0,n=0;
  lla[1]=atan2(xyz[1],xyz[0]);
@@ -19,7 +21,8 @@ int xyz2lla(double lla[],const double xyz[])
  lla[0]=atan(k);if(sign)lla[0]=-lla[0];lla[2]=sqrt(*r**r+r[1]*r[1])*axis;
  return n;
 }
-int lla2xyz(double xyz[],const double lla[])
+int
+lla2xyz(double xyz[],const double lla[])
 {double x0,y0,tl,lat=lla[0],lon=lla[1],alt=lla[2];
  if(fabs(lat)>M_PI/2)return-1;
  if(fabs(lat)<DBL_EPSILON*100){x0=axis*(1-lat*lat/2);y0=lat*axis;}
@@ -43,4 +46,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 1998-2000, 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>, super V 93*/
+Copyright (C) 2006, 2008 Ineiev <ineiev@users.sourceforge.net>, super V 93*/

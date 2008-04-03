@@ -16,4 +16,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 1998-2000, 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>, super V 93*/
+Copyright (C) 2006, 2008 Ineiev <ineiev@users.sourceforge.net>, super V 93*/

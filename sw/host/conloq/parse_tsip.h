@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2005, 2007 Ineiev <ineiev@sourceforge.net>, super V 93*/
+Copyright (C) 2007 Ineiev <ineiev@sourceforge.net>, super V 93*/
 typedef struct tsip_buf tsip_buf;
 void enable_escapes(int);/*enables tsip with first-byte escapes*/
 const unsigned char*parse_tsip(tsip_buf*,unsigned char c,int*size);
