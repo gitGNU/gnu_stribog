@@ -1,4 +1,4 @@
-Copyright (C) 2005, 2006, 2007, 2008
+Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 See the end of the file for license conditions.
 
@@ -417,7 +417,7 @@ hw/packages/tp
 (See also README files in the respective directories)
 
 To all these files is applied the copyright and license notice placed earlier
-in this file. hw/sym/* and hw/packages/* should have also additional copyrights
+in this file. hw/sym/* and hw/packages/* should also have additional copyrights
 from their original and intermediate authors. it is very hard to figure out
 exact list of authors, because there is neither copyright notice in the files
 theirselves nor especially maintained lists of files with respective authors.
@@ -470,3 +470,5 @@ These files include (symbolic links are omitted):
 The text of the GNU GPL, namely
 ./COPYING
 is not a part of the project; it is copyrighted by FSF as stated in the file.
+
+The file AUTHORS has a special status.
