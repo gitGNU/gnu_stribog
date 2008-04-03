@@ -1,6 +1,7 @@
 03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * hw/README hw/sym/README hw/packages/README: new
  * hw/gafrc README: copyright dates corrected
+ * README: note on gEDA versions
 02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * copyright: more accurate note on symbols/footprints
  * copyright README: copyright stuff returned to README
