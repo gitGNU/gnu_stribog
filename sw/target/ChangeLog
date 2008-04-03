@@ -1,5 +1,6 @@
 03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: s/exit/AC_MSG_ERROR/
+ * README: copyright dates corrected
 02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * NEWS ChangeLog README: copyright notes added
 30 Mar 2008 P.Kharitonov <ineiev@users.sourceforge.net>
