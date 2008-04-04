@@ -2,15 +2,16 @@
  migrate to git
 09 Feb 2008 [19Feb2008 start]
  invoke GNU autobuild tools
-18 Feb 2008 [25 Feb 2008 complete]
- make sw/target programs work from the flash
-18 Feb 2008
- implement on-board attitude computation
-25 Mar 2008
+ [25 Mar 2008]
  migrate to autoconf-2.62 when it is released.
  it should support
   (1) --help=recursive
   (2) recursive 'configure' calls
+18 Feb 2008 [25 Feb 2008 complete]
+ make sw/target programs work from the flash
+18 Feb 2008
+ implement on-board attitude computation
+
 02 Apr 2008 [02 Apr 2008 start]
  [02 Apr 2008 should we claim sym/footprints to be an external library?]
  make sources look like a decent distribution:
