@@ -138,12 +138,14 @@ exp_adc(const unsigned char*s)
  if(++i!=period)return 0;i=0;
  if(get_verbosity()>=relatively_mute&&turned_on)printf("adc:");
  if(flush_on_need())goto exit;
- printf("  %.8f %.0f %.0f %.0f"" %+05.0f %+05.0f %+05.0f"
-  " %04.0f %04.0f %04.0f"" %3.4f",
-  mcu_t/period,a_[0]/period,a_[1]/period,a_[2]/period,
-  b_[0]/period,b_[1]/period,b_[2]/period,
-  w_[0]/period,w_[1]/period,w_[2]/period,T_/16/period);
- if(period<=1)for(j=0;j<4;j++)printf(" %u",temperature[j]);putchar('\n');
+ if(get_verbosity()>=relatively_mute&&turned_on)
+  printf("  %.8f %.0f %.0f %.0f"" %+05.0f %+05.0f %+05.0f"
+   " %04.0f %04.0f %04.0f"" %3.4f",
+   mcu_t/period,a_[0]/period,a_[1]/period,a_[2]/period,
+   b_[0]/period,b_[1]/period,b_[2]/period,
+   w_[0]/period,w_[1]/period,w_[2]/period,T_/16/period);
+ if(get_verbosity()>=relatively_mute&&turned_on)
+ {if(period<=1)for(j=0;j<4;j++)printf(" %u",temperature[j]);putchar('\n');}
  exit:for(j=0;j<3;j++)a_[j]=b_[j]=w_[j]=0;
  T_=0;mcu_t=0;return 0;
 }static int
