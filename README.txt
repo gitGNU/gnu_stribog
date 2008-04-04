@@ -68,6 +68,17 @@ Here is a typical ~/.gitconfig file contents
  editor = vim
 EOF
 
+For anonymous access, use these:
+
+$ git clone git://git.savannah.nongnu.org/stribog.git
+ to make your local repository
+
+$ git checkout -b trunc origin/trunc
+ to make a local branch trunc based on fetched origin/trunc
+
+$ git fetch
+ to update copies of remote branches
+
 If you are a maintainer, your usual spells are
 (replace ineiev with your login name)
 
@@ -86,17 +97,6 @@ $ git push savannah
 
 $ git push savannah :refs/heads/feb2008
  to remove branch feb2008 from remote savannah
-
-For anonymous access, use these:
-
-$ git clone git://git.savannah.nongnu.org/stribog.git
- to make your local repository
-
-$ git checkout -b feb2008 origin/feb2008
- to make a local branch feb2008 based on fetched origin/feb2008
-
-$ git fetch
- to update copies of remote branches
 
 $ git pull
  to fetch all remote branches and merge
