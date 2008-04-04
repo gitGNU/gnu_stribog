@@ -1,4 +1,4 @@
-Copyright (C) 2005, 2006, 2007, 2008
+Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 See the end of the file for license conditions.
 
