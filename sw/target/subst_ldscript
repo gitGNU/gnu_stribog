@@ -56,9 +56,9 @@ case $1 in
   sed "s/comment_on_the_cpu/the MCU is $2/g"
  ;;
  ROM)
-  sed "s/\<ORIGIN_ram_\>/$ROM_ram_origin/g" | \
-  sed "s/\<LENGTH_ram_\>/$ROM_ram_length/g" | \
-  sed "s/\<LENGTH_rom_\>/$rom_length/g" | \
-  sed "s/\<comment_on_the_cpu\>/the MCU is $2/g"
+  sed "s/ORIGIN_ram_/$ROM_ram_origin/g" | \
+  sed "s/LENGTH_ram_/$ROM_ram_length/g" | \
+  sed "s/LENGTH_rom_/$rom_length/g" | \
+  sed "s/comment_on_the_cpu/the MCU is $2/g"
   ;;
 esac
