@@ -95,6 +95,7 @@ conloq/Makefile.in
 elk/Makefile.in
 intlpc/Makefile.in
 postproc/Makefile.in
+tests/Makefile.in
 utils/Makefile.in
 aclocal.m4
 config.h.in
