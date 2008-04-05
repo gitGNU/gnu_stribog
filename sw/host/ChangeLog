@@ -1,6 +1,9 @@
 05 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/save_wd.c: compile-time error when no getwd function
  available
+ * tests/serial.c tests/term.c: new
+ * conloq/conloq.c: deaf mode added
+ * conloq/serialia.c: made work decently on OpenBSD
 04 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: argp implementation selection fixed
  * conloq/exp-brief.c: adc message output suppression fixed
