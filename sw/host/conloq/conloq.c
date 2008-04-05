@@ -69,14 +69,14 @@ close_all(void)
  close_exp();free_tsip(tb);tb=0;
  if(f)fclose(f);f=0;
  if(interactive)reset_stdin();
-}static void 
+}static RETSIGTYPE
 sig_hunter(int sig)
 {int r=normal_exit;
  switch(sig)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
   default:error("unregistered signum %i; exiting\n",sig);r=unknown_signal;
- }exit(r);
+ }exit(r);return(RETSIGTYPE)0;
 }
 const char*argp_program_version="conloq"PACKAGE_VERSION_COMMENTED;
 #define KEY_ASSIGNMENTS_HELP "some key assignments:\n"\
@@ -101,7 +101,7 @@ static struct argp_option options[]=
   "Log to FILE instead of guessed [0-9]*conloq.log"
  },
  {"device",'d',"PORT",0,
-  "Open PORT instead of default (/dev/ttyS1 on GNU, COM1 on Windows)"
+  "Open PORT instead of '"CONLOQ_PORT"'"
  },
  {"force-deaf-mode",'D',0,0,
   "don't process keypresses (the program is terminated with Ctrl-C or"
@@ -172,6 +172,8 @@ there_is_something_to_read(void)
 static int
 keypress_check(void)
 {return process_keypress(getc(stdin));}
+static int
+forever(void){return 1;}
 static int(*
 dont_exit)(void)=keypress_check;
 static int
@@ -194,7 +196,7 @@ main(int argc,char**argv)
  set_interaction_mode(arguments.deafitude?
   deaf_mode:interactive_mode);
  if(get_verbosity()>=pretty_verbose)
- {if(get_interaction_mode==deaf_mode)
+ {if(get_interaction_mode()==deaf_mode)
    printf("Note: the programme is deaf to keypresses\n");
   else printf("Note: the mode is interactive\n");
  }
@@ -213,20 +215,22 @@ main(int argc,char**argv)
  if(get_interaction_mode()==interactive_mode)
  {if(setup_stdin())
   {error("can't setup your terminal\n");return stdin_unsetupable;}
-  if(initserialia(arguments.port_name))
-  {error("can't open serial port \"%s\"\n",
-    arguments.port_name?arguments.port_name:"[default]");
-   return no_uart;
-  }
-  if(get_verbosity()>=pretty_verbose)
-   printf("for help on keypresses press 'h'\n");
- }else
+ }
+ if(!arguments.file_input)if(initserialia(arguments.port_name))
+ {error("can't open serial port \"%s\"\n",
+   arguments.port_name?arguments.port_name:"[default]");
+  return no_uart;
+ }
+ if(get_interaction_mode()==deaf_mode)dont_exit=forever;
+ if(arguments.file_input)
  {input_file=stdin;
   dont_exit=there_is_something_to_read;
   get_next_data=read_data_from_file;
   if(get_verbosity()>=pretty_verbose)
    printf("the data are waited to come from stdin\n");
  }
+ if(get_verbosity()>=pretty_verbose&&get_interaction_mode()!=deaf_mode)
+  printf("for help on keypresses press 'h'\n");
  atexit(close_all);
  signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
  if(arguments.escapes)enable_escapes(!0);
