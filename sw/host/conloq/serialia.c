@@ -26,7 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 static struct termios vet;/* previous port settings */
 static const char*dv=CONLOQ_PORT;/* default device name */
 static int port=-1;/* device file descriptor */
-static int
+static void
 report_error(const char*report)
 {if(get_verbosity()>=pretty_verbose)printf("%s\n",report);}
 int
