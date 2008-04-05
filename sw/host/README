@@ -106,6 +106,9 @@ config.sub
 The usual developer procedure of regeneration is to invoke
 autoscan and autoreconf in no certain sequence,
 looking at the results and editing the files on need.
+
+After the regeneration itself it is recommended to build the package
+to ensure that user make procedure will not trigger autoreconf.
 
 This file is part of stribog.
 
