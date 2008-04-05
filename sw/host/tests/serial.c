@@ -66,8 +66,11 @@ init(const char*tty)
  return port<0;
 }void
 close_all(void)
-{if(0>port)return;tcsetattr(port,TCSANOW,&vet);
- fcntl(port,F_SETFL,0);close(port);port=-1;
+{if(0>port)return;
+ if(0)
+ {/*GNU/Hurd hangs here. we prefer not to reset old settings*/
+  tcsetattr(port,TCSANOW,&vet);
+ }close(port);port=-1;
 }int
 lege(void*p,int n){return read(port,p,n);}
 int

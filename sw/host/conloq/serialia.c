@@ -36,7 +36,7 @@ initserialia(const char*tty)
  /*workaround for OpenBSD(3.9): it hangs without O_NDELAY*/
  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
  if(port!=-1)
- {int flags;errno=0;flags=fcntl(port,F_GETFL)&~O_NDELAY;
+ {int flags;errno=0;flags=fcntl(port,F_GETFL,0)&~O_NDELAY;
   if(errno)
   {report_error("failed to get flags");close(port);return-1;}
   if(-1==fcntl(port,F_SETFL,flags))
@@ -58,8 +58,16 @@ initserialia(const char*tty)
  return port<0;
 }void
 closeserialia(void)
-{if(0>port)return;tcsetattr(port,TCSANOW,&vet);
- fcntl(port,F_SETFL,0);close(port);port=-1;
+{if(0>port)return;
+ if(0)
+ {/*GNU/Hurd hangs here. we prefer not to reset old settings*/
+  report_error("resetting tty attributes..");
+  if(tcsetattr(port,TCSANOW,&vet))
+   report_error("failed to reset attributes");
+ }
+ report_error("closing port..");
+ if(close(port))report_error("success");else report_error("fail");
+ port=-1;
 }int
 lege(void*p,int n){return read(port,p,n);}
 int
