@@ -682,6 +682,10 @@ magex_enabled_TRUE
 magex_enabled_FALSE
 multa_enabled_TRUE
 multa_enabled_FALSE
+ARM_OBJCOPY
+arm_unknown_elf_objcopy
+arm_as_flags
+arm_ascc_flags
 CC
 CFLAGS
 LDFLAGS
@@ -2378,8 +2382,7 @@ _ACEOF
 
 
 # Checks for programs.
-{ echo "$as_me:$LINENO: checking if $host_alias-as is present" >&5
-echo $ECHO_N "checking if $host_alias-as is present... $ECHO_C" >&6; }
+
 
 if $host_alias-as --version >/dev/null;then
  arm_elf_as=yes;else arm_elf_as=no;
@@ -2401,37 +2404,138 @@ echo "$as_me: error:
 esac
 { echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6; }
-ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
-{ echo "$as_me:$LINENO: checking if $host_alias-as can assemble boot.s" >&5
-echo $ECHO_N "checking if $host_alias-as can assemble boot.s... $ECHO_C" >&6; }
+ARM_MCU_FLAGS=-mcpu=arm7tdmi
+ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
+{ echo "$as_me:$LINENO: checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option" >&5
+echo $ECHO_N "checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option... $ECHO_C" >&6; }
 
-if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s;then
+if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
  arm_elf_as=yes;else arm_elf_as=no;
 fi
 { echo "$as_me:$LINENO: result: $arm_elf_as" >&5
 echo "${ECHO_T}$arm_elf_as" >&6; }
 case $arm_elf_as in
  no)
- { { echo "$as_me:$LINENO: error:
+ #older gases like 2.11.2 prefer this form of option
+ ARM_MCU_FLAGS=-marm7tdmi
+ ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
+ { echo "$as_me:$LINENO: checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option" >&5
+echo $ECHO_N "checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option... $ECHO_C" >&6; }
+ if ! $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+  { { echo "$as_me:$LINENO: error:
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
- (binutils-2.12.1 to 2.18 should work; 2.11 does not)
+ (binutils-2.11.2 to 2.18 should work)
 " >&5
 echo "$as_me: error:
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
- (binutils-2.12.1 to 2.18 should work; 2.11 does not)
+ (binutils-2.11.2 to 2.18 should work)
+" >&2;}
+   { (exit 1); exit 1; }; }
+ fi
+ ;;
+esac
+{ echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+for ac_prog in $host_alias-objcopy objcopy
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_prog_ARM_OBJCOPY+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ARM_OBJCOPY"; then
+  ac_cv_prog_ARM_OBJCOPY="$ARM_OBJCOPY" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_ARM_OBJCOPY="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+fi
+fi
+ARM_OBJCOPY=$ac_cv_prog_ARM_OBJCOPY
+if test -n "$ARM_OBJCOPY"; then
+  { echo "$as_me:$LINENO: result: $ARM_OBJCOPY" >&5
+echo "${ECHO_T}$ARM_OBJCOPY" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+  test -n "$ARM_OBJCOPY" && break
+done
+test -n "$ARM_OBJCOPY" || ARM_OBJCOPY="no"
+
+case ${ARM_OBJCOPY} in
+ no)
+  { { echo "$as_me:$LINENO: error:
+
+ objcopy tool is not available
+ probably no ARM toolchain has been installed
+" >&5
+echo "$as_me: error:
+
+ objcopy tool is not available
+ probably no ARM toolchain has been installed
 " >&2;}
    { (exit 1); exit 1; }; }
  ;;
 esac
+{ echo "$as_me:$LINENO: checking whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'" >&5
+echo $ECHO_N "checking whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'... $ECHO_C" >&6; }
+if ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
+ boot.o /dev/null 2>/dev/null;then
+  { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+ else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+  { { echo "$as_me:$LINENO: error:
+
+ ${ARM_OBJCOPY} can't manage elf32-littlearm object files.
+ Probably no ARM toolchain has been installed properly.
+ If you think it has been, try to place path to the toolchain
+ before path to the system objcopy in your PATH variable
+" >&5
+echo "$as_me: error:
+
+ ${ARM_OBJCOPY} can't manage elf32-littlearm object files.
+ Probably no ARM toolchain has been installed properly.
+ If you think it has been, try to place path to the toolchain
+ before path to the system objcopy in your PATH variable
+" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+arm_unknown_elf_objcopy=${ARM_OBJCOPY}
+
 
 #make our minimalistic crosstools generate executables
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld
-CFLAGS="$CFLAGS -mcpu=arm7tdmi"
+CFLAGS="${saved_CFLAGS} -Wa,${ARM_MCU_FLAGS}"
+arm_as_flags=${ARM_MCU_FLAGS}
+
+arm_ascc_flags=-Wa,${ARM_MCU_FLAGS}
+
 LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit,
 #which can safely be stubbed in our programs
@@ -4628,6 +4732,10 @@ magex_enabled_TRUE!$magex_enabled_TRUE$ac_delim
 magex_enabled_FALSE!$magex_enabled_FALSE$ac_delim
 multa_enabled_TRUE!$multa_enabled_TRUE$ac_delim
 multa_enabled_FALSE!$multa_enabled_FALSE$ac_delim
+ARM_OBJCOPY!$ARM_OBJCOPY$ac_delim
+arm_unknown_elf_objcopy!$arm_unknown_elf_objcopy$ac_delim
+arm_as_flags!$arm_as_flags$ac_delim
+arm_ascc_flags!$arm_ascc_flags$ac_delim
 CC!$CC$ac_delim
 CFLAGS!$CFLAGS$ac_delim
 LDFLAGS!$LDFLAGS$ac_delim
@@ -4653,7 +4761,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 88; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 92; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

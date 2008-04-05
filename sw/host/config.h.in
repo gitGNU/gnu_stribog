@@ -18,6 +18,9 @@
 /* Define to 1 if you have the <float.h> header file. */
 #undef HAVE_FLOAT_H
 
+/* Define to 1 if you have the `getcwd' function. */
+#undef HAVE_GETCWD
+
 /* Define to 1 if you have the `get_current_dir_name' function. */
 #undef HAVE_GET_CURRENT_DIR_NAME
 

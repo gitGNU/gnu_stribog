@@ -336,6 +336,7 @@ distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+ARM_OBJCOPY = @ARM_OBJCOPY@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -387,6 +388,9 @@ am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
+arm_as_flags = @arm_as_flags@
+arm_ascc_flags = @arm_ascc_flags@
+arm_unknown_elf_objcopy = @arm_unknown_elf_objcopy@
 bindir = @bindir@
 build_alias = @build_alias@
 builddir = @builddir@
@@ -458,7 +462,7 @@ nodist_rom_programs_DATA = accelex-rom.bin accelex-rom.map \
 	tempusex-rom.bin tempusex-rom.map
 ram_programsdir = $(pkgdatadir)/ram_programs
 rom_programsdir = $(pkgdatadir)/rom_programs
-OBJCOPY = arm-unknown-elf-objcopy
+OBJCOPY = $(arm_unknown_elf_objcopy)
 objcopy_bin = $(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors = $(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
@@ -466,7 +470,8 @@ objcopy_vectors = $(OBJCOPY)\
 
 #atexit.c is needed for gcc-2.95.3
 common_sources = include/lpc2138.h src/boot.s lib/atexit.c
-AM_CFLAGS = -mcpu=arm7tdmi -Wall -O2
+AM_CFLAGS = $(arm_ascc_flags) -Wall -O2
+AM_ASFLAGS = $(arm_as_flags)
 AM_CPPFLAGS = -I$(srcdir)/src
 AM_LDFLAGS = -Wl,-Map,$@.map -nostdlib -static
 AM_LIBS = -lgcc

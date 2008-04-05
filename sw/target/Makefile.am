@@ -26,7 +26,7 @@ EXTRA_PROGRAMS=
 ram_programsdir=$(pkgdatadir)/ram_programs
 rom_programsdir=$(pkgdatadir)/rom_programs
 
-OBJCOPY=arm-unknown-elf-objcopy
+OBJCOPY=$(arm_unknown_elf_objcopy)
 objcopy_bin=$(OBJCOPY) -I elf32-littlearm -O binary -R startup
 objcopy_vectors=$(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
@@ -34,7 +34,8 @@ objcopy_vectors=$(OBJCOPY)\
 common_sources=include/lpc2138.h src/boot.s
 #atexit.c is needed for gcc-2.95.3
  common_sources+=lib/atexit.c
- AM_CFLAGS=-mcpu=arm7tdmi -Wall -O2
+ AM_CFLAGS=$(arm_ascc_flags) -Wall -O2
+ AM_ASFLAGS=$(arm_as_flags)
  AM_CPPFLAGS=-I$(srcdir)/src
  AM_LDFLAGS=-Wl,-Map,$@.map -nostdlib -static
 AM_LIBS=-lgcc

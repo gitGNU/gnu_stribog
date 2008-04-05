@@ -4530,7 +4530,7 @@ echo $ECHO_N "checking if stribog argp implementation is asked for... $ECHO_C" >
 if test "${enable_own_argp+set}" = set; then
   enableval=$enable_own_argp;
 else
-  enable_own_argp=no
+  enable_own_argp=unspecified
 
 
 fi
@@ -4677,14 +4677,18 @@ echo "${ECHO_T}no usable argp.h found; stribog version should be used" >&6; }
 fi
 
 
-if test $enable_own_argp = no; then
- if test  "z$build_own_argp" = zyes; then
-  { { echo "$as_me:$LINENO: error: own argp disabled and no usable system argp available" >&5
+case "z$enable_own_argp" in
+ zno)
+  if test  "z$build_own_argp" = zyes; then
+   { { echo "$as_me:$LINENO: error: own argp disabled and no usable system argp available" >&5
 echo "$as_me: error: own argp disabled and no usable system argp available" >&2;}
    { (exit 1); exit 1; }; }
- fi
-fi
-build_own_argp=$enable_own_argp
+  fi
+ ;;
+ zyes)
+  build_own_argp=yes
+ ;;
+esac
 # Checks for typedefs, structures, and compiler characteristics.
 { echo "$as_me:$LINENO: checking for error_t" >&5
 echo $ECHO_N "checking for error_t... $ECHO_C" >&6; }
@@ -5724,7 +5728,8 @@ fi
 done
 
 
-for ac_func in get_current_dir_name
+
+for ac_func in get_current_dir_name getcwd
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 { echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -5819,6 +5824,7 @@ done
 
 
 #Checks for system services
+#FIXME test headers and functions instead?
 case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
 		the_host_is_windows=yes
