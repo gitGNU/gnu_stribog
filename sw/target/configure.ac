@@ -41,6 +41,7 @@ AS_HELP_STRING([--with-mainboard-mcu],
  [with_mainboard_mcu=LPC2138
 ])
 case $with_mainboard_mcu in
+ #FIXME this is not a right way
  LPC213[[12468]]) echo  $with_mainboard_mcu > mcu.conf ;;
  *)
   AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested])
