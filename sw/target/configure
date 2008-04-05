@@ -1304,8 +1304,8 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-mainboard-mcu    Configure MCU on the main board (LPC213[12468])
-                          [LPC2138]
+  --with-mainboard-mcu    Configure MCU on the main board (LPC2131 | LPC2132 |
+                          LPC2134 | LPC2136 | LPC2138) [LPC2138]
 
 Some influential environment variables:
   CC          C compiler command
@@ -2260,9 +2260,7 @@ else
 fi
 
 case $with_mainboard_mcu in
- LPC213[12468])
-  echo  $with_mainboard_mcu > mcu.conf
-  ;;
+ LPC213[12468]) echo  $with_mainboard_mcu > mcu.conf ;;
  *)
   { { echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5
 echo "$as_me: error: unknown MCU '$with_mainboard_mcu' is requested" >&2;}
@@ -2290,16 +2288,13 @@ case $with_mainboard_mcu in
 esac
 adc1_define=1
 case $adc1_present in
- no)
-  adc1_define=0
-  ;;
+ no) adc1_define=0 ;;
 esac
 
 cat >>confdefs.h <<_ACEOF
 #define HAVE_ADC1 $adc1_define
 _ACEOF
 
-#CPU-relevant configuration is finished
 case $enable_mag_response in
  no)
  echo NOTE: \'mag_response\' program is disabled >>warnings
@@ -2346,10 +2341,8 @@ fi
 
 current_define=0
 case "z$enable_original_pps" in
- zyes) current_define=1
- ;;
- *) enable_original_pps=no
- ;;
+ zyes) current_define=1 ;;
+ *) enable_original_pps=no ;;
 esac
 { echo "$as_me:$LINENO: result: $enable_original_pps" >&5
 echo "${ECHO_T}$enable_original_pps" >&6; }
@@ -2368,10 +2361,8 @@ fi
 
 current_define=0
 case "z$enable_swap_uarts" in
- zyes) current_define=1
- ;;
- *) enable_swap_uarts=no
- ;;
+ zyes) current_define=1 ;;
+ *) enable_swap_uarts=no ;;
 esac
 { echo "$as_me:$LINENO: result: $enable_swap_uarts" >&5
 echo "${ECHO_T}$enable_swap_uarts" >&6; }
@@ -2382,13 +2373,11 @@ _ACEOF
 
 
 # Checks for programs.
-
-
-if $host_alias-as --version >/dev/null;then
- arm_elf_as=yes;else arm_elf_as=no;
-fi
-case $arm_elf_as in
- no)
+{ echo "$as_me:$LINENO: checking whether $host_alias-as is available" >&5
+echo $ECHO_N "checking whether $host_alias-as is available... $ECHO_C" >&6; }
+if ! $host_alias-as --version >/dev/null;then
+ { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
  { { echo "$as_me:$LINENO: error:
 
  $host_alias-as is not available
@@ -2400,15 +2389,13 @@ echo "$as_me: error:
  probably no ARM toolchain has been installed
 " >&2;}
    { (exit 1); exit 1; }; }
- ;;
-esac
+fi
 { echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6; }
 ARM_MCU_FLAGS=-mcpu=arm7tdmi
 ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
 { echo "$as_me:$LINENO: checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option" >&5
 echo $ECHO_N "checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option... $ECHO_C" >&6; }
-
 if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
  arm_elf_as=yes;else arm_elf_as=no;
 fi
@@ -2438,10 +2425,11 @@ echo "$as_me: error:
 " >&2;}
    { (exit 1); exit 1; }; }
  fi
+ { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
  ;;
 esac
-{ echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6; }
+#on OpenBSD arm-unknown-elf-objcopy once installed itself as mere objcopy
 for ac_prog in $host_alias-objcopy objcopy
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
@@ -2502,11 +2490,8 @@ echo "$as_me: error:
 esac
 { echo "$as_me:$LINENO: checking whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'" >&5
 echo $ECHO_N "checking whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'... $ECHO_C" >&6; }
-if ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
+if ! ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
  boot.o /dev/null 2>/dev/null;then
-  { echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6; }
- else
   { echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6; }
   { { echo "$as_me:$LINENO: error:
@@ -2525,6 +2510,8 @@ echo "$as_me: error:
 " >&2;}
    { (exit 1); exit 1; }; }
 fi
+{ echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
 arm_unknown_elf_objcopy=${ARM_OBJCOPY}
 
 
@@ -2539,7 +2526,7 @@ arm_ascc_flags=-Wa,${ARM_MCU_FLAGS}
 LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit,
 #which can safely be stubbed in our programs
-#TODO: check if the programs built with gcc-2.95.3 really work
+#TODO: make the programs built with gcc-2.95.3 work
 LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
 LIBS=-lgcc
 
@@ -3989,7 +3976,7 @@ _ACEOF
 
 fi
 
-#remove temporary object file so they will be remade with user-defined FLAGS
+#remove temporary object file so it will be remade with user-defined FLAGS
 rm boot.o
 #return to user-defined values
 ASFLAGS="$saved_CFLAGS"
@@ -5371,14 +5358,12 @@ echo "LIBS:                 ${LIBS}">>summary
 echo >>summary
 echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
+${ARM_OBJCOPY} --version |grep objcopy >>summary
 ${CC} --version >>summary
 cat warnings >>summary
 rm -f warnings
 
 case "z$recursive_stribog_build" in
- zyes)
- ;;
- *)
- echo;cat summary
- ;;
+ zyes) ;;
+ *) cat summary;;
 esac
