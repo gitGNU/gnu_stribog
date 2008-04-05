@@ -62,13 +62,28 @@ reset_stdin(void)
  if(!tcsetattr(STDIN_FILENO,TCSANOW,&saved_stdin_settings))return;
  err=errno;error("note: can't reset stdin errno %i",err);
  error("system error message \"%s\"",strerror(err));
-}static void 
+}struct arguments
+{const char*port_name,*log_name;double dfreq;
+ int verbosity,escapes,file_input,period,deafitude;
+};
+static struct arguments arguments;
+static void 
 close_all(void)
 {int interactive=get_interaction_mode()==interactive_mode;
- if(interactive)closeserialia();
+ if(!arguments.file_input)
+ {if(get_verbosity()>=pretty_verbose)printf("closing serial port\n");
+  closeserialia();
+ }
+ if(get_verbosity()>=pretty_verbose)printf("closing parser\n");
  close_exp();free_tsip(tb);tb=0;
- if(f)fclose(f);f=0;
- if(interactive)reset_stdin();
+ if(f)
+ {if(get_verbosity()>=pretty_verbose)printf("closing log\n");
+  fclose(f);f=0;
+ }
+ if(interactive)
+ {if(get_verbosity()>=pretty_verbose)printf("resetting stdin\n");
+  reset_stdin();
+ }
 }static RETSIGTYPE
 sig_hunter(int sig)
 {int r=normal_exit;
@@ -124,10 +139,6 @@ static struct argp_option options[]=
  {"verbous",0,"LEVEL",OPTION_ALIAS},
  {"quiet",'q',0,0,"Be quiet"},
  {0}
-};
-struct arguments
-{const char*port_name,*log_name;double dfreq;
- int verbosity,escapes,file_input,period,deafitude;
 };
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
@@ -185,7 +196,7 @@ static int(*
 get_next_data)(unsigned char*,int)=data_lege;
 int 
 main(int argc,char**argv)
-{int period;struct arguments arguments;
+{int period;
  init_error_dir(*argv,SOURCE_DIR);
  arguments.dfreq=8550;arguments.port_name=arguments.log_name=0;
  arguments.escapes=arguments.verbosity=arguments.file_input=0;
