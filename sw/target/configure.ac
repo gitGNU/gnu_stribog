@@ -36,13 +36,12 @@ saved_LDFLAGS="$LDFLAGS"
 #Checks for features required via command-line arguments
 AC_ARG_WITH([mainboard-mcu],
 AS_HELP_STRING([--with-mainboard-mcu],
-[Configure MCU on the main board (LPC213[[12468]]) [[LPC2138]]]),,
-[with_mainboard_mcu=LPC2138
+ [Configure MCU on the main board 
+ (LPC2131 | LPC2132 | LPC2134 | LPC2136 | LPC2138) [[LPC2138]]]),,
+ [with_mainboard_mcu=LPC2138
 ])
 case $with_mainboard_mcu in
- LPC213[[12468]])
-  echo  $with_mainboard_mcu > mcu.conf
-  ;;
+ LPC213[[12468]]) echo  $with_mainboard_mcu > mcu.conf ;;
  *)
   AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested])
 esac
@@ -68,13 +67,10 @@ case $with_mainboard_mcu in
 esac
 adc1_define=1
 case $adc1_present in
- no) 
-  adc1_define=0
-  ;;
+ no) adc1_define=0 ;;
 esac
 AC_DEFINE_UNQUOTED([HAVE_ADC1],$adc1_define,
  [Define to 0 if the MCU has no second ADC])
-#CPU-relevant configuration is finished
 case $enable_mag_response in
  no)
  echo NOTE: \'mag_response\' program is disabled >>warnings
@@ -97,10 +93,8 @@ AC_ARG_ENABLE([original-pps],
   [Input PPS signals through CAP1.1 rather than CAP1.2 [[no]]]))
 current_define=0
 case "z$enable_original_pps" in
- zyes) current_define=1
- ;;
- *) enable_original_pps=no
- ;;
+ zyes) current_define=1 ;;
+ *) enable_original_pps=no ;;
 esac
 AC_MSG_RESULT([$enable_original_pps])
 AC_DEFINE_UNQUOTED([HAVE_ORIGINAL_PPS],$current_define,
@@ -109,40 +103,31 @@ AC_DEFINE_UNQUOTED([HAVE_ORIGINAL_PPS],$current_define,
 AC_MSG_CHECKING([whether UARTs should be swapped])
 AC_ARG_ENABLE([swap-uarts],
  AS_HELP_STRING([--enable-swap-uarts],
-  [UARTs functions are swapped [[no]]]),,
-)
+  [UARTs functions are swapped [[no]]]))
 current_define=0
 case "z$enable_swap_uarts" in
- zyes) current_define=1
- ;;
- *) enable_swap_uarts=no
- ;;
+ zyes) current_define=1 ;;
+ *) enable_swap_uarts=no ;;
 esac
 AC_MSG_RESULT([$enable_swap_uarts])
 AC_DEFINE_UNQUOTED([SWAP_UARTS],$current_define,
  [Define to 0 if UARTs are not swapped])
 
 # Checks for programs.
-
-
-if $host_alias-as --version >/dev/null;then
- arm_elf_as=yes;else arm_elf_as=no;
-fi
-case $arm_elf_as in
- no)
+AC_MSG_CHECKING([whether $host_alias-as is available])
+if ! $host_alias-as --version >/dev/null;then
+ AC_MSG_RESULT([[no]])
  AC_MSG_ERROR([
 
  $host_alias-as is not available
  probably no ARM toolchain has been installed
 ])
- ;;
-esac
+fi
 AC_MSG_RESULT([[yes]])
 ARM_MCU_FLAGS=-mcpu=arm7tdmi
 ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
 AC_MSG_CHECKING(
  [if $host_alias-as accepts '${ARM_MCU_FLAGS}' option])
-
 if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
  arm_elf_as=yes;else arm_elf_as=no;
 fi
@@ -163,9 +148,10 @@ case $arm_elf_as in
  (binutils-2.11.2 to 2.18 should work)
 ])
  fi
+ AC_MSG_RESULT([yes])
  ;;
 esac
-AC_MSG_RESULT([yes])
+#on OpenBSD arm-unknown-elf-objcopy once installed itself as mere objcopy
 AC_CHECK_PROGS([ARM_OBJCOPY],[$host_alias-objcopy objcopy],[no])
 case ${ARM_OBJCOPY} in
  no)
@@ -177,10 +163,8 @@ case ${ARM_OBJCOPY} in
  ;;
 esac
 AC_MSG_CHECKING([whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'])
-if ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
+if ! ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
  boot.o /dev/null 2>/dev/null;then
-  AC_MSG_RESULT([yes])
- else
   AC_MSG_RESULT([no])
   AC_MSG_ERROR([
 
@@ -190,6 +174,7 @@ if ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
  before path to the system objcopy in your PATH variable
 ])
 fi
+AC_MSG_RESULT([yes])
 AC_SUBST([arm_unknown_elf_objcopy],[${ARM_OBJCOPY}])
 
 #make our minimalistic crosstools generate executables
@@ -201,7 +186,7 @@ AC_SUBST([arm_ascc_flags],[-Wa,${ARM_MCU_FLAGS}])
 LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit, 
 #which can safely be stubbed in our programs
-#TODO: check if the programs built with gcc-2.95.3 really work
+#TODO: make the programs built with gcc-2.95.3 work
 LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
 LIBS=-lgcc
 
@@ -216,7 +201,7 @@ AM_PROG_AS
  AC_C_CONST
  AC_C_INLINE
  AC_C_VOLATILE
-#remove temporary object file so they will be remade with user-defined FLAGS
+#remove temporary object file so it will be remade with user-defined FLAGS
 rm boot.o
 #return to user-defined values
 ASFLAGS="$saved_CFLAGS"
@@ -235,14 +220,12 @@ echo "LIBS:                 ${LIBS}">>summary
 echo >>summary
 echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
+${ARM_OBJCOPY} --version |grep objcopy >>summary
 ${CC} --version >>summary
 cat warnings >>summary
 rm -f warnings
 
 case "z$recursive_stribog_build" in
- zyes)
- ;;
- *)
- echo;cat summary
- ;;
+ zyes) ;;
+ *) cat summary;;
 esac
