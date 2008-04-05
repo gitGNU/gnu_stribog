@@ -2260,6 +2260,7 @@ else
 fi
 
 case $with_mainboard_mcu in
+ #FIXME this is not a right way
  LPC213[12468]) echo  $with_mainboard_mcu > mcu.conf ;;
  *)
   { { echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5

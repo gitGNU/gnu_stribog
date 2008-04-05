@@ -1,5 +1,11 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Default port for conloq programs */
+#undef CONLOQ_PORT
+
+/* Default port for elk */
+#undef ELK_PORT
+
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
