@@ -4,6 +4,9 @@
  * tests/serial.c tests/term.c tests/Makefile.am: new
  * conloq/conloq.c: deaf mode added
  * conloq/serialia.c: made work decently on OpenBSD
+ * conloq/conloq.c conloq/magex-conloq.c: RETSIGTYPE used
+ * configure.ac elk/serialia.c elk/wser.c elk/elk.c conloq/serialia.c
+ conloq/wser.c: default port name configured
 04 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: argp implementation selection fixed
  * conloq/exp-brief.c: adc message output suppression fixed
