@@ -103,8 +103,12 @@ static struct argp_option options[]=
  {"device",'d',"PORT",0,
   "Open PORT instead of default (/dev/ttyS1 on GNU, COM1 on Windows)"
  },
+ {"force-deaf-mode",'D',0,0,
+  "don't process keypresses (the program is terminated with Ctrl-C or"
+  "other external signals only)"
+ },
  {"stdin",'c',0,0,
-  "Read non-interactively from stdin instead of UART device"
+  "Read non-interactively from stdin instead of UART device (implies -D)"
  },
  {"adc-decimation",'n',"N",0,
   "ADC messages decimation number"
@@ -123,14 +127,16 @@ static struct argp_option options[]=
 };
 struct arguments
 {const char*port_name,*log_name;double dfreq;
- int verbosity,escapes,file_input,period;
+ int verbosity,escapes,file_input,period,deafitude;
 };
 static error_t
 parse_opt(int key, char*arg, struct argp_state*state)
 {struct arguments*arguments=state->input;int n=0,r;
  switch(key)
- {case 'c':arguments->port_name=0;arguments->file_input=!0;break;
-  case 'd':arguments->port_name=arg;arguments->file_input=0;break;
+ {case 'd':arguments->port_name=arg;arguments->file_input=0;break;
+  case'c':arguments->port_name=0;arguments->file_input=!0;
+   /*fall to next case*/
+  case'D':arguments->deafitude=!0;break;
   case 'f':r=sscanf(arg,"%lg%n",&(arguments->dfreq),&n);
    if(r!=1||arg[n])
    {error("'%s' is not a valid frequency adjustment"
@@ -181,13 +187,18 @@ main(int argc,char**argv)
  init_error_dir(*argv,SOURCE_DIR);
  arguments.dfreq=8550;arguments.port_name=arguments.log_name=0;
  arguments.escapes=arguments.verbosity=arguments.file_input=0;
+ arguments.deafitude=0;
  arguments.period=-1;
  argp_parse(&argp,argc,argv,0,0,&arguments);
  set_verbosity(arguments.verbosity);
- set_interaction_mode(arguments.file_input?
+ set_interaction_mode(arguments.deafitude?
   deaf_mode:interactive_mode);
- if(get_interaction_mode()==deaf_mode)
-  period=1;else period=0x3F;
+ if(get_verbosity()>=pretty_verbose)
+ {if(get_interaction_mode==deaf_mode)
+   printf("Note: the programme is deaf to keypresses\n");
+  else printf("Note: the mode is interactive\n");
+ }
+ period=(get_interaction_mode()==deaf_mode)?1:0x3F;
  init_turned_on();
  if(arguments.period>0)period=arguments.period;
  if(arguments.log_name)
@@ -199,14 +210,6 @@ main(int argc,char**argv)
  {error("can't open log file\n");return no_log_file;}
  if(get_verbosity()>=pretty_verbose)
   printf("Log file \"%s\" opened\n",arguments.log_name);
- atexit(close_all);
- signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
- if(arguments.escapes)enable_escapes(!0);
- if(get_verbosity()>=pretty_verbose)
-  printf(arguments.escapes?
-    "escapes are enabled\n":"escapes are disabled\n");
- tb=new_tsip();init_exp(period);
- adjust_frequency(arguments.dfreq);
  if(get_interaction_mode()==interactive_mode)
  {if(setup_stdin())
   {error("can't setup your terminal\n");return stdin_unsetupable;}
@@ -224,6 +227,14 @@ main(int argc,char**argv)
   if(get_verbosity()>=pretty_verbose)
    printf("the data are waited to come from stdin\n");
  }
+ atexit(close_all);
+ signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
+ if(arguments.escapes)enable_escapes(!0);
+ if(get_verbosity()>=pretty_verbose)
+  printf(arguments.escapes?
+    "escapes are enabled\n":"escapes are disabled\n");
+ tb=new_tsip();init_exp(period);
+ adjust_frequency(arguments.dfreq);
  {static int size,n,j;const unsigned char*_;
   unsigned char s[11520];unsigned long long N=0;
   while(dont_exit())if(0<(n=get_next_data(s,sizeof s)))
