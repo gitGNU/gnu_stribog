@@ -123,7 +123,7 @@ AC_DEFINE_UNQUOTED([SWAP_UARTS],$current_define,
  [Define to 0 if UARTs are not swapped])
 
 # Checks for programs.
-AC_MSG_CHECKING([if $host_alias-as is present])
+
 
 if $host_alias-as --version >/dev/null;then
  arm_elf_as=yes;else arm_elf_as=no;
@@ -138,28 +138,66 @@ case $arm_elf_as in
  ;;
 esac
 AC_MSG_RESULT([[yes]])
-ASFLAGS="$ASFLAGS -mcpu=arm7tdmi"
-AC_MSG_CHECKING([if $host_alias-as can assemble boot.s])
+ARM_MCU_FLAGS=-mcpu=arm7tdmi
+ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
+AC_MSG_CHECKING(
+ [if $host_alias-as accepts '${ARM_MCU_FLAGS}' option])
 
-if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s;then
+if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
  arm_elf_as=yes;else arm_elf_as=no;
 fi
 AC_MSG_RESULT([$arm_elf_as])
 case $arm_elf_as in
  no)
- AC_MSG_ERROR([
+ #older gases like 2.11.2 prefer this form of option
+ ARM_MCU_FLAGS=-marm7tdmi
+ ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
+ AC_MSG_CHECKING(
+  [if $host_alias-as accepts '${ARM_MCU_FLAGS}' option])
+ if ! $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
+  AC_MSG_RESULT([no])
+  AC_MSG_ERROR([
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
- (binutils-2.12.1 to 2.18 should work; 2.11 does not)
+ (binutils-2.11.2 to 2.18 should work)
 ])
+ fi
  ;;
 esac
+AC_MSG_RESULT([yes])
+AC_CHECK_PROGS([ARM_OBJCOPY],[$host_alias-objcopy objcopy],[no])
+case ${ARM_OBJCOPY} in
+ no)
+  AC_MSG_ERROR([[
+
+ objcopy tool is not available
+ probably no ARM toolchain has been installed
+]])
+ ;;
+esac
+AC_MSG_CHECKING([whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'])
+if ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
+ boot.o /dev/null 2>/dev/null;then
+  AC_MSG_RESULT([yes])
+ else
+  AC_MSG_RESULT([no])
+  AC_MSG_ERROR([
+
+ ${ARM_OBJCOPY} can't manage elf32-littlearm object files.
+ Probably no ARM toolchain has been installed properly.
+ If you think it has been, try to place path to the toolchain
+ before path to the system objcopy in your PATH variable
+])
+fi
+AC_SUBST([arm_unknown_elf_objcopy],[${ARM_OBJCOPY}])
 
 #make our minimalistic crosstools generate executables
 ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
  < ${srcdir}/src/2138.ld.in > 2138.ld
-CFLAGS="$CFLAGS -mcpu=arm7tdmi"
+CFLAGS="${saved_CFLAGS} -Wa,${ARM_MCU_FLAGS}"
+AC_SUBST([arm_as_flags],[${ARM_MCU_FLAGS}])
+AC_SUBST([arm_ascc_flags],[-Wa,${ARM_MCU_FLAGS}])
 LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit, 
 #which can safely be stubbed in our programs
