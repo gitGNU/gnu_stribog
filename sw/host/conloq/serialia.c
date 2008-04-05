@@ -1,14 +1,42 @@
-#include"serialia.h"/*conloq: POSIX serial port module*/
+/*conloq: POSIX serial port module
+Copyright (C) 2006, 2007, 2008
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This source file is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include"serialia.h"
 #include<unistd.h>
 #include<sys/fcntl.h>
 #include<termios.h>
 #include<stdio.h>
+#include<errno.h>
 static struct termios vet;/* previous port settings */
 static char dv[]="/dev/ttyS1";/* default device name */
 static int port=-1;/* file descriptor */
 int
 initserialia(const char*tty)
-{struct termios nov;port=open(tty?tty:dv,O_RDWR|O_NOCTTY);
+{struct termios nov;if(!tty)tty=dv;
+#ifdef O_NDELAY
+ /*workaround for OpenBSD(3.9): it hangs without O_NDELAY*/
+ port=open(tty,O_RDWR|O_NOCTTY|O_NDELAY);
+ if(port!=-1)
+ {int flags;errno=0;flags=fcntl(port,F_GETFL)&~O_NDELAY;
+  if(errno||(-1==fcntl(port,F_SETFL,flags))){close(port);return-1;}
+ }
+#else
+ port=open(dv,O_RDWR|O_NOCTTY);
+#endif
  if(port<0)return-1;tcgetattr(port,&vet);nov=vet;
  cfsetospeed(&nov,B115200);cfsetispeed(&nov,B115200);
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
@@ -23,19 +51,4 @@ closeserialia(void)
 lege(void*p,int n){return read(port,p,n);}
 int
 scribe(const void*p,int n){return write(port,p,n);}
-/*This source file is a part of the stribog host software section
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
