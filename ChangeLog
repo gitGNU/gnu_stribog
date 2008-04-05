@@ -1,3 +1,5 @@
+05 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/host/conloq/serialia.c: made work on OpenBSD
 02 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * branch: this branch is deprecated
  * copyright: more precise notes on footprints
