@@ -1,10 +1,28 @@
-#include"serialia.h"/*elk the LPC21x programmer: POSIX serial port module*/
+/*elk the LPC21x programmer: POSIX serial port module
+Copyright (C) 2006, 2007, 2008
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This program is a part of the stribog host software section
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include<config.h>
+#include"serialia.h"
 #include<unistd.h>
 #include<fcntl.h>
 #include<termios.h>
 #include<stdio.h>
 static struct termios vet;/* saved port settings */
-static char dv[]="/dev/ttyS0";/* default port name */
+static char dv[]=ELK_PORT;/* default port name */
 static int portd=-1;/* file descriptor */
 int
 baud(int f)
@@ -39,19 +57,3 @@ close_serialia(void)
 lege(void*p,int n){return read(portd,p,n);}
 int
 scribe(const void*p,int n){return write(portd,p,n);}
-/*This program is a part of the stribog host software section
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/

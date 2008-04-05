@@ -15,6 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include<config.h>
 #include"serialia.h"
 #include"verbosity_level.h"
 #include<unistd.h>
@@ -23,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 #include<errno.h>
 static struct termios vet;/* previous port settings */
-static const char*dv="/dev/ttyS1";/* default device name */
+static const char*dv=CONLOQ_PORT;/* default device name */
 static int port=-1;/* device file descriptor */
 static int
 report_error(const char*report)

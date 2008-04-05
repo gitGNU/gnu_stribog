@@ -13,6 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+#include<config.h>
 #include"serialia.h"
 #include<windows.h>
 static HANDLE port;
@@ -20,7 +21,7 @@ void
 closeserialia(void){if(port)CloseHandle(port);port=0;}
 int
 initserialia(const char*port_name)
-{DCB dcb;COMMTIMEOUTS to;if(!port_name)port_name="COM1";
+{DCB dcb;COMMTIMEOUTS to;if(!port_name)port_name=CONLOQ_PORT;
  port=CreateFile(port_name,GENERIC_READ|GENERIC_WRITE,0,0,OPEN_EXISTING,
   FILE_ATTRIBUTE_NORMAL,0);
  if(INVALID_HANDLE_VALUE==port)return-1;

@@ -489,7 +489,7 @@ static char doc[]="LPC213x programmer (hardly functional)\v"
  KEY_ASSIGNMENTS_HELP;
 static struct argp_option options[]=
 {{"device",'d',"PORT",0,
-  "Open PORT [/dev/ttyS0 on GNU, COM1 on Windows]"
+  "Open PORT instead of '"ELK_PORT"'"
  },
  {"directory",'D',"DIR",0,
   "Search for programs in DIR [build-time defined]"
@@ -525,6 +525,7 @@ parse_opt(int key,char*arg,struct argp_state*state)
    printf("RAM programs subdirectory: '%s'\n",ram_subdir);
    printf("ROM programs subdirectory: '%s'\n",rom_subdir);
    printf("preferences file name:     '%s'\n",prefs_file_name);
+   printf("default port name:         '%s'\n",ELK_PORT);
    exit(normal_exit);
    break;
   case'd':arguments->port_name=arg;break;

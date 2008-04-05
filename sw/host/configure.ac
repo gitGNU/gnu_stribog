@@ -24,7 +24,21 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
-
+#Checks for features required via command-line arguments
+AC_ARG_WITH([elk-port],
+AS_HELP_STRING([--with-elk-port],
+ [Set default port for elk program [[/dev/ttyS0]]]),,
+ [with_elk_port=/dev/ttyS0
+])
+AC_ARG_WITH([conloq-port],
+AS_HELP_STRING([--with-conloq-port],
+ [Set default port for conloq programs [[/dev/ttyS1]]]),,
+ [with_conloq_port=/dev/ttyS1
+])
+AC_DEFINE_UNQUOTED([CONLOQ_PORT],["$with_conloq_port"],
+ [Default port for conloq programs])
+AC_DEFINE_UNQUOTED([ELK_PORT],["$with_elk_port"],
+ [Default port for elk])
 AC_GNU_SOURCE
 # Checks for programs.
 AC_PROG_CC
@@ -109,6 +123,7 @@ AC_CONFIG_FILES([Makefile
                  lib/Makefile
                  lib/argp/Makefile
                  postproc/Makefile
+                 tests/Makefile
                  utils/Makefile])
 AC_OUTPUT
 if test "z$build_own_argp" = zyes; then
@@ -121,6 +136,8 @@ echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo >>summary
 echo "prefix:               ${prefix}">>summary
 echo "host:                 ${host}">>summary
+echo "conloq port:          '${with_conloq_port}'">>summary
+echo "elk port:             '${with_elk_port}'">>summary
 echo "argv parser:          ${argp_type}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
