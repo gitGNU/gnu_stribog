@@ -1,3 +1,9 @@
+05 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/save_wd.c: compile-time error when no getwd function
+ available
+04 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: argp implementation selection fixed
+ * conloq/exp-brief.c: adc message output suppression fixed
 03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: s/exit/AC_MSG_ERROR/
  * NEWS README TODO conloq/Makefile.am conloq/lla.c
