@@ -92,8 +92,15 @@ binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2,
 gcc-4.2.2.
 
 The oldest versions of tools known to successfully build
-the ARM programs are binutils-2.12.1 and gcc-3.3.6.
+the ARM programs are binutils-2.11.2 and gcc-3.3.6.
 we can't make our buggy programs work with earlier releases.
+
+gcc-3.3.6 will not build itself on binutils-2.10.1
+(and evidently on earlier binutils).
+
+On systems other than GNU you should invoke GNU make. some of these packages
+don't build themselves as described below with OpenBSD 3.9 native make.
+use gmake there. the same is true for stribog sources.
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
@@ -116,15 +123,23 @@ That's all. we don't need newlib, and stribog main board has no contacts
 to connect with gdb.
 
 --disable-libssp is mandatory for gcc-4.1.2 and later
-(currently up to gcc-4.3.0). otherwize the compiler
+(currently up to gcc-4.3.0). otherwise the compiler
 will not build itself.
 
-This sequence worked on Fedora Core 4 (32-bit).
-On RedHat 7.3 binutils-2.18 will not build themselves without
-manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
+You also may want to add --disable-nls both to binutils and gcc
+configure invocation.
+
+This sequence was tested on
+(1) Fedora Core 4 
+ (32-bit, native gcc (GCC) 4.0.0 20050519 (Red Hat 4.0.0-8))
+(2) OpenBSD 3.9 (i386, native gcc-3.3.5).
+as we mentioned it is recommended gmake instead of make.
+(3) On RedHat 7.3 (native gcc-2.96).
+binutils-2.18 will not build themselves
+without manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
 generally, binutils-2.18 release is not very stable.
 BTW on RedHat 7.3 you shall need to update gnupg. it comes with 1.0.6 version
-and it can't check new signatures; gnupg-1.4.8 quite buildable there.
+and it can't check new signatures; gnupg-1.4.9 quite buildable there.
 
 GCC-4.3.0 has a new strong dependency, MPFR. we can't recommend it
 because MPFR distribution comes without signature. current version of MPFR,
