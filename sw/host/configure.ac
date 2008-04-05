@@ -48,7 +48,7 @@ AC_MSG_CHECKING([if stribog argp implementation is asked for])
 AC_ARG_ENABLE([own-argp],
  AS_HELP_STRING([--enable-own-argp],
   [Use stribog implementation of argp library [[no]]]),,
-  [enable_own_argp=no
+  [enable_own_argp=unspecified
 ]
 )
 AC_MSG_RESULT([$enable_own_argp])
@@ -56,12 +56,16 @@ AC_CHECK_HEADER([argp.h],,
 [AC_MSG_RESULT([no usable argp.h found; stribog version should be used])
  build_own_argp=yes
 ])
-if test $enable_own_argp = no; then
- if test  "z$build_own_argp" = zyes; then
-  AC_MSG_ERROR([own argp disabled and no usable system argp available])
- fi
-fi
-build_own_argp=$enable_own_argp
+case "z$enable_own_argp" in
+ zno)
+  if test  "z$build_own_argp" = zyes; then
+   AC_MSG_ERROR([own argp disabled and no usable system argp available])
+  fi
+ ;;
+ zyes)
+  build_own_argp=yes
+ ;;
+esac
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_TYPES([error_t])
 AC_C_CONST
@@ -76,9 +80,10 @@ AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror fchdir])
-AC_CHECK_FUNCS([get_current_dir_name])
+AC_CHECK_FUNCS([get_current_dir_name getcwd])
 
 #Checks for system services
+#FIXME test headers and functions instead?
 case $host in
         *-*-mingw32* | *-*-cygwin* | *-*-windows*)
 		the_host_is_windows=yes
