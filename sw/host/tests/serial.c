@@ -68,7 +68,7 @@ init(const char*tty)
 close_all(void)
 {if(0>port)return;
  if(0)
- {/*GNU/Hurd hangs here. we prefer not to reset old settings*/
+ {/*GNU/Hurd hangs here. we prefer not to return to old settings*/
   tcsetattr(port,TCSANOW,&vet);
  }close(port);port=-1;
 }int

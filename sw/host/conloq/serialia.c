@@ -60,7 +60,7 @@ initserialia(const char*tty)
 closeserialia(void)
 {if(0>port)return;
  if(0)
- {/*GNU/Hurd hangs here. we prefer not to reset old settings*/
+ {/*GNU/Hurd hangs here. we prefer not to return to old settings*/
   report_error("resetting tty attributes..");
   if(tcsetattr(port,TCSANOW,&vet))
    report_error("failed to reset attributes");
