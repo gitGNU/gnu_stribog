@@ -51,6 +51,9 @@ static int
 change_to_saved_wd(saved_wd_type*wd)
 {return chdir(*wd);}
  #else /*no get_current_dir_name: hope getcwd is available*/
+#ifndef HAVE_GETCWD
+ #error "no known functions to save current path in host system"
+#endif
 typedef char*saved_wd_type;
 static char buffer[4913];
 enum{initial_value=0};
