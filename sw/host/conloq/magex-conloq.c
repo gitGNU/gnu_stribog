@@ -37,14 +37,14 @@ next_file(void)
 static void 
 close_all(void)
 {closeserialia();close_exp();free_tsip(tb);tb=0;if(f)fclose(f);f=0;}
-static void 
-sighunter(int sig)
+static RETSIGTYPE
+sig_hunter(int sig)
 {int r=normal_exit;
  switch(sig)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
   default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_sig;
- }exit(r);
+ }exit(r);return(RETSIGTYPE)0;
 }
 const char*argp_program_version="magex-conloq"PACKAGE_VERSION_COMMENTED;
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
@@ -72,7 +72,7 @@ main(int argc,char**argv)
  init_error(*argv);
  argp_parse(&argp,argc,argv,0,0,&arguments);
  f=next_file();tb=new_tsip();atexit(close_all);
- signal(SIGINT,sighunter);signal(SIGTERM,sighunter);
+ signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
  if(!f){error("can't open log file\n");return 1;}init_exp(0);
  if(initserialia(arguments.port))
  {error("can't open serial port\n");return 2;}
