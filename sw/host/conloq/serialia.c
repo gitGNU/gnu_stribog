@@ -64,9 +64,8 @@ closeserialia(void)
   report_error("resetting tty attributes..");
   if(tcsetattr(port,TCSANOW,&vet))
    report_error("failed to reset attributes");
- }
- report_error("closing port..");
- if(close(port))report_error("success");else report_error("fail");
+ }report_error("closing port..");
+ if(close(port))report_error("fail");else report_error("success");
  port=-1;
 }int
 lege(void*p,int n){return read(port,p,n);}
