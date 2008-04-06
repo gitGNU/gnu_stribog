@@ -27,4 +27,8 @@ decided to move/duplicate those notices here, namely:
 
 main_board.pcb main_board.bis.pcb stribog.sch gyro.sch
 
+Directories main_board and main_board.bis contain object code only
+(automatically generated files for boards production). they are
+kept with sources for those who has no gEDA installed.
+
 See also README files in the subdirectories.
