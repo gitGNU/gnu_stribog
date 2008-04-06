@@ -460,6 +460,7 @@ a single copyrighted unit.
 
 These files include (symbolic links are omitted):
 ./aclocal.m4
+./hw/Makefile.in
 ./sw/common/Makefile.in
 ./sw/target/aclocal.m4
 ./sw/target/config.guess
