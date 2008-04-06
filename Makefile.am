@@ -14,7 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-SUBDIRS=sw/common sw/host
+SUBDIRS=sw/common sw/host hw
 if enable_arm_targets
  SUBDIRS+=sw/target
 endif

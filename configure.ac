@@ -41,6 +41,10 @@ AC_ARG_WITH([arm-host],
 AS_HELP_STRING([--with-arm-host],
 [[affix for ARM toolchain [arm-unknown-elf]]]))
 # Checks for programs.
+AC_PROG_MKDIR_P
+
+#TODO check for pcb
+
 # Checks for libraries.
 # Checks for header files.
 # Checks for typedefs, structures, and compiler characteristics.
@@ -48,7 +52,7 @@ AS_HELP_STRING([--with-arm-host],
 #output files setup
 export recursive_stribog_build=yes
 export ARM_TOOLS_PREFIX=$with_arm_host
-AC_CONFIG_FILES([Makefile
+AC_CONFIG_FILES([Makefile hw/Makefile
                  sw/common/Makefile])
 #AC_CONFIG_FILES([sw/auxilia/coil/Makefile
 #                 sw/auxilia/odo/Makefile

@@ -1,5 +1,5 @@
 #! /bin/sh
-#stribog top: recursively autoreconf 'configure'
+#stribog top: autoreconf and some other tricks to regenerate build system
 #Copyright (C) 2008\
 # Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -15,6 +15,8 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
+echo regen_configure: regenerating hw/Makefile.am
+cd hw;m4 -I . < Makefile.am.m4 > Makefile.am;cd ..
 autoreconf -v
 echo regen_configure: adding sw/target/configure.pre to sw/target/configure
 cd sw/target; ./regen_configure;cd ../..
