@@ -1,3 +1,9 @@
+06 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * hw/proj.main_board hw/main_board.proj: mv
+ * hw/proj.bis.main_board hw/main_board.bis.proj: mv
+ * hw/main_board.proj hw/main_board.bis.proj: copyright dates fixed
+ * hw/Makefile.am.m4 hw/m4/makefile.m4: new
+ * regen_configure configure.ac Makefile.am: hw subdirectory added
 03 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * hw/README hw/sym/README hw/packages/README: new
  * hw/gafrc README: copyright dates corrected
