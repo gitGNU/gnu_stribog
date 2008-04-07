@@ -26,13 +26,13 @@ AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 #Checks for features required via command-line arguments
 AC_ARG_WITH([elk-port],
-AS_HELP_STRING([--with-elk-port],
- [Set default port for elk program [[/dev/ttyS0]]]),,
+[AS_HELP_STRING([--with-elk-port],
+ [Set default port for elk program [/dev/ttyS0]])],,
  [with_elk_port=/dev/ttyS0
 ])
 AC_ARG_WITH([conloq-port],
-AS_HELP_STRING([--with-conloq-port],
- [Set default port for conloq programs [[/dev/ttyS1]]]),,
+[AS_HELP_STRING([--with-conloq-port],
+ [Set default port for conloq programs [/dev/ttyS1]])],,
  [with_conloq_port=/dev/ttyS1
 ])
 AC_DEFINE_UNQUOTED([CONLOQ_PORT],["$with_conloq_port"],
@@ -60,8 +60,8 @@ AC_CHECK_HEADERS([sysexits.h])
 #argp library configuration
 AC_MSG_CHECKING([if stribog argp implementation is asked for])
 AC_ARG_ENABLE([own-argp],
- AS_HELP_STRING([--enable-own-argp],
-  [Use stribog implementation of argp library [[no]]]),,
+ [AS_HELP_STRING([--enable-own-argp],
+  [Use stribog implementation of argp library [no]])],,
   [enable_own_argp=unspecified
 ]
 )

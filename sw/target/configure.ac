@@ -35,9 +35,9 @@ saved_LDFLAGS="$LDFLAGS"
 
 #Checks for features required via command-line arguments
 AC_ARG_WITH([mainboard-mcu],
-AS_HELP_STRING([--with-mainboard-mcu],
+[AS_HELP_STRING([--with-mainboard-mcu],
  [Configure MCU on the main board 
- (LPC2131 | LPC2132 | LPC2134 | LPC2136 | LPC2138) [[LPC2138]]]),,
+ (LPC2131 | LPC2132 | LPC2134 | LPC2136 | LPC2138) [LPC2138]])],,
  [with_mainboard_mcu=LPC2138
 ])
 case $with_mainboard_mcu in
@@ -90,8 +90,8 @@ AM_CONDITIONAL(multa_enabled, test $enable_multa = yes)
 
 AC_MSG_CHECKING([whether original PPS is requested])
 AC_ARG_ENABLE([original-pps],
- AS_HELP_STRING([--enable-original-pps],
-  [Input PPS signals through CAP1.1 rather than CAP1.2 [[no]]]))
+ [AS_HELP_STRING([--enable-original-pps],
+  [Input PPS signals through CAP1.1 rather than CAP1.2 [no]])])
 current_define=0
 case "z$enable_original_pps" in
  zyes) current_define=1 ;;
@@ -103,8 +103,8 @@ AC_DEFINE_UNQUOTED([HAVE_ORIGINAL_PPS],$current_define,
 
 AC_MSG_CHECKING([whether UARTs should be swapped])
 AC_ARG_ENABLE([swap-uarts],
- AS_HELP_STRING([--enable-swap-uarts],
-  [UARTs functions are swapped [[no]]]))
+ [AS_HELP_STRING([--enable-swap-uarts],
+  [UARTs functions are swapped [no]])])
 current_define=0
 case "z$enable_swap_uarts" in
  zyes) current_define=1 ;;

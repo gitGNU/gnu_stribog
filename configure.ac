@@ -26,9 +26,10 @@ AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 
 AC_MSG_CHECKING([if ARM targets are enabled])
 AC_ARG_ENABLE([arm-targets],
- AS_HELP_STRING([--enable-arm-targets],
-  [[Build ARM targets [yes]]]))
-case "z$enable_arm_targets" in
+ [AS_HELP_STRING([--enable-arm-targets],
+  [Build ARM targets [yes]])])
+
+ case "z$enable_arm_targets" in
  zno)
  distribution_impossible=yes
  ;;
@@ -38,8 +39,8 @@ esac
 AC_MSG_RESULT([$enable_arm_targets])
 AM_CONDITIONAL(enable_arm_targets, test $enable_arm_targets = yes)
 AC_ARG_WITH([arm-host],
-AS_HELP_STRING([--with-arm-host],
-[[affix for ARM toolchain [arm-unknown-elf]]]))
+[AS_HELP_STRING([--with-arm-host],
+[affix for ARM toolchain [arm-unknown-elf]])])
 # Checks for programs.
 AC_PROG_MKDIR_P
 
