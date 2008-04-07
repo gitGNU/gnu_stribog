@@ -24,27 +24,59 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
 AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 
+#checks for command-line options
 AC_MSG_CHECKING([if ARM targets are enabled])
 AC_ARG_ENABLE([arm-targets],
  [AS_HELP_STRING([--enable-arm-targets],
-  [Build ARM targets [yes]])])
-
- case "z$enable_arm_targets" in
- zno)
- distribution_impossible=yes
- ;;
- *) enable_arm_targets=yes
- ;;
+  [Build ARM targets @<:@decided based on the toolchain presence@:>@])],,
+  [enable_arm_targets=unspecified
+])
+case "z$enable_arm_targets" in
+ zno | zyes) ;;
+ *) enable_arm_targets=unspecified ;;
 esac
 AC_MSG_RESULT([$enable_arm_targets])
-AM_CONDITIONAL(enable_arm_targets, test $enable_arm_targets = yes)
+AC_MSG_CHECKING([for ARM toolchain affix])
 AC_ARG_WITH([arm-host],
 [AS_HELP_STRING([--with-arm-host],
-[affix for ARM toolchain [arm-unknown-elf]])])
+[affix for ARM toolchain [arm-unknown-elf]])],
+[case $enable_arm_targets in
+  no)
+   AC_MSG_RESULT([$with_arm_host])
+   AC_MSG_ERROR([
+
+ Please either don't disable ARM targets or don't specify ARM toolchain affix])
+   ;; 
+ esac
+],
+ [with_arm_host=arm-unknown-elf
+])
+AC_MSG_RESULT([$with_arm_host])
 # Checks for programs.
+AC_CHECK_PROG([arm_gcc_present],[$with_arm_host-gcc],[yes],[no])
+case $arm_gcc_present in
+ no)
+  case $enable_arm_targets in
+   yes)
+    AC_MSG_ERROR([
+
+ ARM targets are requested, but no toolchain is found])
+   ;;
+  esac
+  enable_arm_targets=no ;;
+ yes)
+  case $enable_arm_targets in
+   no) ;; *) enable_arm_targets=yes ;;
+  esac
+esac
+AM_CONDITIONAL(enable_arm_targets, test $enable_arm_targets = yes)
+case $enable_arm_targets in
+ no) distribution_impossible=yes ;;
+esac
+
 AC_PROG_MKDIR_P
 
-#TODO check for pcb
+#TODO check for pcb(?)
 
 # Checks for libraries.
 # Checks for header files.
@@ -74,7 +106,7 @@ case $enable_arm_targets in
 esac
 case $distribution_impossible in
  yes)
-  echo "NOTE: you disabled some subprojects; dist* targets shall fail"\
+  echo "NOTE: some subprojects have been disabled; dist* targets shall fail"\
   >>warnings
  ;;
 esac
