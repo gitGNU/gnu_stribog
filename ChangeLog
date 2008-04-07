@@ -1,3 +1,5 @@
+07 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: AS_HELP_STRING quoting fixed
 06 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * hw/proj.main_board hw/main_board.proj: mv
  * hw/proj.bis.main_board hw/main_board.bis.proj: mv
