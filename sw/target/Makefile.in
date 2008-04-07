@@ -409,6 +409,7 @@ libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
+mcu_conf = @mcu_conf@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
@@ -1801,12 +1802,12 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:
 	$(RM) $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
- $(nodist_pkgdata_DATA) mcu.conf
-ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript mcu.conf
-	$(srcdir)/subst_ldscript RAM $$(cat mcu.conf) \
+ $(nodist_pkgdata_DATA)
+ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript
+	$(srcdir)/subst_ldscript RAM $(mcu_conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld
-2138.ld: $(srcdir)/src/2138.ld.in $(srcdir)/subst_ldscript mcu.conf
-	$(srcdir)/subst_ldscript ROM $$(cat mcu.conf) \
+2138.ld: $(srcdir)/src/2138.ld.in $(srcdir)/subst_ldscript
+	$(srcdir)/subst_ldscript ROM $(mcu_conf) \
  < $(srcdir)/src/2138.ld.in > 2138.ld
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

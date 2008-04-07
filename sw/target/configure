@@ -676,6 +676,7 @@ am__leading_dot
 AMTAR
 am__tar
 am__untar
+mcu_conf
 mag_response_enabled_TRUE
 mag_response_enabled_FALSE
 magex_enabled_TRUE
@@ -2260,13 +2261,13 @@ else
 fi
 
 case $with_mainboard_mcu in
- #FIXME this is not a right way
- LPC213[12468]) echo  $with_mainboard_mcu > mcu.conf ;;
- *)
-  { { echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5
+ LPC213[12468]) ;;
+ *) { { echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5
 echo "$as_me: error: unknown MCU '$with_mainboard_mcu' is requested" >&2;}
-   { (exit 1); exit 1; }; }
+   { (exit 1); exit 1; }; } ;;
 esac
+mcu_conf=$with_mainboard_mcu
+
 enable_mag_response=yes
 enable_magex=yes
 enable_multa=yes
@@ -4714,6 +4715,7 @@ am__leading_dot!$am__leading_dot$ac_delim
 AMTAR!$AMTAR$ac_delim
 am__tar!$am__tar$ac_delim
 am__untar!$am__untar$ac_delim
+mcu_conf!$mcu_conf$ac_delim
 mag_response_enabled_TRUE!$mag_response_enabled_TRUE$ac_delim
 mag_response_enabled_FALSE!$mag_response_enabled_FALSE$ac_delim
 magex_enabled_TRUE!$magex_enabled_TRUE$ac_delim
@@ -4749,7 +4751,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 92; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 93; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
