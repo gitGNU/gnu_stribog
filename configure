@@ -1224,13 +1224,12 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-arm-targets    Build, ARM, targets, [yes]
+  --enable-arm-targets    Build ARM targets [yes]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-arm-host
-                          affix, for, ARM, toolchain, [arm-unknown-elf]
+  --with-arm-host         affix for ARM toolchain [arm-unknown-elf]
 
 Report bugs to <stribog-bug@nongnu.org>.
 _ACEOF
@@ -2156,7 +2155,8 @@ if test "${enable_arm_targets+set}" = set; then
   enableval=$enable_arm_targets;
 fi
 
-case "z$enable_arm_targets" in
+
+ case "z$enable_arm_targets" in
  zno)
  distribution_impossible=yes
  ;;
