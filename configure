@@ -639,6 +639,7 @@ am__leading_dot
 AMTAR
 am__tar
 am__untar
+arm_gcc_present
 enable_arm_targets_TRUE
 enable_arm_targets_FALSE
 subdirs
@@ -1224,7 +1225,8 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-arm-targets    Build ARM targets [yes]
+  --enable-arm-targets    Build ARM targets [decided based on the toolchain
+                          presence]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -2148,23 +2150,107 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
+#checks for command-line options
 { echo "$as_me:$LINENO: checking if ARM targets are enabled" >&5
 echo $ECHO_N "checking if ARM targets are enabled... $ECHO_C" >&6; }
 # Check whether --enable-arm-targets was given.
 if test "${enable_arm_targets+set}" = set; then
   enableval=$enable_arm_targets;
+else
+  enable_arm_targets=unspecified
+
 fi
 
-
- case "z$enable_arm_targets" in
- zno)
- distribution_impossible=yes
- ;;
- *) enable_arm_targets=yes
- ;;
+case "z$enable_arm_targets" in
+ zno | zyes) ;;
+ *) enable_arm_targets=unspecified ;;
 esac
 { echo "$as_me:$LINENO: result: $enable_arm_targets" >&5
 echo "${ECHO_T}$enable_arm_targets" >&6; }
+{ echo "$as_me:$LINENO: checking for ARM toolchain affix" >&5
+echo $ECHO_N "checking for ARM toolchain affix... $ECHO_C" >&6; }
+
+# Check whether --with-arm-host was given.
+if test "${with_arm_host+set}" = set; then
+  withval=$with_arm_host; case $enable_arm_targets in
+  no)
+   { echo "$as_me:$LINENO: result: $with_arm_host" >&5
+echo "${ECHO_T}$with_arm_host" >&6; }
+   { { echo "$as_me:$LINENO: error:
+
+ Please either don't disable ARM targets or don't specify ARM toolchain affix" >&5
+echo "$as_me: error:
+
+ Please either don't disable ARM targets or don't specify ARM toolchain affix" >&2;}
+   { (exit 1); exit 1; }; }
+   ;;
+ esac
+
+else
+  with_arm_host=arm-unknown-elf
+
+fi
+
+{ echo "$as_me:$LINENO: result: $with_arm_host" >&5
+echo "${ECHO_T}$with_arm_host" >&6; }
+# Checks for programs.
+# Extract the first word of "$with_arm_host-gcc", so it can be a program name with args.
+set dummy $with_arm_host-gcc; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_prog_arm_gcc_present+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$arm_gcc_present"; then
+  ac_cv_prog_arm_gcc_present="$arm_gcc_present" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_arm_gcc_present="yes"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_arm_gcc_present" && ac_cv_prog_arm_gcc_present="no"
+fi
+fi
+arm_gcc_present=$ac_cv_prog_arm_gcc_present
+if test -n "$arm_gcc_present"; then
+  { echo "$as_me:$LINENO: result: $arm_gcc_present" >&5
+echo "${ECHO_T}$arm_gcc_present" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+case $arm_gcc_present in
+ no)
+  case $enable_arm_targets in
+   yes)
+    { { echo "$as_me:$LINENO: error:
+
+ ARM targets are requested, but no toolchain is found" >&5
+echo "$as_me: error:
+
+ ARM targets are requested, but no toolchain is found" >&2;}
+   { (exit 1); exit 1; }; }
+   ;;
+  esac
+  enable_arm_targets=no ;;
+ yes)
+  case $enable_arm_targets in
+   no) ;; *) enable_arm_targets=yes ;;
+  esac
+esac
  if test $enable_arm_targets = yes; then
   enable_arm_targets_TRUE=
   enable_arm_targets_FALSE='#'
@@ -2173,13 +2259,10 @@ else
   enable_arm_targets_FALSE=
 fi
 
+case $enable_arm_targets in
+ no) distribution_impossible=yes ;;
+esac
 
-# Check whether --with-arm-host was given.
-if test "${with_arm_host+set}" = set; then
-  withval=$with_arm_host;
-fi
-
-# Checks for programs.
 { echo "$as_me:$LINENO: checking for a thread-safe mkdir -p" >&5
 echo $ECHO_N "checking for a thread-safe mkdir -p... $ECHO_C" >&6; }
 if test -z "$MKDIR_P"; then
@@ -2223,7 +2306,7 @@ fi
 echo "${ECHO_T}$MKDIR_P" >&6; }
 
 
-#TODO check for pcb
+#TODO check for pcb(?)
 
 # Checks for libraries.
 # Checks for header files.
@@ -2945,6 +3028,7 @@ am__leading_dot!$am__leading_dot$ac_delim
 AMTAR!$AMTAR$ac_delim
 am__tar!$am__tar$ac_delim
 am__untar!$am__untar$ac_delim
+arm_gcc_present!$arm_gcc_present$ac_delim
 enable_arm_targets_TRUE!$enable_arm_targets_TRUE$ac_delim
 enable_arm_targets_FALSE!$enable_arm_targets_FALSE$ac_delim
 subdirs!$subdirs$ac_delim
@@ -2952,7 +3036,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 64; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 65; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -3477,7 +3561,7 @@ case $enable_arm_targets in
 esac
 case $distribution_impossible in
  yes)
-  echo "NOTE: you disabled some subprojects; dist* targets shall fail"\
+  echo "NOTE: some subprojects have been disabled; dist* targets shall fail"\
   >>warnings
  ;;
 esac

@@ -683,6 +683,7 @@ magex_enabled_TRUE
 magex_enabled_FALSE
 multa_enabled_TRUE
 multa_enabled_FALSE
+arm_as_present
 ARM_OBJCOPY
 arm_unknown_elf_objcopy
 arm_as_flags
@@ -2375,11 +2376,46 @@ _ACEOF
 
 
 # Checks for programs.
-{ echo "$as_me:$LINENO: checking whether $host_alias-as is available" >&5
-echo $ECHO_N "checking whether $host_alias-as is available... $ECHO_C" >&6; }
-if ! $host_alias-as --version >/dev/null;then
- { echo "$as_me:$LINENO: result: no" >&5
+# Extract the first word of "$host_alias-as", so it can be a program name with args.
+set dummy $host_alias-as; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_prog_arm_as_present+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$arm_as_present"; then
+  ac_cv_prog_arm_as_present="$arm_as_present" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_arm_as_present="yes"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_arm_as_present" && ac_cv_prog_arm_as_present="no"
+fi
+fi
+arm_as_present=$ac_cv_prog_arm_as_present
+if test -n "$arm_as_present"; then
+  { echo "$as_me:$LINENO: result: $arm_as_present" >&5
+echo "${ECHO_T}$arm_as_present" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6; }
+fi
+
+
+case $arm_as_present in
+ no)
  { { echo "$as_me:$LINENO: error:
 
  $host_alias-as is not available
@@ -2391,9 +2427,8 @@ echo "$as_me: error:
  probably no ARM toolchain has been installed
 " >&2;}
    { (exit 1); exit 1; }; }
-fi
-{ echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6; }
+ ;;
+esac
 ARM_MCU_FLAGS=-mcpu=arm7tdmi
 ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
 { echo "$as_me:$LINENO: checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option" >&5
@@ -4722,6 +4757,7 @@ magex_enabled_TRUE!$magex_enabled_TRUE$ac_delim
 magex_enabled_FALSE!$magex_enabled_FALSE$ac_delim
 multa_enabled_TRUE!$multa_enabled_TRUE$ac_delim
 multa_enabled_FALSE!$multa_enabled_FALSE$ac_delim
+arm_as_present!$arm_as_present$ac_delim
 ARM_OBJCOPY!$ARM_OBJCOPY$ac_delim
 arm_unknown_elf_objcopy!$arm_unknown_elf_objcopy$ac_delim
 arm_as_flags!$arm_as_flags$ac_delim
@@ -4751,7 +4787,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 93; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 94; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

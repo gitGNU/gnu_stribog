@@ -389,6 +389,7 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 arm_as_flags = @arm_as_flags@
+arm_as_present = @arm_as_present@
 arm_ascc_flags = @arm_ascc_flags@
 arm_unknown_elf_objcopy = @arm_unknown_elf_objcopy@
 bindir = @bindir@
