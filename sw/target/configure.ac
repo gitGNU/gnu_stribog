@@ -41,11 +41,10 @@ AC_ARG_WITH([mainboard-mcu],
  [with_mainboard_mcu=LPC2138
 ])
 case $with_mainboard_mcu in
- #FIXME this is not a right way
- LPC213[[12468]]) echo  $with_mainboard_mcu > mcu.conf ;;
- *)
-  AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested])
+ LPC213[[12468]]) ;;
+ *) AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested]) ;;
 esac
+AC_SUBST([mcu_conf],[$with_mainboard_mcu])
 enable_mag_response=yes
 enable_magex=yes
 enable_multa=yes
