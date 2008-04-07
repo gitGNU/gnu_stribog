@@ -114,16 +114,16 @@ AC_DEFINE_UNQUOTED([SWAP_UARTS],$current_define,
  [Define to 0 if UARTs are not swapped])
 
 # Checks for programs.
-AC_MSG_CHECKING([whether $host_alias-as is available])
-if ! $host_alias-as --version >/dev/null;then
- AC_MSG_RESULT([[no]])
+AC_CHECK_PROG([arm_as_present],[$host_alias-as],[yes],[no])
+case $arm_as_present in
+ no)
  AC_MSG_ERROR([
 
  $host_alias-as is not available
  probably no ARM toolchain has been installed
 ])
-fi
-AC_MSG_RESULT([[yes]])
+ ;;
+esac
 ARM_MCU_FLAGS=-mcpu=arm7tdmi
 ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
 AC_MSG_CHECKING(
