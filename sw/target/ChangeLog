@@ -1,6 +1,8 @@
 07 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * configure.ac: AS_HELP_STRING quoting fixed
+ * configure.ac: AS_HELP_STRING quoting fixed;
+ gas check output fixed
  * configure.ac Makefile.am.m4: MCU selection clean up
+ * Makefile: removed
 05 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: general cleanup
 04 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
