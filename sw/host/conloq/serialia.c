@@ -32,21 +32,20 @@ report_error(const char*report)
 int
 initserialia(const char*tty)
 {struct termios nov;if(tty)dv=tty;
-#ifdef O_NDELAY
+ if(get_verbosity()>=pretty_verbose)printf("UART device \"%s\": ",dv);
+#ifndef O_NDELAY
+ #define O_NDELAY (0)
+#endif
  /*workaround for OpenBSD(3.9): it hangs without O_NDELAY*/
  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
- if(port!=-1)
+ if(port==-1){report_error("failed to open");return-1;}
+ if(O_NDELAY)
  {int flags;errno=0;flags=fcntl(port,F_GETFL,0)&~O_NDELAY;
   if(errno)
-  {report_error("failed to get flags");close(port);return-1;}
+  {report_error("failed to get flags");close(port);port=-1;return-1;}
   if(-1==fcntl(port,F_SETFL,flags))
-  {report_error("failed to set flags");close(port);return-1;}
+  {report_error("failed to set flags");close(port);port=-1;return-1;}
  }
-#else
- port=open(dv,O_RDWR|O_NOCTTY);
-#endif
- if(get_verbosity()>=pretty_verbose)printf("UART device \"%s\": ",dv);
- if(port<0){report_error("failed to open");return-1;}
  tcgetattr(port,&vet);nov=vet;
  cfsetospeed(&nov,B115200);cfsetispeed(&nov,B115200);
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
@@ -61,6 +60,7 @@ closeserialia(void)
 {if(0>port)return;
  if(0)
  {/*GNU/Hurd hangs here. we prefer not to return to old settings*/
+  /*TODO as a workaround: close port, open, apply old settings, close again*/
   report_error("resetting tty attributes..");
   if(tcsetattr(port,TCSANOW,&vet))
    report_error("failed to reset attributes");
