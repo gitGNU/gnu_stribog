@@ -124,6 +124,7 @@ am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
 arm_gcc_present = @arm_gcc_present@
+avr_gcc_present = @avr_gcc_present@
 bindir = @bindir@
 build_alias = @build_alias@
 builddir = @builddir@
