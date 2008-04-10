@@ -1,6 +1,5 @@
 #stribog: top Makefile.am
-#Copyright (C) 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -17,6 +16,9 @@
 SUBDIRS=sw/common sw/host hw
 if enable_arm_targets
  SUBDIRS+=sw/target
+endif
+if enable_avr_targets
+ SUBDIRS+=sw/auxilia
 endif
 EXTRA_DIST=branch
 nodist_pkgdata_DATA=summary
