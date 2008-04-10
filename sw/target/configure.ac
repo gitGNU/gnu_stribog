@@ -1,7 +1,6 @@
 #stribog target: configure.ac 
-# run ./regen_configure regenerate the build system
-#Copyright (C) 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+# run autoreconf and build to regenerate the build system
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -15,11 +14,26 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-AC_PREREQ(2.61)
+AC_PREREQ(2.62)
 AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
-#the cross-build is forced in configure.pre which is
-#written at the begin of 'configure'
-#TODO: migrate to autoconf-2.62 and move configure.pre contents hither
+# force arm-based host without forcing arm-based build
+case "z${target_recursion_trigger}" in
+ ztriggered) ;;
+ *) export target_recursion_trigger=triggered
+ config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
+ config_guessed=$(${config_guessed})
+ case "z$ARM_TOOLS_PREFIX" in
+  z) export ARM_TOOLS_PREFIX=arm-unknown-elf;;
+ esac
+ case $# in
+  0) ${0} --build=${config_guessed} --host=${ARM_TOOLS_PREFIX};;
+ #if --build is set it will override the guessed value
+  *) ${0} --build=${config_guessed} $@ --host=${ARM_TOOLS_PREFIX};;
+ esac
+ result=$?
+ export target_recursion_trigger=triggered
+ exit $result ;;
+esac
 AC_MSG_RESULT([NB here we force $host_alias host])
 echo >warnings
 
