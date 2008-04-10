@@ -460,7 +460,13 @@ a single copyrighted unit.
 
 These files include (symbolic links are omitted):
 ./aclocal.m4
+./depcomp
 ./hw/Makefile.in
+./sw/auxilia/Makefile.in
+./sw/auxilia/aclocal.m4
+./sw/auxilia/config.guess
+./sw/auxilia/config.h.in
+./sw/auxilia/configure
 ./sw/common/Makefile.in
 ./sw/target/aclocal.m4
 ./sw/target/config.guess
