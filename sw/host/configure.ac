@@ -15,8 +15,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-AC_PREREQ(2.61)
+AC_PREREQ(2.62)
 AC_INIT([stribog-hosttools], [0.0-minus], [stribog-bug@nongnu.org])
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([-Wall])
