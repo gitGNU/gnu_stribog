@@ -1,7 +1,6 @@
 #stribog: configure.ac 
-# Run ./regen_configure to regenerate the build system
-#Copyright (C) 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+# Run autoreconf to regenerate the build system
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -15,7 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-AC_PREREQ(2.61)
+AC_PREREQ(2.62)
 AC_INIT([stribog],[0.0-minus],[stribog-bug@nongnu.org])
 echo >warnings
 distribution_impossible=no
@@ -48,8 +47,10 @@ AC_ARG_WITH([arm-host],
  Please either don't disable ARM targets or don't specify ARM toolchain affix])
    ;; 
  esac
+ arm_host_specified=yes
 ],
  [with_arm_host=arm-unknown-elf
+  arm_host_specified=no
 ])
 AC_MSG_RESULT([$with_arm_host])
 # Checks for programs.
@@ -63,11 +64,18 @@ case $arm_gcc_present in
  ARM targets are requested, but no toolchain is found])
    ;;
   esac
-  enable_arm_targets=no ;;
+  case $arm_host_specified in
+   no) enable_arm_targets=no ;;
+   yes)
+    AC_MSG_ERROR([
+
+ ARM toolchain affix is specified, but no toolchain is found])
+  ;;
+  esac ;;
  yes)
   case $enable_arm_targets in
    no) ;; *) enable_arm_targets=yes ;;
-  esac
+  esac ;;
 esac
 AM_CONDITIONAL(enable_arm_targets, test $enable_arm_targets = yes)
 case $enable_arm_targets in
