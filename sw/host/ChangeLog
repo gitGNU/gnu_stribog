@@ -1,3 +1,6 @@
+0 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: migrated to autoconf-2.62
+ * regen_configure:rm
 08 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/serialia.c: some cleanup
 07 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
