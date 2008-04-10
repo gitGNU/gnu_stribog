@@ -64,7 +64,7 @@ divert`'dnl
 #Makefile.in is generated with automake from Makefile.am
 #Makefile is produced with configure script from Makefile.in
 #Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
-#use ./regen_configure to regenerate all our build scripts
+#use autoreconf to regenerate all our build scripts
 #
 #This file is a part of the stribog project
 #
