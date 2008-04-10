@@ -1,4 +1,4 @@
-#stribog: configure.ac 
+#stribog: configure.ac  for AVR targets
 # Run autoreconf to regenerate the build system
 #Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -24,6 +24,7 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 
 #checks for command-line options
+# ARM toolchain-specific
 AC_MSG_CHECKING([if ARM targets are enabled])
 AC_ARG_ENABLE([arm-targets],
  [AS_HELP_STRING([--enable-arm-targets],
@@ -53,6 +54,19 @@ AC_ARG_WITH([arm-host],
   arm_host_specified=no
 ])
 AC_MSG_RESULT([$with_arm_host])
+#the same for AVR
+AC_MSG_CHECKING([if AVR targets are enabled])
+AC_ARG_ENABLE([avr-targets],
+ [AS_HELP_STRING([--enable-avr-targets],
+  [Build AVR targets @<:@decided based on the toolchain presence@:>@])],,
+  [enable_avr_targets=unspecified
+])
+case "z$enable_avr_targets" in
+ zno | zyes) ;;
+ *) enable_avr_targets=unspecified ;;
+esac
+AC_MSG_RESULT([$enable_avr_targets])
+
 # Checks for programs.
 AC_CHECK_PROG([arm_gcc_present],[$with_arm_host-gcc],[yes],[no])
 case $arm_gcc_present in
@@ -82,6 +96,27 @@ case $enable_arm_targets in
  no) distribution_impossible=yes ;;
 esac
 
+AC_CHECK_PROG([avr_gcc_present],[avr-gcc],[yes],[no])
+case $avr_gcc_present in
+ no)
+  case $enable_avr_targets in
+   yes)
+    AC_MSG_ERROR([
+
+ AVR targets are requested, but no toolchain is found])
+   ;;
+  esac
+  ;;
+ yes)
+  case $enable_avr_targets in
+   no) ;; *) enable_avr_targets=yes ;;
+  esac ;;
+esac
+AM_CONDITIONAL(enable_avr_targets, test $enable_avr_targets = yes)
+case $enable_avr_targets in
+ no) distribution_impossible=yes ;;
+esac
+
 AC_PROG_MKDIR_P
 
 #TODO check for pcb(?)
@@ -95,14 +130,15 @@ export recursive_stribog_build=yes
 export ARM_TOOLS_PREFIX=$with_arm_host
 AC_CONFIG_FILES([Makefile hw/Makefile
                  sw/common/Makefile])
-#AC_CONFIG_FILES([sw/auxilia/coil/Makefile
-#                 sw/auxilia/odo/Makefile
-#                 sw/auxilia/odo/host/Makefile
-#                 ])
 AC_CONFIG_SUBDIRS([sw/host])
 case $enable_arm_targets in
  yes)
   AC_CONFIG_SUBDIRS([sw/target])
+ ;;
+esac
+case $enable_avr_targets in
+ yes)
+  AC_CONFIG_SUBDIRS([sw/auxilia])
  ;;
 esac
 
@@ -111,6 +147,9 @@ AC_OUTPUT
 enabled_subprojects=hosttools
 case $enable_arm_targets in
  yes)enabled_subprojects="$enabled_subprojects target";;
+esac
+case $enable_avr_targets in
+ yes)enabled_subprojects="$enabled_subprojects auxilia";;
 esac
 case $distribution_impossible in
  yes)
@@ -127,9 +166,9 @@ rm -f warnings
 
 echo;cat summary
 echo;cat sw/host/summary
-
 case $enable_arm_targets in
- yes)
- echo;cat sw/target/summary
- ;;
+ yes) echo;cat sw/target/summary ;;
+esac
+case $enable_avr_targets in
+ yes) echo;cat sw/auxilia/summary ;;
 esac
