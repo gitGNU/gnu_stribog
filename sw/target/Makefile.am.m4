@@ -1,8 +1,7 @@
 divert(-1)
 #stribog target tools: Makefile.am.m4
-#use ./regen_configure to regenerate the sources configuration system
-#Copyright (C) 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+#use autoreconf and build then to regenerate the sources configuration system
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
