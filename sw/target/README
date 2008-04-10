@@ -3,7 +3,7 @@ Copyright (C) 2006, 2007, 2008
 See the end of the file for license conditions.
 
 Stribog LPC213x-hosted programs
-This is a stribog subproject; it should not be installed alone.
+This is a stribog subproject; it is not intended to be installed alone.
 
 This file is part of stribog.
 
