@@ -423,7 +423,7 @@ or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
 hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
-hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
+hw/sym/ATmega8-1.sym hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
 hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
 hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
 hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym

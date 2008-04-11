@@ -25,6 +25,7 @@ because it was practically hard or absurd to maintain them there,
 or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
+ATmega8-1.sym
 JTAG.sym
 adm202.sym
 adxl210.sym
