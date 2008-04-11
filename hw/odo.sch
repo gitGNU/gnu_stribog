@@ -1,9 +1,4 @@
 v 20050820 1
-C 13300 75400 1 0 0 ATmega8-1.sym
-{
-T 15600 80000 5 10 1 1 0 6 1
-refdes=U1
-}
 C 11900 74600 1 0 0 crystal-1.sym
 {
 T 12050 74900 5 10 1 1 0 0 1
@@ -329,31 +324,30 @@ T 21105 77500 8 10 1 1 0 0 1
 description=the only necessary parts are D1 and R1
 T 7155 85900 8 10 1 1 0 0 1
 description=stribog the attitude determination platform: auxiliary odometer counter
-T 7155 85100 8 10 1 1 0 0 1
-comment=Copyright (C) 2007 D.Ineiev <ineiev@yahoo.co.uk>
-T 7155 84700 8 10 1 1 0 0 1
+T 7155 85400 8 10 1 1 0 0 1
+comment=Copyright (C) 2008 Ineiev <ineiev@users.sourceforge.net>
+T 7155 85000 8 10 1 1 0 0 1
 documentation=This program is free software; you can redistribute it and/or modify
-T 7155 84500 8 10 1 1 0 0 1
+T 7155 84800 8 10 1 1 0 0 1
 documentation=it under the terms of the GNU General Public License as published by
-T 7155 84300 8 10 1 1 0 0 1
+T 7155 84600 8 10 1 1 0 0 1
 documentation=the Free Software Foundation; either version 3 of the License, or
-T 7155 84100 8 10 1 1 0 0 1
+T 7155 84400 8 10 1 1 0 0 1
 documentation=(at your option) any later version.
-T 7155 83800 8 10 1 1 0 0 1
+T 7155 84100 8 10 1 1 0 0 1
 documentation=This program is distributed in the hope that it will be useful,
-T 7155 83600 8 10 1 1 0 0 1
+T 7155 83900 8 10 1 1 0 0 1
 documentation=but WITHOUT ANY WARRANTY; without even the implied warranty of
-T 7155 83400 8 10 1 1 0 0 1
+T 7155 83700 8 10 1 1 0 0 1
 documentation=MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-T 7155 83200 8 10 1 1 0 0 1
+T 7155 83500 8 10 1 1 0 0 1
 documentation=GNU General Public License for more details.
-T 7155 82900 8 10 1 1 0 0 1
+T 7155 83200 8 10 1 1 0 0 1
 documentation=You should have received a copy of the GNU General Public License
-T 7155 82700 8 10 1 1 0 0 1
+T 7155 83000 8 10 1 1 0 0 1
 documentation=along with this program. If not, see <http://www.gnu.org/licenses/>.
 T 7155 82500 8 10 1 1 0 0 1
-T 7155 85600 8 10 1 1 0 0 1
-description=revision date: 21IV2007
+description=revision date: 11IV2008
 N 22000 76600 22000 76000 4
 N 22000 76000 23350 76000 4
 N 23350 76000 23350 76400 4
@@ -386,4 +380,9 @@ N 16100 83200 16600 83200 4
 {
 T 16700 83150 5 10 1 1 0 0 1
 netname=output
+}
+C 13300 75400 1 0 0 ATmega8-1.sym
+{
+T 15600 80000 5 10 1 1 0 6 1
+refdes=U1
 }
