@@ -3,9 +3,9 @@
 09 Feb 2008 [19Feb2008 start]
  invoke GNU autobuild tools
  [25 Mar 2008]
- migrate to autoconf-2.62 when it is released.
+ migrate to autoconf-2.62 when it is released. [10 Apr 2008 done]
  it should support
-  (1) --help=recursive
+  (1) --help=recursive [10 Apr 2008 still doesn't work]
   (2) recursive 'configure' calls
 18 Feb 2008 [25 Feb 2008 complete]
  make sw/target programs work from the flash
@@ -21,8 +21,13 @@
  (2) wait for 17 days for FSF answer on cross-compilers; decide on
      these dependencies inclusion
  (3) prepare documentation:
-     a. basically learn texinfo
-     b. enrich the maintainer's memory with knowledge of the FDL
+     a. basically learn texinfo 
+	    [08 Apr 2008 at the moment texinfo does not support
+         non-Latin characters. LaTeX is much better in this.
+         the documentation system is to be selected.
+		]
+     b. enrich the maintainer's memory with knowledge of the FDL 
+	    [before 08 Apr 2008 first pass done]
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
  1. of course, finish mounting the project on Autotools 
