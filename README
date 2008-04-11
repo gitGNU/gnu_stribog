@@ -243,25 +243,6 @@ Here is a typical ~/.gitconfig file contents
  editor = vim
 EOF
 
-If you are a maintainer, your usual spells are
-(replace ineiev with your login name)
-
-$ git clone ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
- to get a new local repository
-
-$ git remote add savannah ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
- to add a reference for the public repository
-
-$ git push savannah feb2008
- to push into savannah local branch named 'feb2008' 
- (non-existent will be created)
-
-$ git push savannah
- to push into savannah all local branches
-
-$ git push savannah :refs/heads/feb2008
- to remove branch feb2008 from remote savannah
-
 For anonymous access, use these:
 
 $ git clone git://git.savannah.nongnu.org/stribog.git
@@ -277,10 +258,14 @@ $ git pull
  to fetch all remote branches and merge
  one of them into your current branch
 
-Common to both access types:
+Common to both anonymous and maintainer access:
 
 $ git checkout master
  to switch to existing branch 'master'
+
+$ git checkout -f master
+ the same, through away local changes 
+ (and delete files removed from fetched repository since last sync)
 
 $ git add .
  to cache the changes in your files against
@@ -307,6 +292,26 @@ $git show
 
 $git status
  to see what files are not in sync with the current branch
+
+If you are a maintainer, your usual spells are
+(replace ineiev with your login name)
+
+$ git clone ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
+ to get a new local repository
+
+$ git remote add savannah ineiev@git.savannah.nongnu.org:/srv/git/stribog.git
+ to add a reference for the public repository
+
+$ git push savannah feb2008
+ to push into savannah local branch named 'feb2008' 
+ (non-existent will be created)
+
+$ git push savannah
+ to push into savannah all local branches
+
+$ git push savannah :refs/heads/feb2008
+ to remove branch feb2008 from remote savannah
+
 
 What will go to Git
 
