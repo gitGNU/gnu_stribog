@@ -1,4 +1,6 @@
-0 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: text format and argp selection cleanup
+10 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: migrated to autoconf-2.62
  * regen_configure:rm
 08 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>

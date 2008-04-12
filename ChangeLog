@@ -1,7 +1,13 @@
+12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: text format cleanup
+ * hw/m4/makefile.m4: obsolete comment fixed
+11 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * hw/sym/ATmega8-1.sym:copied from gEDA, corrected
 10 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: migrated to autoconf-2.62;
  ARM targets selection fixed
  * depcomp:new
+ * regen_configure: rm
 07 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: AS_HELP_STRING quoting fixed;
  ARM tools availability checked
