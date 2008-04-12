@@ -17,7 +17,7 @@ divert(-1)
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 include(`m4/makefile.m4')
 EXTRA_DIST=Makefile.am.m4 m4/makefile.m4 gafrc\
-sym/JTAG.sym sym/README sym/adm202.sym sym/adxl210.sym\
+sym/ATmega8-1.sym sym/JTAG.sym sym/README sym/adm202.sym sym/adxl210.sym\
 sym/adxrs300.sym sym/bat54c.sym sym/dac7612.sym sym/hmc1021.sym\
 sym/hmc1022.sym sym/ina118.sym sym/irf7317.sym sym/irf7507.sym\
 sym/irlml.sym sym/led.sym sym/lm74.sym sym/lp2980AIM5-3.sym\
