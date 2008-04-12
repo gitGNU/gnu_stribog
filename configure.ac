@@ -1,4 +1,4 @@
-#stribog: configure.ac  for AVR targets
+#stribog: top configure.ac
 # Run autoreconf to regenerate the build system
 #Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -14,9 +14,13 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#initially we used Autoconf-2.61, but it had two limitations,
+#a. AC_INIT shifted out command-line arguments;
+#b. --help=recursive implementation had a bug
 AC_PREREQ(2.62)
 AC_INIT([stribog],[0.0-minus],[stribog-bug@nongnu.org])
-echo >warnings
+rm -f warnings
 distribution_impossible=no
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
@@ -28,7 +32,7 @@ AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 AC_MSG_CHECKING([if ARM targets are enabled])
 AC_ARG_ENABLE([arm-targets],
  [AS_HELP_STRING([--enable-arm-targets],
-  [Build ARM targets @<:@decided based on the toolchain presence@:>@])],,
+  [Build ARM targets @<:@yes when possible@:>@])],,
   [enable_arm_targets=unspecified
 ])
 case "z$enable_arm_targets" in
@@ -58,7 +62,7 @@ AC_MSG_RESULT([$with_arm_host])
 AC_MSG_CHECKING([if AVR targets are enabled])
 AC_ARG_ENABLE([avr-targets],
  [AS_HELP_STRING([--enable-avr-targets],
-  [Build AVR targets @<:@decided based on the toolchain presence@:>@])],,
+  [Build AVR targets @<:@yes when possible@:>@])],,
   [enable_avr_targets=unspecified
 ])
 case "z$enable_avr_targets" in
@@ -159,16 +163,16 @@ case $distribution_impossible in
 esac
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
+echo "prefix:               ${prefix}">>summary
 echo "enabled subprojects:  ${enabled_subprojects}">>summary
 cat warnings >>summary
 rm -f warnings
 
 echo;cat summary
-echo;cat sw/host/summary
+echo;cat sw/host/summary|grep -v "^prefix:"
 case $enable_arm_targets in
- yes) echo;cat sw/target/summary ;;
+ yes) echo; cat sw/target/summary|grep -v "^prefix:" ;;
 esac
 case $enable_avr_targets in
- yes) echo;cat sw/auxilia/summary ;;
+ yes) echo; cat sw/auxilia/summary|grep -v "^prefix:" ;;
 esac
