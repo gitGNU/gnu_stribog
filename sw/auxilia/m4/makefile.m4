@@ -17,17 +17,14 @@ divert(-1)
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 define(ST_AVR_TARGET,
 `##expanded "$1" program definition begins
-nodist_pkgdata_DATA+=$1.hex
-#$1.map
+nodist_pkgdata_DATA+=$1.hex $1.map
 noinst_PROGRAMS+=$1
 $1_SOURCES=$2
-$1_LDFLAGS=$(AM_LDFLAGS)
-EXTRA_$1_SOURCES=$(extra_common_sources)
-$1.hex: $($1_sources)
+$1.hex: $2
 	$(MAKE) $(AM_MAKEFLAGS) $1
 	$(OBJCOPY) -O ihex -R .eeprom $1 $1.hex
-#$1.map: $($1_sources)
-#	$(MAKE) $(AM_MAKEFLAGS) $1
+$1.map: $2
+	$(MAKE) $(AM_MAKEFLAGS) $1
 ##expanded "$1" program definition ends')
 divert`'dnl
 ##Makefile.am is generated with m4 from Makefile.am.m4
