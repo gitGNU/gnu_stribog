@@ -4913,15 +4913,12 @@ $as_echo "$as_me: WARNING: Unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
 echo "prefix:               ${prefix}">>summary
-echo "crosstools affix:     ${host_alias}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
-echo >>summary
 echo "detected tools versions:">>summary
 avr-as --version |grep assembler >>summary
-${CC} --version >>summary
+${CC} --version |grep ${CC} >>summary
 
 case "z$recursive_stribog_build" in
  zyes) ;; *) cat summary;;

@@ -1830,7 +1830,7 @@ case "z${target_recursion_trigger}" in
 esac
 { $as_echo "$as_me:$LINENO: result: NB here we force $host_alias host" >&5
 $as_echo "NB here we force $host_alias host" >&6; }
-echo >warnings
+rm -f warnings
 
 am__api_version='1.10'
 
@@ -5580,22 +5580,19 @@ $as_echo "$as_me: WARNING: Unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
 echo "prefix:               ${prefix}">>summary
 echo "crosstools affix:     ${host_alias}">>summary
 echo "MCU:                  $with_mainboard_mcu">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-echo >>summary
 echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
 ${ARM_OBJCOPY} --version |grep objcopy >>summary
-${CC} --version >>summary
+${CC} --version |grep ${CC} >>summary
 cat warnings >>summary
 rm -f warnings
 
 case "z$recursive_stribog_build" in
- zyes) ;;
- *) cat summary;;
+ zyes) ;; *) cat summary;;
 esac

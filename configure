@@ -1310,10 +1310,8 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-arm-targets    Build ARM targets [decided based on the toolchain
-                          presence]
-  --enable-avr-targets    Build AVR targets [decided based on the toolchain
-                          presence]
+  --enable-arm-targets    Build ARM targets [yes when possible]
+  --enable-avr-targets    Build AVR targets [yes when possible]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1763,7 +1761,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-echo >warnings
+rm -f warnings
 distribution_impossible=no
 am__api_version='1.10'
 
@@ -3883,16 +3881,16 @@ case $distribution_impossible in
 esac
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
+echo "prefix:               ${prefix}">>summary
 echo "enabled subprojects:  ${enabled_subprojects}">>summary
 cat warnings >>summary
 rm -f warnings
 
 echo;cat summary
-echo;cat sw/host/summary
+echo;cat sw/host/summary|grep -v "^prefix:"
 case $enable_arm_targets in
- yes) echo;cat sw/target/summary ;;
+ yes) echo; cat sw/target/summary|grep -v "^prefix:" ;;
 esac
 case $enable_avr_targets in
- yes) echo;cat sw/auxilia/summary ;;
+ yes) echo; cat sw/auxilia/summary|grep -v "^prefix:" ;;
 esac
