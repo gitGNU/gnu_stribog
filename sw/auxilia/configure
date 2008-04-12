@@ -1794,7 +1794,6 @@ case "z${target_recursion_trigger}" in
 esac
 { $as_echo "$as_me:$LINENO: result: NB here we force $host_alias host" >&5
 $as_echo "NB here we force $host_alias host" >&6; }
-echo >warnings
 
 
 ac_config_headers="$ac_config_headers config.h"

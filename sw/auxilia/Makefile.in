@@ -51,13 +51,9 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_hodo_OBJECTS = hodo.$(OBJEXT)
 hodo_OBJECTS = $(am_hodo_OBJECTS)
 hodo_LDADD = $(LDADD)
-hodo_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(hodo_LDFLAGS) $(LDFLAGS) \
-	-o $@
 am_sampler_OBJECTS = sampler.$(OBJEXT)
 sampler_OBJECTS = $(am_sampler_OBJECTS)
 sampler_LDADD = $(LDADD)
-sampler_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(sampler_LDFLAGS) \
-	$(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/../../depcomp
 am__depfiles_maybe = depfiles
@@ -65,10 +61,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(hodo_SOURCES) $(EXTRA_hodo_SOURCES) $(sampler_SOURCES) \
-	$(EXTRA_sampler_SOURCES)
-DIST_SOURCES = $(hodo_SOURCES) $(EXTRA_hodo_SOURCES) \
-	$(sampler_SOURCES) $(EXTRA_sampler_SOURCES)
+SOURCES = $(hodo_SOURCES) $(sampler_SOURCES)
+DIST_SOURCES = $(hodo_SOURCES) $(sampler_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -193,20 +187,15 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-#sampler.map: $(sampler_sources)
-#	$(MAKE) $(AM_MAKEFLAGS) sampler
-nodist_pkgdata_DATA = sampler.hex hodo.hex summary config.h
+nodist_pkgdata_DATA = sampler.hex sampler.map hodo.hex hodo.map \
+	summary config.h
 mcu = atmega8
 AM_CFLAGS = -mmcu=$(mcu)
-AM_LDFLAGS = -mmcu=$(mcu)
+AM_LDFLAGS = -mmcu=$(mcu) -Wl,-Map,$@.map
 OBJCOPY = avr-objcopy
 EXTRA_DIST = Makefile.am.m4 m4/makefile.m4
 sampler_SOURCES = coil/sampler.c
-sampler_LDFLAGS = $(AM_LDFLAGS)
-EXTRA_sampler_SOURCES = $(extra_common_sources)
 hodo_SOURCES = odo/hodo.c
-hodo_LDFLAGS = $(AM_LDFLAGS)
-EXTRA_hodo_SOURCES = $(extra_common_sources)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -267,10 +256,10 @@ clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
 hodo$(EXEEXT): $(hodo_OBJECTS) $(hodo_DEPENDENCIES) 
 	@rm -f hodo$(EXEEXT)
-	$(hodo_LINK) $(hodo_OBJECTS) $(hodo_LDADD) $(LIBS)
+	$(LINK) $(hodo_OBJECTS) $(hodo_LDADD) $(LIBS)
 sampler$(EXEEXT): $(sampler_OBJECTS) $(sampler_DEPENDENCIES) 
 	@rm -f sampler$(EXEEXT)
-	$(sampler_LINK) $(sampler_OBJECTS) $(sampler_LDADD) $(LIBS)
+	$(LINK) $(sampler_OBJECTS) $(sampler_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -630,15 +619,16 @@ uninstall-am: uninstall-nodist_pkgdataDATA
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-nodist_pkgdataDATA
 
-sampler.hex: $(sampler_sources)
+sampler.hex: coil/sampler.c
 	$(MAKE) $(AM_MAKEFLAGS) sampler
 	$(OBJCOPY) -O ihex -R .eeprom sampler sampler.hex
-hodo.hex: $(hodo_sources)
+sampler.map: coil/sampler.c
+	$(MAKE) $(AM_MAKEFLAGS) sampler
+hodo.hex: odo/hodo.c
 	$(MAKE) $(AM_MAKEFLAGS) hodo
 	$(OBJCOPY) -O ihex -R .eeprom hodo hodo.hex
-#hodo.map: $(hodo_sources)
-#	$(MAKE) $(AM_MAKEFLAGS) hodo
-
+hodo.map: odo/hodo.c
+	$(MAKE) $(AM_MAKEFLAGS) hodo
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:

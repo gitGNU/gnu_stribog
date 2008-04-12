@@ -1,5 +1,8 @@
 12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: text format cleanup
+ * avr.mk coil/Makefile odo/Makefile:rm
+ * Makefile.am.m4: map files added
+ * m4/makefile.m4: map files added; rules fixed
 10 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * AUTHORS COPYING ChangeLog INSTALL Makefile.am Makefile.am.m4
   Makefile.in NEWS README aclocal.m4 config.guess config.h.in
