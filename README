@@ -463,40 +463,52 @@ copyright notes come into these files like 'configure', and
 compilation of several sources and such a file can hardly represent
 a single copyrighted unit.
 
-These files include (symbolic links are omitted):
+These files include:
+./INSTALL
+./Makefile.in
 ./aclocal.m4
+./config.h.in
+./configure
 ./depcomp
+./install-sh
+./missing
 ./hw/Makefile.in
+./sw/auxilia/INSTALL
 ./sw/auxilia/Makefile.in
 ./sw/auxilia/aclocal.m4
 ./sw/auxilia/config.guess
 ./sw/auxilia/config.h.in
 ./sw/auxilia/configure
 ./sw/common/Makefile.in
+./sw/host/INSTALL
+./sw/host/conloq/Makefile.in
+./sw/host/elk/Makefile.in
+./sw/host/intlpc/Makefile.in
+./sw/host/lib/Makefile.in
+./sw/host/lib/argp/Makefile.in
+./sw/host/postproc/Makefile.in
+./sw/host/utils/Makefile.in
+./sw/host/aclocal.m4
+./sw/host/config.h.in
+./sw/host/Makefile.in
+./sw/host/config.guess
+./sw/host/configure
+./sw/host/config.sub
+./sw/host/depcomp
+./sw/host/install-sh
+./sw/host/missing
+./sw/target/INSTALL
+./sw/target/Makefile.in
 ./sw/target/aclocal.m4
 ./sw/target/config.guess
 ./sw/target/configure
 ./sw/target/config.sub
-./sw/host/postproc/Makefile.in
-./sw/host/INSTALL
-./sw/host/aclocal.m4
-./sw/host/config.h.in
-./sw/host/intlpc/Makefile.in
-./sw/host/lib/argp/Makefile.in
-./sw/host/lib/Makefile.in
-./sw/host/elk/Makefile.in
-./sw/host/Makefile.in
-./sw/host/depcomp
-./sw/host/missing
-./sw/host/config.guess
-./sw/host/configure
-./sw/host/config.sub
-./config.h.in
-./Makefile.in
-./configure
+./sw/target/depcomp
+./sw/target/install-sh
+./sw/target/missing
 
 The text of the GNU GPL, namely
-./COPYING
+./COPYING ./sw/auxilia/COPYING ./sw/host/COPYING ./sw/target/COPYING 
 is not a part of the project; it is copyrighted by FSF as stated in the file.
 
 The file AUTHORS has a special status.
