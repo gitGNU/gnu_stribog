@@ -1,11 +1,11 @@
 09 Feb 2008 [17 Feb 2008 complete] 
  migrate to git
-09 Feb 2008 [19Feb2008 start]
+09 Feb 2008 [19Feb2008 start] [12 Apr 2008 hw/ schematics only remain]
  invoke GNU autobuild tools
  [25 Mar 2008]
  migrate to autoconf-2.62 when it is released. [10 Apr 2008 done]
- it should support
-  (1) --help=recursive [10 Apr 2008 still doesn't work]
+ it should support [12 Apr 2008 both the next work]
+  (1) --help=recursive
   (2) recursive 'configure' calls
 18 Feb 2008 [25 Feb 2008 complete]
  make sw/target programs work from the flash
@@ -18,14 +18,19 @@
  make sources look like a decent distribution:
 
  (1) clean up copyright notices. take as a good example Emacs sources
+ [12 Apr 2008 basically done. 
+  AUTHORS file status to be cleared; THANKS to be added]
  (2) wait for 17 days for FSF answer on cross-compilers; decide on
      these dependencies inclusion
  (3) prepare documentation:
      a. basically learn texinfo 
-	    [08 Apr 2008 at the moment texinfo does not support
+        [08 Apr 2008 at the moment texinfo does not support
          non-Latin characters. LaTeX is much better in this.
-         the documentation system is to be selected.
-		]
+         the documentation system is to be selected.]
+	[LaTeX is not very good for non-printed dotumentation.
+	 the project currently can live without non-latin letters.
+	 Texinfo has two Russian-speaking maintainers.
+	 the i18n will probably be supported]
      b. enrich the maintainer's memory with knowledge of the FDL 
 	    [before 08 Apr 2008 first pass done]
      c. get from savannah administration permission to change
