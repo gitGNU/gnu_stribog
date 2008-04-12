@@ -1,4 +1,4 @@
-#stribog: configure.ac 
+#stribog: configure.ac for AVR targets
 # Run autoreconf to regenerate the build system
 #Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
@@ -57,15 +57,12 @@ AC_C_INLINE
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
 echo "prefix:               ${prefix}">>summary
-echo "crosstools affix:     ${host_alias}">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
-echo >>summary
 echo "detected tools versions:">>summary
 avr-as --version |grep assembler >>summary
-${CC} --version >>summary
+${CC} --version |grep ${CC} >>summary
 
 case "z$recursive_stribog_build" in
  zyes) ;; *) cat summary;;
