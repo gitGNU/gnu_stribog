@@ -35,7 +35,7 @@ case "z${target_recursion_trigger}" in
  exit $result ;;
 esac
 AC_MSG_RESULT([NB here we force $host_alias host])
-echo >warnings
+rm -f warnings
 
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
@@ -224,22 +224,19 @@ LDFLAGS="$saved_LDFLAGS"
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
 echo "prefix:               ${prefix}">>summary
 echo "crosstools affix:     ${host_alias}">>summary
 echo "MCU:                  $with_mainboard_mcu">>summary
 echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
-echo >>summary
 echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
 ${ARM_OBJCOPY} --version |grep objcopy >>summary
-${CC} --version >>summary
+${CC} --version |grep ${CC} >>summary
 cat warnings >>summary
 rm -f warnings
 
 case "z$recursive_stribog_build" in
- zyes) ;;
- *) cat summary;;
+ zyes) ;; *) cat summary;;
 esac
