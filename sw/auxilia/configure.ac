@@ -32,7 +32,6 @@ case "z${target_recursion_trigger}" in
  exit $result ;;
 esac
 AC_MSG_RESULT([NB here we force $host_alias host])
-echo >warnings
 
 AC_CONFIG_SRCDIR([coil/sampler.c])
 AC_CONFIG_HEADERS([config.h])
