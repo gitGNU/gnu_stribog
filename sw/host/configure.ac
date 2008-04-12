@@ -1,7 +1,6 @@
 #stribog host tools: configure.ac 
 # Run autoreconf to regenerate the build system
-#Copyright (C) 2008\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -53,32 +52,34 @@ AC_CHECK_LIB([m], [sqrt])
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h string.h termios.h unistd.h])
-AC_CHECK_HEADERS([sysexits.h])
+AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h])
+AC_CHECK_HEADERS([string.h termios.h unistd.h sysexits.h])
 
 #argp library configuration
 AC_MSG_CHECKING([if stribog argp implementation is asked for])
 AC_ARG_ENABLE([own-argp],
  [AS_HELP_STRING([--enable-own-argp],
-  [Use stribog implementation of argp library [no]])],,
+  [Use stribog implementation of argp library [no]])],
+  [
+   case "z$enable_own_argp" in
+    zyes | zno) ;;
+    *) AC_MSG_ERROR([--enable-own-argp should be either 'yes' or 'no'])
+    ;;
+   esac
+],
   [enable_own_argp=unspecified
-]
-)
+])
+#$enable_own_argp is (yes | no | unspecified)
 AC_MSG_RESULT([$enable_own_argp])
 AC_CHECK_HEADER([argp.h],,
 [AC_MSG_RESULT([no usable argp.h found; stribog version should be used])
- build_own_argp=yes
-])
-case "z$enable_own_argp" in
- zno)
-  if test  "z$build_own_argp" = zyes; then
+ case $enable_own_argp in
+  no)
    AC_MSG_ERROR([own argp disabled and no usable system argp available])
-  fi
- ;;
- zyes)
-  build_own_argp=yes
- ;;
-esac
+  ;;
+ esac
+ enable_own_argp=yes
+])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_TYPES([error_t])
 AC_C_CONST
@@ -98,16 +99,18 @@ AC_CHECK_FUNCS([get_current_dir_name getcwd])
 #Checks for system services
 #FIXME test headers and functions instead?
 case $host in
-        *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-		the_host_is_windows=yes
-		;;
+ *-*-mingw32* | *-*-cygwin* | *-*-windows*)
+  the_host_is_windows=yes ;;
+ *) the_host_is_windows=no ;;
 esac
-if test "z$build_own_argp" = zyes;then
+case $enable_own_argp in
+ yes)
  AC_CONFIG_LINKS([argp.h:lib/argp/argp.h])
  AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
-fi
-AM_CONDITIONAL(the_host_is_windows, test "z$the_host_is_windows" = "zyes")
-AM_CONDITIONAL(build_own_argp, test "z$build_own_argp" = "zyes")
+ ;;
+esac
+AM_CONDITIONAL(the_host_is_windows, test $the_host_is_windows = yes)
+AM_CONDITIONAL(build_own_argp, test $enable_own_argp = yes)
 
 AC_SUBST(stribog_lib,["\$(top_builddir)/lib/libstribog.a"])
 #common headers are linked to top build directory
@@ -125,14 +128,12 @@ AC_CONFIG_FILES([Makefile
                  tests/Makefile
                  utils/Makefile])
 AC_OUTPUT
-if test "z$build_own_argp" = zyes; then
- argp_type=built-in
-else
- argp_type=GNU
-fi
+case $enable_own_argp in
+ yes) argp_type="supplied with stribog" ;;
+ *) argp_type="built in host OS (typically, GNU)" ;;
+esac
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
-echo >>summary
 echo "prefix:               ${prefix}">>summary
 echo "host:                 ${host}">>summary
 echo "conloq port:          '${with_conloq_port}'">>summary
@@ -142,7 +143,6 @@ echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 
-if test "z$recursive_stribog_build" != zyes;then
- echo
- cat summary
-fi
+case "z$recursive_stribog_build" in
+ zyes) ;; *) cat summary ;;
+esac
