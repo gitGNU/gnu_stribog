@@ -18,7 +18,7 @@ divert(-1)
 include(`m4/makefile.m4')
 mcu=atmega8
 AM_CFLAGS=-mmcu=$(mcu)
-AM_LDFLAGS=-mmcu=$(mcu)
+AM_LDFLAGS=-mmcu=$(mcu) -Wl,-Map,$@.map
 OBJCOPY=avr-objcopy
 EXTRA_DIST=Makefile.am.m4 m4/makefile.m4
 divert(-1)
@@ -28,7 +28,6 @@ divert(-1)
 divert`'dnl
 ST_AVR_TARGET(`sampler',`coil/sampler.c')
 ST_AVR_TARGET(`hodo', `odo/hodo.c')
-
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 nodist_pkgdata_DATA+=summary config.h
