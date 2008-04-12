@@ -316,23 +316,18 @@ $ git push savannah :refs/heads/feb2008
 What will go to Git
 
 We currently don't put into the repository gEDA-generated files.
+[12 Mar 2008 PCB-generated files are put into the repository
+and distribution; we plan also put the object-form schematics]
 however, we do put all Autotools-generated files
 that will be distributed.
 
 The general rules are to be worked on yet; the bottomline consideration
 should be that Git serves as a source of most recent package version.
 
-Now we think that today state may be right because
-1. the schematics and PCB layouts change slowly; the real result
-  is a material board populated with elements rather than a file. it takes
-  time and money to reproduce such a board. so, there is almost no chance
-  that the programs in Git work with Git PCBs and won't work with the PCBs
-  of the most recent release (wich certainly includes printed layouts).
-2. after a compatible version of gEDA has been installed, there is
-  no difficulty to reproduce the GERBERS and schematics. it is easier
-  than fix anything in the layout file.
-  [31 Mar 2008 probably there will be no harm if the printed files go to Git]
-3. As of the software, if there is no build scripts, the programs
+We think that today state may be right because
+1. gEDA (especially gschem) is not easy to install; it has long dependencies
+   on rather new versions of packages.
+3. If there is no build scripts, the programs
   can't be developped. this would be wrong because the programs
   can be modified and rebuilt very quickly and at no cost.
   to rebuild the scripts one must have a compatible Autotools version
