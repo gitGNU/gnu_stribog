@@ -226,7 +226,7 @@ main(int argc,char**argv)
  if(get_interaction_mode()==interactive_mode)
  {if(setup_stdin())
   {error("can't setup your terminal\n");return stdin_unsetupable;}
- }
+ }atexit(close_all);
  if(!arguments.file_input)if(initserialia(arguments.port_name))
  {error("can't open serial port \"%s\"\n",
    arguments.port_name?arguments.port_name:"[default]");
@@ -242,7 +242,6 @@ main(int argc,char**argv)
  }
  if(get_verbosity()>=pretty_verbose&&get_interaction_mode()!=deaf_mode)
   printf("for help on keypresses press 'h'\n");
- atexit(close_all);
  signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
  if(arguments.escapes)enable_escapes(!0);
  if(get_verbosity()>=pretty_verbose)
@@ -251,7 +250,7 @@ main(int argc,char**argv)
  tb=new_tsip();init_exp(period);
  adjust_frequency(arguments.dfreq);
  {static int size,n,j;const unsigned char*_;
-  unsigned char s[11520];unsigned long long N=0;
+  unsigned char s[1152];unsigned long long N=0;
   while(dont_exit())if(0<(n=get_next_data(s,sizeof s)))
    for(j=0;j<n;putc(s[j++],f),N++)
     if((_=parse_tsip(tb,s[j],&size)))if(expone(_,size))
