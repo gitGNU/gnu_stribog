@@ -42,7 +42,7 @@ report_action(const char*action)
 int
 initserialia(const char*tty)
 {struct termios nov;if(tty)dv=tty;
- if(get_verbosity()>=pretty_verbose)printf("setting up UART device \"%s\"\n",dv);
+ if(get_verbosity()>=pretty_verbose)printf("setting up device \"%s\"\n",dv);
 #ifndef O_NDELAY
  #define O_NDELAY (0)
 #endif
@@ -73,20 +73,22 @@ initserialia(const char*tty)
 }void
 closeserialia(void)
 {if(0>port)return;report_action("closing port");
- /*GNU/Hurd hangs on the second tcsetattr.
-  we need to close the file first, then open it and set the previous attr*/
- if(close(port)){report_error("close port");port=-1;return;}
- report_action("opening port again");
- port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
- if(-1==port){report_error("open port");return;}
- report_action("resetting port attributes");
- if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
- report_action("resetting fcntl flags");
- if(-1==fcntl(port,F_SETFL,saved_flags))
-  report_error("fcntl(port,F_SETFL,saved_flags)");
- report_action("finally closing port");
- if(close(port))report_error("close");
- else report_action("port has been successfully closed");
+  if(close(port)){report_error("close port");port=-1;return;}
+ if(0)
+ {/*GNU/Hurd does not like this;
+  and simply setting saved attributes, too*/
+  report_action("opening port again");
+  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
+  if(-1==port){report_error("open port");return;}
+  report_action("resetting port attributes");
+  if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
+  report_action("resetting fcntl flags");
+  if(-1==fcntl(port,F_SETFL,saved_flags))
+   report_error("fcntl(port,F_SETFL,saved_flags)");
+  report_action("finally closing port");
+  if(close(port))report_error("close");
+  else report_action("port has been successfully closed");
+ }
  port=-1;
 }int
 lege(void*p,int n){return read(port,p,n);}

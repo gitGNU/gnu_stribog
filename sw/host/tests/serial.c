@@ -75,18 +75,20 @@ init(const char*tty)
 }void
 close_all(void)
 {if(0>port)return;printf("\nclosing port..");
- /*GNU/Hurd hangs on tcsetattr of port for the second time.
-  we need to close the file first, then reopen it and set previous attrs*/
  if(close(port)){report_error("closing port");port=-1;return;}
- printf("\nopening again..");
- port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
- if(-1==port){report_error("open");return;}
- printf("\nresetting port attributes..");
- if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
- printf("\nresetting fcntl flags..");
- if(-1==fcntl(port,F_SETFL,saved_flags))report_error("fcntl(..,F_SETFL..");
- printf("\nclosing port the second time..\n");
- if(close(port))report_error("close");port=-1;
+ if(0)
+ {/*GNU/Hurd does not like this;
+  and simply setting saved attributes, too*/
+  printf("\nopening again..");
+  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
+  if(-1==port){report_error("open");return;}
+  printf("\nresetting port attributes..");
+  if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
+  printf("\nresetting fcntl flags..");
+  if(-1==fcntl(port,F_SETFL,saved_flags))report_error("fcntl(..,F_SETFL..");
+  printf("\nclosing port the second time..\n");
+  if(close(port))report_error("close");
+ }port=-1;
 }int
 lege(void*p,int n){return read(port,p,n);}
 int
