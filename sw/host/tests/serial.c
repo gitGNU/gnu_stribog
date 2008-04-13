@@ -24,9 +24,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 static struct termios vet;/* previous port settings */
-static const char*dv="/dev/ttyS1";/* default device name */
-static int port=-1;/* file descriptor */
+static int saved_flags;/* previous fcntl flags*/
+static const char*dv="/dev/ttyS0";/* default device name */
+static int port=-1;/* device file descriptor */
+static void
+close_port(void){close(port);port=-1;}
 static void
 report_error(const char*action)
 {int err=errno;fprintf(stderr,"%s failed: errno %i\n",action,err);
@@ -35,42 +39,52 @@ report_error(const char*action)
 int
 init(const char*tty)
 {struct termios nov;if(tty)dv=tty;
- printf("UART device \"%s\"..\n",dv);
-#ifdef O_NDELAY
- /*workaround for OpenBSD(3.9): it hangs when there is no O_NDELAY*/
- port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
- if(port!=-1)
- {int flags;
-  printf("getting flags..\n");
-  errno=0;flags=fcntl(port,F_GETFL)&~O_NDELAY;
-  if(errno)
-  {printf("failed to get flags\n");close(port)return-1;}
-  printf("setting flags..\n");
-  if(-1==fcntl(port,F_SETFL,flags))
-  {printf("failed to set flags\n");close(port);return-1;}
- }
-#else
- port=open(dv,O_RDWR|O_NOCTTY);
+ printf("UART device \"%s\": ",dv);
+#ifndef O_NDELAY
+ #define O_NDELAY (0)
 #endif
- if(port<0){report_error("open");return-1;}
- printf("opened\n");
- if(tcgetattr(port,&vet)){report_error("tcgetattr");return-1;}
- nov=vet;
+ /*workaround for OpenBSD(3.9): it hangs without O_NDELAY*/
+ port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
+ printf("open\n");
+ if(port==-1){report_error("failed to open");return-1;}
+ if(O_NDELAY)
+ {errno=0;
+  printf("get flags..\n");
+  saved_flags=fcntl(port,F_GETFL,0);
+  if(errno)
+  {report_error("failed to get flags");close_port();return-1;}
+  printf("%X\nset flags..\n",saved_flags);
+  if(-1==fcntl(port,F_SETFL,saved_flags&~O_NDELAY))
+  {report_error("failed to set flags");close_port();return-1;}
+ }
+ printf("get attr..\n");
+ tcgetattr(port,&vet);nov=vet;
  cfsetospeed(&nov,B300);cfsetispeed(&nov,B300);
+
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
  nov.c_cflag&=~CSIZE;nov.c_cflag|=CS8;nov.c_oflag&=~OPOST;
- nov.c_lflag=nov.c_iflag=0;nov.c_cc[VMIN]=0;nov.c_cc[VTIME]=2;
- printf("setting attr..\n");
+ nov.c_lflag=0;nov.c_iflag=0;
+ /*actually, GNU/Hurd ignores c_cc[VTIME] and waits forever*/
+ nov.c_cc[VMIN]=0;nov.c_cc[VTIME]=2;
+ printf("set attr..\n");
  tcsetattr(port,TCSANOW,&nov);
- printf("%s\n",port<0?"fail":"success");
+ printf("port setup: %s\n",port<0?"fail":"success");
  return port<0;
 }void
 close_all(void)
-{if(0>port)return;
- if(0)
- {/*GNU/Hurd hangs here. we prefer not to return to old settings*/
-  tcsetattr(port,TCSANOW,&vet);
- }close(port);port=-1;
+{if(0>port)return;printf("\nclosing port..");
+ /*GNU/Hurd hangs on tcsetattr of port for the second time.
+  we need to close the file first, then reopen it and set previous attrs*/
+ if(close(port)){report_error("closing port");port=-1;return;}
+ printf("\nopening again..");
+ port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
+ if(-1==port){report_error("open");return;}
+ printf("\nresetting tty attributes..");
+ if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
+ printf("\nresetting fcntl flags..");
+ if(-1==fcntl(port,F_SETFL,saved_flags))report_error("fcntl(..,F_SETFL..");
+ printf("\nclosing port the second time..\n");
+ if(close(port))report_error("close");port=-1;
 }int
 lege(void*p,int n){return read(port,p,n);}
 int
@@ -84,20 +98,23 @@ sig_hunter(int sig)
  }exit(0);
 }static void
 loop(void)
-{int n,i;char s[0x11];const char transmitted[]="no camel";
- long N=0;while(lege(s,sizeof s)>0);printf("line drained\n");
+{int n,i;char s[0x11];const char tx[]="no camel";
+ time_t t=time(0)-2;long transmitted=0,received=0;
+ printf("start loop\n");
  while(1)
- {n=lege(s,sizeof s);
-  if(n>0)
-  {printf("received %i: ",n);
-   for(i=0;i<n;i++)printf("%c",s[i]);putchar('\n');
-  }
-  if(n<=0)
-  {n=scribe(transmitted,sizeof(transmitted)-1);
+ {if(time(0)-t>1&&received==transmitted)
+  {t=time(0);
+   n=scribe(tx,sizeof(tx)-1);
    if(n>0)
-   {printf("transmitted %i: ",n);
-    for(i=0;i<n;i++)printf("%c",transmitted[i]);putchar('\n');
+   {transmitted+=n;printf("transmitted %li: ",transmitted);
+    for(i=0;i<n;i++)printf("%c",tx[i]);putchar('\n');
    }
+  }
+  n=transmitted-received;if(n>sizeof s)n=sizeof s;
+  if(n)n=lege(s,n);
+  if(n>0)
+  {received+=n;printf("received %li: ",received);
+   for(i=0;i<n;i++)printf("%c",s[i]);putchar('\n');
   }
  }
 }int
