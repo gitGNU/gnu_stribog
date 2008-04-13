@@ -1,3 +1,7 @@
+13 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq/serialia.c: saving settings and reporting actions cleanup
+ * conloq/conloq.c: buffer size reduced; atexit call moved
+ * tests/serial.c: fixed for GNU/Hurd/Mach
 12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: text format and argp selection cleanup
 10 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
