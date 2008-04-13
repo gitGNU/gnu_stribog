@@ -34,30 +34,29 @@ static void
 report_error(const char*action)
 {int err=errno;if(get_verbosity()<pretty_verbose)return;
  printf("%s failed: errno %i\n",action,err);
- printf("system error message \"%s\"",strerror(err));
+ printf("system error message \"%s\"\n",strerror(err));
 }
 static void
 report_action(const char*action)
-{if(get_verbosity()<pretty_verbose)return;printf("%s\n");}
+{if(get_verbosity()<pretty_verbose)return;printf("%s\n",action);}
 int
 initserialia(const char*tty)
 {struct termios nov;if(tty)dv=tty;
- if(get_verbosity()>=pretty_verbose)printf("UART device \"%s\": ",dv);
+ if(get_verbosity()>=pretty_verbose)printf("setting up UART device \"%s\"\n",dv);
 #ifndef O_NDELAY
  #define O_NDELAY (0)
 #endif
  /*workaround for OpenBSD(3.9): it hangs without O_NDELAY*/
  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
- if(port==-1){report_error("failed to open");return-1;}
+ if(port==-1){report_error("open");return-1;}
  if(O_NDELAY)
  {errno=0;saved_flags=fcntl(port,F_GETFL,0);
   if(errno)
-  {report_error("failed to get flags");close_port();return-1;}
+  {report_error("get flags");close_port();return-1;}
   if(-1==fcntl(port,F_SETFL,saved_flags&~O_NDELAY))
-  {report_error("failed to set flags");close_port();return-1;}
+  {report_error("set flags");close_port();return-1;}
  }
- report_action("getting port attributes");
- if(tcgetattr(port,&vet));
+ if(tcgetattr(port,&vet))
  {report_error("tcgetattr");close_port();return-1;}
  nov=vet;
  cfsetospeed(&nov,B115200);cfsetispeed(&nov,B115200);
@@ -68,27 +67,24 @@ initserialia(const char*tty)
   this is not fatal because we expect bytes to arrive from the port
   often enough (typically, thousands per second)*/
  nov.c_lflag=nov.c_iflag=0;nov.c_cc[VMIN]=0;nov.c_cc[VTIME]=2;
- report_action("getting port attributes");
  if(tcsetattr(port,TCSANOW,&nov))
  {report_error("tcsetattr");close_port();return-1;}
- if(get_verbosity()>=pretty_verbose)
-  report_action("%s",port<0?"fail":"success");
- return port<0;
+ report_action("success");return 0;
 }void
 closeserialia(void)
 {if(0>port)return;report_action("closing port");
- /*GNU/Hurd hangs on tcsetattr of port for the second time.
-  we need to close the file first, then reopen it and set previous attrs*/
+ /*GNU/Hurd hangs on the second tcsetattr.
+  we need to close the file first, then open it and set the previous attr*/
  if(close(port)){report_error("close port");port=-1;return;}
  report_action("opening port again");
  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
  if(-1==port){report_error("open port");return;}
- report_action("resetting tty attributes");
+ report_action("resetting port attributes");
  if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
  report_action("resetting fcntl flags");
  if(-1==fcntl(port,F_SETFL,saved_flags))
   report_error("fcntl(port,F_SETFL,saved_flags)");
- report_action("closing port the second time");
+ report_action("finally closing port");
  if(close(port))report_error("close");
  else report_action("port has been successfully closed");
  port=-1;
