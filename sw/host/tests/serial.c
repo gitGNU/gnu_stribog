@@ -46,19 +46,21 @@ init(const char*tty)
  /*workaround for OpenBSD(3.9): it hangs without O_NDELAY*/
  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
  printf("open\n");
- if(port==-1){report_error("failed to open");return-1;}
+ if(port==-1){report_error("open");return-1;}
  if(O_NDELAY)
  {errno=0;
   printf("get flags..\n");
   saved_flags=fcntl(port,F_GETFL,0);
   if(errno)
-  {report_error("failed to get flags");close_port();return-1;}
-  printf("%X\nset flags..\n",saved_flags);
+  {report_error("get flags");close_port();return-1;}
+  printf("set flags..\n",saved_flags);
   if(-1==fcntl(port,F_SETFL,saved_flags&~O_NDELAY))
-  {report_error("failed to set flags");close_port();return-1;}
+  {report_error("set flags");close_port();return-1;}
  }
  printf("get attr..\n");
- tcgetattr(port,&vet);nov=vet;
+ if(tcgetattr(port,&vet))
+ {report_error("failed to set flags");close_port();return-1;
+ }nov=vet;
  cfsetospeed(&nov,B300);cfsetispeed(&nov,B300);
 
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
@@ -67,9 +69,9 @@ init(const char*tty)
  /*actually, GNU/Hurd ignores c_cc[VTIME] and waits forever*/
  nov.c_cc[VMIN]=0;nov.c_cc[VTIME]=2;
  printf("set attr..\n");
- tcsetattr(port,TCSANOW,&nov);
- printf("port setup: %s\n",port<0?"fail":"success");
- return port<0;
+ if(tcsetattr(port,TCSANOW,&nov))
+ {report_error("set attributes");close_port();return-1;}
+ return 0;
 }void
 close_all(void)
 {if(0>port)return;printf("\nclosing port..");
@@ -79,7 +81,7 @@ close_all(void)
  printf("\nopening again..");
  port=open(dv,O_RDWR|O_NOCTTY|O_NDELAY);
  if(-1==port){report_error("open");return;}
- printf("\nresetting tty attributes..");
+ printf("\nresetting port attributes..");
  if(tcsetattr(port,TCSANOW,&vet))report_error("tcsetattr");
  printf("\nresetting fcntl flags..");
  if(-1==fcntl(port,F_SETFL,saved_flags))report_error("fcntl(..,F_SETFL..");
