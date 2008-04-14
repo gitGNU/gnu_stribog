@@ -53,13 +53,13 @@ init(const char*tty)
   saved_flags=fcntl(port,F_GETFL,0);
   if(errno)
   {report_error("get flags");close_port();return-1;}
-  printf("set flags..\n",saved_flags);
+  printf("set flags..\n");
   if(-1==fcntl(port,F_SETFL,saved_flags&~O_NDELAY))
   {report_error("set flags");close_port();return-1;}
  }
  printf("get attr..\n");
  if(tcgetattr(port,&vet))
- {report_error("failed to set flags");close_port();return-1;
+ {report_error("tcgetattr");close_port();return-1;
  }nov=vet;
  cfsetospeed(&nov,B300);cfsetispeed(&nov,B300);
 
@@ -70,7 +70,7 @@ init(const char*tty)
  nov.c_cc[VMIN]=0;nov.c_cc[VTIME]=2;
  printf("set attr..\n");
  if(tcsetattr(port,TCSANOW,&nov))
- {report_error("set attributes");close_port();return-1;}
+ {report_error("tcsetattr");close_port();return-1;}
  return 0;
 }void
 close_all(void)
