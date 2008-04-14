@@ -19,6 +19,7 @@ PC (DB9-M)pin 2<- pin 3 (DB9-M) odometer
           pin 5<-> (GND)*/
 #include<stdio.h>
 #include<time.h>
+#include<stdlib.h>
 #include"serialia.h"
 static int nl,j;
 static void
@@ -31,7 +32,7 @@ decode(const unsigned char*s)
   printf("%4u %04u ",dt,cnt-c0);c0=cnt;
   if(!(++j%8)){putchar('\n');nl=!0;}else nl=0;
  }
-}static FILE*log;
+}static FILE*log,*sample;
 static void
 process(int c)
 {static unsigned char s[10],nmea[100];static int i,in;if(log)putc(c,log);
@@ -50,13 +51,20 @@ process(int c)
   if(c=='\n'){nmea[in]=0;if(!nl)putchar('\n');printf("%s",nmea);in=0;nl=!0;j=0;}
  }if(log)fflush(log);
 }
+static void
+close_all(void)
+{if(sample)fclose(sample);if(log)fclose(log);
+ log=sample=0;closeserialia();
+}
 int
 main(int argc,char**argv)
-{char c;FILE*f=0;time_t t=time(0);const char*s=0;if(argc>1)s=argv[1];
- initserialia(s);if(argc>2)f=fopen(argv[2],"rb");log=fopen("hodo.log","wb");
+{char c;time_t t=time(0);
+ initserialia(argc>1?argv[1]:0);atexit(close_all);
+ if(argc>2)sample=fopen(argv[2],"rb");log=fopen("hodo.log","wb");
  while(1)
- {if(lege(&c,1)>0)process(c);if(!f)continue;
-  if(!feof(f)){if(t!=time(0)){c=getc(f);while(!scribe(&c,1));}}else
-  {fclose(f);f=fopen(argv[2],"rb");time(&t);}
- }if(f)fclose(f);if(log)fclose(log);return 0;
+ {if(lege(&c,1)>0)process(c);if(!sample)continue;
+  if(!feof(sample))
+  {if(t!=time(0)){c=getc(sample);while(1!=scribe(&c,1));}}
+  else{fclose(sample);sample=fopen(argv[2],"rb");time(&t);}
+ }return 0;
 }
