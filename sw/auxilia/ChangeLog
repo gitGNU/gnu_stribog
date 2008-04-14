@@ -1,3 +1,8 @@
+14 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * odo/host/hodo.c:moved to ../host/conloq/odo.c
+ * odo/host/Makefile odo/host/serialia.c odo/host/serialia.h: rm
+ * configure.ac: odometer frequency, UART baud rate and input pin
+ are configurable
 12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: text format cleanup
  * avr.mk coil/Makefile odo/Makefile:rm
