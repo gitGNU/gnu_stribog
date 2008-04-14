@@ -22,12 +22,15 @@
   AUTHORS file status to be cleared; THANKS to be added]
  (2) wait for 17 days for FSF answer on cross-compilers; decide on
      these dependencies inclusion
+     [14 Apr 2008 no answer yet. preliminary decision is to pack several
+      tars with READMEs explaining what is needed in a compliant
+      distribution]
  (3) prepare documentation:
      a. basically learn texinfo 
         [08 Apr 2008 at the moment texinfo does not support
          non-Latin characters. LaTeX is much better in this.
          the documentation system is to be selected.]
-	[LaTeX is not very good for non-printed dotumentation.
+	[LaTeX is not very good for non-printed documentation.
 	 the project currently can live without non-latin letters.
 	 Texinfo has two Russian-speaking maintainers.
 	 the i18n will probably be supported]
@@ -36,6 +39,9 @@
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
  1. of course, finish mounting the project on Autotools 
+14 Apr 2008
+ sw/auxilia: provide a script for convenient writing the installed
+  in ${prefix} programs into target AVRs.
 
  Copyright (C) 2008
   Ineiev<ineiev@users.sourceforge.net>, super V 93
