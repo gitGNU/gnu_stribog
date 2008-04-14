@@ -37,6 +37,37 @@ AC_CONFIG_SRCDIR([coil/sampler.c])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
+#checks for configured features
+
+AC_MSG_CHECKING([for odometer MCU clock frequency])
+AC_ARG_WITH([odo-clock],
+[AS_HELP_STRING([--with-odo-clock],
+ [Odometer MCU clock frequency in Hz [14745600]])],,
+ [with_odo_clock=14745600
+])
+AC_MSG_RESULT([$with_odo_clock])
+AC_DEFINE_UNQUOTED([ODO_F_CPU],(${with_odo_clock}ul),
+ [Define as odometer MCU clock frequency in Hz])
+
+AC_MSG_CHECKING([for odometer baud rate])
+AC_ARG_WITH([odo-baud],
+[AS_HELP_STRING([--with-odo-baud],
+ [Odometer UART baud rate in Hz [9600]])],,
+ [with_odo_baud=9600
+])
+AC_MSG_RESULT([$with_odo_baud])
+AC_DEFINE_UNQUOTED([ODO_BAUD],(${with_odo_baud}ul),
+ [Define as odometer UART baud rate in Hz])
+
+AC_MSG_CHECKING([for odometer input mask])
+AC_ARG_WITH([odo-mask],
+[AS_HELP_STRING([--with-odo-mask],
+ [Port C input mask for odometer pulses ['1<<5']])],,
+ [with_odo_mask='1<<5'
+])
+AC_MSG_RESULT([$with_odo_mask])
+AC_DEFINE_UNQUOTED([ODO_INPUT_MASK],[((unsigned char)(${with_odo_mask}))],
+[Define as PINC input mask for odometer pulses (typically one non-null bit)])
 
 # Checks for programs.
 
