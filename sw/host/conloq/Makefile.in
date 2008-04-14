@@ -34,7 +34,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = caed$(EXEEXT) conloq$(EXEEXT) elig$(EXEEXT) \
-	magex-conloq$(EXEEXT) magexp$(EXEEXT) parse_tsipex$(EXEEXT)
+	magex-conloq$(EXEEXT) magexp$(EXEEXT) odo$(EXEEXT) \
+	parse_tsipex$(EXEEXT)
 noinst_PROGRAMS = expon.legacy$(EXEEXT)
 subdir = conloq
 DIST_COMMON = $(dist_bin_SCRIPTS) $(srcdir)/Makefile.am \
@@ -52,6 +53,7 @@ PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
 am_caed_OBJECTS = caed.$(OBJEXT) crc32.$(OBJEXT) parse_tsip.$(OBJEXT)
 caed_OBJECTS = $(am_caed_OBJECTS)
 am__DEPENDENCIES_1 =
+caed_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am__conloq_SOURCES_DIST = conloq.c crc32.c crc32.h exp-brief.c exp.h \
 	exp_gps.h get_u.h process_keypress.c process_keypress.h \
 	garmin_nmea.c hodo.c hodo.h lla.c lla.h parse_tsip.c \
@@ -65,13 +67,16 @@ am_conloq_OBJECTS = conloq.$(OBJEXT) crc32.$(OBJEXT) \
 	parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) $(am__objects_1) \
 	verbosity_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
+conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_elig_OBJECTS = elig.$(OBJEXT) parse_tsip.$(OBJEXT)
 elig_OBJECTS = $(am_elig_OBJECTS)
+elig_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_expon_legacy_OBJECTS = expon.$(OBJEXT) crc32.$(OBJEXT) \
 	exp.$(OBJEXT) garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) \
 	lla.$(OBJEXT) parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
 	verbosity_level.$(OBJEXT)
 expon_legacy_OBJECTS = $(am_expon_legacy_OBJECTS)
+expon_legacy_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__magex_conloq_SOURCES_DIST = magex-conloq.c serialia.c wser.c \
 	serialia.h parse_tsip.c parse_tsip.h magexp.c exp.h \
 	verbosity_level.c verbosity_level.h
@@ -79,9 +84,17 @@ am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) $(am__objects_1) \
 	parse_tsip.$(OBJEXT) magexp.$(OBJEXT) \
 	verbosity_level.$(OBJEXT)
 magex_conloq_OBJECTS = $(am_magex_conloq_OBJECTS)
+magex_conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
 	magexp.$(OBJEXT) verbosity_level.$(OBJEXT)
 magexp_OBJECTS = $(am_magexp_OBJECTS)
+magexp_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am__odo_SOURCES_DIST = odo.c verbosity_level.c serialia.c wser.c
+am_odo_OBJECTS = odo.$(OBJEXT) verbosity_level.$(OBJEXT) \
+	$(am__objects_1)
+odo_OBJECTS = $(am_odo_OBJECTS)
+odo_LDADD = $(LDADD)
 am_parse_tsipex_OBJECTS = parse_tsipex.$(OBJEXT) crc32.$(OBJEXT) \
 	parse_tsip.$(OBJEXT)
 parse_tsipex_OBJECTS = $(am_parse_tsipex_OBJECTS)
@@ -97,11 +110,13 @@ LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(caed_SOURCES) $(conloq_SOURCES) $(EXTRA_conloq_SOURCES) \
 	$(elig_SOURCES) $(expon_legacy_SOURCES) \
 	$(magex_conloq_SOURCES) $(EXTRA_magex_conloq_SOURCES) \
-	$(magexp_SOURCES) $(parse_tsipex_SOURCES)
+	$(magexp_SOURCES) $(odo_SOURCES) $(EXTRA_odo_SOURCES) \
+	$(parse_tsipex_SOURCES)
 DIST_SOURCES = $(caed_SOURCES) $(am__conloq_SOURCES_DIST) \
 	$(EXTRA_conloq_SOURCES) $(elig_SOURCES) \
 	$(expon_legacy_SOURCES) $(am__magex_conloq_SOURCES_DIST) \
 	$(EXTRA_magex_conloq_SOURCES) $(magexp_SOURCES) \
+	$(am__odo_SOURCES_DIST) $(EXTRA_odo_SOURCES) \
 	$(parse_tsipex_SOURCES)
 ETAGS = etags
 CTAGS = ctags
@@ -230,7 +245,6 @@ caed_SOURCES = caed.c crc32.c crc32.h get_u.h\
  parse_tsip.c parse_tsip.h
 
 caed_LDADD = $(argp_lib) $(stribog_lib)
-caed_DEPENDENCIES = $(argp_lib) $(stribog_lib)
 conloq_SOURCES = conloq.c crc32.c crc32.h\
  exp-brief.c exp.h\
  exp_gps.h get_u.h\
@@ -242,30 +256,27 @@ conloq_SOURCES = conloq.c crc32.c crc32.h\
 
 EXTRA_conloq_SOURCES = serialia.c wser.c
 conloq_LDADD = $(argp_lib) $(stribog_lib)
-conloq_DEPENDENCIES = $(argp_lib) $(stribog_lib)
 elig_SOURCES = elig.c parse_tsip.c parse_tsip.h
 elig_LDADD = $(argp_lib) $(stribog_lib)
-elig_DEPENDENCIES = $(argp_lib) $(stribog_lib)
 expon_legacy_SOURCES = expon.c crc32.c crc32.h exp.c exp.h\
  garmin_nmea.c exp_gps.h hodo.c hodo.h lla.c lla.h\
  parse_tsip.c parse_tsip.h preproc_gps.c preproc_gps.h\
  verbosity_level.c verbosity_level.h
 
 expon_legacy_LDADD = $(stribog_lib)
-expon_legacy_DEPENDENCIES = $(stribog_lib)
 magex_conloq_SOURCES = magex-conloq.c $(serial_source) serialia.h\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
 
 magex_conloq_LDADD = $(argp_lib) $(stribog_lib)
-magex_conloq_DEPENDENCIES = $(argp_lib) $(stribog_lib)
 EXTRA_magex_conloq_SOURCES = serialia.c wser.c
 magexp_SOURCES = expon.c\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
 
 magexp_LDADD = $(stribog_lib)
-magexp_DEPENDENCIES = $(stribog_lib)
+odo_SOURCES = odo.c verbosity_level.c $(serial_source)
+EXTRA_odo_SOURCES = serialia.c wser.c
 parse_tsipex_SOURCES = parse_tsipex.c crc32.c crc32.h\
  get_u.h parse_tsip.c parse_tsip.h 
 
@@ -348,6 +359,9 @@ magex-conloq$(EXEEXT): $(magex_conloq_OBJECTS) $(magex_conloq_DEPENDENCIES)
 magexp$(EXEEXT): $(magexp_OBJECTS) $(magexp_DEPENDENCIES) 
 	@rm -f magexp$(EXEEXT)
 	$(LINK) $(magexp_OBJECTS) $(magexp_LDADD) $(LIBS)
+odo$(EXEEXT): $(odo_OBJECTS) $(odo_DEPENDENCIES) 
+	@rm -f odo$(EXEEXT)
+	$(LINK) $(odo_OBJECTS) $(odo_LDADD) $(LIBS)
 parse_tsipex$(EXEEXT): $(parse_tsipex_OBJECTS) $(parse_tsipex_DEPENDENCIES) 
 	@rm -f parse_tsipex$(EXEEXT)
 	$(LINK) $(parse_tsipex_OBJECTS) $(parse_tsipex_LDADD) $(LIBS)
@@ -389,6 +403,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lla.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magex-conloq.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magexp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse_tsip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse_tsipex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preproc_gps.Po@am__quote@
