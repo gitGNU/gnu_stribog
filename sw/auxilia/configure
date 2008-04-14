@@ -683,6 +683,9 @@ LTLIBOBJS'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_odo_clock
+with_odo_baud
+with_odo_mask
 enable_dependency_tracking
 '
       ac_precious_vars='build_alias
@@ -1321,6 +1324,13 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-odo-clock        Odometer MCU clock frequency in Hz [14745600]
+  --with-odo-baud         Odometer UART baud rate in Hz [9600]
+  --with-odo-mask         Port C input mask for odometer pulses ['1<<5']
 
 Some influential environment variables:
   CC          C compiler command
@@ -2292,6 +2302,64 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
+
+#checks for configured features
+
+{ $as_echo "$as_me:$LINENO: checking for odometer MCU clock frequency" >&5
+$as_echo_n "checking for odometer MCU clock frequency... " >&6; }
+
+# Check whether --with-odo-clock was given.
+if test "${with_odo_clock+set}" = set; then
+  withval=$with_odo_clock;
+else
+  with_odo_clock=14745600
+
+fi
+
+{ $as_echo "$as_me:$LINENO: result: $with_odo_clock" >&5
+$as_echo "$with_odo_clock" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define ODO_F_CPU (${with_odo_clock}ul)
+_ACEOF
+
+
+{ $as_echo "$as_me:$LINENO: checking for odometer baud rate" >&5
+$as_echo_n "checking for odometer baud rate... " >&6; }
+
+# Check whether --with-odo-baud was given.
+if test "${with_odo_baud+set}" = set; then
+  withval=$with_odo_baud;
+else
+  with_odo_baud=9600
+
+fi
+
+{ $as_echo "$as_me:$LINENO: result: $with_odo_baud" >&5
+$as_echo "$with_odo_baud" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define ODO_BAUD (${with_odo_baud}ul)
+_ACEOF
+
+
+{ $as_echo "$as_me:$LINENO: checking for odometer input mask" >&5
+$as_echo_n "checking for odometer input mask... " >&6; }
+
+# Check whether --with-odo-mask was given.
+if test "${with_odo_mask+set}" = set; then
+  withval=$with_odo_mask;
+else
+  with_odo_mask='1<<5'
+
+fi
+
+{ $as_echo "$as_me:$LINENO: result: $with_odo_mask" >&5
+$as_echo "$with_odo_mask" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define ODO_INPUT_MASK ((unsigned char)(${with_odo_mask}))
+_ACEOF
 
 
 # Checks for programs.

@@ -1,5 +1,15 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define as odometer UART baud rate in Hz */
+#undef ODO_BAUD
+
+/* Define as odometer MCU clock frequency in Hz */
+#undef ODO_F_CPU
+
+/* Define as PINC input mask for odometer pulses (typically one non-null bit)
+   */
+#undef ODO_INPUT_MASK
+
 /* Name of package */
 #undef PACKAGE
 
