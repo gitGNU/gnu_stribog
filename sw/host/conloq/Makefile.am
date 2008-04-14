@@ -55,7 +55,7 @@ magexp_SOURCES=expon.c\
  parse_tsip.c parse_tsip.h magexp.c exp.h\
  verbosity_level.c verbosity_level.h
 magexp_LDADD=$(stribog_lib)
-odo_SOURCES=odo.c $(serial_source)
+odo_SOURCES=odo.c verbosity_level.c $(serial_source)
 EXTRA_odo_SOURCES=serialia.c wser.c
 parse_tsipex_SOURCES=parse_tsipex.c crc32.c crc32.h\
  get_u.h parse_tsip.c parse_tsip.h 

@@ -21,6 +21,7 @@ PC (DB9-M)pin 2<- pin 3 (DB9-M) odometer
 #include<time.h>
 #include<stdlib.h>
 #include"serialia.h"
+#include"verbosity_level.h"
 static int nl,j;
 static void
 decode(const unsigned char*s)
@@ -58,7 +59,7 @@ close_all(void)
 }
 int
 main(int argc,char**argv)
-{char c;time_t t=time(0);
+{char c;time_t t=time(0);set_verbosity(argc>3);
  initserialia(argc>1?argv[1]:0);atexit(close_all);
  if(argc>2)sample=fopen(argv[2],"rb");log=fopen("hodo.log","wb");
  while(1)
