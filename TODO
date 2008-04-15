@@ -36,6 +36,7 @@
 	 the i18n will probably be supported]
      b. enrich the maintainer's memory with knowledge of the FDL 
 	    [before 08 Apr 2008 first pass done]
+		[15 Apr 2008 second pass done]
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
  1. of course, finish mounting the project on Autotools 
