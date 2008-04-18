@@ -1,3 +1,6 @@
+18 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am.m4: added a rule to make assembler files
+ from C sources
 12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: text format cleanup
 10 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
