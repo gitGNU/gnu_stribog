@@ -1799,7 +1799,10 @@ tempusex-rom.bin: $(tempusex_sources)
 	$(objcopy_bin) tempusex-rom tempusex-rom.bin
 tempusex-rom.map: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex
-
+#TODO: check whether make accepts %-style rules
+#and include the next rule conditionally
+%.s: $(srcdir)/src/%.c
+	$(COMPILE) -S -o $@ $<
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:
