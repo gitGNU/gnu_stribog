@@ -101,7 +101,10 @@ ST_TARGET(`uart1ex',
 ST_TARGET(`tempusex',
 `src/tempusex.c src/mutex.h\
  src/pll.c src/pll.h src/led.c src/led.h')
-
+#TODO: check whether make accepts %-style rules
+#and include the next rule conditionally
+%.s: $(srcdir)/src/%.c
+	$(COMPILE) -S -o $@ $<
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld config.h
