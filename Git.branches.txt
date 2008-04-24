@@ -10,7 +10,7 @@ please use other branches whenever possible
 
 trunc: the active branch
 
-Migrate to the GNU stantards 
+Migrate to the GNU standards 
 on build system and options style (for host tools).
 
 Clean up ethical issues
