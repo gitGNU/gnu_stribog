@@ -1,3 +1,6 @@
+24 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+  * sw/target/Makefile.am.m4: bootloader added
+  * src/loader.boot.s src/loader.c src/loader.ld.in: new
 23 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/uart0.c: poll_char() is declared static
 18 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
