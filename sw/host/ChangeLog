@@ -1,3 +1,12 @@
+24 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am configure.ac conloq/Makefile.am conloq/caed.c
+   conloq/exp-brief.c conloq/exp.c conloq/parse_tsipex.c
+   elk/Makefile.am elk/elk.c lib/Makefile.am lib/argp/Makefile.am:
+ make recursion reduced
+ * conloq/crc32.c conloq/crc32.h configure.ac 
+   lib/crc32.c lib/crc32.h lib/Makefile.am: crc32 routines
+ moved to libstribog.a
+ * intlpc/intlpc.c intlpc/Makefile.am: removed
 14 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/odo.c: moved from ../auxilia/odo/host/hodo.c;
  some cleanup
