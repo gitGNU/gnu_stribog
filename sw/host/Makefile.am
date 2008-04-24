@@ -66,7 +66,7 @@ expon_legacy_SOURCES=conloq/expon.c\
  conloq/verbosity_level.c conloq/verbosity_level.h
 expon_legacy_LDADD=libstribog.a
 magex_conloq_SOURCES=conloq/magex-conloq.c\
- conloq/magexp.c exp.h\
+ conloq/magexp.c conloq/exp.h\
  $(conloq_serial_source) conloq/serialia.h\
  conloq/parse_tsip.c conloq/parse_tsip.h\
  conloq/verbosity_level.c conloq/verbosity_level.h
