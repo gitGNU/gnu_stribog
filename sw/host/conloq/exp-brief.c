@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"exp.h"
-#include"crc32.h"
+#include<stribog_crc32.h>
 #include<stribog_error.h>
 #include<stdio.h>
 #include"verbosity_level.h"

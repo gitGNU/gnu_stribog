@@ -40,6 +40,7 @@ AC_DEFINE_UNQUOTED([ELK_PORT],["$with_elk_port"],
 AC_GNU_SOURCE
 # Checks for programs.
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_RANLIB
 
 if test "z$GCC" = zyes; then
@@ -106,27 +107,22 @@ esac
 case $enable_own_argp in
  yes)
  AC_CONFIG_LINKS([argp.h:lib/argp/argp.h])
- AC_SUBST(argp_lib,["\$(top_builddir)/lib/argp/libargp.a"])
+ AC_SUBST(argp_lib,[libargp.a])
  ;;
 esac
 AM_CONDITIONAL(the_host_is_windows, test $the_host_is_windows = yes)
 AM_CONDITIONAL(build_own_argp, test $enable_own_argp = yes)
 
-AC_SUBST(stribog_lib,["\$(top_builddir)/lib/libstribog.a"])
 #common headers are linked to top build directory
 #to be available the same as config.h
 AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
-                 stribog_strings.h:lib/stribog_strings.h])
+                 stribog_strings.h:lib/stribog_strings.h
+                 stribog_save_wd.h:lib/save_wd.h
+                 form_fix.h:../common/form_fix.h
+		 stribog_crc32.h:lib/crc32.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile
-                 conloq/Makefile
-                 elk/Makefile
-                 intlpc/Makefile
-                 lib/Makefile
-                 lib/argp/Makefile
-                 postproc/Makefile
-                 tests/Makefile
-                 utils/Makefile])
+                 postproc/Makefile])
 AC_OUTPUT
 case $enable_own_argp in
  yes) argp_type="supplied with stribog" ;;

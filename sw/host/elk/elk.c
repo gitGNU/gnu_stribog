@@ -27,7 +27,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<argp.h>
 #include<stribog_strings.h>
 #include<stribog_error.h>
-#include"../lib/save_wd.h"
+#include<stribog_save_wd.h>
 const char 
  prefs_file_name[]=".elk.prefs.rc",/*default loaded preferences name*/
  target_subdir[]="stribog-target",/*ARM stuff subdirectory*/
