@@ -214,17 +214,10 @@ You should need this only to improve the configuring scripts
 and to change the structure of the sources (add/remove source files
 and so on). you typically shall not want this.
 
-The configuring scripts are updated by scripts 'regen_configure'.
-The scripts recurse into the subdirectories. if a directory
-has 'configure' script but no 'regen_configure', then
-the build system is regenerated with
-'autoreconf -v'; you may 'rm -r autom4te.cache' after that.
-using custom regeneration scripts instead of autoreconf has essential
-shortcomings, e.g. the build system is broken when autoreconf is triggered
-by an automakefile rule. this possibly will be corrected when migrating to
-autoconf-2.62.
+The configuring scripts are updated with 'autoreconf -v';
+you may 'rm -r autom4te.cache' after that.
 
-As of Mar 2008, the versions used are autoconf-2.61 and automake-1.10.1.
+As of Apr 2008, the versions used are autoconf-2.62 and automake-1.10.1.
 
 HOW TO USE GIT
 
