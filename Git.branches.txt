@@ -17,6 +17,11 @@ Clean up ethical issues
 
 Fix some usability issues before forking the first release branch
 
+exp.2008.apr.bootloader
+
+write a bootloader for LPC213x RAM-based programs.
+try to catch the alignment-like bug.
+
 Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 
