@@ -1,16 +1,20 @@
-trunc<autobuild
+exp.2008.apr.bootloader<trunc<autobuild
 
-trunc branch
+experimental branch
 main tasks are:
 
-Mounting the project on the GNU build system
+write a bootloader for LPC213x RAM-based programs.
+try to catch the alignment-like bug.
 
-Parsing the command line arguments of the host tools in
-a GNU-standard way
+we don't like the built-in one because 
+(a) it does not permit to load a congiguous program:
+ we need to load interrupt vectors and the program body
+ into separate regions;
+(b) it is not very fast
 
-Clean up ethical issues
+our bootloader resides in upper 1k RAM; it loads binary
+rather than uuencoded data so it should be faster.
 
-Fixing some usability issues before forking the first release branch
 
  Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 
