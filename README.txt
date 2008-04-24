@@ -53,6 +53,14 @@ All release and release candidates should be tagged with
 their numbers (e.g. 0.1.2-rc1); these tags should be
 signed like this:
 $ git tag -s -m "release candidate" 0.1.2-rc1
+
+Experimental branches names begin with exp.year.mon.task,
+where `exp' is common prefix; 
+the next two parts form date of forking:
+`mon' is 3-letter month abbreviation, `year' is 4-digit year;
+`task' hints reason why the branch was created;
+the letters will be lower-case.
+
 
 HOW TO USE GIT (basic invocations)
 
