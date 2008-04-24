@@ -28,6 +28,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_strings.h>
 #include<stribog_error.h>
 #include<stribog_save_wd.h>
+#include<stribog_crc32.h>
 const char 
  prefs_file_name[]=".elk.prefs.rc",/*default loaded preferences name*/
  target_subdir[]="stribog-target",/*ARM stuff subdirectory*/
@@ -415,36 +416,90 @@ load_prefs(void)
  }return 0;
 }
 int
-load_and_go(void)
-{static const unsigned long ram_org=0x40000000,used_ram=0x40000200;
- int i,m=mute;FILE*f=0;unsigned long addr;char s[289];mute=1;
- if(chdir_to_programs(ram_subdir))goto fail;
- strncpy(s,args.target_name,sizeof s);strncat(s,".vectors",sizeof s);
- if(!(f=fopen(s,"rb")))
- {error("no interrupt vectors file '%s' found\n",s);
-  goto fail;
- }
+load_ram_loader(void)
+{static const unsigned long ram_org=0x40000000+((32-1)<<10);
+ int i,m=mute,ret;FILE*f=0;unsigned long addr;char s[289];
+ const char program_name[]="loader.bin";mute=1;
+ f=fopen(program_name,"rb");ret=f!=0;
+ if(ret){printf("no programme '%s' found\n",program_name);goto x;}
  for(addr=ram_org;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
-  if(write_string(s,addr,step))goto fail;putchar('\n');
- }
- strncpy(s,args.target_name,sizeof s);strncat(s,".bin",sizeof s);
- fclose(f);f=fopen(s,"rb");
- if(!f){printf("no programme '%s' found\n",s);goto fail;}
- for(addr=used_ram;!feof(f);addr+=step)
- {for(i=0;i<step;i++)fscanf(f,"%c",s+i);
-  printf("loading %i bytes at addr=0x%lX",i,addr);
-  if(write_string(s,addr,step))goto fail;putchar('\n');
- }mute=m;
- if(run(used_ram)||load_prefs())goto fail;fclose(f);
- if(reload_wd())
- {error("can't return back to working directory\n");return!0;}
+  ret=write_string(s,addr,step);if(ret)goto x;putchar('\n');
+ }mute=m;ret=run(ram_org);
+ x:if(f)fclose(f);return ret;
+}
+enum global_constants/*FIXME: this is common with the target-side*/
+{SOH=1,EOT=5,ACK=6,NACK=0x15,
+ packet_size=1<<10,bytes_per_word=4,bits_per_byte=8
+};
+void
+pack_num(char*s,unsigned long n)
+{int i=0;
+ for(i=bytes_per_word-1;i>=0;i--,n>>=bits_per_byte)
+  s[i]=n&((1<<bits_per_byte)-1);
+}
+int
+send_bytes(char*s,int n)
+{while(n>0){int k=scribe(s,n);if(k>0){s+=k;n-=k;}}
  return 0;
- fail:if(f)fclose(f);
+}
+int
+wait_for_ack(void)
+{char c;int n=0;time_t t=time(0);
+ while(time(0)-t<2){n=lege(&c,1);if(n==1)break;}
+ if(n<1)return-1;if(c==ACK)return 0;return 1;
+}
+int
+send_block(unsigned long addr,char*s)
+{char c[bytes_per_word];unsigned long crc; 
+ do
+ {c[0]=SOH;send_bytes(c,1);
+  pack_num(c,addr);send_bytes(c,4);
+  crc=form_crc((const crc32_input_array_token*)(&addr),1);
+  pack_num(c,crc);send_bytes(c,4);
+  send_bytes(s,packet_size);
+  crc=form_crc((const crc32_input_array_token*)s,packet_size>>2);
+  pack_num(c,crc);send_bytes(c,4);
+ }while(wait_for_ack());
+ return 0;
+}
+int
+launch_program(unsigned long addr)
+{char c[bytes_per_word];unsigned long crc; 
+ do
+ {c[0]=EOT;send_bytes(c,1);
+  pack_num(c,addr);send_bytes(c,4);
+  crc=form_crc((const crc32_input_array_token*)(&addr),1);
+  pack_num(c,crc);send_bytes(c,4);
+ }while(wait_for_ack());
+ return 0;
+}
+int
+load_target(void)
+{static const unsigned long ram_org=0x40000000;
+ int i,ret=0;FILE*f=0;unsigned long addr;char s[packet_size];
+ strncpy(s,args.target_name,sizeof s);strncat(s,".bin",sizeof s);
+ f=fopen(s,"rb");ret=f!=0;if(ret)goto x;
+ if(!f){printf("no programme '%s' found\n",s);goto x;}
+ addr=ram_org;
+ do
+ {for(i=0;i<packet_size;i++)
+  {int c=getc(f);if(c==EOF)c=0;s[i]=c;}
+  ret=send_block(addr,s);if(ret)goto x;
+  addr+=packet_size;
+ }while(!(feof(f)||ret));if(ret)goto x;
+ ret=launch_program(ram_org);
+ x:if(f)fclose(f);return ret;
+}
+int
+load_and_go(void)
+{int ret=0;if(chdir_to_programs(ram_subdir))return!0;
+ ret=load_ram_loader();if(ret)goto x;ret=load_target();
+ x:
  if(reload_wd())
   error("couldn't return to working directory after a failure\n");
- return!0;
+ return ret;
 }
 void
 close_all(void)
