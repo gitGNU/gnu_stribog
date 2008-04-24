@@ -61,7 +61,7 @@ static void
 push_ack(unsigned char c){while(!(U0LSR&UxLSR_THRE));U0THR=c;}
 static void
 terminate(void){push_ack(end);}
-int 
+static int 
 poll_char(void)
 {unsigned t0=iunius_tempus();int c;enum{timeout=83521};
  while(!(U0LSR&UxLSR_RDR)
