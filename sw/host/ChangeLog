@@ -8,6 +8,7 @@
  moved to libstribog.a
  * intlpc/intlpc.c intlpc/Makefile.am elk/maketarget
    lib/push_pop_wd.c lib/push_pop_wdex.c: removed
+ * elk/elk.c: new bootloading procedure initially written
 14 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/odo.c: moved from ../auxilia/odo/host/hodo.c;
  some cleanup
