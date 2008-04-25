@@ -22,7 +22,7 @@ enum accel_constants
 {channels=3/*if this changes the qu() and init_accel() should change, too */,
  resolution=14,res_mask=((1<<resolution)-1),res_cycle=res_mask+1
 };
-unsigned accel_error_count;/* error count for this module */
+unsigned accel_error_count=0;/* error count for this module */
 static mutex data_read;/* unlocks on data updates */
 /*The next times are stamped with timer0*/
 static unsigned periods[channels];/* current PWM periods */
