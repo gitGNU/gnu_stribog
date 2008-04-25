@@ -36,7 +36,8 @@ will empty the buffer.*/
 #define Hi_Div		HI_DIV(BAUD_RATE)
 #define Lo_Div		LO_DIV(BAUD_RATE)
 enum{chips_per_byte=10};
-static char rxbuf[0x20];static int caput,cauda;int uart0_overflows;
+static char rxbuf[0x20];static int caput,cauda;
+int uart0_overflows=0;
 /*static mutex tx0_mut;static int tx0i,tx0len;
 static const char tx0buf[]={0x10,0xD,4,2,0xC,0,0,0xE1,0x10,3};
 static int fill_tx0buf(void)

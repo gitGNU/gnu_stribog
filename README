@@ -311,6 +311,26 @@ What will go to Git
 We currently don't put into the repository gEDA-generated files.
 [12 Mar 2008 PCB-generated files are put into the repository
 and distribution; we plan also put the object-form schematics]
+[25 Apr 2008 these files are in object form. if someone
+ redistributes them, this person must provide gEDA, too.
+ this is not very convenient.
+ currently we can see two solutions:
+ (a) not distribute these files, which is not good because
+     it makes gEDA mandatory.
+ (b) make an exception like "you need not distribute gEDA suit
+     when you provide object code for some hardware parts
+     if you make sure all of the next four is true
+     (1) you provide the source code for the hardware parts
+         on the same media;
+     (2) the source code you provide is with no restrictions
+         maintainable with a widely available gEDA version,
+         preferably from http://geda.seul.org;
+     (3) the mentioned version of gEDA is precisely specified in
+         your documentation;
+     (4) the source code you provide and this gEDA version form
+         the Corresponding Source in the terms of the GPL for
+         the whole object code you distribute".
+]
 however, we do put all Autotools-generated files
 that will be distributed.
 
