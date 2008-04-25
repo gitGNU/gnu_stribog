@@ -19,21 +19,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 OUTPUT_FORMAT("elf32-littlearm")
 /*comment_on_the_cpu*/
 MEMORY
-{ ram (!r) : o = ORIGIN_ram_, l = LENGTH_ram_
-  lowram(!r) : o = 0x40000000, l = 0x40
-  rom (rx) : o = 0, l = LENGTH_rom_
-}
+{ ram (!r) : o = 0x40000000, l = LENGTH_ram_ }
 _arm_stack_bottom = ORIGIN_ram_ + LENGTH_ram_ - 4;
 _arm_ram_begin = ORIGIN_ram_;
 SECTIONS
-{vectors : {*(.vectors) }>lowram
- .text :
- {
+{.text :
+ { *(.vectors)
    *boot.o(.text)
    *(.text)
    *(.rodata)
 /* *(.ctors) *(.dtors) *(.jcr) /*these appear when I suddenly use c++*/
    *(.data)
+   *(.glue_7)
+   *(.glue_7t)
  } >ram
  . = ALIGN(4);
  .bss :
