@@ -31,9 +31,6 @@ $1.bin: $($1_sources)
 	$(objcopy_bin) $1 $1.bin
 $1.map: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1
-$1.vectors: $($1_sources)
-	$(MAKE) $(AM_MAKEFLAGS) $1
-	$(objcopy_vectors) $1 $1.vectors
 $1-rom.bin: $($1_sources)
 	$(MAKE) $(AM_MAKEFLAGS) $1-rom
 	$(objcopy_bin) $1-rom $1-rom.bin
@@ -42,8 +39,7 @@ $1-rom.map: $($1_sources)
 ##expanded "$1" program definition ends')
 
 define(ST_ENABLE_TARGET,
-`nodist_ram_programs_DATA+=\
- $1.bin $1.vectors $1.map
+`nodist_ram_programs_DATA+= $1.bin $1.map
 nodist_rom_programs_DATA+=\
  $1-rom.bin $1-rom.map
 noinst_PROGRAMS+=$1 $1-rom
