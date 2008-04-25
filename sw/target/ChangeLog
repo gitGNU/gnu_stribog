@@ -1,3 +1,5 @@
+25 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/uart0.c src/accel.c: error counters are initialised
 23 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/uart0.c: poll_char() is declared static
 18 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
