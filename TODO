@@ -7,6 +7,11 @@ work out a distinct conception on branches and revision
 naming conventions
 31 Mar 2008 [02 Apr frozen: it is questionable in what form
  the distribution may come]
+ [24 Apr 2008 (thanks a million to Sylvain Beucler)
+  the toolchains requirement applies for
+  object form distributions; source code distributing
+  does not require them.
+ ]
 find a host and an archive form where we could put stribog
 sources together with tools needed (binutils, gcc, gEDA)
 to make a GPL-compiant distribution
