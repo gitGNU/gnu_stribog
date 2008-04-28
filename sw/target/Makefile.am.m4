@@ -105,10 +105,12 @@ ST_TARGET(`tempusex',
 nodist_ram_programs_DATA+=loader.bin loader.map
 noinst_PROGRAMS+=loader
 loader_sources=src/loader.boot.s include/lpc2138.h\
- src/loader.c src/freq.h src/crc32.c src/crc32.h
+ src/loader.c src/freq.h src/crc32.c src/crc32.h\
+ src/pll.c src/pll.h src/init.c src/init.h
 loader_SOURCES=$(loader_sources)
 loader_LDFLAGS=$(AM_LDFLAGS) -T./loader.ld
 loader_DEPENDENCIES=loader.ld
+loader_CFLAGS=$(AM_CFLAGS) -Os
 loader.bin: $(loader_sources)
 	$(MAKE) $(AM_MAKEFLAGS) loader
 	$(objcopy_bin) loader loader.bin
