@@ -43,16 +43,12 @@ noinst_PROGRAMS = accelex$(EXEEXT) accelex-rom$(EXEEXT) adcex$(EXEEXT) \
 	loader$(EXEEXT)
 EXTRA_PROGRAMS = magex$(EXEEXT) magex-rom$(EXEEXT) multa$(EXEEXT) \
 	multa-rom$(EXEEXT)
-@magex_enabled_TRUE@am__append_1 = \
-@magex_enabled_TRUE@ magex.bin magex.vectors magex.map
-
+@magex_enabled_TRUE@am__append_1 = magex.bin magex.map
 @magex_enabled_TRUE@am__append_2 = \
 @magex_enabled_TRUE@ magex-rom.bin magex-rom.map
 
 @magex_enabled_TRUE@am__append_3 = magex magex-rom
-@multa_enabled_TRUE@am__append_4 = \
-@multa_enabled_TRUE@ multa.bin multa.vectors multa.map
-
+@multa_enabled_TRUE@am__append_4 = multa.bin multa.map
 @multa_enabled_TRUE@am__append_5 = \
 @multa_enabled_TRUE@ multa-rom.bin multa-rom.map
 
@@ -157,11 +153,13 @@ lm74ex_rom_OBJECTS = $(am_lm74ex_rom_OBJECTS)
 lm74ex_rom_LDADD = $(LDADD)
 lm74ex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(lm74ex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_9 = loader.boot.$(OBJEXT) loader.$(OBJEXT) crc32.$(OBJEXT)
+am__objects_9 = loader.boot.$(OBJEXT) loader-loader.$(OBJEXT) \
+	loader-crc32.$(OBJEXT) loader-pll.$(OBJEXT) \
+	loader-init.$(OBJEXT)
 am_loader_OBJECTS = $(am__objects_9)
 loader_OBJECTS = $(am_loader_OBJECTS)
 loader_LDADD = $(LDADD)
-loader_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(loader_LDFLAGS) \
+loader_LINK = $(CCLD) $(loader_CFLAGS) $(CFLAGS) $(loader_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am__objects_10 = $(am__objects_1) mag_response.$(OBJEXT) adc.$(OBJEXT) \
 	crc32.$(OBJEXT) dac.$(OBJEXT) power.$(OBJEXT) tempus.$(OBJEXT) \
@@ -453,16 +451,13 @@ top_srcdir = @top_srcdir@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 nodist_pkgdata_DATA = summary ram2138.ld 2138.ld config.h
-nodist_ram_programs_DATA = accelex.bin accelex.vectors accelex.map \
-	adcex.bin adcex.vectors adcex.map crcex.bin crcex.vectors \
-	crcex.map dacex.bin dacex.vectors dacex.map inledex.bin \
-	inledex.vectors inledex.map ledex.bin ledex.vectors ledex.map \
-	lm74ex.bin lm74ex.vectors lm74ex.map $(am__append_1) \
-	mag_response.bin mag_response.vectors mag_response.map \
-	$(am__append_4) pllex.bin pllex.vectors pllex.map powerex.bin \
-	powerex.vectors powerex.map uart1ex.bin uart1ex.vectors \
-	uart1ex.map tempusex.bin tempusex.vectors tempusex.map \
-	loader.bin loader.map
+nodist_ram_programs_DATA = accelex.bin accelex.map adcex.bin adcex.map \
+	crcex.bin crcex.map dacex.bin dacex.map inledex.bin \
+	inledex.map ledex.bin ledex.map lm74ex.bin lm74ex.map \
+	$(am__append_1) mag_response.bin mag_response.map \
+	$(am__append_4) pllex.bin pllex.map powerex.bin powerex.map \
+	uart1ex.bin uart1ex.map tempusex.bin tempusex.map loader.bin \
+	loader.map
 nodist_rom_programs_DATA = accelex-rom.bin accelex-rom.map \
 	adcex-rom.bin adcex-rom.map crcex-rom.bin crcex-rom.map \
 	dacex-rom.bin dacex-rom.map inledex-rom.bin inledex-rom.map \
@@ -681,11 +676,13 @@ tempusex_rom_LDFLAGS = $(AM_LDFLAGS) $(rom_flag)
 EXTRA_tempusex_rom_SOURCES = $(extra_common_sources)
 tempusex_rom_DEPENDENCIES = 2138.ld 
 loader_sources = src/loader.boot.s include/lpc2138.h\
- src/loader.c src/freq.h src/crc32.c src/crc32.h
+ src/loader.c src/freq.h src/crc32.c src/crc32.h\
+ src/pll.c src/pll.h src/init.c src/init.h
 
 loader_SOURCES = $(loader_sources)
 loader_LDFLAGS = $(AM_LDFLAGS) -T./loader.ld
 loader_DEPENDENCIES = loader.ld
+loader_CFLAGS = $(AM_CFLAGS) -Os
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -852,7 +849,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ledex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lm74.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lm74ex.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-crc32.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-init.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-loader.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-pll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mag.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mag_response.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magex.Po@am__quote@
@@ -1106,19 +1106,61 @@ tempus.obj: src/tempus.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tempus.obj `if test -f 'src/tempus.c'; then $(CYGPATH_W) 'src/tempus.c'; else $(CYGPATH_W) '$(srcdir)/src/tempus.c'; fi`
 
-loader.o: src/loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT loader.o -MD -MP -MF $(DEPDIR)/loader.Tpo -c -o loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader.Tpo $(DEPDIR)/loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader.o' libtool=no @AMDEPBACKSLASH@
+loader-loader.o: src/loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-loader.o -MD -MP -MF $(DEPDIR)/loader-loader.Tpo -c -o loader-loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-loader.Tpo $(DEPDIR)/loader-loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader-loader.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
 
-loader.obj: src/loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT loader.obj -MD -MP -MF $(DEPDIR)/loader.Tpo -c -o loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader.Tpo $(DEPDIR)/loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader.obj' libtool=no @AMDEPBACKSLASH@
+loader-loader.obj: src/loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-loader.obj -MD -MP -MF $(DEPDIR)/loader-loader.Tpo -c -o loader-loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-loader.Tpo $(DEPDIR)/loader-loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader-loader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
+
+loader-crc32.o: src/crc32.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-crc32.o -MD -MP -MF $(DEPDIR)/loader-crc32.Tpo -c -o loader-crc32.o `test -f 'src/crc32.c' || echo '$(srcdir)/'`src/crc32.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-crc32.Tpo $(DEPDIR)/loader-crc32.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crc32.c' object='loader-crc32.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-crc32.o `test -f 'src/crc32.c' || echo '$(srcdir)/'`src/crc32.c
+
+loader-crc32.obj: src/crc32.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-crc32.obj -MD -MP -MF $(DEPDIR)/loader-crc32.Tpo -c -o loader-crc32.obj `if test -f 'src/crc32.c'; then $(CYGPATH_W) 'src/crc32.c'; else $(CYGPATH_W) '$(srcdir)/src/crc32.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-crc32.Tpo $(DEPDIR)/loader-crc32.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crc32.c' object='loader-crc32.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-crc32.obj `if test -f 'src/crc32.c'; then $(CYGPATH_W) 'src/crc32.c'; else $(CYGPATH_W) '$(srcdir)/src/crc32.c'; fi`
+
+loader-pll.o: src/pll.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-pll.o -MD -MP -MF $(DEPDIR)/loader-pll.Tpo -c -o loader-pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-pll.Tpo $(DEPDIR)/loader-pll.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='loader-pll.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
+
+loader-pll.obj: src/pll.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-pll.obj -MD -MP -MF $(DEPDIR)/loader-pll.Tpo -c -o loader-pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-pll.Tpo $(DEPDIR)/loader-pll.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='loader-pll.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
+
+loader-init.o: src/init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-init.o -MD -MP -MF $(DEPDIR)/loader-init.Tpo -c -o loader-init.o `test -f 'src/init.c' || echo '$(srcdir)/'`src/init.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-init.Tpo $(DEPDIR)/loader-init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/init.c' object='loader-init.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-init.o `test -f 'src/init.c' || echo '$(srcdir)/'`src/init.c
+
+loader-init.obj: src/init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-init.obj -MD -MP -MF $(DEPDIR)/loader-init.Tpo -c -o loader-init.obj `if test -f 'src/init.c'; then $(CYGPATH_W) 'src/init.c'; else $(CYGPATH_W) '$(srcdir)/src/init.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-init.Tpo $(DEPDIR)/loader-init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/init.c' object='loader-init.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-init.obj `if test -f 'src/init.c'; then $(CYGPATH_W) 'src/init.c'; else $(CYGPATH_W) '$(srcdir)/src/init.c'; fi`
 
 mag_response.o: src/mag_response.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mag_response.o -MD -MP -MF $(DEPDIR)/mag_response.Tpo -c -o mag_response.o `test -f 'src/mag_response.c' || echo '$(srcdir)/'`src/mag_response.c
@@ -1660,9 +1702,6 @@ accelex.bin: $(accelex_sources)
 	$(objcopy_bin) accelex accelex.bin
 accelex.map: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
-accelex.vectors: $(accelex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) accelex
-	$(objcopy_vectors) accelex accelex.vectors
 accelex-rom.bin: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex-rom
 	$(objcopy_bin) accelex-rom accelex-rom.bin
@@ -1673,9 +1712,6 @@ adcex.bin: $(adcex_sources)
 	$(objcopy_bin) adcex adcex.bin
 adcex.map: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex
-adcex.vectors: $(adcex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) adcex
-	$(objcopy_vectors) adcex adcex.vectors
 adcex-rom.bin: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex-rom
 	$(objcopy_bin) adcex-rom adcex-rom.bin
@@ -1686,9 +1722,6 @@ crcex.bin: $(crcex_sources)
 	$(objcopy_bin) crcex crcex.bin
 crcex.map: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex
-crcex.vectors: $(crcex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) crcex
-	$(objcopy_vectors) crcex crcex.vectors
 crcex-rom.bin: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex-rom
 	$(objcopy_bin) crcex-rom crcex-rom.bin
@@ -1699,9 +1732,6 @@ dacex.bin: $(dacex_sources)
 	$(objcopy_bin) dacex dacex.bin
 dacex.map: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex
-dacex.vectors: $(dacex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) dacex
-	$(objcopy_vectors) dacex dacex.vectors
 dacex-rom.bin: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex-rom
 	$(objcopy_bin) dacex-rom dacex-rom.bin
@@ -1712,9 +1742,6 @@ inledex.bin: $(inledex_sources)
 	$(objcopy_bin) inledex inledex.bin
 inledex.map: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex
-inledex.vectors: $(inledex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) inledex
-	$(objcopy_vectors) inledex inledex.vectors
 inledex-rom.bin: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex-rom
 	$(objcopy_bin) inledex-rom inledex-rom.bin
@@ -1725,9 +1752,6 @@ ledex.bin: $(ledex_sources)
 	$(objcopy_bin) ledex ledex.bin
 ledex.map: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex
-ledex.vectors: $(ledex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) ledex
-	$(objcopy_vectors) ledex ledex.vectors
 ledex-rom.bin: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex-rom
 	$(objcopy_bin) ledex-rom ledex-rom.bin
@@ -1738,9 +1762,6 @@ lm74ex.bin: $(lm74ex_sources)
 	$(objcopy_bin) lm74ex lm74ex.bin
 lm74ex.map: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex
-lm74ex.vectors: $(lm74ex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) lm74ex
-	$(objcopy_vectors) lm74ex lm74ex.vectors
 lm74ex-rom.bin: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex-rom
 	$(objcopy_bin) lm74ex-rom lm74ex-rom.bin
@@ -1751,9 +1772,6 @@ magex.bin: $(magex_sources)
 	$(objcopy_bin) magex magex.bin
 magex.map: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex
-magex.vectors: $(magex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) magex
-	$(objcopy_vectors) magex magex.vectors
 magex-rom.bin: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex-rom
 	$(objcopy_bin) magex-rom magex-rom.bin
@@ -1764,9 +1782,6 @@ mag_response.bin: $(mag_response_sources)
 	$(objcopy_bin) mag_response mag_response.bin
 mag_response.map: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response
-mag_response.vectors: $(mag_response_sources)
-	$(MAKE) $(AM_MAKEFLAGS) mag_response
-	$(objcopy_vectors) mag_response mag_response.vectors
 mag_response-rom.bin: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response-rom
 	$(objcopy_bin) mag_response-rom mag_response-rom.bin
@@ -1777,9 +1792,6 @@ multa.bin: $(multa_sources)
 	$(objcopy_bin) multa multa.bin
 multa.map: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
-multa.vectors: $(multa_sources)
-	$(MAKE) $(AM_MAKEFLAGS) multa
-	$(objcopy_vectors) multa multa.vectors
 multa-rom.bin: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa-rom
 	$(objcopy_bin) multa-rom multa-rom.bin
@@ -1790,9 +1802,6 @@ pllex.bin: $(pllex_sources)
 	$(objcopy_bin) pllex pllex.bin
 pllex.map: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex
-pllex.vectors: $(pllex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) pllex
-	$(objcopy_vectors) pllex pllex.vectors
 pllex-rom.bin: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex-rom
 	$(objcopy_bin) pllex-rom pllex-rom.bin
@@ -1803,9 +1812,6 @@ powerex.bin: $(powerex_sources)
 	$(objcopy_bin) powerex powerex.bin
 powerex.map: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex
-powerex.vectors: $(powerex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) powerex
-	$(objcopy_vectors) powerex powerex.vectors
 powerex-rom.bin: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex-rom
 	$(objcopy_bin) powerex-rom powerex-rom.bin
@@ -1816,9 +1822,6 @@ uart1ex.bin: $(uart1ex_sources)
 	$(objcopy_bin) uart1ex uart1ex.bin
 uart1ex.map: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
-uart1ex.vectors: $(uart1ex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) uart1ex
-	$(objcopy_vectors) uart1ex uart1ex.vectors
 uart1ex-rom.bin: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex-rom
 	$(objcopy_bin) uart1ex-rom uart1ex-rom.bin
@@ -1829,9 +1832,6 @@ tempusex.bin: $(tempusex_sources)
 	$(objcopy_bin) tempusex tempusex.bin
 tempusex.map: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex
-tempusex.vectors: $(tempusex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) tempusex
-	$(objcopy_vectors) tempusex tempusex.vectors
 tempusex-rom.bin: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex-rom
 	$(objcopy_bin) tempusex-rom tempusex-rom.bin
