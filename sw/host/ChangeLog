@@ -1,3 +1,5 @@
+28 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: made work with new bootloader
 24 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am configure.ac conloq/Makefile.am conloq/caed.c
    conloq/exp-brief.c conloq/exp.c conloq/parse_tsipex.c
