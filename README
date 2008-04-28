@@ -317,19 +317,14 @@ and distribution; we plan also put the object-form schematics]
  currently we can see two solutions:
  (a) not distribute these files, which is not good because
      it makes gEDA mandatory.
- (b) make an exception like "you need not distribute gEDA suit
-     when you provide object code for some hardware parts
-     if you make sure all of the next four is true
-     (1) you provide the source code for the hardware parts
-         on the same media;
-     (2) the source code you provide is with no restrictions
-         maintainable with a widely available gEDA version,
-         preferably from http://geda.seul.org;
-     (3) the mentioned version of gEDA is precisely specified in
-         your documentation;
-     (4) the source code you provide and this gEDA version form
-         the Corresponding Source in the terms of the GPL for
-         the whole object code you distribute".
+ (b) make an exception like "you need not distribute gEDA suit.."
+]
+[28 Apr 2008 GPLv3 already contains such exception:
+>However, it (the "Corresponding Source") does not include the work's
+>System Libraries, or general-purpose tools or generally available free
+>programs which are used unmodified in performing those activities but
+>which are not part of the work.
+ GPLv2 does not.
 ]
 however, we do put all Autotools-generated files
 that will be distributed.
