@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 .text
 .code 32
 .align 0
-reset: /*initialise stacks*/
 	ldr	r0, stack_bot
 	msr	CPSR_c, #i_bit|f_bit|mode_sv
 	mov	sp, r0
