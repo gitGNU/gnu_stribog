@@ -363,9 +363,7 @@ run(unsigned long addr)
 {char s[289];int n,r;if(snprintf_checked(s,sizeof s,"G %lu A\r\n",addr))return!0;
  drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
- printf("received %i bytes: %s",n,s);r=test_code(s);
- n=wait_for_chars(s,sizeof(s),1);s[n]=0;
- printf("received %i bytes: %s",n,s);return r;
+ printf("received %i bytes: %s",n,s);r=test_code(s);return r;
 }enum{byte_mask=0xFF,reset=0,end=0xFF};
 static void
 print_array(char*s,int n)
@@ -414,55 +412,93 @@ load_prefs(void)
    }if(n>0){printf("nack:");print_array(s,n);}
   }
  }return 0;
+}enum global_constants/*FIXME: this is common with the target-side*/
+{SOH=1,SOT=4,EOT=5,ACK=6,NACK=0x15,
+ packet_size=1<<10,bytes_per_word=4,bits_per_byte=8
+};
+static int
+send_bytes(char*s,int n)
+{while(n>0){int k=scribe(s,n);if(k>0){s+=k;n-=k;}}
+ return 0;
+}
+static int
+check_signature(const char*s)
+{return*s==SOT&&s[1]==ACK;}
+static int
+sync_ram_loader(void)
+{char s[2],c=SOT;int i,n;time_t t=time(0);
+ static const int timeout=2;
+ printf("synchronizing bootloader\n");i=0;
+ send_bytes(&c,1);printf("sync char sent\nreceived: ");
+ while(time(0)-t<timeout)
+ {n=lege(s+i,sizeof(s)-i);if(n>0)i+=n;
+  if(i==sizeof s)break;
+ }
+ for(n=0;n<i;n++)printf(" %2.2X",s[n]&0xFF);if(i)fflush(stdout);
+ while(1)
+ {send_bytes(&c,1);printf("sync char sent\nreceived: ");t=time(0);
+  while(time(0)-t<timeout)
+  {if(check_signature(s)){printf("\nbootloader in sync\n");return 0;}
+   for(n=0;n<sizeof(s)-1;n++)s[n]=s[n+1];
+   while(time(0)-t<timeout)
+   {n=lege(s-1+sizeof s,1);
+    if(n>0){printf(" %2.2X",0xFF&s[sizeof(s)-1]);fflush(stdout);break;}
+   }
+  }
+ }return!0;
 }
 int
 load_ram_loader(void)
-{static const unsigned long ram_org=0x40000000+((32-1)<<10);
+{static const unsigned long ram_base=0x40000000;
+ static const unsigned long init_size=0,loader_size=(1<<10)+(1<<9),
+  ram_size=32<<10,ram_org=ram_base+ram_size-loader_size-init_size,
+  start_addr=ram_org+init_size;
  int i,m=mute,ret;FILE*f=0;unsigned long addr;char s[289];
  const char program_name[]="loader.bin";mute=1;
- f=fopen(program_name,"rb");ret=f!=0;
+ f=fopen(program_name,"rb");ret=!f;
  if(ret){printf("no programme '%s' found\n",program_name);goto x;}
  for(addr=ram_org;!feof(f);addr+=step)
  {for(i=0;i<step&&!feof(f);i++)fscanf(f,"%c",s+i);
   printf("loading %i bytes at addr=0x%lX",i,addr);
   ret=write_string(s,addr,step);if(ret)goto x;putchar('\n');
- }mute=m;ret=run(ram_org);
+ }mute=m;ret=run(start_addr);
+ printf("\nrun loader: %s\n",ret?"fail":"success");
+ if(ret)goto x;ret=sync_ram_loader();
  x:if(f)fclose(f);return ret;
 }
-enum global_constants/*FIXME: this is common with the target-side*/
-{SOH=1,EOT=5,ACK=6,NACK=0x15,
- packet_size=1<<10,bytes_per_word=4,bits_per_byte=8
-};
-void
+static void
 pack_num(char*s,unsigned long n)
 {int i=0;
- for(i=bytes_per_word-1;i>=0;i--,n>>=bits_per_byte)
-  s[i]=n&((1<<bits_per_byte)-1);
+ for(i=0;i<bytes_per_word;i++,n>>=bits_per_byte)
+  s[bytes_per_word-1-i]=n&((1<<bits_per_byte)-1);
 }
-int
-send_bytes(char*s,int n)
-{while(n>0){int k=scribe(s,n);if(k>0){s+=k;n-=k;}}
- return 0;
-}
-int
+static int
 wait_for_ack(void)
-{char c;int n=0;time_t t=time(0);
+{unsigned char c;int n=0;time_t t=time(0);
  while(time(0)-t<2){n=lege(&c,1);if(n==1)break;}
- if(n<1)return-1;if(c==ACK)return 0;return 1;
+ if(n<1){printf("timeout\n");return-1;}
+ if(c==ACK)return 0;
+ printf("NACK %2.2X\n",c);
+ t=time(0);drain_uart();
+ return 1;
 }
-int
+static int
 send_block(unsigned long addr,char*s)
-{char c[bytes_per_word];unsigned long crc; 
- do
+{char c[bytes_per_word];unsigned long crc;int r;
+ printf("sending block %8.8lX\n",addr);
+ while(1)
  {c[0]=SOH;send_bytes(c,1);
   pack_num(c,addr);send_bytes(c,4);
   crc=form_crc((const crc32_input_array_token*)(&addr),1);
   pack_num(c,crc);send_bytes(c,4);
+  r=wait_for_ack();
+  if(r){sync_ram_loader();continue;}
   send_bytes(s,packet_size);
   crc=form_crc((const crc32_input_array_token*)s,packet_size>>2);
   pack_num(c,crc);send_bytes(c,4);
- }while(wait_for_ack());
- return 0;
+  r=wait_for_ack();if(!r){printf("%8.8lX ACK\n",addr);return 0;}
+  sync_ram_loader();
+ }return 0;
 }
 int
 launch_program(unsigned long addr)
@@ -471,16 +507,16 @@ launch_program(unsigned long addr)
  {c[0]=EOT;send_bytes(c,1);
   pack_num(c,addr);send_bytes(c,4);
   crc=form_crc((const crc32_input_array_token*)(&addr),1);
-  pack_num(c,crc);send_bytes(c,4);
+  pack_num(c,crc);send_bytes(c,4);printf("address sent\n");
  }while(wait_for_ack());
- return 0;
+ printf("program launched\n");return 0;
 }
 int
 load_target(void)
 {static const unsigned long ram_org=0x40000000;
  int i,ret=0;FILE*f=0;unsigned long addr;char s[packet_size];
  strncpy(s,args.target_name,sizeof s);strncat(s,".bin",sizeof s);
- f=fopen(s,"rb");ret=f!=0;if(ret)goto x;
+ f=fopen(s,"rb");ret=!f;if(ret)goto x;
  if(!f){printf("no programme '%s' found\n",s);goto x;}
  addr=ram_org;
  do

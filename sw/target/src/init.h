@@ -1,7 +1,7 @@
-/*LPC213x linker script template for RAM-based program
-Copyright (C) 2006, 2008\
+/*bootloader initialisation routines header
+Copyright (C) 2008\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
-This file has been written for the stribog project.
+This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,24 +15,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-/*sections fill should be 0x4E4F2043414D454C0A, if any*/
-OUTPUT_FORMAT("elf32-littlearm")
-/*comment_on_the_cpu*/
-MEMORY
-{ ram(!r) : o = 0x40000000 + 32k - 1k - 512, l = 1k + 512 }
-_arm_stack_bottom = 0x40000000 + 32k - 4;
-SECTIONS
-{.text :
- { 
-   *boot.o(.text)
-   *init.o(.text)
-   *pll.o(.text)
-   . =  512;
-   *(.text)
-   *(.rodata)
-   *(.bss)
-   *(.data)
-   *(.glue_7)
-   *(.glue_7t)
- } >ram
-}
+void init_bootloader(void);
