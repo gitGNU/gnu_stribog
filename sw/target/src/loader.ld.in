@@ -17,10 +17,12 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 /*sections fill should be 0x4E4F2043414D454C0A, if any*/
 OUTPUT_FORMAT("elf32-littlearm")
-/*comment_on_the_cpu*/
+/*actually the bootloader is thought
+to be strictly position-independent when running in RAM*/
 MEMORY
-{ ram(!r) : o = 0x40000000 + 32k - 1k - 512, l = 1k + 512 }
-_arm_stack_bottom = 0x40000000 + 32k - 4;
+{ ram(!r) : o = 0x40000000+32k-1k-512, l = 1k+512 }
+/*this constant is used to assign stack pointer from PC*/
+_trimmed_loader_size = 1k+512-0x20;
 SECTIONS
 {.text :
  { 
