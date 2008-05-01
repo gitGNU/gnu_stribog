@@ -85,26 +85,36 @@ test_code(const char*s)
  if(n||!mute)
  {if(cs)printf("%s\n",cs);else printf("unknown return code %s\n",s);}
  return n;
-}int 
-echo_off(void)
+}enum{test_code_strlen=3};
+int 
+echo_off(int primary_call)
 {char s[289];const char k[]="A 0\r\n";int n;drain_uart();
- printf("sent %s",k);scribe(k,strlen(k));n=wait_for_chars(s,3,1);s[n]=0;
- printf("received %i bytes: %s",n,s);return test_code(s);
+ printf("sent '%s'; ",k);scribe(k,strlen(k));
+ n=test_code_strlen;if(primary_call)n+=strlen(k);
+ n=wait_for_chars(s,n,1);s[n]=0;
+ printf("received %i bytes: '%s'; ",n,s);
+ if(primary_call&&n==8)return test_code(s+strlen(k));
+ return test_code(s);
 }void 
 read_partid(void)
 {char s[289];const char k[]="J\r\n";long n;drain_uart();
  printf("sent %s",k);scribe(k,3);n=wait_for_chars(s,sizeof(s)-1,1);s[n]=0;
  printf("received %li bytes: %s",n,s);
- if(test_code(s))return;sscanf(s+3,"%li",&n);printf("The part is ");
+ if(test_code(s))return;
+ sscanf(s+test_code_strlen,"%li",&n);printf("The part is ");
  switch(n)
- {case 196353:printf("LPC2131\n");break;case 196369:printf("LPC2132\n");break;
-  case 196370:printf("LPC2134\n");break;case 196387:printf("LPC2136\n");break;
-  case 196389:printf("LPC2138\n");break;default:printf("unknown\n");
+ {case 196353:printf("LPC2131\n");break;
+  case 196369:printf("LPC2132\n");break;
+  case 196370:printf("LPC2134\n");break;
+  case 196387:printf("LPC2136\n");break;
+  case 196389:printf("LPC2138\n");break;
+  default:printf("unknown\n");
  } 
 }int 
 unlock(void)
 {char s[289];const char k[]="U 23130\r\n";int n;drain_uart();
- printf("sent %s",k);scribe(k,strlen(k));n=wait_for_chars(s,3,1);s[n]=0;
+ printf("sent %s",k);scribe(k,strlen(k));
+ n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 #define snprintf_checked(s,size,fmt,...) output_snprintf_error(\
@@ -146,9 +156,11 @@ synchronize(void)
  if(strcmp(ok,s))return!0;
  if(snprintf_checked(s,sizeof s,"%i\r\n",args.freq))return!0;
  printf("sent '%i'; ",args.freq);scribe(s,strlen(s));i=strlen(s)+4;
- n=wait_for_chars(s,i,2);s[n]=0;printf("received %i bytes: '%s'",n,s);
+ n=wait_for_chars(s,i,2);s[n]=0;
+ printf("received %i bytes: '%s'; ",n,s);
  if(snprintf_checked(s0,sizeof s0,"%i\r\nOK\r\n",args.freq))return!0;
- if(!(vex=strcmp(s0,s)))echo_off();unlock();read_partid();return vex;
+ if(!(vex=strcmp(s0,s)))echo_off(1);
+ unlock();read_partid();return vex;
 }void
 read_version(void)
 {char s[289];const char k[]="K\r\n";int n;
@@ -160,14 +172,15 @@ prepare_sectors(unsigned start,unsigned end)
 {char s[289];int n;
  if(snprintf_checked(s,sizeof s,"P %u %u\r\n",start,end))return!0;
  drain_uart();
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
+ printf("sent %s",s);scribe(s,strlen(s));
+ n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }int
 erase_sectors(unsigned start,unsigned end)
 {char s[289];int n;if(prepare_sectors(start,end))return-1;
  if(snprintf_checked(s,sizeof s,"E %u %u\r\n",start,end))return!0;
- drain_uart();
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,3);s[n]=0;
+ drain_uart();printf("sent %s",s);scribe(s,strlen(s));
+ n=wait_for_chars(s,test_code_strlen,3);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }void
 erase(void)
@@ -185,7 +198,7 @@ receive_uuenc_string(char*s,int timeout)
  if(!i)return!0;s[i]=0;return _[-1]!='\n';
 }int
 receive_test_code(char*s)
-{int n;n=wait_for_chars(s,3,1);s[n]=0;
+{int n;n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);
  if(n<3)return!0;return test_code(s);
 }inline char
@@ -228,7 +241,8 @@ write_string(const char*s,unsigned long addr,int n)
  do
  {if(snprintf_checked(t,sizeof t,"W %lu %i\r\n",addr,n))return!0;
   scribe(t,strlen(t));
-  i=wait_for_chars(t,3,1);t[i]=0;if(!mute)printf("received %i: %s",i,t);
+  i=wait_for_chars(t,test_code_strlen,1);t[i]=0;
+  if(!mute)printf("received %i: %s",i,t);
   if(test_code(t))return!0;
   while(1)
   {if(snprintf_checked(t,sizeof t,"%c",n+0x20))return!0;j=strlen(t);
@@ -273,12 +287,16 @@ cache_checksum(FILE*f)
 int
 copy_memory(unsigned long addr)
 {char s[289];int k,n;unsigned long bs,ra;if(prepare_sectors(0,8))return-1;
- if(snprintf_checked(s,sizeof s,"C %lu %lu %lu\r\n",addr,ram,block))return!0;k=strlen(s);
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
+ if(snprintf_checked(s,sizeof s,"C %lu %lu %lu\r\n",addr,ram,block))return!0;
+ k=strlen(s);
+ printf("sent %s",s);scribe(s,strlen(s));
+ n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);if(test_code(s))return test_code(s);
  ra=ram;bs=block;if(addr<64){ra+=64-addr;addr=64;bs-=64;}
- if(snprintf_checked(s,sizeof s,"M %lu %lu %lu\r\n",addr,ra,bs))return!0;k=strlen(s);
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
+ if(snprintf_checked(s,sizeof s,"M %lu %lu %lu\r\n",addr,ra,bs))return!0;
+ k=strlen(s);
+ printf("sent %s",s);scribe(s,strlen(s));
+ n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
 }
 static int
@@ -319,7 +337,8 @@ write_file(void)
   return!0;
  }
  /*it is impractical to have longer target names*/
- strncpy(s,args.target_name,sizeof s);strncat(s,"-rom.bin",sizeof s);
+ strncpy(s,args.target_name,sizeof s);
+ strncat(s,"-rom.bin",sizeof s);
  f=fopen(s,"rb");
  if(reload_wd())error("can't return back to working directory\n");
  if(!f){error("can't open file '%s'\n",s);return!0;}
@@ -341,7 +360,8 @@ write_file(void)
 run(unsigned long addr)
 {char s[289];int n,r;if(snprintf_checked(s,sizeof s,"G %lu A\r\n",addr))return!0;
  drain_uart();
- printf("sent %s",s);scribe(s,strlen(s));n=wait_for_chars(s,3,1);s[n]=0;
+ printf("sent %s",s);scribe(s,strlen(s));
+ n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);r=test_code(s);return r;
 }enum{byte_mask=0xFF,reset=0,end=0xFF};
 static void
@@ -525,7 +545,7 @@ kbd_loop(void)
     printf("frequency assumed %i kHz\n",args.freq);break;
    case'e':erase();break;case'u':unlock();break;
    case'p':prepare();break;case'r':read_mem();break;
-   case'a':echo_off();break;case'c':copy_memory(0);break;
+   case'a':echo_off(0);break;case'c':copy_memory(0);break;
    case'b':write_file();break;case'l':load_and_go();break;
    case'h':help();break;
    case't':no_preferences=!0;
