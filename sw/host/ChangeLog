@@ -1,3 +1,6 @@
+01 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: made the bootloader work properly on
+ the vanilla operating system
 28 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * elk/elk.c: made work with new bootloader
 24 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>

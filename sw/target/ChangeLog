@@ -1,3 +1,6 @@
+01 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/loader.c src/loader.ld.in src/loader.boot.s:
+ made the bootloader work properly
 28 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/loader.c src/loader.ld.in src/init.c
    src/init.h: bootloader made work
