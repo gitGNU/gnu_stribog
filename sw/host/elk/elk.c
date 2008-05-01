@@ -44,7 +44,7 @@ init(const char*s,int f)
  if(init_serialia(s,f)){printf(" failed\n");return no_uart;}
  printf("port setup ok\n");drain_uart();return normal_exit;
 }/*NB (24 Oct 2007) it is not good, but the serial port is setup 
- without no timeouts, so the programme is polling CPU cycles, 
+ without no timeouts, so the programme is drawing CPU cycles, 
  therefore clock() difference will show something not too far 
  from real time. if we setup the timeouts like in ../conloq, 
  this programme doesn't work under the GNU/Hurd/Mach at all*/
@@ -84,28 +84,7 @@ test_code(const char*s)
 {int n=-1;const char*cs=0;if(sscanf(s,"%i",&n)==1)cs=code_string(n);
  if(n||!mute)
  {if(cs)printf("%s\n",cs);else printf("unknown return code %s\n",s);}
- switch(n)
- {case 0:if(!mute)printf("CMD_SUCCESS\n");break;
-  case 1:printf("INVALID_COMMAND\n");break;
-  case 2:printf("SRC_ADDR_ERROR\n");break;
-  case 3:printf("DST_ADDR_ERROR\n");break;
-  case 4:printf("SRC_ADDR_NOT_MAPPED\n");break;
-  case 5:printf("DST_ADDR_NOT_MAPPED\n");break;
-  case 6:printf("COUNT_ERROR\n");break;
-  case 7:printf("INVALID_SECTOR\n");break;
-  case 8:printf("SECTOR_NOT_BLANK\n");break;
-  case 9:printf("SECTOR_NOT_PREPARED_FOR_WRITE_OPERATION\n");break;
-  case 10:printf("COMPARE_ERROR\n");break;
-  case 11:printf("BUSY\n");break;
-  case 12:printf("PARAM_ERROR\n");break;
-  case 13:printf("ADDR_ERROR\n");break;
-  case 14:printf("ADDR_NOT_MAPPED\n");break;
-  case 15:printf("CMD_LOCKED\n");break;
-  case 16:printf("INVALID_CODE\n");break;
-  case 17:printf("INVALID_BAUD_RATE\n");break;
-  case 18:printf("INVALID_STOP_BIT\n");break;
-  case 19:printf("CODE_READ_PROTECTION_ENABLED\n");break;
- }return n;
+ return n;
 }int 
 echo_off(void)
 {char s[289];const char k[]="A 0\r\n";int n;drain_uart();
@@ -162,12 +141,12 @@ synchronize(void)
  {scribe(query,1);printf("? sent %i\r\n",i++);n=wait_for_chars(s,14,2);
   if(n>0){s[n]=0;printf("received %i bytes: %s",n,s);}
  }while(strcmp(sy,s));
- scribe(sy,sizeof(sy)-1);printf("Synchronized sent; ");
- n=wait_for_chars(s,18,1);s[n]=0;printf("received %i bytes: %s",n,s);
+ scribe(sy,sizeof(sy)-1);printf("sent '%s'; ",sy);
+ n=wait_for_chars(s,18,1);s[n]=0;printf("received %i bytes: '%s'; ",n,s);
  if(strcmp(ok,s))return!0;
  if(snprintf_checked(s,sizeof s,"%i\r\n",args.freq))return!0;
- printf("sent %i; ",args.freq);scribe(s,strlen(s));i=strlen(s)+4;
- n=wait_for_chars(s,i,2);s[n]=0;printf("received %i bytes: %s",n,s);
+ printf("sent '%i'; ",args.freq);scribe(s,strlen(s));i=strlen(s)+4;
+ n=wait_for_chars(s,i,2);s[n]=0;printf("received %i bytes: '%s'",n,s);
  if(snprintf_checked(s0,sizeof s0,"%i\r\nOK\r\n",args.freq))return!0;
  if(!(vex=strcmp(s0,s)))echo_off();unlock();read_partid();return vex;
 }void
@@ -426,26 +405,24 @@ check_signature(const char*s)
 {return*s==SOT&&s[1]==ACK;}
 static int
 sync_ram_loader(void)
-{char s[2],c=SOT;int i,n;time_t t=time(0);
- static const int timeout=2;
- printf("synchronizing bootloader\n");i=0;
- send_bytes(&c,1);printf("sync char sent\nreceived: ");
- while(time(0)-t<timeout)
- {n=lege(s+i,sizeof(s)-i);if(n>0)i+=n;
-  if(i==sizeof s)break;
- }
- for(n=0;n<i;n++)printf(" %2.2X",s[n]&0xFF);if(i)fflush(stdout);
+{char s[2],c=SOT;int i,n;time_t t;
+ static const int timeout=2;i=0;s[0]=s[1]=NACK;
+ printf("synchronizing bootloader");
  while(1)
- {send_bytes(&c,1);printf("sync char sent\nreceived: ");t=time(0);
+ {send_bytes(&c,1);
+  printf("\nsync char sent; received:");fflush(stdout);
+  t=time(0);
   while(time(0)-t<timeout)
-  {if(check_signature(s)){printf("\nbootloader in sync\n");return 0;}
-   for(n=0;n<sizeof(s)-1;n++)s[n]=s[n+1];
-   while(time(0)-t<timeout)
-   {n=lege(s-1+sizeof s,1);
-    if(n>0){printf(" %2.2X",0xFF&s[sizeof(s)-1]);fflush(stdout);break;}
+  {for(n=0;n<sizeof(s)-1;n++)s[n]=s[n+1];
+   n=lege(s-1+sizeof s,1);
+   if(n>0)
+   {printf(" %2.2X",0xFF&s[sizeof(s)-1]);fflush(stdout);
+    if(check_signature(s))
+    {printf("\nbootloader in sync\n");return 0;}
    }
   }
- }return!0;
+ } 
+ return!0;
 }
 int
 load_ram_loader(void)
@@ -462,8 +439,6 @@ load_ram_loader(void)
   printf("loading %i bytes at addr=0x%lX",i,addr);
   ret=write_string(s,addr,step);if(ret)goto x;putchar('\n');
  }mute=m;ret=run(start_addr);
- printf("\nrun loader: %s\n",ret?"fail":"success");
- if(ret)goto x;ret=sync_ram_loader();
  x:if(f)fclose(f);return ret;
 }
 static void
@@ -477,26 +452,23 @@ wait_for_ack(void)
 {unsigned char c;int n=0;time_t t=time(0);
  while(time(0)-t<2){n=lege(&c,1);if(n==1)break;}
  if(n<1){printf("timeout\n");return-1;}
- if(c==ACK)return 0;
- printf("NACK %2.2X\n",c);
- t=time(0);drain_uart();
- return 1;
+ if(c==ACK)return 0;printf("NACK %2.2X\n",c);
+ t=time(0);drain_uart();return 1;
 }
 static int
 send_block(unsigned long addr,char*s)
-{char c[bytes_per_word];unsigned long crc;int r;
- printf("sending block %8.8lX\n",addr);
+{char c[bytes_per_word];unsigned long crc;
+ printf("%8.8lX..%8.8lX: ",addr,addr+packet_size-1);fflush(stdout);
  while(1)
  {c[0]=SOH;send_bytes(c,1);
   pack_num(c,addr);send_bytes(c,4);
   crc=form_crc((const crc32_input_array_token*)(&addr),1);
   pack_num(c,crc);send_bytes(c,4);
-  r=wait_for_ack();
-  if(r){sync_ram_loader();continue;}
+  if(wait_for_ack()){sync_ram_loader();continue;}
   send_bytes(s,packet_size);
   crc=form_crc((const crc32_input_array_token*)s,packet_size>>2);
   pack_num(c,crc);send_bytes(c,4);
-  r=wait_for_ack();if(!r){printf("%8.8lX ACK\n",addr);return 0;}
+  if(!wait_for_ack()){printf("ACK\n");return 0;}
   sync_ram_loader();
  }return 0;
 }
@@ -525,22 +497,21 @@ load_target(void)
   ret=send_block(addr,s);if(ret)goto x;
   addr+=packet_size;
  }while(!(feof(f)||ret));if(ret)goto x;
- ret=launch_program(ram_org);
+ ret=launch_program(ram_org)||load_prefs();
  x:if(f)fclose(f);return ret;
 }
 int
 load_and_go(void)
-{int ret=0;if(chdir_to_programs(ram_subdir))return!0;
- ret=load_ram_loader();if(ret)goto x;ret=load_target();
- x:
+{int ret;if(chdir_to_programs(ram_subdir))return!0;
+ ret=load_ram_loader()||sync_ram_loader()||load_target();
  if(reload_wd())
   error("couldn't return to working directory after a failure\n");
  return ret;
 }
 void
 close_all(void)
-{if(preferences_file)fclose(preferences_file);close_serialia();
- close_wd();
+{if(preferences_file)fclose(preferences_file);
+ close_serialia();close_wd();
 }
 static void
 kbd_loop(void)
@@ -660,12 +631,13 @@ main(int argc,char**argv)
  preferences_file=fopen(prefs_file_name,"rb");
  err=init(args.port_name,args.freq);if(normal_exit!=err)return err;
  if(args.write||args.run)
- {clock_t t;synchronize();t=clock();while(clock()-t<CLOCKS_PER_SEC);
-  echo_off();read_partid();unlock();
+ {/*clock_t t; FIXME: check if this works everywhere*/
+  synchronize();
+  /*t=clock();while(clock()-t<CLOCKS_PER_SEC);*/
  }
  if(args.write)
- {prepare_sectors(0,8);erase_sectors(0,8);write_file();}
+ {unlock();prepare_sectors(0,8);erase_sectors(0,8);write_file();}
  if(args.run)load_and_go();
  if(args.write||args.run)return normal_exit;
- echo_off();read_partid();kbd_loop();return normal_exit;
+ kbd_loop();return normal_exit;
 }
