@@ -38,6 +38,8 @@ static void
 push_char(unsigned char c){while(!(U0LSR&UxLSR_THRE));U0THR=c;}
 static inline void
 push_ack(void){push_char(ACK);}
+static inline void
+push_nack(void){push_char(NACK);}
 static int 
 pull_char(void)
 {unsigned t0=tempus();enum{chips_per_byte=10,timeout=83521};
@@ -57,7 +59,7 @@ pull_number(unsigned*x)
 static int
 load_and_go(void)
 {unsigned address,i,crc;unsigned char*s;int c,h;
- h=pull_char();if(h<0)goto out;
+ h=pull_char();if(h<0)return 0;
  if(h!=SOH&&h!=EOT)goto out;
  if(pull_number(&address))goto out;
  if(pull_number(&crc))goto out;
@@ -65,28 +67,24 @@ load_and_go(void)
  push_ack();
  s=(unsigned char*)address;
  if(h==EOT)
- {push_ack();push_ack();led1_set();
-  /*asm("ldr pc, %0"::"m"(address));*/
-  while(1);
+ {push_ack();push_ack();
+  asm("ldr pc, %0"::"m"(address));
  }
  for(i=0;i<packet_size;i++)
  {c=pull_char();if(c<0)goto out;s[i]=c;}
  if(pull_number(&crc))goto out;
  if(crc!=form_crc((const crc32_input_array_token*)s,packet_size>>2))
   goto out;
- push_ack();return 0;out:push_char(NACK);return!0;
+ push_ack();return 0;out:push_nack();return!0;
 }
 static void
 get_in_sync(void)
 {int h;do h=pull_char();while(h!=SOT);
  push_char(SOT);push_ack();
 }
-int main(void)__attribute__((naked));
 int
 main(void)
-{int i=0,h=1;init_bootloader();pull_char();
- while(1)
- {/*if(i++&1)led0_set();else led0_clr();*/
-  if(h)get_in_sync();h=load_and_go();
- }return 0;
+{int h=1;init_bootloader();
+ while(1){if(h)get_in_sync();h=load_and_go();}
+ return 0;
 }
