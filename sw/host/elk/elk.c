@@ -358,11 +358,12 @@ write_file(void)
  }fclose(f);return 0;
 }int 
 run(unsigned long addr)
-{char s[289];int n,r;if(snprintf_checked(s,sizeof s,"G %lu A\r\n",addr))return!0;
+{char s[289];int n,r;
+ if(snprintf_checked(s,sizeof s,"G %lu A\r\n",addr))return!0;
  drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));
  n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
- printf("received %i bytes: %s",n,s);r=test_code(s);return r;
+ printf("received %i bytes: %s\n",n,s);r=test_code(s);return r;
 }enum{byte_mask=0xFF,reset=0,end=0xFF};
 static void
 print_array(char*s,int n)
