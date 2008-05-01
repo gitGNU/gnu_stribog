@@ -110,7 +110,6 @@ loader_sources=src/loader.boot.s include/lpc2138.h\
 loader_SOURCES=$(loader_sources)
 loader_LDFLAGS=$(AM_LDFLAGS) -T./loader.ld
 loader_DEPENDENCIES=loader.ld
-loader_CFLAGS=$(AM_CFLAGS) -Os
 loader.bin: $(loader_sources)
 	$(MAKE) $(AM_MAKEFLAGS) loader
 	$(objcopy_bin) loader loader.bin
