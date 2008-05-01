@@ -21,8 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 .text
 .code 32
 .align 0
-	ldr	r0, stack_bot
+	ldr	r0, loader_size
+	add	sp, pc, r0
 	msr	CPSR_c, #i_bit|f_bit|mode_sv
-	mov	sp, r0
 	b	main
-stack_bot:	.word	_arm_stack_bottom
+loader_size:	.word	_trimmed_loader_size
