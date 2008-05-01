@@ -153,13 +153,12 @@ lm74ex_rom_OBJECTS = $(am_lm74ex_rom_OBJECTS)
 lm74ex_rom_LDADD = $(LDADD)
 lm74ex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(lm74ex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_9 = loader.boot.$(OBJEXT) loader-loader.$(OBJEXT) \
-	loader-crc32.$(OBJEXT) loader-pll.$(OBJEXT) \
-	loader-init.$(OBJEXT)
+am__objects_9 = loader.boot.$(OBJEXT) loader.$(OBJEXT) crc32.$(OBJEXT) \
+	pll.$(OBJEXT) init.$(OBJEXT)
 am_loader_OBJECTS = $(am__objects_9)
 loader_OBJECTS = $(am_loader_OBJECTS)
 loader_LDADD = $(LDADD)
-loader_LINK = $(CCLD) $(loader_CFLAGS) $(CFLAGS) $(loader_LDFLAGS) \
+loader_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(loader_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am__objects_10 = $(am__objects_1) mag_response.$(OBJEXT) adc.$(OBJEXT) \
 	crc32.$(OBJEXT) dac.$(OBJEXT) power.$(OBJEXT) tempus.$(OBJEXT) \
@@ -682,7 +681,6 @@ loader_sources = src/loader.boot.s include/lpc2138.h\
 loader_SOURCES = $(loader_sources)
 loader_LDFLAGS = $(AM_LDFLAGS) -T./loader.ld
 loader_DEPENDENCIES = loader.ld
-loader_CFLAGS = $(AM_CFLAGS) -Os
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -844,15 +842,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crcex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dac.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dacex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/inledex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/led.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ledex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lm74.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lm74ex.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-crc32.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-init.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-loader.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader-pll.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mag.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mag_response.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magex.Po@am__quote@
@@ -1106,61 +1102,33 @@ tempus.obj: src/tempus.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tempus.obj `if test -f 'src/tempus.c'; then $(CYGPATH_W) 'src/tempus.c'; else $(CYGPATH_W) '$(srcdir)/src/tempus.c'; fi`
 
-loader-loader.o: src/loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-loader.o -MD -MP -MF $(DEPDIR)/loader-loader.Tpo -c -o loader-loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-loader.Tpo $(DEPDIR)/loader-loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader-loader.o' libtool=no @AMDEPBACKSLASH@
+loader.o: src/loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT loader.o -MD -MP -MF $(DEPDIR)/loader.Tpo -c -o loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader.Tpo $(DEPDIR)/loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o loader.o `test -f 'src/loader.c' || echo '$(srcdir)/'`src/loader.c
 
-loader-loader.obj: src/loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-loader.obj -MD -MP -MF $(DEPDIR)/loader-loader.Tpo -c -o loader-loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-loader.Tpo $(DEPDIR)/loader-loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader-loader.obj' libtool=no @AMDEPBACKSLASH@
+loader.obj: src/loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT loader.obj -MD -MP -MF $(DEPDIR)/loader.Tpo -c -o loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader.Tpo $(DEPDIR)/loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/loader.c' object='loader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o loader.obj `if test -f 'src/loader.c'; then $(CYGPATH_W) 'src/loader.c'; else $(CYGPATH_W) '$(srcdir)/src/loader.c'; fi`
 
-loader-crc32.o: src/crc32.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-crc32.o -MD -MP -MF $(DEPDIR)/loader-crc32.Tpo -c -o loader-crc32.o `test -f 'src/crc32.c' || echo '$(srcdir)/'`src/crc32.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-crc32.Tpo $(DEPDIR)/loader-crc32.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crc32.c' object='loader-crc32.o' libtool=no @AMDEPBACKSLASH@
+init.o: src/init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT init.o -MD -MP -MF $(DEPDIR)/init.Tpo -c -o init.o `test -f 'src/init.c' || echo '$(srcdir)/'`src/init.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/init.Tpo $(DEPDIR)/init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/init.c' object='init.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-crc32.o `test -f 'src/crc32.c' || echo '$(srcdir)/'`src/crc32.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o init.o `test -f 'src/init.c' || echo '$(srcdir)/'`src/init.c
 
-loader-crc32.obj: src/crc32.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-crc32.obj -MD -MP -MF $(DEPDIR)/loader-crc32.Tpo -c -o loader-crc32.obj `if test -f 'src/crc32.c'; then $(CYGPATH_W) 'src/crc32.c'; else $(CYGPATH_W) '$(srcdir)/src/crc32.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-crc32.Tpo $(DEPDIR)/loader-crc32.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/crc32.c' object='loader-crc32.obj' libtool=no @AMDEPBACKSLASH@
+init.obj: src/init.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT init.obj -MD -MP -MF $(DEPDIR)/init.Tpo -c -o init.obj `if test -f 'src/init.c'; then $(CYGPATH_W) 'src/init.c'; else $(CYGPATH_W) '$(srcdir)/src/init.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/init.Tpo $(DEPDIR)/init.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/init.c' object='init.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-crc32.obj `if test -f 'src/crc32.c'; then $(CYGPATH_W) 'src/crc32.c'; else $(CYGPATH_W) '$(srcdir)/src/crc32.c'; fi`
-
-loader-pll.o: src/pll.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-pll.o -MD -MP -MF $(DEPDIR)/loader-pll.Tpo -c -o loader-pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-pll.Tpo $(DEPDIR)/loader-pll.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='loader-pll.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-pll.o `test -f 'src/pll.c' || echo '$(srcdir)/'`src/pll.c
-
-loader-pll.obj: src/pll.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-pll.obj -MD -MP -MF $(DEPDIR)/loader-pll.Tpo -c -o loader-pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-pll.Tpo $(DEPDIR)/loader-pll.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/pll.c' object='loader-pll.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-pll.obj `if test -f 'src/pll.c'; then $(CYGPATH_W) 'src/pll.c'; else $(CYGPATH_W) '$(srcdir)/src/pll.c'; fi`
-
-loader-init.o: src/init.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-init.o -MD -MP -MF $(DEPDIR)/loader-init.Tpo -c -o loader-init.o `test -f 'src/init.c' || echo '$(srcdir)/'`src/init.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-init.Tpo $(DEPDIR)/loader-init.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/init.c' object='loader-init.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-init.o `test -f 'src/init.c' || echo '$(srcdir)/'`src/init.c
-
-loader-init.obj: src/init.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -MT loader-init.obj -MD -MP -MF $(DEPDIR)/loader-init.Tpo -c -o loader-init.obj `if test -f 'src/init.c'; then $(CYGPATH_W) 'src/init.c'; else $(CYGPATH_W) '$(srcdir)/src/init.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/loader-init.Tpo $(DEPDIR)/loader-init.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/init.c' object='loader-init.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(loader_CFLAGS) $(CFLAGS) -c -o loader-init.obj `if test -f 'src/init.c'; then $(CYGPATH_W) 'src/init.c'; else $(CYGPATH_W) '$(srcdir)/src/init.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o init.obj `if test -f 'src/init.c'; then $(CYGPATH_W) 'src/init.c'; else $(CYGPATH_W) '$(srcdir)/src/init.c'; fi`
 
 mag_response.o: src/mag_response.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mag_response.o -MD -MP -MF $(DEPDIR)/mag_response.Tpo -c -o mag_response.o `test -f 'src/mag_response.c' || echo '$(srcdir)/'`src/mag_response.c
