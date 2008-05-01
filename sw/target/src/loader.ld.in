@@ -15,7 +15,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-/*sections fill should be 0x4E4F2043414D454C0A, if any*/
 OUTPUT_FORMAT("elf32-littlearm")
 /*actually the bootloader is thought
 to be strictly position-independent when running in RAM*/
@@ -25,8 +24,7 @@ MEMORY
 _trimmed_loader_size = 1k+512-0x20;
 SECTIONS
 {.text :
- { 
-   *boot.o(.text)
+ { *boot.o(.text)
    *init.o(.text)
    *pll.o(.text)
    . =  512;
