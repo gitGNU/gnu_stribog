@@ -1,3 +1,5 @@
+02 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: strncat misuse fixed
 01 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * elk/elk.c: made the bootloader work properly on
  the vanilla operating system
