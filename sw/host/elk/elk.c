@@ -331,14 +331,14 @@ chdir_to_programs(const char*subdir)
 static int
 write_file(void)
 {char s[289];FILE*f;int i,n=0;unsigned long addr=ram;
+ /*it is impractical to have longer target names*/
+ if(snprintf_checked(s,sizeof s,"%s-rom.bin",args.target_name);)
+  return!0;
  if(chdir_to_programs(rom_subdir))
  {if(reload_wd())
    error("couldn't return to working directory after a failure\n");
   return!0;
  }
- /*it is impractical to have longer target names*/
- strncpy(s,args.target_name,sizeof s);
- strncat(s,"-rom.bin",sizeof s);
  f=fopen(s,"rb");
  if(reload_wd())error("can't return back to working directory\n");
  if(!f){error("can't open file '%s'\n",s);return!0;}
@@ -508,7 +508,8 @@ int
 load_target(void)
 {static const unsigned long ram_org=0x40000000;
  int i,ret=0;FILE*f=0;unsigned long addr;char s[packet_size];
- strncpy(s,args.target_name,sizeof s);strncat(s,".bin",sizeof s);
+ if(snprintf_checked(s,sizeof s,"%s.bin",args.target_name))
+  return!0;
  f=fopen(s,"rb");ret=!f;if(ret)goto x;
  if(!f){printf("no programme '%s' found\n",s);goto x;}
  addr=ram_org;
