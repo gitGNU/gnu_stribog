@@ -535,27 +535,6 @@ close_all(void)
 {if(preferences_file)fclose(preferences_file);
  close_serialia();close_wd();
 }
-static void
-kbd_loop(void)
-{char c;
- do
- {printf(">");scanf("%c",&c);
-  switch(c)
-  {case's':synchronize();break;
-   case'j':read_partid();break;case'k':read_version();break;
-   case'f':printf("enter crystal frequency (kHz): ");scanf("%i",&(args.freq));
-    printf("frequency assumed %i kHz\n",args.freq);break;
-   case'e':erase();break;case'u':unlock();break;
-   case'p':prepare();break;case'r':read_mem();break;
-   case'a':echo_off(0);break;case'c':copy_memory(0);break;
-   case'b':write_file();break;case'l':load_and_go();break;
-   case'h':help();break;
-   case't':no_preferences=!0;
-    printf("%spreferences will be loaded\n",no_preferences?"no ":"");
-    break;
-  } 
- }while(c!='q');
-}
 const char*argp_program_version="elk"PACKAGE_VERSION_COMMENTED;
 #define KEY_ASSIGNMENTS_HELP "some key assignments:\n"\
 " j: read part ID\n k: read version\n s: synchronize\n"\
@@ -564,8 +543,6 @@ const char*argp_program_version="elk"PACKAGE_VERSION_COMMENTED;
 " r: dump MCU memory on screen\n q: quit\n h: commands info\n"\
 " t: toggle preferences loading\n"\
 "For more info, see elk sources and LPC21xx bootstrap loader documentation\n"
-void
-help(void){printf(KEY_ASSIGNMENTS_HELP);}
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
 static char doc[]="LPC213x programmer (hardly functional)\v"
  "On POSIX systems the port baud rate is set according\n"
@@ -598,6 +575,27 @@ static struct argp_option options[]=
  {"quiet",'q',0,0,"Be quiet"},
  {0}
 };
+static void
+kbd_loop(void)
+{char c;
+ do
+ {printf(">");scanf("%c",&c);
+  switch(c)
+  {case's':synchronize();break;
+   case'j':read_partid();break;case'k':read_version();break;
+   case'f':printf("enter crystal frequency (kHz): ");scanf("%i",&(args.freq));
+    printf("frequency assumed %i kHz\n",args.freq);break;
+   case'e':erase();break;case'u':unlock();break;
+   case'p':prepare();break;case'r':read_mem();break;
+   case'a':echo_off(0);break;case'c':copy_memory(0);break;
+   case'b':write_file();break;case'l':load_and_go();break;
+   case'h':printf(KEY_ASSIGNMENTS_HELP);break;
+   case't':no_preferences=!0;
+    printf("%spreferences will be loaded\n",no_preferences?"no ":"");
+    break;
+  } 
+ }while(c!='q');
+}
 static error_t
 parse_opt(int key,char*arg,struct argp_state*state)
 {struct arguments*arguments=state->input;int n=0,r;
