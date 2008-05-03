@@ -1,7 +1,7 @@
 03 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am elk/usage.h: rm
- * elk/serialia.c elk/serialia.h elk/elk.c:
- send_bytes(), drain_uart() wait_for_chars() moved to elk/serialia.c
+ * Makefile.am elk/serial.c elk/serialia.h elk/elk.c:
+ send_bytes(), drain_uart() wait_for_chars() moved to elk/serial.c
  * Makefile.am elk/elk.c elk/lpc_loader.c elk/lpc_loader.h:
  lpc_loader.[ch] made of functions from elk/elk.c
  * Makefile.am elk/elk.c elk/ram_loader.c elk/ram_loader.h:
