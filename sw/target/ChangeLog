@@ -1,5 +1,20 @@
+02 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/boot.s: r[0-5] are reserved for program arguments;
+ stack of RAM-based programs is inherited from the bootloader
+ !multa does not show the alignment-like bug any more!
+01 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/loader.c src/loader.ld.in src/loader.boot.s:
+ made the bootloader work properly
+28 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * src/loader.c src/loader.ld.in src/init.c
+   src/init.h: bootloader made work
 25 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/uart0.c src/accel.c: error counters are initialised
+ * src/ram2138.ld.in: used memory regions changed
+ * m4/makefile.m4: .vectors merged to .text section
+24 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+  * sw/target/Makefile.am.m4: bootloader added
+  * src/loader.boot.s src/loader.c src/loader.ld.in: new
 23 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/uart0.c: poll_char() is declared static
 18 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>

@@ -131,7 +131,7 @@ send_stat(int ms)
  }if(!send_fix(st,stat_length))st[0]=i=0;
 }int 
 main(void)
-{int j=0,ms;init_all();led0_clr();
+{int j=0,ms;init_all();//led0_clr();
  while(1)
  {unsigned t=iunius_tempus();
   ms=send_msmt();send_temp(ms);send_pps();check_gps_data();send_stat(ms);

@@ -1,3 +1,21 @@
+03 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am elk/usage.h: rm
+ * Makefile.am elk/serial.c elk/serialia.h elk/elk.c:
+ send_bytes(), drain_uart() wait_for_chars() moved to elk/serial.c
+ * Makefile.am elk/elk.c elk/lpc_loader.c elk/lpc_loader.h:
+ lpc_loader.[ch] made of functions from elk/elk.c
+ * Makefile.am elk/elk.c elk/ram_loader.c elk/ram_loader.h:
+ ram_loader.[ch] made of functions from elk/elk.c
+ * Makefile.am elk/elk.c elk/snprintf_checked.c
+   elk/snprintf_checked.h:
+ snprintf_checked.[ch] made of the function from elk/elk.c
+02 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: strncat misuse fixed
+01 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: made the bootloader work properly on
+ the vanilla operating system
+28 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk/elk.c: made work with new bootloader
 24 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am configure.ac conloq/Makefile.am conloq/caed.c
    conloq/exp-brief.c conloq/exp.c conloq/parse_tsipex.c
@@ -8,6 +26,7 @@
  moved to libstribog.a
  * intlpc/intlpc.c intlpc/Makefile.am elk/maketarget
    lib/push_pop_wd.c lib/push_pop_wdex.c: removed
+ * elk/elk.c: new bootloading procedure initially written
 14 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq/odo.c: moved from ../auxilia/odo/host/hodo.c;
  some cleanup

@@ -113,11 +113,15 @@ drift_LDADD = $(LDADD)
 am_elig_OBJECTS = elig.$(OBJEXT) parse_tsip.$(OBJEXT)
 elig_OBJECTS = $(am_elig_OBJECTS)
 elig_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
-am__elk_SOURCES_DIST = elk/elk.c elk/serialia.c elk/wser.c \
-	elk/serialia.h elk/usage.h
+am__elk_SOURCES_DIST = elk/elk.c elk/serial.c elk/serialia.c \
+	elk/wser.c elk/serialia.h elk/ram_loader.c elk/ram_loader.h \
+	elk/lpc_loader.c elk/lpc_loader.h elk/snprintf_checked.c \
+	elk/snprintf_checked.h
 @the_host_is_windows_FALSE@am__objects_2 = elk-serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_2 = elk-wser.$(OBJEXT)
-am_elk_OBJECTS = elk-elk.$(OBJEXT) $(am__objects_2)
+am_elk_OBJECTS = elk-elk.$(OBJEXT) elk-serial.$(OBJEXT) \
+	$(am__objects_2) elk-ram_loader.$(OBJEXT) \
+	elk-lpc_loader.$(OBJEXT) elk-snprintf_checked.$(OBJEXT)
 elk_OBJECTS = $(am_elk_OBJECTS)
 elk_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_expon_legacy_OBJECTS = expon.$(OBJEXT) exp.$(OBJEXT) \
@@ -396,8 +400,10 @@ parse_tsipex_SOURCES = conloq/parse_tsipex.c\
 
 parse_tsipex_LDADD = libstribog.a
 elk_CPPFLAGS = $(AM_CPPFLAGS) -DBUILDING_ELK=1
-elk_SOURCES = elk/elk.c $(elk_serial_source)\
- elk/serialia.h elk/usage.h
+elk_SOURCES = elk/elk.c elk/serial.c $(elk_serial_source)\
+ elk/serialia.h elk/ram_loader.c elk/ram_loader.h\
+ elk/lpc_loader.c elk/lpc_loader.h\
+ elk/snprintf_checked.c elk/snprintf_checked.h
 
 elk_LDADD = $(argp_lib) libstribog.a
 EXTRA_elk_SOURCES = elk/serialia.c elk/wser.c
@@ -587,7 +593,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drift.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-elk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-lpc_loader.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-ram_loader.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-serial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-serialia.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-snprintf_checked.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-wser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exp-brief.Po@am__quote@
@@ -920,6 +930,20 @@ elk-elk.obj: elk/elk.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-elk.obj `if test -f 'elk/elk.c'; then $(CYGPATH_W) 'elk/elk.c'; else $(CYGPATH_W) '$(srcdir)/elk/elk.c'; fi`
 
+elk-serial.o: elk/serial.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serial.o -MD -MP -MF $(DEPDIR)/elk-serial.Tpo -c -o elk-serial.o `test -f 'elk/serial.c' || echo '$(srcdir)/'`elk/serial.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serial.Tpo $(DEPDIR)/elk-serial.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/serial.c' object='elk-serial.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serial.o `test -f 'elk/serial.c' || echo '$(srcdir)/'`elk/serial.c
+
+elk-serial.obj: elk/serial.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serial.obj -MD -MP -MF $(DEPDIR)/elk-serial.Tpo -c -o elk-serial.obj `if test -f 'elk/serial.c'; then $(CYGPATH_W) 'elk/serial.c'; else $(CYGPATH_W) '$(srcdir)/elk/serial.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serial.Tpo $(DEPDIR)/elk-serial.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/serial.c' object='elk-serial.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serial.obj `if test -f 'elk/serial.c'; then $(CYGPATH_W) 'elk/serial.c'; else $(CYGPATH_W) '$(srcdir)/elk/serial.c'; fi`
+
 elk-serialia.o: elk/serialia.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serialia.o -MD -MP -MF $(DEPDIR)/elk-serialia.Tpo -c -o elk-serialia.o `test -f 'elk/serialia.c' || echo '$(srcdir)/'`elk/serialia.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serialia.Tpo $(DEPDIR)/elk-serialia.Po
@@ -947,6 +971,48 @@ elk-wser.obj: elk/wser.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/wser.c' object='elk-wser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-wser.obj `if test -f 'elk/wser.c'; then $(CYGPATH_W) 'elk/wser.c'; else $(CYGPATH_W) '$(srcdir)/elk/wser.c'; fi`
+
+elk-ram_loader.o: elk/ram_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-ram_loader.o -MD -MP -MF $(DEPDIR)/elk-ram_loader.Tpo -c -o elk-ram_loader.o `test -f 'elk/ram_loader.c' || echo '$(srcdir)/'`elk/ram_loader.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-ram_loader.Tpo $(DEPDIR)/elk-ram_loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/ram_loader.c' object='elk-ram_loader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-ram_loader.o `test -f 'elk/ram_loader.c' || echo '$(srcdir)/'`elk/ram_loader.c
+
+elk-ram_loader.obj: elk/ram_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-ram_loader.obj -MD -MP -MF $(DEPDIR)/elk-ram_loader.Tpo -c -o elk-ram_loader.obj `if test -f 'elk/ram_loader.c'; then $(CYGPATH_W) 'elk/ram_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/ram_loader.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-ram_loader.Tpo $(DEPDIR)/elk-ram_loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/ram_loader.c' object='elk-ram_loader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-ram_loader.obj `if test -f 'elk/ram_loader.c'; then $(CYGPATH_W) 'elk/ram_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/ram_loader.c'; fi`
+
+elk-lpc_loader.o: elk/lpc_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-lpc_loader.o -MD -MP -MF $(DEPDIR)/elk-lpc_loader.Tpo -c -o elk-lpc_loader.o `test -f 'elk/lpc_loader.c' || echo '$(srcdir)/'`elk/lpc_loader.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-lpc_loader.Tpo $(DEPDIR)/elk-lpc_loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/lpc_loader.c' object='elk-lpc_loader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.o `test -f 'elk/lpc_loader.c' || echo '$(srcdir)/'`elk/lpc_loader.c
+
+elk-lpc_loader.obj: elk/lpc_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-lpc_loader.obj -MD -MP -MF $(DEPDIR)/elk-lpc_loader.Tpo -c -o elk-lpc_loader.obj `if test -f 'elk/lpc_loader.c'; then $(CYGPATH_W) 'elk/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/lpc_loader.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-lpc_loader.Tpo $(DEPDIR)/elk-lpc_loader.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/lpc_loader.c' object='elk-lpc_loader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.obj `if test -f 'elk/lpc_loader.c'; then $(CYGPATH_W) 'elk/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/lpc_loader.c'; fi`
+
+elk-snprintf_checked.o: elk/snprintf_checked.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.o -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.o `test -f 'elk/snprintf_checked.c' || echo '$(srcdir)/'`elk/snprintf_checked.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-snprintf_checked.Tpo $(DEPDIR)/elk-snprintf_checked.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/snprintf_checked.c' object='elk-snprintf_checked.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.o `test -f 'elk/snprintf_checked.c' || echo '$(srcdir)/'`elk/snprintf_checked.c
+
+elk-snprintf_checked.obj: elk/snprintf_checked.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.obj -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.obj `if test -f 'elk/snprintf_checked.c'; then $(CYGPATH_W) 'elk/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk/snprintf_checked.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-snprintf_checked.Tpo $(DEPDIR)/elk-snprintf_checked.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/snprintf_checked.c' object='elk-snprintf_checked.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.obj `if test -f 'elk/snprintf_checked.c'; then $(CYGPATH_W) 'elk/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk/snprintf_checked.c'; fi`
 
 expon.o: conloq/expon.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT expon.o -MD -MP -MF $(DEPDIR)/expon.Tpo -c -o expon.o `test -f 'conloq/expon.c' || echo '$(srcdir)/'`conloq/expon.c

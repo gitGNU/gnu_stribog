@@ -101,6 +101,20 @@ ST_TARGET(`uart1ex',
 ST_TARGET(`tempusex',
 `src/tempusex.c src/mutex.h\
  src/pll.c src/pll.h src/led.c src/led.h')
+
+nodist_ram_programs_DATA+=loader.bin loader.map
+noinst_PROGRAMS+=loader
+loader_sources=src/loader.boot.s include/lpc2138.h\
+ src/loader.c src/freq.h src/crc32.c src/crc32.h\
+ src/pll.c src/pll.h src/init.c src/init.h
+loader_SOURCES=$(loader_sources)
+loader_LDFLAGS=$(AM_LDFLAGS) -T./loader.ld
+loader_DEPENDENCIES=loader.ld
+loader.bin: $(loader_sources)
+	$(MAKE) $(AM_MAKEFLAGS) loader
+	$(objcopy_bin) loader loader.bin
+loader.map: $(loader_sources)
+	$(MAKE) $(AM_MAKEFLAGS) loader
 #TODO: check whether make accepts %-style rules
 #and include the next rule conditionally
 %.s: $(srcdir)/src/%.c
@@ -114,6 +128,9 @@ dist-hook:
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript
 	$(srcdir)/subst_ldscript RAM $(mcu_conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld
+loader.ld: $(srcdir)/src/loader.ld.in $(srcdir)/subst_ldscript
+	$(srcdir)/subst_ldscript RAM $(mcu_conf) \
+ < $(srcdir)/src/loader.ld.in > loader.ld
 2138.ld: $(srcdir)/src/2138.ld.in $(srcdir)/subst_ldscript
 	$(srcdir)/subst_ldscript ROM $(mcu_conf) \
  < $(srcdir)/src/2138.ld.in > 2138.ld

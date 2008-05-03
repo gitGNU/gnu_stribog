@@ -1,5 +1,7 @@
-/*elk the LPC21x programmer: copyleft and help output
-This program is a part of the stribog host software section
+/*bootloader initialisation routines header
+Copyright (C) 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
+This file is a part of stribog.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -12,7 +14,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
-void usage(void);void help(void);
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+void init_bootloader(void);

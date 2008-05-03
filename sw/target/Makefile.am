@@ -45,8 +45,7 @@ extra_common_sources=lib/atexit.c
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 subst_ldscript
 ##expanded "accelex" program definition begins
-nodist_ram_programs_DATA+=\
- accelex.bin accelex.vectors accelex.map
+nodist_ram_programs_DATA+= accelex.bin accelex.map
 nodist_rom_programs_DATA+=\
  accelex-rom.bin accelex-rom.map
 noinst_PROGRAMS+=accelex accelex-rom
@@ -68,9 +67,6 @@ accelex.bin: $(accelex_sources)
 	$(objcopy_bin) accelex accelex.bin
 accelex.map: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
-accelex.vectors: $(accelex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) accelex
-	$(objcopy_vectors) accelex accelex.vectors
 accelex-rom.bin: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex-rom
 	$(objcopy_bin) accelex-rom accelex-rom.bin
@@ -78,8 +74,7 @@ accelex-rom.map: $(accelex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) accelex
 ##expanded "accelex" program definition ends
 ##expanded "adcex" program definition begins
-nodist_ram_programs_DATA+=\
- adcex.bin adcex.vectors adcex.map
+nodist_ram_programs_DATA+= adcex.bin adcex.map
 nodist_rom_programs_DATA+=\
  adcex-rom.bin adcex-rom.map
 noinst_PROGRAMS+=adcex adcex-rom
@@ -101,9 +96,6 @@ adcex.bin: $(adcex_sources)
 	$(objcopy_bin) adcex adcex.bin
 adcex.map: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex
-adcex.vectors: $(adcex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) adcex
-	$(objcopy_vectors) adcex adcex.vectors
 adcex-rom.bin: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex-rom
 	$(objcopy_bin) adcex-rom adcex-rom.bin
@@ -111,8 +103,7 @@ adcex-rom.map: $(adcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) adcex
 ##expanded "adcex" program definition ends
 ##expanded "crcex" program definition begins
-nodist_ram_programs_DATA+=\
- crcex.bin crcex.vectors crcex.map
+nodist_ram_programs_DATA+= crcex.bin crcex.map
 nodist_rom_programs_DATA+=\
  crcex-rom.bin crcex-rom.map
 noinst_PROGRAMS+=crcex crcex-rom
@@ -133,9 +124,6 @@ crcex.bin: $(crcex_sources)
 	$(objcopy_bin) crcex crcex.bin
 crcex.map: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex
-crcex.vectors: $(crcex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) crcex
-	$(objcopy_vectors) crcex crcex.vectors
 crcex-rom.bin: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex-rom
 	$(objcopy_bin) crcex-rom crcex-rom.bin
@@ -143,8 +131,7 @@ crcex-rom.map: $(crcex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) crcex
 ##expanded "crcex" program definition ends
 ##expanded "dacex" program definition begins
-nodist_ram_programs_DATA+=\
- dacex.bin dacex.vectors dacex.map
+nodist_ram_programs_DATA+= dacex.bin dacex.map
 nodist_rom_programs_DATA+=\
  dacex-rom.bin dacex-rom.map
 noinst_PROGRAMS+=dacex dacex-rom
@@ -165,9 +152,6 @@ dacex.bin: $(dacex_sources)
 	$(objcopy_bin) dacex dacex.bin
 dacex.map: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex
-dacex.vectors: $(dacex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) dacex
-	$(objcopy_vectors) dacex dacex.vectors
 dacex-rom.bin: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex-rom
 	$(objcopy_bin) dacex-rom dacex-rom.bin
@@ -175,8 +159,7 @@ dacex-rom.map: $(dacex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) dacex
 ##expanded "dacex" program definition ends
 ##expanded "inledex" program definition begins
-nodist_ram_programs_DATA+=\
- inledex.bin inledex.vectors inledex.map
+nodist_ram_programs_DATA+= inledex.bin inledex.map
 nodist_rom_programs_DATA+=\
  inledex-rom.bin inledex-rom.map
 noinst_PROGRAMS+=inledex inledex-rom
@@ -196,9 +179,6 @@ inledex.bin: $(inledex_sources)
 	$(objcopy_bin) inledex inledex.bin
 inledex.map: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex
-inledex.vectors: $(inledex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) inledex
-	$(objcopy_vectors) inledex inledex.vectors
 inledex-rom.bin: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex-rom
 	$(objcopy_bin) inledex-rom inledex-rom.bin
@@ -206,8 +186,7 @@ inledex-rom.map: $(inledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) inledex
 ##expanded "inledex" program definition ends
 ##expanded "ledex" program definition begins
-nodist_ram_programs_DATA+=\
- ledex.bin ledex.vectors ledex.map
+nodist_ram_programs_DATA+= ledex.bin ledex.map
 nodist_rom_programs_DATA+=\
  ledex-rom.bin ledex-rom.map
 noinst_PROGRAMS+=ledex ledex-rom
@@ -227,9 +206,6 @@ ledex.bin: $(ledex_sources)
 	$(objcopy_bin) ledex ledex.bin
 ledex.map: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex
-ledex.vectors: $(ledex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) ledex
-	$(objcopy_vectors) ledex ledex.vectors
 ledex-rom.bin: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex-rom
 	$(objcopy_bin) ledex-rom ledex-rom.bin
@@ -237,8 +213,7 @@ ledex-rom.map: $(ledex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) ledex
 ##expanded "ledex" program definition ends
 ##expanded "lm74ex" program definition begins
-nodist_ram_programs_DATA+=\
- lm74ex.bin lm74ex.vectors lm74ex.map
+nodist_ram_programs_DATA+= lm74ex.bin lm74ex.map
 nodist_rom_programs_DATA+=\
  lm74ex-rom.bin lm74ex-rom.map
 noinst_PROGRAMS+=lm74ex lm74ex-rom
@@ -260,9 +235,6 @@ lm74ex.bin: $(lm74ex_sources)
 	$(objcopy_bin) lm74ex lm74ex.bin
 lm74ex.map: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex
-lm74ex.vectors: $(lm74ex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) lm74ex
-	$(objcopy_vectors) lm74ex lm74ex.vectors
 lm74ex-rom.bin: $(lm74ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) lm74ex-rom
 	$(objcopy_bin) lm74ex-rom lm74ex-rom.bin
@@ -272,8 +244,7 @@ lm74ex-rom.map: $(lm74ex_sources)
 ##conditional "magex" program definition begins
 EXTRA_PROGRAMS+=magex magex-rom
 if magex_enabled
- nodist_ram_programs_DATA+=\
- magex.bin magex.vectors magex.map
+ nodist_ram_programs_DATA+= magex.bin magex.map
 nodist_rom_programs_DATA+=\
  magex-rom.bin magex-rom.map
 noinst_PROGRAMS+=magex magex-rom
@@ -299,9 +270,6 @@ magex.bin: $(magex_sources)
 	$(objcopy_bin) magex magex.bin
 magex.map: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex
-magex.vectors: $(magex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) magex
-	$(objcopy_vectors) magex magex.vectors
 magex-rom.bin: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex-rom
 	$(objcopy_bin) magex-rom magex-rom.bin
@@ -309,8 +277,7 @@ magex-rom.map: $(magex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) magex
 ##expanded "magex" program definition ends
 ##expanded "mag_response" program definition begins
-nodist_ram_programs_DATA+=\
- mag_response.bin mag_response.vectors mag_response.map
+nodist_ram_programs_DATA+= mag_response.bin mag_response.map
 nodist_rom_programs_DATA+=\
  mag_response-rom.bin mag_response-rom.map
 noinst_PROGRAMS+=mag_response mag_response-rom
@@ -337,9 +304,6 @@ mag_response.bin: $(mag_response_sources)
 	$(objcopy_bin) mag_response mag_response.bin
 mag_response.map: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response
-mag_response.vectors: $(mag_response_sources)
-	$(MAKE) $(AM_MAKEFLAGS) mag_response
-	$(objcopy_vectors) mag_response mag_response.vectors
 mag_response-rom.bin: $(mag_response_sources)
 	$(MAKE) $(AM_MAKEFLAGS) mag_response-rom
 	$(objcopy_bin) mag_response-rom mag_response-rom.bin
@@ -349,8 +313,7 @@ mag_response-rom.map: $(mag_response_sources)
 ##conditional "multa" program definition begins
 EXTRA_PROGRAMS+=multa multa-rom
 if multa_enabled
- nodist_ram_programs_DATA+=\
- multa.bin multa.vectors multa.map
+ nodist_ram_programs_DATA+= multa.bin multa.map
 nodist_rom_programs_DATA+=\
  multa-rom.bin multa-rom.map
 noinst_PROGRAMS+=multa multa-rom
@@ -378,9 +341,6 @@ multa.bin: $(multa_sources)
 	$(objcopy_bin) multa multa.bin
 multa.map: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
-multa.vectors: $(multa_sources)
-	$(MAKE) $(AM_MAKEFLAGS) multa
-	$(objcopy_vectors) multa multa.vectors
 multa-rom.bin: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa-rom
 	$(objcopy_bin) multa-rom multa-rom.bin
@@ -388,8 +348,7 @@ multa-rom.map: $(multa_sources)
 	$(MAKE) $(AM_MAKEFLAGS) multa
 ##expanded "multa" program definition ends
 ##expanded "pllex" program definition begins
-nodist_ram_programs_DATA+=\
- pllex.bin pllex.vectors pllex.map
+nodist_ram_programs_DATA+= pllex.bin pllex.map
 nodist_rom_programs_DATA+=\
  pllex-rom.bin pllex-rom.map
 noinst_PROGRAMS+=pllex pllex-rom
@@ -409,9 +368,6 @@ pllex.bin: $(pllex_sources)
 	$(objcopy_bin) pllex pllex.bin
 pllex.map: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex
-pllex.vectors: $(pllex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) pllex
-	$(objcopy_vectors) pllex pllex.vectors
 pllex-rom.bin: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex-rom
 	$(objcopy_bin) pllex-rom pllex-rom.bin
@@ -419,8 +375,7 @@ pllex-rom.map: $(pllex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) pllex
 ##expanded "pllex" program definition ends
 ##expanded "powerex" program definition begins
-nodist_ram_programs_DATA+=\
- powerex.bin powerex.vectors powerex.map
+nodist_ram_programs_DATA+= powerex.bin powerex.map
 nodist_rom_programs_DATA+=\
  powerex-rom.bin powerex-rom.map
 noinst_PROGRAMS+=powerex powerex-rom
@@ -440,9 +395,6 @@ powerex.bin: $(powerex_sources)
 	$(objcopy_bin) powerex powerex.bin
 powerex.map: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex
-powerex.vectors: $(powerex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) powerex
-	$(objcopy_vectors) powerex powerex.vectors
 powerex-rom.bin: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex-rom
 	$(objcopy_bin) powerex-rom powerex-rom.bin
@@ -450,8 +402,7 @@ powerex-rom.map: $(powerex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) powerex
 ##expanded "powerex" program definition ends
 ##expanded "uart1ex" program definition begins
-nodist_ram_programs_DATA+=\
- uart1ex.bin uart1ex.vectors uart1ex.map
+nodist_ram_programs_DATA+= uart1ex.bin uart1ex.map
 nodist_rom_programs_DATA+=\
  uart1ex-rom.bin uart1ex-rom.map
 noinst_PROGRAMS+=uart1ex uart1ex-rom
@@ -477,9 +428,6 @@ uart1ex.bin: $(uart1ex_sources)
 	$(objcopy_bin) uart1ex uart1ex.bin
 uart1ex.map: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
-uart1ex.vectors: $(uart1ex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) uart1ex
-	$(objcopy_vectors) uart1ex uart1ex.vectors
 uart1ex-rom.bin: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex-rom
 	$(objcopy_bin) uart1ex-rom uart1ex-rom.bin
@@ -487,8 +435,7 @@ uart1ex-rom.map: $(uart1ex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) uart1ex
 ##expanded "uart1ex" program definition ends
 ##expanded "tempusex" program definition begins
-nodist_ram_programs_DATA+=\
- tempusex.bin tempusex.vectors tempusex.map
+nodist_ram_programs_DATA+= tempusex.bin tempusex.map
 nodist_rom_programs_DATA+=\
  tempusex-rom.bin tempusex-rom.map
 noinst_PROGRAMS+=tempusex tempusex-rom
@@ -509,15 +456,26 @@ tempusex.bin: $(tempusex_sources)
 	$(objcopy_bin) tempusex tempusex.bin
 tempusex.map: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex
-tempusex.vectors: $(tempusex_sources)
-	$(MAKE) $(AM_MAKEFLAGS) tempusex
-	$(objcopy_vectors) tempusex tempusex.vectors
 tempusex-rom.bin: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex-rom
 	$(objcopy_bin) tempusex-rom tempusex-rom.bin
 tempusex-rom.map: $(tempusex_sources)
 	$(MAKE) $(AM_MAKEFLAGS) tempusex
 ##expanded "tempusex" program definition ends
+
+nodist_ram_programs_DATA+=loader.bin loader.map
+noinst_PROGRAMS+=loader
+loader_sources=src/loader.boot.s include/lpc2138.h\
+ src/loader.c src/freq.h src/crc32.c src/crc32.h\
+ src/pll.c src/pll.h src/init.c src/init.h
+loader_SOURCES=$(loader_sources)
+loader_LDFLAGS=$(AM_LDFLAGS) -T./loader.ld
+loader_DEPENDENCIES=loader.ld
+loader.bin: $(loader_sources)
+	$(MAKE) $(AM_MAKEFLAGS) loader
+	$(objcopy_bin) loader loader.bin
+loader.map: $(loader_sources)
+	$(MAKE) $(AM_MAKEFLAGS) loader
 #TODO: check whether make accepts %-style rules
 #and include the next rule conditionally
 %.s: $(srcdir)/src/%.c
@@ -531,6 +489,9 @@ dist-hook:
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript
 	$(srcdir)/subst_ldscript RAM $(mcu_conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld
+loader.ld: $(srcdir)/src/loader.ld.in $(srcdir)/subst_ldscript
+	$(srcdir)/subst_ldscript RAM $(mcu_conf) \
+ < $(srcdir)/src/loader.ld.in > loader.ld
 2138.ld: $(srcdir)/src/2138.ld.in $(srcdir)/subst_ldscript
 	$(srcdir)/subst_ldscript ROM $(mcu_conf) \
  < $(srcdir)/src/2138.ld.in > 2138.ld

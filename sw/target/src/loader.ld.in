@@ -15,30 +15,24 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-/*sections fill should be 0x4E4F2043414D454C0A, if any*/
 OUTPUT_FORMAT("elf32-littlearm")
-/*comment_on_the_cpu*/
+/*actually the bootloader is thought
+to be strictly position-independent when running in RAM*/
 MEMORY
-{ ram (!r) : o = 0x40000000, l = LENGTH_ram_ }
-_arm_stack_bottom = ORIGIN_ram_ + LENGTH_ram_ - 4;
-_arm_ram_begin = ORIGIN_ram_;
+{ ram(!r) : o = 0x40000000+32k-1k-512, l = 1k+512 }
+/*this constant is used to assign stack pointer from PC*/
+_trimmed_loader_size = 1k+512-0x20;
 SECTIONS
 {.text :
- { *(.vectors)
-   *boot.o(.text)
+ { *boot.o(.text)
+   *init.o(.text)
+   *pll.o(.text)
+   . =  512;
    *(.text)
    *(.rodata)
-/* *(.ctors) *(.dtors) *(.jcr) /*these appear when I suddenly use c++*/
+   *(.bss)
    *(.data)
    *(.glue_7)
    *(.glue_7t)
  } >ram
- . = ALIGN(4);
- .bss :
- { _bss_data_begin = .;
-   *(.bss)
-   . = ALIGN(4);
-   _bss_data_end = .;
- } >ram
- _rom_data_begin = .; _rom_data_end = .;
 }
