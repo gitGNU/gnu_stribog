@@ -17,7 +17,7 @@ Clean up ethical issues
 
 Fix some usability issues before forking the first release branch
 
-exp.2008.apr.bootloader
+exp.2008.apr.bootloader [03 May 2008 merged into trunc]
 
 write a bootloader for LPC213x RAM-based programs.
 try to catch the alignment-like bug.

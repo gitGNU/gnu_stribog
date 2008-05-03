@@ -12,6 +12,11 @@ naming conventions
   object form distributions; source code distributing
   does not require them.
  ]
+ [03 May 2008 complete:
+  GPLv3 has a clause that free and widely
+  available tools are not necessary to be included into
+  the distribution
+ ]
 find a host and an archive form where we could put stribog
 sources together with tools needed (binutils, gcc, gEDA)
 to make a GPL-compiant distribution
