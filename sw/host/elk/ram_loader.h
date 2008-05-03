@@ -1,7 +1,9 @@
-/*elk the LPC21x programmer: UNIX serial port module interface
+/*elk the LPC21x programmer: 2nd stage RAM bootloader communications
+Copyright (C) 2006, 2007, 2008\
+ Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
-This program is free software; you can redistribute it and/or modify
+stribog is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
@@ -12,10 +14,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006, 2007 Ineiev<ineiev@users.sourceforge.net>, super V 93*/
-int init_serialia(const char*tty,int freq);void close_serialia(void);
-int lege(void*,int);int scribe(const void*,int);
-int send_bytes(char*,int);void drain_uart(void);
-int wait_for_chars(char*s,int N,int timeout);
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+int load_target(const char*target_name);
