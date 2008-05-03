@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include"serialia.h"
-#include"usage.h"
 #include<unistd.h>
 #include<string.h>
 #include<time.h>
@@ -332,7 +331,7 @@ static int
 write_file(void)
 {char s[289];FILE*f;int i,n=0;unsigned long addr=ram;
  /*it is impractical to have longer target names*/
- if(snprintf_checked(s,sizeof s,"%s-rom.bin",args.target_name);)
+ if(snprintf_checked(s,sizeof s,"%s-rom.bin",args.target_name))
   return!0;
  if(chdir_to_programs(rom_subdir))
  {if(reload_wd())
