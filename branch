@@ -5,14 +5,16 @@ main tasks are:
 
 write a bootloader for LPC213x RAM-based programs.
 try to catch the alignment-like bug.
+[03 May 2008 the bug disappeared]
 
-we don't like the built-in one because 
-(a) it does not permit to load a congiguous program:
+we don't like the built-in bootloader because 
+(a) it does not permit to load a contiguous program:
  we need to load interrupt vectors and the program body
  into separate regions;
 (b) it is not very fast
+(c) it does not permit passing arguments in registers
 
-our bootloader resides in upper 1k RAM; it loads binary
+our bootloader resides in the upper 1k RAM; it loads binary
 rather than uuencoded data so it should be faster.
 
 
