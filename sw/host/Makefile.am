@@ -87,7 +87,7 @@ parse_tsipex_LDADD=libstribog.a
 ##names of the serial object module for elk and conloq; 
 ##otherwise the names will conflict
 elk_CPPFLAGS=$(AM_CPPFLAGS) -DBUILDING_ELK=1
-elk_SOURCES=elk/elk.c $(elk_serial_source)\
+elk_SOURCES=elk/elk.c elk/serial.c $(elk_serial_source)\
  elk/serialia.h elk/ram_loader.c elk/ram_loader.h\
  elk/lpc_loader.c elk/lpc_loader.h\
  elk/snprintf_checked.c elk/snprintf_checked.h
