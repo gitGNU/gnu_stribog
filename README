@@ -1,7 +1,22 @@
 Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
-See the end of the file for license conditions.
+This file is part of stribog.
 
+Stribog is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+See the end of the file for more notes on the license conditions.
+
 This is the README file for stribog the sensing platform.
 
 ATTENTION stribog is in his alpha stage. he is not functional yet.
@@ -340,7 +355,7 @@ should be that Git serves as a source of most recent package version.
 We think that today state may be right because
 1. gEDA (especially gschem) is not easy to install; it has long dependencies
    on rather new versions of packages.
-3. If there is no build scripts, the programs
+3. If there are no build scripts, the programs
   can't be developped. this would be wrong because the programs
   can be modified and rebuilt very quickly and at no cost.
   to rebuild the scripts one must have a compatible Autotools version
@@ -351,22 +366,10 @@ We think that today state may be right because
   when done by a person new to the package. this can be much harder
   than just fixing a bug or adding even a complicated feature.
 
-This file is part of stribog.
+NOTES ON LICENSING TERMS
 
-Stribog is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-In theory, the implications of this on the hardware design
+This project is distributed under the terms of the GNU GPL. in theory, 
+the implications of this on the hardware design
 can depend on your jurisdiction. three groups of cases are possible.
 
 1. Your government either
@@ -490,22 +493,23 @@ These files include:
 ./sw/auxilia/configure
 ./sw/common/Makefile.in
 ./sw/host/INSTALL
-./sw/host/conloq/Makefile.in
-./sw/host/elk/Makefile.in
-./sw/host/intlpc/Makefile.in
-./sw/host/lib/Makefile.in
-./sw/host/lib/argp/Makefile.in
-./sw/host/postproc/Makefile.in
-./sw/host/utils/Makefile.in
-./sw/host/aclocal.m4
-./sw/host/config.h.in
 ./sw/host/Makefile.in
+./sw/host/aclocal.m4
+./sw/host/compile
+./sw/host/config.h.in
 ./sw/host/config.guess
 ./sw/host/configure
 ./sw/host/config.sub
 ./sw/host/depcomp
 ./sw/host/install-sh
 ./sw/host/missing
+./sw/host/conloq.src/Makefile.in
+./sw/host/elk.src/Makefile.in
+./sw/host/intlpc/Makefile.in
+./sw/host/lib/Makefile.in
+./sw/host/lib/argp/Makefile.in
+./sw/host/postproc/Makefile.in
+./sw/host/utils/Makefile.in
 ./sw/target/INSTALL
 ./sw/target/Makefile.in
 ./sw/target/aclocal.m4
@@ -518,6 +522,8 @@ These files include:
 
 The text of the GNU GPL, namely
 ./COPYING ./sw/auxilia/COPYING ./sw/host/COPYING ./sw/target/COPYING 
-is not a part of the project; it is copyrighted by FSF as stated in the file.
+is copyrighted by FSF as stated in the file.
 
-The file AUTHORS has a special status.
+The file AUTHORS has a special status. it essentially consists of copyright
+notices. as such, these notices can't be removed; the project maintainers
+are encouraged to keep the notices up-to-date.
