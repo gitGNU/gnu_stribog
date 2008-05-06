@@ -90,14 +90,15 @@ am_caed_OBJECTS = caed.$(OBJEXT) parse_tsip.$(OBJEXT)
 caed_OBJECTS = $(am_caed_OBJECTS)
 am__DEPENDENCIES_1 =
 caed_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
-am__conloq_SOURCES_DIST = conloq/conloq.c conloq/exp-brief.c \
-	conloq/exp.h conloq/exp_gps.h conloq/get_u.h \
-	conloq/process_keypress.c conloq/process_keypress.h \
-	conloq/garmin_nmea.c conloq/hodo.c conloq/hodo.h conloq/lla.c \
-	conloq/lla.h conloq/parse_tsip.c conloq/parse_tsip.h \
-	conloq/preproc_gps.c conloq/preproc_gps.h conloq/serialia.c \
-	conloq/wser.c conloq/serialia.h conloq/usage.h \
-	conloq/verbosity_level.c conloq/verbosity_level.h
+am__conloq_SOURCES_DIST = conloq.src/conloq.c conloq.src/exp-brief.c \
+	conloq.src/exp.h conloq.src/exp_gps.h conloq.src/get_u.h \
+	conloq.src/process_keypress.c conloq.src/process_keypress.h \
+	conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h \
+	conloq.src/lla.c conloq.src/lla.h conloq.src/parse_tsip.c \
+	conloq.src/parse_tsip.h conloq.src/preproc_gps.c \
+	conloq.src/preproc_gps.h conloq.src/serialia.c \
+	conloq.src/wser.c conloq.src/serialia.h conloq.src/usage.h \
+	conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) exp-brief.$(OBJEXT) \
@@ -113,10 +114,11 @@ drift_LDADD = $(LDADD)
 am_elig_OBJECTS = elig.$(OBJEXT) parse_tsip.$(OBJEXT)
 elig_OBJECTS = $(am_elig_OBJECTS)
 elig_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
-am__elk_SOURCES_DIST = elk/elk.c elk/serial.c elk/serialia.c \
-	elk/wser.c elk/serialia.h elk/ram_loader.c elk/ram_loader.h \
-	elk/lpc_loader.c elk/lpc_loader.h elk/snprintf_checked.c \
-	elk/snprintf_checked.h
+am__elk_SOURCES_DIST = elk.src/elk.c elk.src/serial.c \
+	elk.src/serialia.c elk.src/wser.c elk.src/serialia.h \
+	elk.src/ram_loader.c elk.src/ram_loader.h elk.src/lpc_loader.c \
+	elk.src/lpc_loader.h elk.src/snprintf_checked.c \
+	elk.src/snprintf_checked.h
 @the_host_is_windows_FALSE@am__objects_2 = elk-serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_2 = elk-wser.$(OBJEXT)
 am_elk_OBJECTS = elk-elk.$(OBJEXT) elk-serial.$(OBJEXT) \
@@ -136,10 +138,11 @@ fdif_LDADD = $(LDADD)
 am_lpfilter_OBJECTS = lpfilter.$(OBJEXT)
 lpfilter_OBJECTS = $(am_lpfilter_OBJECTS)
 lpfilter_LDADD = $(LDADD)
-am__magex_conloq_SOURCES_DIST = conloq/magex-conloq.c conloq/magexp.c \
-	conloq/exp.h conloq/serialia.c conloq/wser.c conloq/serialia.h \
-	conloq/parse_tsip.c conloq/parse_tsip.h \
-	conloq/verbosity_level.c conloq/verbosity_level.h
+am__magex_conloq_SOURCES_DIST = conloq.src/magex-conloq.c \
+	conloq.src/magexp.c conloq.src/exp.h conloq.src/serialia.c \
+	conloq.src/wser.c conloq.src/serialia.h \
+	conloq.src/parse_tsip.c conloq.src/parse_tsip.h \
+	conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) magexp.$(OBJEXT) \
 	$(am__objects_1) parse_tsip.$(OBJEXT) \
 	verbosity_level.$(OBJEXT)
@@ -149,8 +152,8 @@ am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
 	magexp.$(OBJEXT) verbosity_level.$(OBJEXT)
 magexp_OBJECTS = $(am_magexp_OBJECTS)
 magexp_DEPENDENCIES = libstribog.a
-am__odo_SOURCES_DIST = conloq/odo.c conloq/verbosity_level.c \
-	conloq/serialia.c conloq/wser.c conloq/serialia.h
+am__odo_SOURCES_DIST = conloq.src/odo.c conloq.src/verbosity_level.c \
+	conloq.src/serialia.c conloq.src/wser.c conloq.src/serialia.h
 am_odo_OBJECTS = odo.$(OBJEXT) verbosity_level.$(OBJEXT) \
 	$(am__objects_1)
 odo_OBJECTS = $(am_odo_OBJECTS)
@@ -335,78 +338,82 @@ top_srcdir = @top_srcdir@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 SUBDIRS = postproc
 #using POSIX RS-232 UART API by default
-@the_host_is_windows_FALSE@elk_serial_source = elk/serialia.c
+@the_host_is_windows_FALSE@elk_serial_source = elk.src/serialia.c
 #forced to use non-free OS API
-@the_host_is_windows_TRUE@elk_serial_source = elk/wser.c
-@the_host_is_windows_FALSE@conloq_serial_source = conloq/serialia.c
-@the_host_is_windows_TRUE@conloq_serial_source = conloq/wser.c
+@the_host_is_windows_TRUE@elk_serial_source = elk.src/wser.c
+@the_host_is_windows_FALSE@conloq_serial_source = conloq.src/serialia.c
+@the_host_is_windows_TRUE@conloq_serial_source = conloq.src/wser.c
+conloq_extra_serial = conloq.src/serialia.c conloq.src/wser.c
 AM_CPPFLAGS = -DPACKAGE_DATA_DIR="\"$(datadir)\""\
  -DSOURCE_DIR="\"$(srcdir)\""
 
 noinst_LIBRARIES = libstribog.a $(am__append_1)
-dist_bin_SCRIPTS = conloq/expon utils/cutdrift
+dist_bin_SCRIPTS = conloq.src/expon utils/cutdrift
 EXTRA_DIST = tests/serial.c tests/term.c
 libargp_a_SOURCES = lib/argp/argp.c
 argpex_SOURCES = lib/argp/argpex.c
 argpex_LDADD = libargp.a
-caed_SOURCES = conloq/caed.c conloq/get_u.h\
- conloq/parse_tsip.c conloq/parse_tsip.h
+caed_SOURCES = conloq.src/caed.c conloq.src/get_u.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h
 
 caed_LDADD = $(argp_lib) libstribog.a
-conloq_SOURCES = conloq/conloq.c\
- conloq/exp-brief.c conloq/exp.h\
- conloq/exp_gps.h conloq/get_u.h\
- conloq/process_keypress.c conloq/process_keypress.h\
- conloq/garmin_nmea.c conloq/hodo.c conloq/hodo.h\
- conloq/lla.c conloq/lla.h\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/preproc_gps.c conloq/preproc_gps.h\
- $(conloq_serial_source) conloq/serialia.h conloq/usage.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+conloq_SOURCES = conloq.src/conloq.c\
+ conloq.src/exp-brief.c conloq.src/exp.h\
+ conloq.src/exp_gps.h conloq.src/get_u.h\
+ conloq.src/process_keypress.c conloq.src/process_keypress.h\
+ conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h\
+ conloq.src/lla.c conloq.src/lla.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
+ $(conloq_serial_source) conloq.src/serialia.h conloq.src/usage.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 
-EXTRA_conloq_SOURCES = conloq/serialia.c conloq/wser.c
+EXTRA_conloq_SOURCES = $(conloq_extra_serial)
 conloq_LDADD = $(argp_lib) libstribog.a
-elig_SOURCES = conloq/elig.c conloq/parse_tsip.c conloq/parse_tsip.h
+elig_SOURCES = conloq.src/elig.c\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h
+
 elig_LDADD = $(argp_lib) libstribog.a
-expon_legacy_SOURCES = conloq/expon.c\
- conloq/exp.c conloq/exp.h\
- conloq/garmin_nmea.c conloq/exp_gps.h\
- conloq/hodo.c conloq/hodo.h conloq/lla.c conloq/lla.h\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/preproc_gps.c conloq/preproc_gps.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+expon_legacy_SOURCES = conloq.src/expon.c\
+ conloq.src/exp.c conloq.src/exp.h\
+ conloq.src/garmin_nmea.c conloq.src/exp_gps.h\
+ conloq.src/hodo.c conloq.src/hodo.h\
+ conloq.src/lla.c conloq.src/lla.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/preproc_gps.c conloq.src.src/preproc_gps.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 
 expon_legacy_LDADD = libstribog.a
-magex_conloq_SOURCES = conloq/magex-conloq.c\
- conloq/magexp.c conloq/exp.h\
- $(conloq_serial_source) conloq/serialia.h\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+magex_conloq_SOURCES = conloq.src/magex-conloq.c\
+ conloq.src/magexp.c conloq.src/exp.h\
+ $(conloq_serial_source) conloq.src/serialia.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 
 magex_conloq_LDADD = $(argp_lib) libstribog.a
-EXTRA_magex_conloq_SOURCES = conloq/serialia.c conloq/wser.c
-magexp_SOURCES = conloq/expon.c\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/magexp.c conloq/exp.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+EXTRA_magex_conloq_SOURCES = $(conloq_extra_serial)
+magexp_SOURCES = conloq.src/expon.c\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/magexp.c conloq.src/exp.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 
 magexp_LDADD = libstribog.a
-odo_SOURCES = conloq/odo.c conloq/verbosity_level.c\
- $(conloq_serial_source) conloq/serialia.h
+odo_SOURCES = conloq.src/odo.c conloq.src/verbosity_level.c\
+ $(conloq_serial_source) conloq.src/serialia.h
 
-EXTRA_odo_SOURCES = conloq/serialia.c conloq/wser.c
-parse_tsipex_SOURCES = conloq/parse_tsipex.c\
- conloq/get_u.h conloq/parse_tsip.c conloq/parse_tsip.h 
+EXTRA_odo_SOURCES = $(conloq_extra_serial)
+parse_tsipex_SOURCES = conloq.src/parse_tsipex.c\
+ conloq.src/get_u.h conloq.src/parse_tsip.c conloq.src/parse_tsip.h 
 
 parse_tsipex_LDADD = libstribog.a
 elk_CPPFLAGS = $(AM_CPPFLAGS) -DBUILDING_ELK=1
-elk_SOURCES = elk/elk.c elk/serial.c $(elk_serial_source)\
- elk/serialia.h elk/ram_loader.c elk/ram_loader.h\
- elk/lpc_loader.c elk/lpc_loader.h\
- elk/snprintf_checked.c elk/snprintf_checked.h
+elk_SOURCES = elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
+ elk.src/serialia.h elk.src/ram_loader.c elk.src/ram_loader.h\
+ elk.src/lpc_loader.c elk.src/lpc_loader.h\
+ elk.src/snprintf_checked.c elk.src/snprintf_checked.h
 
 elk_LDADD = $(argp_lib) libstribog.a
-EXTRA_elk_SOURCES = elk/serialia.c elk/wser.c
+EXTRA_elk_SOURCES = elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES = lib/error.c lib/stribog_error.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h
 
@@ -720,173 +727,173 @@ argpex.obj: lib/argp/argpex.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o argpex.obj `if test -f 'lib/argp/argpex.c'; then $(CYGPATH_W) 'lib/argp/argpex.c'; else $(CYGPATH_W) '$(srcdir)/lib/argp/argpex.c'; fi`
 
-caed.o: conloq/caed.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT caed.o -MD -MP -MF $(DEPDIR)/caed.Tpo -c -o caed.o `test -f 'conloq/caed.c' || echo '$(srcdir)/'`conloq/caed.c
+caed.o: conloq.src/caed.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT caed.o -MD -MP -MF $(DEPDIR)/caed.Tpo -c -o caed.o `test -f 'conloq.src/caed.c' || echo '$(srcdir)/'`conloq.src/caed.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/caed.Tpo $(DEPDIR)/caed.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/caed.c' object='caed.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/caed.c' object='caed.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o caed.o `test -f 'conloq/caed.c' || echo '$(srcdir)/'`conloq/caed.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o caed.o `test -f 'conloq.src/caed.c' || echo '$(srcdir)/'`conloq.src/caed.c
 
-caed.obj: conloq/caed.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT caed.obj -MD -MP -MF $(DEPDIR)/caed.Tpo -c -o caed.obj `if test -f 'conloq/caed.c'; then $(CYGPATH_W) 'conloq/caed.c'; else $(CYGPATH_W) '$(srcdir)/conloq/caed.c'; fi`
+caed.obj: conloq.src/caed.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT caed.obj -MD -MP -MF $(DEPDIR)/caed.Tpo -c -o caed.obj `if test -f 'conloq.src/caed.c'; then $(CYGPATH_W) 'conloq.src/caed.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/caed.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/caed.Tpo $(DEPDIR)/caed.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/caed.c' object='caed.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/caed.c' object='caed.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o caed.obj `if test -f 'conloq/caed.c'; then $(CYGPATH_W) 'conloq/caed.c'; else $(CYGPATH_W) '$(srcdir)/conloq/caed.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o caed.obj `if test -f 'conloq.src/caed.c'; then $(CYGPATH_W) 'conloq.src/caed.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/caed.c'; fi`
 
-parse_tsip.o: conloq/parse_tsip.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsip.o -MD -MP -MF $(DEPDIR)/parse_tsip.Tpo -c -o parse_tsip.o `test -f 'conloq/parse_tsip.c' || echo '$(srcdir)/'`conloq/parse_tsip.c
+parse_tsip.o: conloq.src/parse_tsip.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsip.o -MD -MP -MF $(DEPDIR)/parse_tsip.Tpo -c -o parse_tsip.o `test -f 'conloq.src/parse_tsip.c' || echo '$(srcdir)/'`conloq.src/parse_tsip.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/parse_tsip.Tpo $(DEPDIR)/parse_tsip.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/parse_tsip.c' object='parse_tsip.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/parse_tsip.c' object='parse_tsip.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsip.o `test -f 'conloq/parse_tsip.c' || echo '$(srcdir)/'`conloq/parse_tsip.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsip.o `test -f 'conloq.src/parse_tsip.c' || echo '$(srcdir)/'`conloq.src/parse_tsip.c
 
-parse_tsip.obj: conloq/parse_tsip.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsip.obj -MD -MP -MF $(DEPDIR)/parse_tsip.Tpo -c -o parse_tsip.obj `if test -f 'conloq/parse_tsip.c'; then $(CYGPATH_W) 'conloq/parse_tsip.c'; else $(CYGPATH_W) '$(srcdir)/conloq/parse_tsip.c'; fi`
+parse_tsip.obj: conloq.src/parse_tsip.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsip.obj -MD -MP -MF $(DEPDIR)/parse_tsip.Tpo -c -o parse_tsip.obj `if test -f 'conloq.src/parse_tsip.c'; then $(CYGPATH_W) 'conloq.src/parse_tsip.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/parse_tsip.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/parse_tsip.Tpo $(DEPDIR)/parse_tsip.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/parse_tsip.c' object='parse_tsip.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/parse_tsip.c' object='parse_tsip.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsip.obj `if test -f 'conloq/parse_tsip.c'; then $(CYGPATH_W) 'conloq/parse_tsip.c'; else $(CYGPATH_W) '$(srcdir)/conloq/parse_tsip.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsip.obj `if test -f 'conloq.src/parse_tsip.c'; then $(CYGPATH_W) 'conloq.src/parse_tsip.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/parse_tsip.c'; fi`
 
-conloq.o: conloq/conloq.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT conloq.o -MD -MP -MF $(DEPDIR)/conloq.Tpo -c -o conloq.o `test -f 'conloq/conloq.c' || echo '$(srcdir)/'`conloq/conloq.c
+conloq.o: conloq.src/conloq.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT conloq.o -MD -MP -MF $(DEPDIR)/conloq.Tpo -c -o conloq.o `test -f 'conloq.src/conloq.c' || echo '$(srcdir)/'`conloq.src/conloq.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/conloq.Tpo $(DEPDIR)/conloq.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/conloq.c' object='conloq.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/conloq.c' object='conloq.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o conloq.o `test -f 'conloq/conloq.c' || echo '$(srcdir)/'`conloq/conloq.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o conloq.o `test -f 'conloq.src/conloq.c' || echo '$(srcdir)/'`conloq.src/conloq.c
 
-conloq.obj: conloq/conloq.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT conloq.obj -MD -MP -MF $(DEPDIR)/conloq.Tpo -c -o conloq.obj `if test -f 'conloq/conloq.c'; then $(CYGPATH_W) 'conloq/conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq/conloq.c'; fi`
+conloq.obj: conloq.src/conloq.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT conloq.obj -MD -MP -MF $(DEPDIR)/conloq.Tpo -c -o conloq.obj `if test -f 'conloq.src/conloq.c'; then $(CYGPATH_W) 'conloq.src/conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/conloq.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/conloq.Tpo $(DEPDIR)/conloq.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/conloq.c' object='conloq.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/conloq.c' object='conloq.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o conloq.obj `if test -f 'conloq/conloq.c'; then $(CYGPATH_W) 'conloq/conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq/conloq.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o conloq.obj `if test -f 'conloq.src/conloq.c'; then $(CYGPATH_W) 'conloq.src/conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/conloq.c'; fi`
 
-exp-brief.o: conloq/exp-brief.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp-brief.o -MD -MP -MF $(DEPDIR)/exp-brief.Tpo -c -o exp-brief.o `test -f 'conloq/exp-brief.c' || echo '$(srcdir)/'`conloq/exp-brief.c
+exp-brief.o: conloq.src/exp-brief.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp-brief.o -MD -MP -MF $(DEPDIR)/exp-brief.Tpo -c -o exp-brief.o `test -f 'conloq.src/exp-brief.c' || echo '$(srcdir)/'`conloq.src/exp-brief.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/exp-brief.Tpo $(DEPDIR)/exp-brief.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/exp-brief.c' object='exp-brief.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/exp-brief.c' object='exp-brief.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp-brief.o `test -f 'conloq/exp-brief.c' || echo '$(srcdir)/'`conloq/exp-brief.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp-brief.o `test -f 'conloq.src/exp-brief.c' || echo '$(srcdir)/'`conloq.src/exp-brief.c
 
-exp-brief.obj: conloq/exp-brief.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp-brief.obj -MD -MP -MF $(DEPDIR)/exp-brief.Tpo -c -o exp-brief.obj `if test -f 'conloq/exp-brief.c'; then $(CYGPATH_W) 'conloq/exp-brief.c'; else $(CYGPATH_W) '$(srcdir)/conloq/exp-brief.c'; fi`
+exp-brief.obj: conloq.src/exp-brief.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp-brief.obj -MD -MP -MF $(DEPDIR)/exp-brief.Tpo -c -o exp-brief.obj `if test -f 'conloq.src/exp-brief.c'; then $(CYGPATH_W) 'conloq.src/exp-brief.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/exp-brief.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/exp-brief.Tpo $(DEPDIR)/exp-brief.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/exp-brief.c' object='exp-brief.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/exp-brief.c' object='exp-brief.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp-brief.obj `if test -f 'conloq/exp-brief.c'; then $(CYGPATH_W) 'conloq/exp-brief.c'; else $(CYGPATH_W) '$(srcdir)/conloq/exp-brief.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp-brief.obj `if test -f 'conloq.src/exp-brief.c'; then $(CYGPATH_W) 'conloq.src/exp-brief.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/exp-brief.c'; fi`
 
-process_keypress.o: conloq/process_keypress.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT process_keypress.o -MD -MP -MF $(DEPDIR)/process_keypress.Tpo -c -o process_keypress.o `test -f 'conloq/process_keypress.c' || echo '$(srcdir)/'`conloq/process_keypress.c
+process_keypress.o: conloq.src/process_keypress.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT process_keypress.o -MD -MP -MF $(DEPDIR)/process_keypress.Tpo -c -o process_keypress.o `test -f 'conloq.src/process_keypress.c' || echo '$(srcdir)/'`conloq.src/process_keypress.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/process_keypress.Tpo $(DEPDIR)/process_keypress.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/process_keypress.c' object='process_keypress.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/process_keypress.c' object='process_keypress.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o process_keypress.o `test -f 'conloq/process_keypress.c' || echo '$(srcdir)/'`conloq/process_keypress.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o process_keypress.o `test -f 'conloq.src/process_keypress.c' || echo '$(srcdir)/'`conloq.src/process_keypress.c
 
-process_keypress.obj: conloq/process_keypress.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT process_keypress.obj -MD -MP -MF $(DEPDIR)/process_keypress.Tpo -c -o process_keypress.obj `if test -f 'conloq/process_keypress.c'; then $(CYGPATH_W) 'conloq/process_keypress.c'; else $(CYGPATH_W) '$(srcdir)/conloq/process_keypress.c'; fi`
+process_keypress.obj: conloq.src/process_keypress.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT process_keypress.obj -MD -MP -MF $(DEPDIR)/process_keypress.Tpo -c -o process_keypress.obj `if test -f 'conloq.src/process_keypress.c'; then $(CYGPATH_W) 'conloq.src/process_keypress.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/process_keypress.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/process_keypress.Tpo $(DEPDIR)/process_keypress.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/process_keypress.c' object='process_keypress.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/process_keypress.c' object='process_keypress.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o process_keypress.obj `if test -f 'conloq/process_keypress.c'; then $(CYGPATH_W) 'conloq/process_keypress.c'; else $(CYGPATH_W) '$(srcdir)/conloq/process_keypress.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o process_keypress.obj `if test -f 'conloq.src/process_keypress.c'; then $(CYGPATH_W) 'conloq.src/process_keypress.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/process_keypress.c'; fi`
 
-garmin_nmea.o: conloq/garmin_nmea.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT garmin_nmea.o -MD -MP -MF $(DEPDIR)/garmin_nmea.Tpo -c -o garmin_nmea.o `test -f 'conloq/garmin_nmea.c' || echo '$(srcdir)/'`conloq/garmin_nmea.c
+garmin_nmea.o: conloq.src/garmin_nmea.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT garmin_nmea.o -MD -MP -MF $(DEPDIR)/garmin_nmea.Tpo -c -o garmin_nmea.o `test -f 'conloq.src/garmin_nmea.c' || echo '$(srcdir)/'`conloq.src/garmin_nmea.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/garmin_nmea.Tpo $(DEPDIR)/garmin_nmea.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/garmin_nmea.c' object='garmin_nmea.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/garmin_nmea.c' object='garmin_nmea.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o garmin_nmea.o `test -f 'conloq/garmin_nmea.c' || echo '$(srcdir)/'`conloq/garmin_nmea.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o garmin_nmea.o `test -f 'conloq.src/garmin_nmea.c' || echo '$(srcdir)/'`conloq.src/garmin_nmea.c
 
-garmin_nmea.obj: conloq/garmin_nmea.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT garmin_nmea.obj -MD -MP -MF $(DEPDIR)/garmin_nmea.Tpo -c -o garmin_nmea.obj `if test -f 'conloq/garmin_nmea.c'; then $(CYGPATH_W) 'conloq/garmin_nmea.c'; else $(CYGPATH_W) '$(srcdir)/conloq/garmin_nmea.c'; fi`
+garmin_nmea.obj: conloq.src/garmin_nmea.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT garmin_nmea.obj -MD -MP -MF $(DEPDIR)/garmin_nmea.Tpo -c -o garmin_nmea.obj `if test -f 'conloq.src/garmin_nmea.c'; then $(CYGPATH_W) 'conloq.src/garmin_nmea.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/garmin_nmea.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/garmin_nmea.Tpo $(DEPDIR)/garmin_nmea.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/garmin_nmea.c' object='garmin_nmea.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/garmin_nmea.c' object='garmin_nmea.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o garmin_nmea.obj `if test -f 'conloq/garmin_nmea.c'; then $(CYGPATH_W) 'conloq/garmin_nmea.c'; else $(CYGPATH_W) '$(srcdir)/conloq/garmin_nmea.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o garmin_nmea.obj `if test -f 'conloq.src/garmin_nmea.c'; then $(CYGPATH_W) 'conloq.src/garmin_nmea.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/garmin_nmea.c'; fi`
 
-hodo.o: conloq/hodo.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT hodo.o -MD -MP -MF $(DEPDIR)/hodo.Tpo -c -o hodo.o `test -f 'conloq/hodo.c' || echo '$(srcdir)/'`conloq/hodo.c
+hodo.o: conloq.src/hodo.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT hodo.o -MD -MP -MF $(DEPDIR)/hodo.Tpo -c -o hodo.o `test -f 'conloq.src/hodo.c' || echo '$(srcdir)/'`conloq.src/hodo.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/hodo.Tpo $(DEPDIR)/hodo.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/hodo.c' object='hodo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/hodo.c' object='hodo.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o hodo.o `test -f 'conloq/hodo.c' || echo '$(srcdir)/'`conloq/hodo.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o hodo.o `test -f 'conloq.src/hodo.c' || echo '$(srcdir)/'`conloq.src/hodo.c
 
-hodo.obj: conloq/hodo.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT hodo.obj -MD -MP -MF $(DEPDIR)/hodo.Tpo -c -o hodo.obj `if test -f 'conloq/hodo.c'; then $(CYGPATH_W) 'conloq/hodo.c'; else $(CYGPATH_W) '$(srcdir)/conloq/hodo.c'; fi`
+hodo.obj: conloq.src/hodo.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT hodo.obj -MD -MP -MF $(DEPDIR)/hodo.Tpo -c -o hodo.obj `if test -f 'conloq.src/hodo.c'; then $(CYGPATH_W) 'conloq.src/hodo.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/hodo.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/hodo.Tpo $(DEPDIR)/hodo.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/hodo.c' object='hodo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/hodo.c' object='hodo.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o hodo.obj `if test -f 'conloq/hodo.c'; then $(CYGPATH_W) 'conloq/hodo.c'; else $(CYGPATH_W) '$(srcdir)/conloq/hodo.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o hodo.obj `if test -f 'conloq.src/hodo.c'; then $(CYGPATH_W) 'conloq.src/hodo.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/hodo.c'; fi`
 
-lla.o: conloq/lla.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lla.o -MD -MP -MF $(DEPDIR)/lla.Tpo -c -o lla.o `test -f 'conloq/lla.c' || echo '$(srcdir)/'`conloq/lla.c
+lla.o: conloq.src/lla.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lla.o -MD -MP -MF $(DEPDIR)/lla.Tpo -c -o lla.o `test -f 'conloq.src/lla.c' || echo '$(srcdir)/'`conloq.src/lla.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/lla.Tpo $(DEPDIR)/lla.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/lla.c' object='lla.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/lla.c' object='lla.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lla.o `test -f 'conloq/lla.c' || echo '$(srcdir)/'`conloq/lla.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lla.o `test -f 'conloq.src/lla.c' || echo '$(srcdir)/'`conloq.src/lla.c
 
-lla.obj: conloq/lla.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lla.obj -MD -MP -MF $(DEPDIR)/lla.Tpo -c -o lla.obj `if test -f 'conloq/lla.c'; then $(CYGPATH_W) 'conloq/lla.c'; else $(CYGPATH_W) '$(srcdir)/conloq/lla.c'; fi`
+lla.obj: conloq.src/lla.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lla.obj -MD -MP -MF $(DEPDIR)/lla.Tpo -c -o lla.obj `if test -f 'conloq.src/lla.c'; then $(CYGPATH_W) 'conloq.src/lla.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/lla.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/lla.Tpo $(DEPDIR)/lla.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/lla.c' object='lla.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/lla.c' object='lla.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lla.obj `if test -f 'conloq/lla.c'; then $(CYGPATH_W) 'conloq/lla.c'; else $(CYGPATH_W) '$(srcdir)/conloq/lla.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lla.obj `if test -f 'conloq.src/lla.c'; then $(CYGPATH_W) 'conloq.src/lla.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/lla.c'; fi`
 
-preproc_gps.o: conloq/preproc_gps.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT preproc_gps.o -MD -MP -MF $(DEPDIR)/preproc_gps.Tpo -c -o preproc_gps.o `test -f 'conloq/preproc_gps.c' || echo '$(srcdir)/'`conloq/preproc_gps.c
+preproc_gps.o: conloq.src/preproc_gps.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT preproc_gps.o -MD -MP -MF $(DEPDIR)/preproc_gps.Tpo -c -o preproc_gps.o `test -f 'conloq.src/preproc_gps.c' || echo '$(srcdir)/'`conloq.src/preproc_gps.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/preproc_gps.Tpo $(DEPDIR)/preproc_gps.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/preproc_gps.c' object='preproc_gps.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/preproc_gps.c' object='preproc_gps.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o preproc_gps.o `test -f 'conloq/preproc_gps.c' || echo '$(srcdir)/'`conloq/preproc_gps.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o preproc_gps.o `test -f 'conloq.src/preproc_gps.c' || echo '$(srcdir)/'`conloq.src/preproc_gps.c
 
-preproc_gps.obj: conloq/preproc_gps.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT preproc_gps.obj -MD -MP -MF $(DEPDIR)/preproc_gps.Tpo -c -o preproc_gps.obj `if test -f 'conloq/preproc_gps.c'; then $(CYGPATH_W) 'conloq/preproc_gps.c'; else $(CYGPATH_W) '$(srcdir)/conloq/preproc_gps.c'; fi`
+preproc_gps.obj: conloq.src/preproc_gps.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT preproc_gps.obj -MD -MP -MF $(DEPDIR)/preproc_gps.Tpo -c -o preproc_gps.obj `if test -f 'conloq.src/preproc_gps.c'; then $(CYGPATH_W) 'conloq.src/preproc_gps.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/preproc_gps.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/preproc_gps.Tpo $(DEPDIR)/preproc_gps.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/preproc_gps.c' object='preproc_gps.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/preproc_gps.c' object='preproc_gps.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o preproc_gps.obj `if test -f 'conloq/preproc_gps.c'; then $(CYGPATH_W) 'conloq/preproc_gps.c'; else $(CYGPATH_W) '$(srcdir)/conloq/preproc_gps.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o preproc_gps.obj `if test -f 'conloq.src/preproc_gps.c'; then $(CYGPATH_W) 'conloq.src/preproc_gps.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/preproc_gps.c'; fi`
 
-serialia.o: conloq/serialia.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT serialia.o -MD -MP -MF $(DEPDIR)/serialia.Tpo -c -o serialia.o `test -f 'conloq/serialia.c' || echo '$(srcdir)/'`conloq/serialia.c
+serialia.o: conloq.src/serialia.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT serialia.o -MD -MP -MF $(DEPDIR)/serialia.Tpo -c -o serialia.o `test -f 'conloq.src/serialia.c' || echo '$(srcdir)/'`conloq.src/serialia.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/serialia.Tpo $(DEPDIR)/serialia.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/serialia.c' object='serialia.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/serialia.c' object='serialia.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o serialia.o `test -f 'conloq/serialia.c' || echo '$(srcdir)/'`conloq/serialia.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o serialia.o `test -f 'conloq.src/serialia.c' || echo '$(srcdir)/'`conloq.src/serialia.c
 
-serialia.obj: conloq/serialia.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT serialia.obj -MD -MP -MF $(DEPDIR)/serialia.Tpo -c -o serialia.obj `if test -f 'conloq/serialia.c'; then $(CYGPATH_W) 'conloq/serialia.c'; else $(CYGPATH_W) '$(srcdir)/conloq/serialia.c'; fi`
+serialia.obj: conloq.src/serialia.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT serialia.obj -MD -MP -MF $(DEPDIR)/serialia.Tpo -c -o serialia.obj `if test -f 'conloq.src/serialia.c'; then $(CYGPATH_W) 'conloq.src/serialia.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/serialia.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/serialia.Tpo $(DEPDIR)/serialia.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/serialia.c' object='serialia.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/serialia.c' object='serialia.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o serialia.obj `if test -f 'conloq/serialia.c'; then $(CYGPATH_W) 'conloq/serialia.c'; else $(CYGPATH_W) '$(srcdir)/conloq/serialia.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o serialia.obj `if test -f 'conloq.src/serialia.c'; then $(CYGPATH_W) 'conloq.src/serialia.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/serialia.c'; fi`
 
-wser.o: conloq/wser.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT wser.o -MD -MP -MF $(DEPDIR)/wser.Tpo -c -o wser.o `test -f 'conloq/wser.c' || echo '$(srcdir)/'`conloq/wser.c
+wser.o: conloq.src/wser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT wser.o -MD -MP -MF $(DEPDIR)/wser.Tpo -c -o wser.o `test -f 'conloq.src/wser.c' || echo '$(srcdir)/'`conloq.src/wser.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/wser.Tpo $(DEPDIR)/wser.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/wser.c' object='wser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/wser.c' object='wser.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o wser.o `test -f 'conloq/wser.c' || echo '$(srcdir)/'`conloq/wser.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o wser.o `test -f 'conloq.src/wser.c' || echo '$(srcdir)/'`conloq.src/wser.c
 
-wser.obj: conloq/wser.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT wser.obj -MD -MP -MF $(DEPDIR)/wser.Tpo -c -o wser.obj `if test -f 'conloq/wser.c'; then $(CYGPATH_W) 'conloq/wser.c'; else $(CYGPATH_W) '$(srcdir)/conloq/wser.c'; fi`
+wser.obj: conloq.src/wser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT wser.obj -MD -MP -MF $(DEPDIR)/wser.Tpo -c -o wser.obj `if test -f 'conloq.src/wser.c'; then $(CYGPATH_W) 'conloq.src/wser.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/wser.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/wser.Tpo $(DEPDIR)/wser.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/wser.c' object='wser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/wser.c' object='wser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o wser.obj `if test -f 'conloq/wser.c'; then $(CYGPATH_W) 'conloq/wser.c'; else $(CYGPATH_W) '$(srcdir)/conloq/wser.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o wser.obj `if test -f 'conloq.src/wser.c'; then $(CYGPATH_W) 'conloq.src/wser.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/wser.c'; fi`
 
-verbosity_level.o: conloq/verbosity_level.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verbosity_level.o -MD -MP -MF $(DEPDIR)/verbosity_level.Tpo -c -o verbosity_level.o `test -f 'conloq/verbosity_level.c' || echo '$(srcdir)/'`conloq/verbosity_level.c
+verbosity_level.o: conloq.src/verbosity_level.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verbosity_level.o -MD -MP -MF $(DEPDIR)/verbosity_level.Tpo -c -o verbosity_level.o `test -f 'conloq.src/verbosity_level.c' || echo '$(srcdir)/'`conloq.src/verbosity_level.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/verbosity_level.Tpo $(DEPDIR)/verbosity_level.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/verbosity_level.c' object='verbosity_level.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/verbosity_level.c' object='verbosity_level.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verbosity_level.o `test -f 'conloq/verbosity_level.c' || echo '$(srcdir)/'`conloq/verbosity_level.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verbosity_level.o `test -f 'conloq.src/verbosity_level.c' || echo '$(srcdir)/'`conloq.src/verbosity_level.c
 
-verbosity_level.obj: conloq/verbosity_level.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verbosity_level.obj -MD -MP -MF $(DEPDIR)/verbosity_level.Tpo -c -o verbosity_level.obj `if test -f 'conloq/verbosity_level.c'; then $(CYGPATH_W) 'conloq/verbosity_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq/verbosity_level.c'; fi`
+verbosity_level.obj: conloq.src/verbosity_level.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verbosity_level.obj -MD -MP -MF $(DEPDIR)/verbosity_level.Tpo -c -o verbosity_level.obj `if test -f 'conloq.src/verbosity_level.c'; then $(CYGPATH_W) 'conloq.src/verbosity_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/verbosity_level.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/verbosity_level.Tpo $(DEPDIR)/verbosity_level.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/verbosity_level.c' object='verbosity_level.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/verbosity_level.c' object='verbosity_level.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verbosity_level.obj `if test -f 'conloq/verbosity_level.c'; then $(CYGPATH_W) 'conloq/verbosity_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq/verbosity_level.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verbosity_level.obj `if test -f 'conloq.src/verbosity_level.c'; then $(CYGPATH_W) 'conloq.src/verbosity_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/verbosity_level.c'; fi`
 
 drift.o: utils/drift.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT drift.o -MD -MP -MF $(DEPDIR)/drift.Tpo -c -o drift.o `test -f 'utils/drift.c' || echo '$(srcdir)/'`utils/drift.c
@@ -902,145 +909,145 @@ drift.obj: utils/drift.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o drift.obj `if test -f 'utils/drift.c'; then $(CYGPATH_W) 'utils/drift.c'; else $(CYGPATH_W) '$(srcdir)/utils/drift.c'; fi`
 
-elig.o: conloq/elig.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elig.o -MD -MP -MF $(DEPDIR)/elig.Tpo -c -o elig.o `test -f 'conloq/elig.c' || echo '$(srcdir)/'`conloq/elig.c
+elig.o: conloq.src/elig.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elig.o -MD -MP -MF $(DEPDIR)/elig.Tpo -c -o elig.o `test -f 'conloq.src/elig.c' || echo '$(srcdir)/'`conloq.src/elig.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elig.Tpo $(DEPDIR)/elig.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/elig.c' object='elig.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/elig.c' object='elig.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elig.o `test -f 'conloq/elig.c' || echo '$(srcdir)/'`conloq/elig.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elig.o `test -f 'conloq.src/elig.c' || echo '$(srcdir)/'`conloq.src/elig.c
 
-elig.obj: conloq/elig.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elig.obj -MD -MP -MF $(DEPDIR)/elig.Tpo -c -o elig.obj `if test -f 'conloq/elig.c'; then $(CYGPATH_W) 'conloq/elig.c'; else $(CYGPATH_W) '$(srcdir)/conloq/elig.c'; fi`
+elig.obj: conloq.src/elig.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elig.obj -MD -MP -MF $(DEPDIR)/elig.Tpo -c -o elig.obj `if test -f 'conloq.src/elig.c'; then $(CYGPATH_W) 'conloq.src/elig.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/elig.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elig.Tpo $(DEPDIR)/elig.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/elig.c' object='elig.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/elig.c' object='elig.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elig.obj `if test -f 'conloq/elig.c'; then $(CYGPATH_W) 'conloq/elig.c'; else $(CYGPATH_W) '$(srcdir)/conloq/elig.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elig.obj `if test -f 'conloq.src/elig.c'; then $(CYGPATH_W) 'conloq.src/elig.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/elig.c'; fi`
 
-elk-elk.o: elk/elk.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-elk.o -MD -MP -MF $(DEPDIR)/elk-elk.Tpo -c -o elk-elk.o `test -f 'elk/elk.c' || echo '$(srcdir)/'`elk/elk.c
+elk-elk.o: elk.src/elk.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-elk.o -MD -MP -MF $(DEPDIR)/elk-elk.Tpo -c -o elk-elk.o `test -f 'elk.src/elk.c' || echo '$(srcdir)/'`elk.src/elk.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-elk.Tpo $(DEPDIR)/elk-elk.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/elk.c' object='elk-elk.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/elk.c' object='elk-elk.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-elk.o `test -f 'elk/elk.c' || echo '$(srcdir)/'`elk/elk.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-elk.o `test -f 'elk.src/elk.c' || echo '$(srcdir)/'`elk.src/elk.c
 
-elk-elk.obj: elk/elk.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-elk.obj -MD -MP -MF $(DEPDIR)/elk-elk.Tpo -c -o elk-elk.obj `if test -f 'elk/elk.c'; then $(CYGPATH_W) 'elk/elk.c'; else $(CYGPATH_W) '$(srcdir)/elk/elk.c'; fi`
+elk-elk.obj: elk.src/elk.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-elk.obj -MD -MP -MF $(DEPDIR)/elk-elk.Tpo -c -o elk-elk.obj `if test -f 'elk.src/elk.c'; then $(CYGPATH_W) 'elk.src/elk.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/elk.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-elk.Tpo $(DEPDIR)/elk-elk.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/elk.c' object='elk-elk.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/elk.c' object='elk-elk.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-elk.obj `if test -f 'elk/elk.c'; then $(CYGPATH_W) 'elk/elk.c'; else $(CYGPATH_W) '$(srcdir)/elk/elk.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-elk.obj `if test -f 'elk.src/elk.c'; then $(CYGPATH_W) 'elk.src/elk.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/elk.c'; fi`
 
-elk-serial.o: elk/serial.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serial.o -MD -MP -MF $(DEPDIR)/elk-serial.Tpo -c -o elk-serial.o `test -f 'elk/serial.c' || echo '$(srcdir)/'`elk/serial.c
+elk-serial.o: elk.src/serial.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serial.o -MD -MP -MF $(DEPDIR)/elk-serial.Tpo -c -o elk-serial.o `test -f 'elk.src/serial.c' || echo '$(srcdir)/'`elk.src/serial.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serial.Tpo $(DEPDIR)/elk-serial.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/serial.c' object='elk-serial.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/serial.c' object='elk-serial.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serial.o `test -f 'elk/serial.c' || echo '$(srcdir)/'`elk/serial.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serial.o `test -f 'elk.src/serial.c' || echo '$(srcdir)/'`elk.src/serial.c
 
-elk-serial.obj: elk/serial.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serial.obj -MD -MP -MF $(DEPDIR)/elk-serial.Tpo -c -o elk-serial.obj `if test -f 'elk/serial.c'; then $(CYGPATH_W) 'elk/serial.c'; else $(CYGPATH_W) '$(srcdir)/elk/serial.c'; fi`
+elk-serial.obj: elk.src/serial.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serial.obj -MD -MP -MF $(DEPDIR)/elk-serial.Tpo -c -o elk-serial.obj `if test -f 'elk.src/serial.c'; then $(CYGPATH_W) 'elk.src/serial.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/serial.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serial.Tpo $(DEPDIR)/elk-serial.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/serial.c' object='elk-serial.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/serial.c' object='elk-serial.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serial.obj `if test -f 'elk/serial.c'; then $(CYGPATH_W) 'elk/serial.c'; else $(CYGPATH_W) '$(srcdir)/elk/serial.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serial.obj `if test -f 'elk.src/serial.c'; then $(CYGPATH_W) 'elk.src/serial.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/serial.c'; fi`
 
-elk-serialia.o: elk/serialia.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serialia.o -MD -MP -MF $(DEPDIR)/elk-serialia.Tpo -c -o elk-serialia.o `test -f 'elk/serialia.c' || echo '$(srcdir)/'`elk/serialia.c
+elk-serialia.o: elk.src/serialia.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serialia.o -MD -MP -MF $(DEPDIR)/elk-serialia.Tpo -c -o elk-serialia.o `test -f 'elk.src/serialia.c' || echo '$(srcdir)/'`elk.src/serialia.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serialia.Tpo $(DEPDIR)/elk-serialia.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/serialia.c' object='elk-serialia.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/serialia.c' object='elk-serialia.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serialia.o `test -f 'elk/serialia.c' || echo '$(srcdir)/'`elk/serialia.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serialia.o `test -f 'elk.src/serialia.c' || echo '$(srcdir)/'`elk.src/serialia.c
 
-elk-serialia.obj: elk/serialia.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serialia.obj -MD -MP -MF $(DEPDIR)/elk-serialia.Tpo -c -o elk-serialia.obj `if test -f 'elk/serialia.c'; then $(CYGPATH_W) 'elk/serialia.c'; else $(CYGPATH_W) '$(srcdir)/elk/serialia.c'; fi`
+elk-serialia.obj: elk.src/serialia.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-serialia.obj -MD -MP -MF $(DEPDIR)/elk-serialia.Tpo -c -o elk-serialia.obj `if test -f 'elk.src/serialia.c'; then $(CYGPATH_W) 'elk.src/serialia.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/serialia.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-serialia.Tpo $(DEPDIR)/elk-serialia.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/serialia.c' object='elk-serialia.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/serialia.c' object='elk-serialia.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serialia.obj `if test -f 'elk/serialia.c'; then $(CYGPATH_W) 'elk/serialia.c'; else $(CYGPATH_W) '$(srcdir)/elk/serialia.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-serialia.obj `if test -f 'elk.src/serialia.c'; then $(CYGPATH_W) 'elk.src/serialia.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/serialia.c'; fi`
 
-elk-wser.o: elk/wser.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-wser.o -MD -MP -MF $(DEPDIR)/elk-wser.Tpo -c -o elk-wser.o `test -f 'elk/wser.c' || echo '$(srcdir)/'`elk/wser.c
+elk-wser.o: elk.src/wser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-wser.o -MD -MP -MF $(DEPDIR)/elk-wser.Tpo -c -o elk-wser.o `test -f 'elk.src/wser.c' || echo '$(srcdir)/'`elk.src/wser.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-wser.Tpo $(DEPDIR)/elk-wser.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/wser.c' object='elk-wser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/wser.c' object='elk-wser.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-wser.o `test -f 'elk/wser.c' || echo '$(srcdir)/'`elk/wser.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-wser.o `test -f 'elk.src/wser.c' || echo '$(srcdir)/'`elk.src/wser.c
 
-elk-wser.obj: elk/wser.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-wser.obj -MD -MP -MF $(DEPDIR)/elk-wser.Tpo -c -o elk-wser.obj `if test -f 'elk/wser.c'; then $(CYGPATH_W) 'elk/wser.c'; else $(CYGPATH_W) '$(srcdir)/elk/wser.c'; fi`
+elk-wser.obj: elk.src/wser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-wser.obj -MD -MP -MF $(DEPDIR)/elk-wser.Tpo -c -o elk-wser.obj `if test -f 'elk.src/wser.c'; then $(CYGPATH_W) 'elk.src/wser.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/wser.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-wser.Tpo $(DEPDIR)/elk-wser.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/wser.c' object='elk-wser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/wser.c' object='elk-wser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-wser.obj `if test -f 'elk/wser.c'; then $(CYGPATH_W) 'elk/wser.c'; else $(CYGPATH_W) '$(srcdir)/elk/wser.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-wser.obj `if test -f 'elk.src/wser.c'; then $(CYGPATH_W) 'elk.src/wser.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/wser.c'; fi`
 
-elk-ram_loader.o: elk/ram_loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-ram_loader.o -MD -MP -MF $(DEPDIR)/elk-ram_loader.Tpo -c -o elk-ram_loader.o `test -f 'elk/ram_loader.c' || echo '$(srcdir)/'`elk/ram_loader.c
+elk-ram_loader.o: elk.src/ram_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-ram_loader.o -MD -MP -MF $(DEPDIR)/elk-ram_loader.Tpo -c -o elk-ram_loader.o `test -f 'elk.src/ram_loader.c' || echo '$(srcdir)/'`elk.src/ram_loader.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-ram_loader.Tpo $(DEPDIR)/elk-ram_loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/ram_loader.c' object='elk-ram_loader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/ram_loader.c' object='elk-ram_loader.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-ram_loader.o `test -f 'elk/ram_loader.c' || echo '$(srcdir)/'`elk/ram_loader.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-ram_loader.o `test -f 'elk.src/ram_loader.c' || echo '$(srcdir)/'`elk.src/ram_loader.c
 
-elk-ram_loader.obj: elk/ram_loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-ram_loader.obj -MD -MP -MF $(DEPDIR)/elk-ram_loader.Tpo -c -o elk-ram_loader.obj `if test -f 'elk/ram_loader.c'; then $(CYGPATH_W) 'elk/ram_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/ram_loader.c'; fi`
+elk-ram_loader.obj: elk.src/ram_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-ram_loader.obj -MD -MP -MF $(DEPDIR)/elk-ram_loader.Tpo -c -o elk-ram_loader.obj `if test -f 'elk.src/ram_loader.c'; then $(CYGPATH_W) 'elk.src/ram_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/ram_loader.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-ram_loader.Tpo $(DEPDIR)/elk-ram_loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/ram_loader.c' object='elk-ram_loader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/ram_loader.c' object='elk-ram_loader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-ram_loader.obj `if test -f 'elk/ram_loader.c'; then $(CYGPATH_W) 'elk/ram_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/ram_loader.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-ram_loader.obj `if test -f 'elk.src/ram_loader.c'; then $(CYGPATH_W) 'elk.src/ram_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/ram_loader.c'; fi`
 
-elk-lpc_loader.o: elk/lpc_loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-lpc_loader.o -MD -MP -MF $(DEPDIR)/elk-lpc_loader.Tpo -c -o elk-lpc_loader.o `test -f 'elk/lpc_loader.c' || echo '$(srcdir)/'`elk/lpc_loader.c
+elk-lpc_loader.o: elk.src/lpc_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-lpc_loader.o -MD -MP -MF $(DEPDIR)/elk-lpc_loader.Tpo -c -o elk-lpc_loader.o `test -f 'elk.src/lpc_loader.c' || echo '$(srcdir)/'`elk.src/lpc_loader.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-lpc_loader.Tpo $(DEPDIR)/elk-lpc_loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/lpc_loader.c' object='elk-lpc_loader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/lpc_loader.c' object='elk-lpc_loader.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.o `test -f 'elk/lpc_loader.c' || echo '$(srcdir)/'`elk/lpc_loader.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.o `test -f 'elk.src/lpc_loader.c' || echo '$(srcdir)/'`elk.src/lpc_loader.c
 
-elk-lpc_loader.obj: elk/lpc_loader.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-lpc_loader.obj -MD -MP -MF $(DEPDIR)/elk-lpc_loader.Tpo -c -o elk-lpc_loader.obj `if test -f 'elk/lpc_loader.c'; then $(CYGPATH_W) 'elk/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/lpc_loader.c'; fi`
+elk-lpc_loader.obj: elk.src/lpc_loader.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-lpc_loader.obj -MD -MP -MF $(DEPDIR)/elk-lpc_loader.Tpo -c -o elk-lpc_loader.obj `if test -f 'elk.src/lpc_loader.c'; then $(CYGPATH_W) 'elk.src/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/lpc_loader.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-lpc_loader.Tpo $(DEPDIR)/elk-lpc_loader.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/lpc_loader.c' object='elk-lpc_loader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/lpc_loader.c' object='elk-lpc_loader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.obj `if test -f 'elk/lpc_loader.c'; then $(CYGPATH_W) 'elk/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk/lpc_loader.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.obj `if test -f 'elk.src/lpc_loader.c'; then $(CYGPATH_W) 'elk.src/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/lpc_loader.c'; fi`
 
-elk-snprintf_checked.o: elk/snprintf_checked.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.o -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.o `test -f 'elk/snprintf_checked.c' || echo '$(srcdir)/'`elk/snprintf_checked.c
+elk-snprintf_checked.o: elk.src/snprintf_checked.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.o -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.o `test -f 'elk.src/snprintf_checked.c' || echo '$(srcdir)/'`elk.src/snprintf_checked.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-snprintf_checked.Tpo $(DEPDIR)/elk-snprintf_checked.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/snprintf_checked.c' object='elk-snprintf_checked.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/snprintf_checked.c' object='elk-snprintf_checked.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.o `test -f 'elk/snprintf_checked.c' || echo '$(srcdir)/'`elk/snprintf_checked.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.o `test -f 'elk.src/snprintf_checked.c' || echo '$(srcdir)/'`elk.src/snprintf_checked.c
 
-elk-snprintf_checked.obj: elk/snprintf_checked.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.obj -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.obj `if test -f 'elk/snprintf_checked.c'; then $(CYGPATH_W) 'elk/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk/snprintf_checked.c'; fi`
+elk-snprintf_checked.obj: elk.src/snprintf_checked.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.obj -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.obj `if test -f 'elk.src/snprintf_checked.c'; then $(CYGPATH_W) 'elk.src/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/snprintf_checked.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-snprintf_checked.Tpo $(DEPDIR)/elk-snprintf_checked.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk/snprintf_checked.c' object='elk-snprintf_checked.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/snprintf_checked.c' object='elk-snprintf_checked.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.obj `if test -f 'elk/snprintf_checked.c'; then $(CYGPATH_W) 'elk/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk/snprintf_checked.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.obj `if test -f 'elk.src/snprintf_checked.c'; then $(CYGPATH_W) 'elk.src/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/snprintf_checked.c'; fi`
 
-expon.o: conloq/expon.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT expon.o -MD -MP -MF $(DEPDIR)/expon.Tpo -c -o expon.o `test -f 'conloq/expon.c' || echo '$(srcdir)/'`conloq/expon.c
+expon.o: conloq.src/expon.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT expon.o -MD -MP -MF $(DEPDIR)/expon.Tpo -c -o expon.o `test -f 'conloq.src/expon.c' || echo '$(srcdir)/'`conloq.src/expon.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/expon.Tpo $(DEPDIR)/expon.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/expon.c' object='expon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/expon.c' object='expon.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o expon.o `test -f 'conloq/expon.c' || echo '$(srcdir)/'`conloq/expon.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o expon.o `test -f 'conloq.src/expon.c' || echo '$(srcdir)/'`conloq.src/expon.c
 
-expon.obj: conloq/expon.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT expon.obj -MD -MP -MF $(DEPDIR)/expon.Tpo -c -o expon.obj `if test -f 'conloq/expon.c'; then $(CYGPATH_W) 'conloq/expon.c'; else $(CYGPATH_W) '$(srcdir)/conloq/expon.c'; fi`
+expon.obj: conloq.src/expon.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT expon.obj -MD -MP -MF $(DEPDIR)/expon.Tpo -c -o expon.obj `if test -f 'conloq.src/expon.c'; then $(CYGPATH_W) 'conloq.src/expon.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/expon.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/expon.Tpo $(DEPDIR)/expon.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/expon.c' object='expon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/expon.c' object='expon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o expon.obj `if test -f 'conloq/expon.c'; then $(CYGPATH_W) 'conloq/expon.c'; else $(CYGPATH_W) '$(srcdir)/conloq/expon.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o expon.obj `if test -f 'conloq.src/expon.c'; then $(CYGPATH_W) 'conloq.src/expon.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/expon.c'; fi`
 
-exp.o: conloq/exp.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp.o -MD -MP -MF $(DEPDIR)/exp.Tpo -c -o exp.o `test -f 'conloq/exp.c' || echo '$(srcdir)/'`conloq/exp.c
+exp.o: conloq.src/exp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp.o -MD -MP -MF $(DEPDIR)/exp.Tpo -c -o exp.o `test -f 'conloq.src/exp.c' || echo '$(srcdir)/'`conloq.src/exp.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/exp.Tpo $(DEPDIR)/exp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/exp.c' object='exp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/exp.c' object='exp.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp.o `test -f 'conloq/exp.c' || echo '$(srcdir)/'`conloq/exp.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp.o `test -f 'conloq.src/exp.c' || echo '$(srcdir)/'`conloq.src/exp.c
 
-exp.obj: conloq/exp.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp.obj -MD -MP -MF $(DEPDIR)/exp.Tpo -c -o exp.obj `if test -f 'conloq/exp.c'; then $(CYGPATH_W) 'conloq/exp.c'; else $(CYGPATH_W) '$(srcdir)/conloq/exp.c'; fi`
+exp.obj: conloq.src/exp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT exp.obj -MD -MP -MF $(DEPDIR)/exp.Tpo -c -o exp.obj `if test -f 'conloq.src/exp.c'; then $(CYGPATH_W) 'conloq.src/exp.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/exp.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/exp.Tpo $(DEPDIR)/exp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/exp.c' object='exp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/exp.c' object='exp.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp.obj `if test -f 'conloq/exp.c'; then $(CYGPATH_W) 'conloq/exp.c'; else $(CYGPATH_W) '$(srcdir)/conloq/exp.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp.obj `if test -f 'conloq.src/exp.c'; then $(CYGPATH_W) 'conloq.src/exp.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/exp.c'; fi`
 
 fdif.o: utils/fdif.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT fdif.o -MD -MP -MF $(DEPDIR)/fdif.Tpo -c -o fdif.o `test -f 'utils/fdif.c' || echo '$(srcdir)/'`utils/fdif.c
@@ -1070,61 +1077,61 @@ lpfilter.obj: utils/lpfilter.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lpfilter.obj `if test -f 'utils/lpfilter.c'; then $(CYGPATH_W) 'utils/lpfilter.c'; else $(CYGPATH_W) '$(srcdir)/utils/lpfilter.c'; fi`
 
-magex-conloq.o: conloq/magex-conloq.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magex-conloq.o -MD -MP -MF $(DEPDIR)/magex-conloq.Tpo -c -o magex-conloq.o `test -f 'conloq/magex-conloq.c' || echo '$(srcdir)/'`conloq/magex-conloq.c
+magex-conloq.o: conloq.src/magex-conloq.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magex-conloq.o -MD -MP -MF $(DEPDIR)/magex-conloq.Tpo -c -o magex-conloq.o `test -f 'conloq.src/magex-conloq.c' || echo '$(srcdir)/'`conloq.src/magex-conloq.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/magex-conloq.Tpo $(DEPDIR)/magex-conloq.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/magex-conloq.c' object='magex-conloq.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/magex-conloq.c' object='magex-conloq.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magex-conloq.o `test -f 'conloq/magex-conloq.c' || echo '$(srcdir)/'`conloq/magex-conloq.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magex-conloq.o `test -f 'conloq.src/magex-conloq.c' || echo '$(srcdir)/'`conloq.src/magex-conloq.c
 
-magex-conloq.obj: conloq/magex-conloq.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magex-conloq.obj -MD -MP -MF $(DEPDIR)/magex-conloq.Tpo -c -o magex-conloq.obj `if test -f 'conloq/magex-conloq.c'; then $(CYGPATH_W) 'conloq/magex-conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq/magex-conloq.c'; fi`
+magex-conloq.obj: conloq.src/magex-conloq.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magex-conloq.obj -MD -MP -MF $(DEPDIR)/magex-conloq.Tpo -c -o magex-conloq.obj `if test -f 'conloq.src/magex-conloq.c'; then $(CYGPATH_W) 'conloq.src/magex-conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/magex-conloq.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/magex-conloq.Tpo $(DEPDIR)/magex-conloq.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/magex-conloq.c' object='magex-conloq.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/magex-conloq.c' object='magex-conloq.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magex-conloq.obj `if test -f 'conloq/magex-conloq.c'; then $(CYGPATH_W) 'conloq/magex-conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq/magex-conloq.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magex-conloq.obj `if test -f 'conloq.src/magex-conloq.c'; then $(CYGPATH_W) 'conloq.src/magex-conloq.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/magex-conloq.c'; fi`
 
-magexp.o: conloq/magexp.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magexp.o -MD -MP -MF $(DEPDIR)/magexp.Tpo -c -o magexp.o `test -f 'conloq/magexp.c' || echo '$(srcdir)/'`conloq/magexp.c
+magexp.o: conloq.src/magexp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magexp.o -MD -MP -MF $(DEPDIR)/magexp.Tpo -c -o magexp.o `test -f 'conloq.src/magexp.c' || echo '$(srcdir)/'`conloq.src/magexp.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/magexp.Tpo $(DEPDIR)/magexp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/magexp.c' object='magexp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/magexp.c' object='magexp.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magexp.o `test -f 'conloq/magexp.c' || echo '$(srcdir)/'`conloq/magexp.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magexp.o `test -f 'conloq.src/magexp.c' || echo '$(srcdir)/'`conloq.src/magexp.c
 
-magexp.obj: conloq/magexp.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magexp.obj -MD -MP -MF $(DEPDIR)/magexp.Tpo -c -o magexp.obj `if test -f 'conloq/magexp.c'; then $(CYGPATH_W) 'conloq/magexp.c'; else $(CYGPATH_W) '$(srcdir)/conloq/magexp.c'; fi`
+magexp.obj: conloq.src/magexp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT magexp.obj -MD -MP -MF $(DEPDIR)/magexp.Tpo -c -o magexp.obj `if test -f 'conloq.src/magexp.c'; then $(CYGPATH_W) 'conloq.src/magexp.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/magexp.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/magexp.Tpo $(DEPDIR)/magexp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/magexp.c' object='magexp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/magexp.c' object='magexp.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magexp.obj `if test -f 'conloq/magexp.c'; then $(CYGPATH_W) 'conloq/magexp.c'; else $(CYGPATH_W) '$(srcdir)/conloq/magexp.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o magexp.obj `if test -f 'conloq.src/magexp.c'; then $(CYGPATH_W) 'conloq.src/magexp.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/magexp.c'; fi`
 
-odo.o: conloq/odo.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT odo.o -MD -MP -MF $(DEPDIR)/odo.Tpo -c -o odo.o `test -f 'conloq/odo.c' || echo '$(srcdir)/'`conloq/odo.c
+odo.o: conloq.src/odo.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT odo.o -MD -MP -MF $(DEPDIR)/odo.Tpo -c -o odo.o `test -f 'conloq.src/odo.c' || echo '$(srcdir)/'`conloq.src/odo.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/odo.Tpo $(DEPDIR)/odo.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/odo.c' object='odo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/odo.c' object='odo.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o odo.o `test -f 'conloq/odo.c' || echo '$(srcdir)/'`conloq/odo.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o odo.o `test -f 'conloq.src/odo.c' || echo '$(srcdir)/'`conloq.src/odo.c
 
-odo.obj: conloq/odo.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT odo.obj -MD -MP -MF $(DEPDIR)/odo.Tpo -c -o odo.obj `if test -f 'conloq/odo.c'; then $(CYGPATH_W) 'conloq/odo.c'; else $(CYGPATH_W) '$(srcdir)/conloq/odo.c'; fi`
+odo.obj: conloq.src/odo.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT odo.obj -MD -MP -MF $(DEPDIR)/odo.Tpo -c -o odo.obj `if test -f 'conloq.src/odo.c'; then $(CYGPATH_W) 'conloq.src/odo.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/odo.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/odo.Tpo $(DEPDIR)/odo.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/odo.c' object='odo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/odo.c' object='odo.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o odo.obj `if test -f 'conloq/odo.c'; then $(CYGPATH_W) 'conloq/odo.c'; else $(CYGPATH_W) '$(srcdir)/conloq/odo.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o odo.obj `if test -f 'conloq.src/odo.c'; then $(CYGPATH_W) 'conloq.src/odo.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/odo.c'; fi`
 
-parse_tsipex.o: conloq/parse_tsipex.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsipex.o -MD -MP -MF $(DEPDIR)/parse_tsipex.Tpo -c -o parse_tsipex.o `test -f 'conloq/parse_tsipex.c' || echo '$(srcdir)/'`conloq/parse_tsipex.c
+parse_tsipex.o: conloq.src/parse_tsipex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsipex.o -MD -MP -MF $(DEPDIR)/parse_tsipex.Tpo -c -o parse_tsipex.o `test -f 'conloq.src/parse_tsipex.c' || echo '$(srcdir)/'`conloq.src/parse_tsipex.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/parse_tsipex.Tpo $(DEPDIR)/parse_tsipex.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/parse_tsipex.c' object='parse_tsipex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/parse_tsipex.c' object='parse_tsipex.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsipex.o `test -f 'conloq/parse_tsipex.c' || echo '$(srcdir)/'`conloq/parse_tsipex.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsipex.o `test -f 'conloq.src/parse_tsipex.c' || echo '$(srcdir)/'`conloq.src/parse_tsipex.c
 
-parse_tsipex.obj: conloq/parse_tsipex.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsipex.obj -MD -MP -MF $(DEPDIR)/parse_tsipex.Tpo -c -o parse_tsipex.obj `if test -f 'conloq/parse_tsipex.c'; then $(CYGPATH_W) 'conloq/parse_tsipex.c'; else $(CYGPATH_W) '$(srcdir)/conloq/parse_tsipex.c'; fi`
+parse_tsipex.obj: conloq.src/parse_tsipex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT parse_tsipex.obj -MD -MP -MF $(DEPDIR)/parse_tsipex.Tpo -c -o parse_tsipex.obj `if test -f 'conloq.src/parse_tsipex.c'; then $(CYGPATH_W) 'conloq.src/parse_tsipex.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/parse_tsipex.c'; fi`
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/parse_tsipex.Tpo $(DEPDIR)/parse_tsipex.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq/parse_tsipex.c' object='parse_tsipex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/parse_tsipex.c' object='parse_tsipex.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsipex.obj `if test -f 'conloq/parse_tsipex.c'; then $(CYGPATH_W) 'conloq/parse_tsipex.c'; else $(CYGPATH_W) '$(srcdir)/conloq/parse_tsipex.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse_tsipex.obj `if test -f 'conloq.src/parse_tsipex.c'; then $(CYGPATH_W) 'conloq.src/parse_tsipex.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/parse_tsipex.c'; fi`
 
 save_wdex.o: lib/save_wdex.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT save_wdex.o -MD -MP -MF $(DEPDIR)/save_wdex.Tpo -c -o save_wdex.o `test -f 'lib/save_wdex.c' || echo '$(srcdir)/'`lib/save_wdex.c
