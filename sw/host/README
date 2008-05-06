@@ -91,8 +91,8 @@ autom4te.cache/*
 install-sh
 depcomp
 Makefile.in
-conloq/Makefile.in
-elk/Makefile.in
+conloq.src/Makefile.in
+elk.src/Makefile.in
 intlpc/Makefile.in
 postproc/Makefile.in
 tests/Makefile.in
