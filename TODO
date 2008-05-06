@@ -1,9 +1,6 @@
 23 Apr 2008 [23 Apr start] 
  [03 May 2008 complete: the bug vanished]
  write new bootloader; look if the alignment-like bug disappear
-
-09 Feb 2008 [17 Feb 2008 complete] 
- migrate to git
 09 Feb 2008 [19Feb2008 start] [12 Apr 2008 hw/ schematics only remain]
  invoke GNU autobuild tools
  [25 Mar 2008]
@@ -22,6 +19,7 @@
  (1) clean up copyright notices. take as a good example Emacs sources
  [12 Apr 2008 basically done. 
   AUTHORS file status to be cleared; THANKS to be added]
+ [06 May 2008 AUTHORS status clarified]
  (2) wait for 17 days for FSF answer on cross-compilers; decide on
      these dependencies inclusion
      [14 Apr 2008 no answer yet. preliminary decision is to pack several
@@ -37,12 +35,14 @@
          non-Latin characters. LaTeX is much better in this.
          the documentation system is to be selected.]
 	[LaTeX is not very good for non-printed documentation.
-	 the project currently can live without non-latin letters.
+	 the project currently can live without non-Latin letters.
 	 Texinfo has two Russian-speaking maintainers.
 	 the i18n will probably be supported]
      b. enrich the maintainer's memory with knowledge of the FDL 
-	    [before 08 Apr 2008 first pass done]
-		[15 Apr 2008 second pass done]
+            [before 08 Apr 2008 first pass done]
+            [15 Apr 2008 second pass done]
+            [06 May 2008 third pass done; 
+             enough to proceed to the next item]
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
  1. of course, finish mounting the project on Autotools 
