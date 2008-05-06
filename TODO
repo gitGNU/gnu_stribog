@@ -1,4 +1,4 @@
-23 Arp 2008 [23 Apr start] 
+23 Apr 2008 [23 Apr start] 
  [03 May 2008 complete: the bug vanished]
  write new bootloader; look if the alignment-like bug disappear
 
@@ -11,8 +11,6 @@
  it should support [12 Apr 2008 both the next work]
   (1) --help=recursive
   (2) recursive 'configure' calls
-18 Feb 2008 [25 Feb 2008 complete]
- make sw/target programs work from the flash
 18 Feb 2008
  implement on-board attitude computation
  [04 Apr 2008]
@@ -29,6 +27,10 @@
      [14 Apr 2008 no answer yet. preliminary decision is to pack several
       tars with READMEs explaining what is needed in a compliant
       distribution]
+      [05 May 2008 
+       first, the compiler is required for binary distributions only;
+       second, GPLv3 has an exception clause for free tools
+      ]
  (3) prepare documentation:
      a. basically learn texinfo 
         [08 Apr 2008 at the moment texinfo does not support
