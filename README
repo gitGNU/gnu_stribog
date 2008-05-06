@@ -100,13 +100,17 @@ gcc-3.3.6 will not build itself on binutils-2.10.1
 
 On systems other than GNU you should invoke GNU make. some of these packages
 don't build themselves as described below with OpenBSD 3.9 native make.
-use gmake there. the same is true for stribog sources.
+use gmake there. the same is true for stribog sources. when GNU make
+is not available, you may want to try non-VPATH build, that is
+to run `configure' in the topmost directory, like
+`./configure --target=arm-unknown-elf' and so on. another widely known
+tradition prescribes `mkdir obj;cd obj;../configure ...'.
 
 Follow (with some changes) instructions from http://www.gnuarm.com
 ($ is for our shell prompt)
 $ export armprefix=$HOME/arm
                    (or where you want them to live. you must have write access
-		    thither)
+		    thither when you will `make install')
 $ gpg --verify binutils-2.18.tar.bz2.sig && tar xjf binutils-2.18.tar.bz2
 $ mkdir bui;cd bui
 $ ../binutils-2.18/configure --target=arm-unknown-elf --prefix=$armprefix --enable-interwork --enable-multilib
@@ -127,7 +131,8 @@ to connect with gdb.
 will not build itself.
 
 You also may want to add --disable-nls both to binutils and gcc
-configure invocation.
+configure invocation. the order of the command line arguments
+does not matter.
 
 This sequence was tested on
 (1) Fedora Core 4 
@@ -139,10 +144,10 @@ binutils-2.18 will not build themselves
 without manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
 generally, binutils-2.18 release is not very stable.
 BTW on RedHat 7.3 you shall need to update gnupg. it comes with 1.0.6 version
-and it can't check new signatures; gnupg-1.4.9 quite buildable there.
+and it can't check new signatures; gnupg-1.4.9 is quite buildable there.
 
 GCC-4.3.0 has a new strong dependency, MPFR. we can't recommend it
-because MPFR distribution comes without signature. current version of MPFR,
+because MPFR distribution comes with no signature. current version of MPFR,
 2.3.1, requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
 after you install MPFR at prefix=$PREFIX you'll probably need to add 
 $PREFIX/lib to your LD_LIBRARY_PATH shell variable and append
@@ -217,7 +222,7 @@ and so on). you typically shall not want this.
 The configuring scripts are updated with 'autoreconf -v';
 you may 'rm -r autom4te.cache' after that.
 
-As of Apr 2008, the versions used are autoconf-2.62 and automake-1.10.1.
+As of May 2008, the versions used are autoconf-2.62 and automake-1.10.1.
 
 HOW TO USE GIT
 
