@@ -1,3 +1,6 @@
+06 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq conloq.src elk elk.src Makefile.am:
+ mv conloq->conloq.src elk->elk.src
 03 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am elk/usage.h: rm
  * Makefile.am elk/serial.c elk/serialia.h elk/elk.c:
