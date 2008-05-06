@@ -17,20 +17,21 @@
 SUBDIRS=postproc
 if the_host_is_windows
 #forced to use non-free OS API
- elk_serial_source=elk/wser.c
- conloq_serial_source=conloq/wser.c
+ elk_serial_source=elk.src/wser.c
+ conloq_serial_source=conloq.src/wser.c
 else
 #using POSIX RS-232 UART API by default
- elk_serial_source=elk/serialia.c
- conloq_serial_source=conloq/serialia.c
+ elk_serial_source=elk.src/serialia.c
+ conloq_serial_source=conloq.src/serialia.c
 endif
+conloq_extra_serial=conloq.src/serialia.c conloq.src/wser.c
 AM_CPPFLAGS=-DPACKAGE_DATA_DIR="\"$(datadir)\""\
  -DSOURCE_DIR="\"$(srcdir)\""
 bin_PROGRAMS=elk\
  caed conloq elig magex-conloq magexp odo parse_tsipex\
  50hz drift fdif lpfilter stat
 noinst_LIBRARIES=libstribog.a
-dist_bin_SCRIPTS=conloq/expon utils/cutdrift
+dist_bin_SCRIPTS=conloq.src/expon utils/cutdrift
 noinst_PROGRAMS=expon.legacy save_wdex
 EXTRA_DIST=tests/serial.c tests/term.c
 if build_own_argp
@@ -40,59 +41,61 @@ endif
 libargp_a_SOURCES=lib/argp/argp.c
 argpex_SOURCES=lib/argp/argpex.c
 argpex_LDADD=libargp.a
-caed_SOURCES=conloq/caed.c conloq/get_u.h\
- conloq/parse_tsip.c conloq/parse_tsip.h
+caed_SOURCES=conloq.src/caed.c conloq.src/get_u.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h
 caed_LDADD=$(argp_lib) libstribog.a
-conloq_SOURCES=conloq/conloq.c\
- conloq/exp-brief.c conloq/exp.h\
- conloq/exp_gps.h conloq/get_u.h\
- conloq/process_keypress.c conloq/process_keypress.h\
- conloq/garmin_nmea.c conloq/hodo.c conloq/hodo.h\
- conloq/lla.c conloq/lla.h\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/preproc_gps.c conloq/preproc_gps.h\
- $(conloq_serial_source) conloq/serialia.h conloq/usage.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
-EXTRA_conloq_SOURCES=conloq/serialia.c conloq/wser.c
+conloq_SOURCES=conloq.src/conloq.c\
+ conloq.src/exp-brief.c conloq.src/exp.h\
+ conloq.src/exp_gps.h conloq.src/get_u.h\
+ conloq.src/process_keypress.c conloq.src/process_keypress.h\
+ conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h\
+ conloq.src/lla.c conloq.src/lla.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
+ $(conloq_serial_source) conloq.src/serialia.h conloq.src/usage.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+EXTRA_conloq_SOURCES=$(conloq_extra_serial)
 conloq_LDADD=$(argp_lib) libstribog.a
-elig_SOURCES=conloq/elig.c conloq/parse_tsip.c conloq/parse_tsip.h
+elig_SOURCES=conloq.src/elig.c\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h
 elig_LDADD=$(argp_lib) libstribog.a
-expon_legacy_SOURCES=conloq/expon.c\
- conloq/exp.c conloq/exp.h\
- conloq/garmin_nmea.c conloq/exp_gps.h\
- conloq/hodo.c conloq/hodo.h conloq/lla.c conloq/lla.h\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/preproc_gps.c conloq/preproc_gps.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+expon_legacy_SOURCES=conloq.src/expon.c\
+ conloq.src/exp.c conloq.src/exp.h\
+ conloq.src/garmin_nmea.c conloq.src/exp_gps.h\
+ conloq.src/hodo.c conloq.src/hodo.h\
+ conloq.src/lla.c conloq.src/lla.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/preproc_gps.c conloq.src.src/preproc_gps.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 expon_legacy_LDADD=libstribog.a
-magex_conloq_SOURCES=conloq/magex-conloq.c\
- conloq/magexp.c conloq/exp.h\
- $(conloq_serial_source) conloq/serialia.h\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+magex_conloq_SOURCES=conloq.src/magex-conloq.c\
+ conloq.src/magexp.c conloq.src/exp.h\
+ $(conloq_serial_source) conloq.src/serialia.h\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 magex_conloq_LDADD=$(argp_lib) libstribog.a
-EXTRA_magex_conloq_SOURCES=conloq/serialia.c conloq/wser.c
-magexp_SOURCES=conloq/expon.c\
- conloq/parse_tsip.c conloq/parse_tsip.h\
- conloq/magexp.c conloq/exp.h\
- conloq/verbosity_level.c conloq/verbosity_level.h
+EXTRA_magex_conloq_SOURCES=$(conloq_extra_serial)
+magexp_SOURCES=conloq.src/expon.c\
+ conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
+ conloq.src/magexp.c conloq.src/exp.h\
+ conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 magexp_LDADD=libstribog.a
-odo_SOURCES=conloq/odo.c conloq/verbosity_level.c\
- $(conloq_serial_source) conloq/serialia.h
-EXTRA_odo_SOURCES=conloq/serialia.c conloq/wser.c
-parse_tsipex_SOURCES=conloq/parse_tsipex.c\
- conloq/get_u.h conloq/parse_tsip.c conloq/parse_tsip.h 
+odo_SOURCES=conloq.src/odo.c conloq.src/verbosity_level.c\
+ $(conloq_serial_source) conloq.src/serialia.h
+EXTRA_odo_SOURCES=$(conloq_extra_serial)
+parse_tsipex_SOURCES=conloq.src/parse_tsipex.c\
+ conloq.src/get_u.h conloq.src/parse_tsip.c conloq.src/parse_tsip.h 
 parse_tsipex_LDADD=libstribog.a
 ##elk_CPPFLAGS is needed to make Automake distinguish
 ##names of the serial object module for elk and conloq; 
 ##otherwise the names will conflict
 elk_CPPFLAGS=$(AM_CPPFLAGS) -DBUILDING_ELK=1
-elk_SOURCES=elk/elk.c elk/serial.c $(elk_serial_source)\
- elk/serialia.h elk/ram_loader.c elk/ram_loader.h\
- elk/lpc_loader.c elk/lpc_loader.h\
- elk/snprintf_checked.c elk/snprintf_checked.h
+elk_SOURCES=elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
+ elk.src/serialia.h elk.src/ram_loader.c elk.src/ram_loader.h\
+ elk.src/lpc_loader.c elk.src/lpc_loader.h\
+ elk.src/snprintf_checked.c elk.src/snprintf_checked.h
 elk_LDADD=$(argp_lib) libstribog.a
-EXTRA_elk_SOURCES=elk/serialia.c elk/wser.c
+EXTRA_elk_SOURCES=elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES=lib/error.c lib/stribog_error.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h
 save_wdex_SOURCES=lib/save_wdex.c lib/save_wd.c lib/save_wd.h
