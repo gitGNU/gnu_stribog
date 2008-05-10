@@ -1,3 +1,6 @@
+10 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/common/ram_loader_enums.h: new
+ * sw/common/Makefile.am: ram_loader_enums.h added
 12 Apr 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: text format cleanup
  * hw/m4/makefile.m4: obsolete comment fixed

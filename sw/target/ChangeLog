@@ -1,3 +1,6 @@
+10 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac src/loader.c: 2nd stage RAM bootloader
+ constants moved to ../common/ram_loader_enums.h
 02 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * src/boot.s: r[0-5] are reserved for program arguments;
  stack of RAM-based programs is inherited from the bootloader

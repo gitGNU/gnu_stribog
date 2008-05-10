@@ -1,3 +1,6 @@
+10 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac elk.src/ram_loader.c: 2nd stage RAM bootloader
+ constants moved to ../common/ram_loader_enums.h
 06 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq conloq.src elk elk.src Makefile.am:
  mv conloq->conloq.src elk->elk.src
