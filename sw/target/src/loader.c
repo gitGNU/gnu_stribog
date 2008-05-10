@@ -57,22 +57,21 @@ static int
 load_and_go(void)
 {unsigned address,i,crc;unsigned char*s;int c,h;
  h=pull_char();if(h<0)return 0;
- if(h!=SOH&&h!=EOT)goto out;
- if(pull_number(&address))goto out;
- if(pull_number(&crc))goto out;
- if(crc!=form_crc(&address,1))goto out;
- push_ack();
- s=(unsigned char*)address;
+ if(h!=SOH&&h!=EOT)goto nack;
+ if(pull_number(&address))goto nack;
+ if(pull_number(&crc))goto nack;
+ if(crc!=form_crc(&address,1))goto nack;
+ push_ack();s=(unsigned char*)address;
  if(h==EOT)
  {push_ack();push_ack();
   asm("ldr pc, %0"::"m"(address));
  }
  for(i=0;i<packet_size;i++)
- {c=pull_char();if(c<0)goto out;s[i]=c;}
- if(pull_number(&crc))goto out;
- if(crc!=form_crc((const crc32_input_array_token*)s,packet_size>>2))
-  goto out;
- push_ack();return 0;out:push_nack();return!0;
+ {c=pull_char();if(c<0)goto nack;s[i]=c;}
+ if(pull_number(&crc))goto nack;
+ if(crc!=form_crc((crc32_input_array_token*)s,packet_size>>2))
+  goto nack;
+ push_ack();return 0;nack:push_nack();return!0;
 }
 static void
 get_in_sync(void)
