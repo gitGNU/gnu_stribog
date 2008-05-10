@@ -20,7 +20,7 @@ AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
-AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_SRCDIR([utils/lpfilter.c])
 AC_CONFIG_HEADER([config.h])
 #Checks for features required via command-line arguments
 AC_ARG_WITH([elk-port],
@@ -119,6 +119,7 @@ AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
                  stribog_strings.h:lib/stribog_strings.h
                  stribog_save_wd.h:lib/save_wd.h
                  form_fix.h:../common/form_fix.h
+                 ram_loader_enums.h:../common/ram_loader_enums.h
 		 stribog_crc32.h:lib/crc32.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile

@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"../include/lpc2138.h"
 #include"crc32.h"
 #include"init.h"
+#include<ram_loader_enums.h>
 #define pin0mask	(1<<19)
 #define pin1mask	(1<<29)
 static inline void
@@ -30,10 +31,6 @@ static inline void
 led1_set(void){IO1SET=pin1mask;}
 static inline unsigned 
 tempus(void){return T1TC;}
-enum global_constants
-{SOH=1,SOT=4,EOT=5,ACK=6,NACK=0x15,
- packet_size=1<<10,bytes_per_word=4,bits_per_byte=8
-};
 static void 
 push_char(unsigned char c){while(!(U0LSR&UxLSR_THRE));U0THR=c;}
 static inline void

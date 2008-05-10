@@ -21,10 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_crc32.h>
 #include<stdio.h>
 #include<time.h>
-enum global_constants/*FIXME: this is common with the target-side*/
-{SOH=1,SOT=4,EOT=5,ACK=6,NACK=0x15,
- packet_size=1<<10,bytes_per_word=4,bits_per_byte=8
-};
+#include<ram_loader_enums.h>
 static int
 check_signature(const char*s)
 {return*s==SOT&&s[1]==ACK;}

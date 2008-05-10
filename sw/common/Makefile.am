@@ -14,4 +14,4 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-EXTRA_DIST=form_fix.h
+EXTRA_DIST=form_fix.h ram_loader_enums.h

@@ -42,6 +42,7 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
 AC_CONFIG_SRCDIR([src/pll.c])
 AC_CONFIG_HEADER([config.h])
+AC_CONFIG_LINKS([ram_loader_enums.h:../common/ram_loader_enums.h])
 
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"
