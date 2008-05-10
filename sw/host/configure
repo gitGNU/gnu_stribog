@@ -601,7 +601,7 @@ PACKAGE_STRING='stribog-hosttools 0.0-minus'
 PACKAGE_BUGREPORT='stribog-bug@nongnu.org'
 
 ac_default_prefix=$HOME/stribog-install
-ac_unique_file="config.h.in"
+ac_unique_file="utils/lpfilter.c"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -7428,7 +7428,7 @@ fi
 
 #common headers are linked to top build directory
 #to be available the same as config.h
-ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h form_fix.h:../common/form_fix.h stribog_crc32.h:lib/crc32.h"
+ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h form_fix.h:../common/form_fix.h ram_loader_enums.h:../common/ram_loader_enums.h stribog_crc32.h:lib/crc32.h"
 
 #Makefiles are generated
 ac_config_files="$ac_config_files Makefile postproc/Makefile"
@@ -8074,6 +8074,7 @@ do
     "stribog_strings.h") CONFIG_LINKS="$CONFIG_LINKS stribog_strings.h:lib/stribog_strings.h" ;;
     "stribog_save_wd.h") CONFIG_LINKS="$CONFIG_LINKS stribog_save_wd.h:lib/save_wd.h" ;;
     "form_fix.h") CONFIG_LINKS="$CONFIG_LINKS form_fix.h:../common/form_fix.h" ;;
+    "ram_loader_enums.h") CONFIG_LINKS="$CONFIG_LINKS ram_loader_enums.h:../common/ram_loader_enums.h" ;;
     "stribog_crc32.h") CONFIG_LINKS="$CONFIG_LINKS stribog_crc32.h:lib/crc32.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "postproc/Makefile") CONFIG_FILES="$CONFIG_FILES postproc/Makefile" ;;
