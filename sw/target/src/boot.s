@@ -1,7 +1,10 @@
-/*LPC2138 boot program
+/*LPC213[2468] boot program
+Copyright (C) 2006, 2008\
+ D.Ineiev <ineiev@yahoo.co.uk>, super V 93
+
 This file has been written for the stribog project.
 
-This program is free software; you can redistribute it and/or modify
+stribog is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
@@ -12,9 +15,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
+along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 .set	mode_usr, 0x10
 .set	mode_fiq, 0x11
 .set	mode_irq, 0x12
@@ -32,41 +33,40 @@ Copyright (C) 2006 D.Ineiev <ineiev@yahoo.co.uk>*/
 .text
 .code 32
 .align 0
-reset:
-/*load initialized variables from ROM: if the program is in RAM, 
-  _rom_data_begin = _rom_data_end*/
-	ldr	r1, rom_begin
-	ldr	r0, rom_end
-	ldr	r2, ram_begin
-	b	cmp_r01
+reset:/*test whether the program runs from RAM*/
+	mov	r8,#4
+	tst	pc,r8,lsl #28
+/*remap the vectors for RAM-based programs*/
+	movne	r8,#2
+	ldrne	r9,memmap
+	strne	r8,[r9]
+/*load initialized data from ROM:
+when the program is linked to be loaded
+via LPC2138 bootstrap loader into RAM,
+ _rom_data_begin = _rom_data_end
+when the program is to be loaded from ROM into RAM
+and then executed, the range
+ [_rom_data_begin.._rom_data_end]
+contains both the data and the application code*/
+	ldr	r7,rom_begin
+	ldr	r6,rom_end
+	ldr	r8,ram_begin
 init_data:
-	ldmia	r1!,{r3,r4,r5,r6}
-	stmia	r2!,{r3,r4,r5,r6}
-cmp_r01:
-	cmp	r1,r0
+	cmp	r7,r6
+	ldmmiia	r7!,{r9,r10,r11,r12}
+	stmmiia	r8!,{r9,r10,r11,r12}
 	bmi	init_data
 	/*clear uninitialized memory*/
-clrbss:	ldr	r0, bss_begin
-	ldr	r1, bss_end
-	mov	r2, #0
-	mov	r3,r2
-	mov	r4,r2
-	mov	r5,r2
-clear_bss:
-	cmp	r0, r1
-	bpl	tst_pc
-	stmia	r0!,{r2,r3,r4,r5}
-	b	clear_bss
-	mov	fp,r2
-	mov	r7,r2
-	mov	r0,#4
-tst_pc:	tst	pc,r0, lsl #28
-	beq	bmain
-	/*remap the vectors if the program runs in RAM*/
-	mov	r0,#2
-	ldr	r1,memmap
-	str	r0,[r1]
-bmain:	/*initialize all stacks*/
+	ldr	r7,bss_begin
+	ldr	r8,bss_end
+	mov	r9,#0
+	mov	r10,r9
+	mov	r11,r9
+	mov	r12,r9
+clr_bss:cmp	r7,r8
+	stmmiia	r7!,{r9,r10,r11,r12}
+	bmi	clr_bss
+	/*initialize stacks*/
 	ldr	r0, stack_bot
 	msr	CPSR_c, #i_bit|f_bit|mode_un
 	mov	sp, r0
@@ -85,9 +85,12 @@ bmain:	/*initialize all stacks*/
 /*	sub	r0, r0, #sv_stack
 	msr	CPSR_c,	#i_bit|f_bit|mode_sys
 	mov	sp, r0*/
+	mov	fp,r9
+	mov	r7,r9
 	msr	CPSR_c,	#f_bit|mode_sv /*ineiev couldn't make LPC2138 
                                           interrupt in user mode*/
-	b	main
+	ldr	pc,main_addr/*b main won't reach RAM from ROM*/
+main_addr:	.word main
 memmap:		.word	0xE01FC040
 rom_begin:	.word	_rom_data_begin
 rom_end:	.word	_rom_data_end
