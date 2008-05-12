@@ -92,8 +92,6 @@ init_data:
 clr_bss:cmp	r7,r8
 	stmmiia	r7!,{r9,r10,r11,r12}
 	bmi	clr_bss
-/*it seems to be essential that some of r{9,10,11}
-  are nullified, too*/
 	mov	fp,r9
 	mov	r7,r9
 	msr	CPSR_c,#f_bit|mode_sv /*ineiev couldn't make LPC2138 
