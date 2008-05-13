@@ -669,6 +669,8 @@ magex_enabled_TRUE
 magex_enabled_FALSE
 multa_enabled_TRUE
 multa_enabled_FALSE
+percent_rules_enabled_TRUE
+percent_rules_enabled_FALSE
 arm_as_present
 ARM_OBJCOPY
 arm_unknown_elf_objcopy
@@ -695,12 +697,15 @@ CCASFLAGS
 CCASDEPMODE
 am__fastdepCCAS_TRUE
 am__fastdepCCAS_FALSE
+atexit_needed_TRUE
+atexit_needed_FALSE
 LIBOBJS
 LTLIBOBJS'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 with_mainboard_mcu
+enable_assembler_files
 enable_original_pps
 enable_swap_uarts
 enable_dependency_tracking
@@ -1341,6 +1346,10 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-assembler-files
+                          Makefile will contain a debugging-purpose rule for
+                          assembler files generation (this uses a GNU make
+                          extension) [no]
   --enable-original-pps   Input PPS signals through CAP1.1 rather than CAP1.2
                           [no]
   --enable-swap-uarts     UARTs functions are swapped [no]
@@ -2422,6 +2431,27 @@ else
 fi
 
 
+{ $as_echo "$as_me:$LINENO: checking whether a rule for assembler files is requested" >&5
+$as_echo_n "checking whether a rule for assembler files is requested... " >&6; }
+# Check whether --enable-assembler-files was given.
+if test "${enable_assembler_files+set}" = set; then
+  enableval=$enable_assembler_files;
+fi
+
+case "z$enable_assembler_files" in
+ zyes) ;; *) enable_assembler_files=no ;;
+esac
+{ $as_echo "$as_me:$LINENO: result: $enable_assembler_files" >&5
+$as_echo "$enable_assembler_files" >&6; }
+ if test $enable_assembler_files = yes; then
+  percent_rules_enabled_TRUE=
+  percent_rules_enabled_FALSE='#'
+else
+  percent_rules_enabled_TRUE='#'
+  percent_rules_enabled_FALSE=
+fi
+
+
 { $as_echo "$as_me:$LINENO: checking whether original PPS is requested" >&5
 $as_echo_n "checking whether original PPS is requested... " >&6; }
 # Check whether --enable-original-pps was given.
@@ -2647,12 +2677,13 @@ arm_as_flags=${ARM_MCU_FLAGS}
 
 arm_ascc_flags=-Wa,${ARM_MCU_FLAGS}
 
-LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
+BASIC_LDFLAGS="${LDFLAGS} -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit,
 #which can safely be stubbed in our programs
 #TODO: make the programs built with gcc-2.95.3 work
-LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
+ROBUST_LDFLAGS="${BASIC_LDFLAGS} ${srcdir}/lib/atexit.c"
 LIBS=-lgcc
+LDFLAGS=${ROBUST_LDFLAGS}
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -3876,6 +3907,42 @@ fi
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
+LDFLAGS=${BASIC_LDFLAGS}
+{ $as_echo "$as_me:$LINENO: checking whether we can do without src/lib/atexit.c" >&5
+$as_echo_n "checking whether we can do without src/lib/atexit.c... " >&6; }
+reject_atexit_c=yes
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+static int no_camel;
+int
+main ()
+{
+no_camel=!0;
+  ;
+  return 0;
+}
+
+_ACEOF
+if ! ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} conftest.c \
+-o /dev/null 2>/dev/null;then
+ LDFLAGS=${ROBUST_LDFLAGS}
+ reject_atexit_c=no
+fi
+{ $as_echo "$as_me:$LINENO: result: $reject_atexit_c" >&5
+$as_echo "$reject_atexit_c" >&6; }
+ if test $reject_atexit_c = no; then
+  atexit_needed_TRUE=
+  atexit_needed_FALSE='#'
+else
+  atexit_needed_TRUE='#'
+  atexit_needed_FALSE=
+fi
+
+
 
 { $as_echo "$as_me:$LINENO: checking for an ANSI C-conforming const" >&5
 $as_echo_n "checking for an ANSI C-conforming const... " >&6; }
@@ -4241,6 +4308,13 @@ $as_echo "$as_me: error: conditional \"multa_enabled\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${percent_rules_enabled_TRUE}" && test -z "${percent_rules_enabled_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"percent_rules_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"percent_rules_enabled\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -4259,6 +4333,13 @@ if test -z "${am__fastdepCCAS_TRUE}" && test -z "${am__fastdepCCAS_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"am__fastdepCCAS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"am__fastdepCCAS\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${atexit_needed_TRUE}" && test -z "${atexit_needed_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"atexit_needed\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"atexit_needed\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -5634,7 +5715,7 @@ echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
 ${ARM_OBJCOPY} --version |grep objcopy >>summary
 ${CC} --version |grep ${CC} >>summary
-cat warnings >>summary
+cat warnings >>summary 2>/dev/null
 rm -f warnings
 
 case "z$recursive_stribog_build" in

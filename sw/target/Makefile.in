@@ -43,16 +43,18 @@ noinst_PROGRAMS = accelex$(EXEEXT) accelex-rom$(EXEEXT) adcex$(EXEEXT) \
 	loader$(EXEEXT)
 EXTRA_PROGRAMS = magex$(EXEEXT) magex-rom$(EXEEXT) multa$(EXEEXT) \
 	multa-rom$(EXEEXT)
-@magex_enabled_TRUE@am__append_1 = magex.bin magex.map
-@magex_enabled_TRUE@am__append_2 = \
+#atexit.c is needed for gcc-2.95.3
+@atexit_needed_TRUE@am__append_1 = lib/atexit.c
+@magex_enabled_TRUE@am__append_2 = magex.bin magex.map
+@magex_enabled_TRUE@am__append_3 = \
 @magex_enabled_TRUE@ magex-rom.bin magex-rom.map
 
-@magex_enabled_TRUE@am__append_3 = magex magex-rom
-@multa_enabled_TRUE@am__append_4 = multa.bin multa.map
-@multa_enabled_TRUE@am__append_5 = \
+@magex_enabled_TRUE@am__append_4 = magex magex-rom
+@multa_enabled_TRUE@am__append_5 = multa.bin multa.map
+@multa_enabled_TRUE@am__append_6 = \
 @multa_enabled_TRUE@ multa-rom.bin multa-rom.map
 
-@multa_enabled_TRUE@am__append_6 = multa multa-rom
+@multa_enabled_TRUE@am__append_7 = multa multa-rom
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
@@ -71,180 +73,282 @@ CONFIG_CLEAN_FILES = ram_loader_enums.h
 @magex_enabled_TRUE@am__EXEEXT_1 = magex$(EXEEXT) magex-rom$(EXEEXT)
 @multa_enabled_TRUE@am__EXEEXT_2 = multa$(EXEEXT) multa-rom$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
-am__objects_1 = boot.$(OBJEXT) atexit.$(OBJEXT)
-am__objects_2 = $(am__objects_1) accelex.$(OBJEXT) accel.$(OBJEXT) \
+am__accelex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/accelex.c src/accel.c src/accel.h src/mutex.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+@atexit_needed_TRUE@am__objects_1 = atexit.$(OBJEXT)
+am__objects_2 = boot.$(OBJEXT) $(am__objects_1)
+am__objects_3 = $(am__objects_2) accelex.$(OBJEXT) accel.$(OBJEXT) \
 	led.$(OBJEXT) pll.$(OBJEXT)
-am_accelex_OBJECTS = $(am__objects_2)
+am_accelex_OBJECTS = $(am__objects_3)
 accelex_OBJECTS = $(am_accelex_OBJECTS)
 accelex_LDADD = $(LDADD)
 accelex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(accelex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_accelex_rom_OBJECTS = $(am__objects_2)
+am__accelex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/accelex.c src/accel.c src/accel.h src/mutex.h \
+	src/led.c src/led.h src/pll.c src/pll.h
+am_accelex_rom_OBJECTS = $(am__objects_3)
 accelex_rom_OBJECTS = $(am_accelex_rom_OBJECTS)
 accelex_rom_LDADD = $(LDADD)
 accelex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(accelex_rom_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_3 = $(am__objects_1) adcex.$(OBJEXT) adc.$(OBJEXT) \
+am__adcex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/adcex.c src/adc.c src/adc.h src/dac.c src/dac.h \
+	src/mutex.h src/led.c src/led.h src/pll.c src/pll.h
+am__objects_4 = $(am__objects_2) adcex.$(OBJEXT) adc.$(OBJEXT) \
 	dac.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
-am_adcex_OBJECTS = $(am__objects_3)
+am_adcex_OBJECTS = $(am__objects_4)
 adcex_OBJECTS = $(am_adcex_OBJECTS)
 adcex_LDADD = $(LDADD)
 adcex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(adcex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_adcex_rom_OBJECTS = $(am__objects_3)
+am__adcex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/adcex.c src/adc.c src/adc.h src/dac.c src/dac.h \
+	src/mutex.h src/led.c src/led.h src/pll.c src/pll.h
+am_adcex_rom_OBJECTS = $(am__objects_4)
 adcex_rom_OBJECTS = $(am_adcex_rom_OBJECTS)
 adcex_rom_LDADD = $(LDADD)
 adcex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(adcex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_4 = $(am__objects_1) crcex.$(OBJEXT) crc32.$(OBJEXT) \
+am__crcex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/crcex.c src/crc32.c src/crc32.h src/pll.c src/pll.h \
+	src/led.c src/led.h
+am__objects_5 = $(am__objects_2) crcex.$(OBJEXT) crc32.$(OBJEXT) \
 	pll.$(OBJEXT) led.$(OBJEXT)
-am_crcex_OBJECTS = $(am__objects_4)
+am_crcex_OBJECTS = $(am__objects_5)
 crcex_OBJECTS = $(am_crcex_OBJECTS)
 crcex_LDADD = $(LDADD)
 crcex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(crcex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_crcex_rom_OBJECTS = $(am__objects_4)
+am__crcex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/crcex.c src/crc32.c src/crc32.h src/pll.c src/pll.h \
+	src/led.c src/led.h
+am_crcex_rom_OBJECTS = $(am__objects_5)
 crcex_rom_OBJECTS = $(am_crcex_rom_OBJECTS)
 crcex_rom_LDADD = $(LDADD)
 crcex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(crcex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_5 = $(am__objects_1) dacex.$(OBJEXT) dac.$(OBJEXT) \
+am__dacex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/dacex.c src/dac.c src/dac.h src/led.c src/led.h src/pll.c \
+	src/pll.h
+am__objects_6 = $(am__objects_2) dacex.$(OBJEXT) dac.$(OBJEXT) \
 	led.$(OBJEXT) pll.$(OBJEXT)
-am_dacex_OBJECTS = $(am__objects_5)
+am_dacex_OBJECTS = $(am__objects_6)
 dacex_OBJECTS = $(am_dacex_OBJECTS)
 dacex_LDADD = $(LDADD)
 dacex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(dacex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_dacex_rom_OBJECTS = $(am__objects_5)
+am__dacex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/dacex.c src/dac.c src/dac.h src/led.c src/led.h src/pll.c \
+	src/pll.h
+am_dacex_rom_OBJECTS = $(am__objects_6)
 dacex_rom_OBJECTS = $(am_dacex_rom_OBJECTS)
 dacex_rom_LDADD = $(LDADD)
 dacex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(dacex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_6 = $(am__objects_1) inledex.$(OBJEXT) pll.$(OBJEXT)
-am_inledex_OBJECTS = $(am__objects_6)
+am__inledex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/inledex.c src/pll.c src/pll.h
+am__objects_7 = $(am__objects_2) inledex.$(OBJEXT) pll.$(OBJEXT)
+am_inledex_OBJECTS = $(am__objects_7)
 inledex_OBJECTS = $(am_inledex_OBJECTS)
 inledex_LDADD = $(LDADD)
 inledex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(inledex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_inledex_rom_OBJECTS = $(am__objects_6)
+am__inledex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/inledex.c src/pll.c src/pll.h
+am_inledex_rom_OBJECTS = $(am__objects_7)
 inledex_rom_OBJECTS = $(am_inledex_rom_OBJECTS)
 inledex_rom_LDADD = $(LDADD)
 inledex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(inledex_rom_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_7 = $(am__objects_1) ledex.$(OBJEXT) led.$(OBJEXT)
-am_ledex_OBJECTS = $(am__objects_7)
+am__ledex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/ledex.c src/led.c src/led.h
+am__objects_8 = $(am__objects_2) ledex.$(OBJEXT) led.$(OBJEXT)
+am_ledex_OBJECTS = $(am__objects_8)
 ledex_OBJECTS = $(am_ledex_OBJECTS)
 ledex_LDADD = $(LDADD)
 ledex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(ledex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_ledex_rom_OBJECTS = $(am__objects_7)
+am__ledex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/ledex.c src/led.c src/led.h
+am_ledex_rom_OBJECTS = $(am__objects_8)
 ledex_rom_OBJECTS = $(am_ledex_rom_OBJECTS)
 ledex_rom_LDADD = $(LDADD)
 ledex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(ledex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_8 = $(am__objects_1) lm74ex.$(OBJEXT) lm74.$(OBJEXT) \
+am__lm74ex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h src/tempus.c \
+	src/tempus.h src/pll.c src/pll.h src/led.c src/led.h
+am__objects_9 = $(am__objects_2) lm74ex.$(OBJEXT) lm74.$(OBJEXT) \
 	tempus.$(OBJEXT) pll.$(OBJEXT) led.$(OBJEXT)
-am_lm74ex_OBJECTS = $(am__objects_8)
+am_lm74ex_OBJECTS = $(am__objects_9)
 lm74ex_OBJECTS = $(am_lm74ex_OBJECTS)
 lm74ex_LDADD = $(LDADD)
 lm74ex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(lm74ex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_lm74ex_rom_OBJECTS = $(am__objects_8)
+am__lm74ex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/lm74ex.c src/lm74.c src/lm74.h src/mutex.h \
+	src/tempus.c src/tempus.h src/pll.c src/pll.h src/led.c \
+	src/led.h
+am_lm74ex_rom_OBJECTS = $(am__objects_9)
 lm74ex_rom_OBJECTS = $(am_lm74ex_rom_OBJECTS)
 lm74ex_rom_LDADD = $(LDADD)
 lm74ex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(lm74ex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_9 = loader.boot.$(OBJEXT) loader.$(OBJEXT) crc32.$(OBJEXT) \
-	pll.$(OBJEXT) init.$(OBJEXT)
-am_loader_OBJECTS = $(am__objects_9)
+am__objects_10 = loader.boot.$(OBJEXT) loader.$(OBJEXT) \
+	crc32.$(OBJEXT) pll.$(OBJEXT) init.$(OBJEXT)
+am_loader_OBJECTS = $(am__objects_10)
 loader_OBJECTS = $(am_loader_OBJECTS)
 loader_LDADD = $(LDADD)
 loader_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(loader_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_10 = $(am__objects_1) mag_response.$(OBJEXT) adc.$(OBJEXT) \
+am__mag_response_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/mag_response.c src/adc.c src/adc.h \
+	src/crc32.c src/crc32.h src/dac.c src/dac.h src/mutex.h \
+	src/uart.config.h src/freq.h src/power.c src/power.h \
+	src/tempus.c src/tempus.h src/uart1.c src/uart1.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+am__objects_11 = $(am__objects_2) mag_response.$(OBJEXT) adc.$(OBJEXT) \
 	crc32.$(OBJEXT) dac.$(OBJEXT) power.$(OBJEXT) tempus.$(OBJEXT) \
 	uart1.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
-am_mag_response_OBJECTS = $(am__objects_10)
+am_mag_response_OBJECTS = $(am__objects_11)
 mag_response_OBJECTS = $(am_mag_response_OBJECTS)
 mag_response_LDADD = $(LDADD)
 mag_response_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(mag_response_LDFLAGS) $(LDFLAGS) -o $@
-am_mag_response_rom_OBJECTS = $(am__objects_10)
+am__mag_response_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/mag_response.c src/adc.c src/adc.h \
+	src/crc32.c src/crc32.h src/dac.c src/dac.h src/mutex.h \
+	src/uart.config.h src/freq.h src/power.c src/power.h \
+	src/tempus.c src/tempus.h src/uart1.c src/uart1.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+am_mag_response_rom_OBJECTS = $(am__objects_11)
 mag_response_rom_OBJECTS = $(am_mag_response_rom_OBJECTS)
 mag_response_rom_LDADD = $(LDADD)
 mag_response_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(mag_response_rom_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_11 = $(am__objects_1) magex.$(OBJEXT) mag.$(OBJEXT) \
+am__magex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/magex.c src/mag.c src/mag.h src/adc.c src/adc.h src/dac.c \
+	src/dac.h src/mutex.h src/uart.config.h src/freq.h src/uart0.c \
+	src/uart0.h src/uart1out.c src/uart1out.h src/tempus.c \
+	src/tempus.h src/led.c src/led.h src/pll.c src/pll.h
+am__objects_12 = $(am__objects_2) magex.$(OBJEXT) mag.$(OBJEXT) \
 	adc.$(OBJEXT) dac.$(OBJEXT) uart0.$(OBJEXT) uart1out.$(OBJEXT) \
 	tempus.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
-am_magex_OBJECTS = $(am__objects_11)
+am_magex_OBJECTS = $(am__objects_12)
 magex_OBJECTS = $(am_magex_OBJECTS)
 magex_LDADD = $(LDADD)
 magex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(magex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_magex_rom_OBJECTS = $(am__objects_11)
+am__magex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/magex.c src/mag.c src/mag.h src/adc.c src/adc.h src/dac.c \
+	src/dac.h src/mutex.h src/uart.config.h src/freq.h src/uart0.c \
+	src/uart0.h src/uart1out.c src/uart1out.h src/tempus.c \
+	src/tempus.h src/led.c src/led.h src/pll.c src/pll.h
+am_magex_rom_OBJECTS = $(am__objects_12)
 magex_rom_OBJECTS = $(am_magex_rom_OBJECTS)
 magex_rom_LDADD = $(LDADD)
 magex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(magex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_12 = $(am__objects_1) multa.$(OBJEXT) accel.$(OBJEXT) \
+am__multa_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/multa.c src/accel.c src/accel.h src/adc.c src/adc.h \
+	src/crc32.c src/crc32.h src/dac.c src/dac.h src/lm74.c \
+	src/lm74.h src/mag.c src/mag.h src/mutex.h src/uart.config.h \
+	src/freq.h src/power.c src/power.h src/tempus.c src/tempus.h \
+	src/uart0.c src/uart0.h src/uart1.c src/uart1.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+am__objects_13 = $(am__objects_2) multa.$(OBJEXT) accel.$(OBJEXT) \
 	adc.$(OBJEXT) crc32.$(OBJEXT) dac.$(OBJEXT) lm74.$(OBJEXT) \
 	mag.$(OBJEXT) power.$(OBJEXT) tempus.$(OBJEXT) uart0.$(OBJEXT) \
 	uart1.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
-am_multa_OBJECTS = $(am__objects_12)
+am_multa_OBJECTS = $(am__objects_13)
 multa_OBJECTS = $(am_multa_OBJECTS)
 multa_LDADD = $(LDADD)
 multa_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(multa_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_multa_rom_OBJECTS = $(am__objects_12)
+am__multa_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/multa.c src/accel.c src/accel.h src/adc.c src/adc.h \
+	src/crc32.c src/crc32.h src/dac.c src/dac.h src/lm74.c \
+	src/lm74.h src/mag.c src/mag.h src/mutex.h src/uart.config.h \
+	src/freq.h src/power.c src/power.h src/tempus.c src/tempus.h \
+	src/uart0.c src/uart0.h src/uart1.c src/uart1.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+am_multa_rom_OBJECTS = $(am__objects_13)
 multa_rom_OBJECTS = $(am_multa_rom_OBJECTS)
 multa_rom_LDADD = $(LDADD)
 multa_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(multa_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_13 = $(am__objects_1) pllex.$(OBJEXT) pll.$(OBJEXT) \
+am__pllex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
+am__objects_14 = $(am__objects_2) pllex.$(OBJEXT) pll.$(OBJEXT) \
 	led.$(OBJEXT)
-am_pllex_OBJECTS = $(am__objects_13)
+am_pllex_OBJECTS = $(am__objects_14)
 pllex_OBJECTS = $(am_pllex_OBJECTS)
 pllex_LDADD = $(LDADD)
 pllex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(pllex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_pllex_rom_OBJECTS = $(am__objects_13)
+am__pllex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/pllex.c src/pll.c src/pll.h src/led.c src/led.h
+am_pllex_rom_OBJECTS = $(am__objects_14)
 pllex_rom_OBJECTS = $(am_pllex_rom_OBJECTS)
 pllex_rom_LDADD = $(LDADD)
 pllex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(pllex_rom_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_14 = $(am__objects_1) powerex.$(OBJEXT) power.$(OBJEXT)
-am_powerex_OBJECTS = $(am__objects_14)
+am__powerex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/powerex.c src/power.c src/power.h
+am__objects_15 = $(am__objects_2) powerex.$(OBJEXT) power.$(OBJEXT)
+am_powerex_OBJECTS = $(am__objects_15)
 powerex_OBJECTS = $(am_powerex_OBJECTS)
 powerex_LDADD = $(LDADD)
 powerex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(powerex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_powerex_rom_OBJECTS = $(am__objects_14)
+am__powerex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/powerex.c src/power.c src/power.h
+am_powerex_rom_OBJECTS = $(am__objects_15)
 powerex_rom_OBJECTS = $(am_powerex_rom_OBJECTS)
 powerex_rom_LDADD = $(LDADD)
 powerex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(powerex_rom_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_15 = $(am__objects_1) tempusex.$(OBJEXT) pll.$(OBJEXT) \
+am__tempusex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/tempusex.c src/mutex.h src/pll.c src/pll.h src/led.c \
+	src/led.h
+am__objects_16 = $(am__objects_2) tempusex.$(OBJEXT) pll.$(OBJEXT) \
 	led.$(OBJEXT)
-am_tempusex_OBJECTS = $(am__objects_15)
+am_tempusex_OBJECTS = $(am__objects_16)
 tempusex_OBJECTS = $(am_tempusex_OBJECTS)
 tempusex_LDADD = $(LDADD)
 tempusex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(tempusex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_tempusex_rom_OBJECTS = $(am__objects_15)
+am__tempusex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/tempusex.c src/mutex.h src/pll.c src/pll.h \
+	src/led.c src/led.h
+am_tempusex_rom_OBJECTS = $(am__objects_16)
 tempusex_rom_OBJECTS = $(am_tempusex_rom_OBJECTS)
 tempusex_rom_LDADD = $(LDADD)
 tempusex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(tempusex_rom_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_16 = $(am__objects_1) uart1ex.$(OBJEXT) crc32.$(OBJEXT) \
+am__uart1ex_SOURCES_DIST = include/lpc2138.h src/boot.s lib/atexit.c \
+	src/uart1ex.c src/crc32.c src/crc32.h src/dac.c src/dac.h \
+	src/lm74.c src/lm74.h src/mag.c src/mag.h src/mutex.h \
+	src/uart.config.h src/freq.h src/power.c src/power.h \
+	src/tempus.c src/tempus.h src/uart1.c src/uart1.h src/led.c \
+	src/led.h src/pll.c src/pll.h
+am__objects_17 = $(am__objects_2) uart1ex.$(OBJEXT) crc32.$(OBJEXT) \
 	dac.$(OBJEXT) lm74.$(OBJEXT) mag.$(OBJEXT) power.$(OBJEXT) \
 	tempus.$(OBJEXT) uart1.$(OBJEXT) led.$(OBJEXT) pll.$(OBJEXT)
-am_uart1ex_OBJECTS = $(am__objects_16)
+am_uart1ex_OBJECTS = $(am__objects_17)
 uart1ex_OBJECTS = $(am_uart1ex_OBJECTS)
 uart1ex_LDADD = $(LDADD)
 uart1ex_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(uart1ex_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_uart1ex_rom_OBJECTS = $(am__objects_16)
+am__uart1ex_rom_SOURCES_DIST = include/lpc2138.h src/boot.s \
+	lib/atexit.c src/uart1ex.c src/crc32.c src/crc32.h src/dac.c \
+	src/dac.h src/lm74.c src/lm74.h src/mag.c src/mag.h \
+	src/mutex.h src/uart.config.h src/freq.h src/power.c \
+	src/power.h src/tempus.c src/tempus.h src/uart1.c src/uart1.h \
+	src/led.c src/led.h src/pll.c src/pll.h
+am_uart1ex_rom_OBJECTS = $(am__objects_17)
 uart1ex_rom_OBJECTS = $(am_uart1ex_rom_OBJECTS)
 uart1ex_rom_LDADD = $(LDADD)
 uart1ex_rom_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -285,33 +389,35 @@ SOURCES = $(accelex_SOURCES) $(EXTRA_accelex_SOURCES) \
 	$(EXTRA_tempusex_rom_SOURCES) $(uart1ex_SOURCES) \
 	$(EXTRA_uart1ex_SOURCES) $(uart1ex_rom_SOURCES) \
 	$(EXTRA_uart1ex_rom_SOURCES)
-DIST_SOURCES = $(accelex_SOURCES) $(EXTRA_accelex_SOURCES) \
-	$(accelex_rom_SOURCES) $(EXTRA_accelex_rom_SOURCES) \
-	$(adcex_SOURCES) $(EXTRA_adcex_SOURCES) $(adcex_rom_SOURCES) \
-	$(EXTRA_adcex_rom_SOURCES) $(crcex_SOURCES) \
-	$(EXTRA_crcex_SOURCES) $(crcex_rom_SOURCES) \
-	$(EXTRA_crcex_rom_SOURCES) $(dacex_SOURCES) \
-	$(EXTRA_dacex_SOURCES) $(dacex_rom_SOURCES) \
-	$(EXTRA_dacex_rom_SOURCES) $(inledex_SOURCES) \
-	$(EXTRA_inledex_SOURCES) $(inledex_rom_SOURCES) \
-	$(EXTRA_inledex_rom_SOURCES) $(ledex_SOURCES) \
-	$(EXTRA_ledex_SOURCES) $(ledex_rom_SOURCES) \
-	$(EXTRA_ledex_rom_SOURCES) $(lm74ex_SOURCES) \
-	$(EXTRA_lm74ex_SOURCES) $(lm74ex_rom_SOURCES) \
-	$(EXTRA_lm74ex_rom_SOURCES) $(loader_SOURCES) \
-	$(mag_response_SOURCES) $(EXTRA_mag_response_SOURCES) \
-	$(mag_response_rom_SOURCES) $(EXTRA_mag_response_rom_SOURCES) \
-	$(magex_SOURCES) $(EXTRA_magex_SOURCES) $(magex_rom_SOURCES) \
-	$(EXTRA_magex_rom_SOURCES) $(multa_SOURCES) \
-	$(EXTRA_multa_SOURCES) $(multa_rom_SOURCES) \
-	$(EXTRA_multa_rom_SOURCES) $(pllex_SOURCES) \
-	$(EXTRA_pllex_SOURCES) $(pllex_rom_SOURCES) \
-	$(EXTRA_pllex_rom_SOURCES) $(powerex_SOURCES) \
-	$(EXTRA_powerex_SOURCES) $(powerex_rom_SOURCES) \
-	$(EXTRA_powerex_rom_SOURCES) $(tempusex_SOURCES) \
-	$(EXTRA_tempusex_SOURCES) $(tempusex_rom_SOURCES) \
-	$(EXTRA_tempusex_rom_SOURCES) $(uart1ex_SOURCES) \
-	$(EXTRA_uart1ex_SOURCES) $(uart1ex_rom_SOURCES) \
+DIST_SOURCES = $(am__accelex_SOURCES_DIST) $(EXTRA_accelex_SOURCES) \
+	$(am__accelex_rom_SOURCES_DIST) $(EXTRA_accelex_rom_SOURCES) \
+	$(am__adcex_SOURCES_DIST) $(EXTRA_adcex_SOURCES) \
+	$(am__adcex_rom_SOURCES_DIST) $(EXTRA_adcex_rom_SOURCES) \
+	$(am__crcex_SOURCES_DIST) $(EXTRA_crcex_SOURCES) \
+	$(am__crcex_rom_SOURCES_DIST) $(EXTRA_crcex_rom_SOURCES) \
+	$(am__dacex_SOURCES_DIST) $(EXTRA_dacex_SOURCES) \
+	$(am__dacex_rom_SOURCES_DIST) $(EXTRA_dacex_rom_SOURCES) \
+	$(am__inledex_SOURCES_DIST) $(EXTRA_inledex_SOURCES) \
+	$(am__inledex_rom_SOURCES_DIST) $(EXTRA_inledex_rom_SOURCES) \
+	$(am__ledex_SOURCES_DIST) $(EXTRA_ledex_SOURCES) \
+	$(am__ledex_rom_SOURCES_DIST) $(EXTRA_ledex_rom_SOURCES) \
+	$(am__lm74ex_SOURCES_DIST) $(EXTRA_lm74ex_SOURCES) \
+	$(am__lm74ex_rom_SOURCES_DIST) $(EXTRA_lm74ex_rom_SOURCES) \
+	$(loader_SOURCES) $(am__mag_response_SOURCES_DIST) \
+	$(EXTRA_mag_response_SOURCES) \
+	$(am__mag_response_rom_SOURCES_DIST) \
+	$(EXTRA_mag_response_rom_SOURCES) $(am__magex_SOURCES_DIST) \
+	$(EXTRA_magex_SOURCES) $(am__magex_rom_SOURCES_DIST) \
+	$(EXTRA_magex_rom_SOURCES) $(am__multa_SOURCES_DIST) \
+	$(EXTRA_multa_SOURCES) $(am__multa_rom_SOURCES_DIST) \
+	$(EXTRA_multa_rom_SOURCES) $(am__pllex_SOURCES_DIST) \
+	$(EXTRA_pllex_SOURCES) $(am__pllex_rom_SOURCES_DIST) \
+	$(EXTRA_pllex_rom_SOURCES) $(am__powerex_SOURCES_DIST) \
+	$(EXTRA_powerex_SOURCES) $(am__powerex_rom_SOURCES_DIST) \
+	$(EXTRA_powerex_rom_SOURCES) $(am__tempusex_SOURCES_DIST) \
+	$(EXTRA_tempusex_SOURCES) $(am__tempusex_rom_SOURCES_DIST) \
+	$(EXTRA_tempusex_rom_SOURCES) $(am__uart1ex_SOURCES_DIST) \
+	$(EXTRA_uart1ex_SOURCES) $(am__uart1ex_rom_SOURCES_DIST) \
 	$(EXTRA_uart1ex_rom_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -454,16 +560,16 @@ nodist_pkgdata_DATA = summary ram2138.ld 2138.ld config.h
 nodist_ram_programs_DATA = accelex.bin accelex.map adcex.bin adcex.map \
 	crcex.bin crcex.map dacex.bin dacex.map inledex.bin \
 	inledex.map ledex.bin ledex.map lm74ex.bin lm74ex.map \
-	$(am__append_1) mag_response.bin mag_response.map \
-	$(am__append_4) pllex.bin pllex.map powerex.bin powerex.map \
+	$(am__append_2) mag_response.bin mag_response.map \
+	$(am__append_5) pllex.bin pllex.map powerex.bin powerex.map \
 	uart1ex.bin uart1ex.map tempusex.bin tempusex.map loader.bin \
 	loader.map
 nodist_rom_programs_DATA = accelex-rom.bin accelex-rom.map \
 	adcex-rom.bin adcex-rom.map crcex-rom.bin crcex-rom.map \
 	dacex-rom.bin dacex-rom.map inledex-rom.bin inledex-rom.map \
 	ledex-rom.bin ledex-rom.map lm74ex-rom.bin lm74ex-rom.map \
-	$(am__append_2) mag_response-rom.bin mag_response-rom.map \
-	$(am__append_5) pllex-rom.bin pllex-rom.map powerex-rom.bin \
+	$(am__append_3) mag_response-rom.bin mag_response-rom.map \
+	$(am__append_6) pllex-rom.bin pllex-rom.map powerex-rom.bin \
 	powerex-rom.map uart1ex-rom.bin uart1ex-rom.map \
 	tempusex-rom.bin tempusex-rom.map
 ram_programsdir = $(pkgdatadir)/ram_programs
@@ -474,8 +580,7 @@ objcopy_vectors = $(OBJCOPY)\
  --set-section-flags vectors=contents,alloc,load,readonly,code\
  -j vectors -I elf32-littlearm -O binary
 
-#atexit.c is needed for gcc-2.95.3
-common_sources = include/lpc2138.h src/boot.s lib/atexit.c
+common_sources = include/lpc2138.h src/boot.s $(am__append_1)
 AM_CFLAGS = $(arm_ascc_flags) -Wall -O2
 AM_ASFLAGS = $(arm_as_flags)
 AM_CPPFLAGS = -I$(srcdir)/src
@@ -483,7 +588,7 @@ AM_LDFLAGS = -Wl,-Map,$@.map -nostdlib -static
 AM_LIBS = -lgcc
 ram_flag = -T./ram2138.ld
 rom_flag = -T./2138.ld
-extra_common_sources = lib/atexit.c
+extra_common_sources = 
 EXTRA_DIST = src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 subst_ldscript
 
@@ -1811,10 +1916,11 @@ loader.bin: $(loader_sources)
 	$(objcopy_bin) loader loader.bin
 loader.map: $(loader_sources)
 	$(MAKE) $(AM_MAKEFLAGS) loader
-#TODO: check whether make accepts %-style rules
-#and include the next rule conditionally
-%.s: $(srcdir)/src/%.c
-	$(COMPILE) -S -o $@ $<
+#the next is a debugging purpose rule; 
+#it is disabled by default at configure time.
+#it is OK to need GNU make here.
+@percent_rules_enabled_TRUE@%.s: $(srcdir)/src/%.c
+@percent_rules_enabled_TRUE@	$(COMPILE) -S -o $@ $<
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:
