@@ -220,8 +220,6 @@ read sw/host/README.
 
 Auxiliary software is built with GNU make utility.
 
-GERBER and EXCELLON files are produced manually with PCB.
-
 You can disable ARM targets with --disable-arm-targets option. then you
 can build and install just the host tools, so you don't need to install
 ARM tools on that host. this can be useful if the program has been written
