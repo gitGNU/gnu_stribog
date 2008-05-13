@@ -153,7 +153,7 @@ This sequence was tested on
 (1) Fedora Core 4 
  (32-bit, native gcc (GCC) 4.0.0 20050519 (Red Hat 4.0.0-8))
 (2) OpenBSD 3.9 (i386, native gcc-3.3.5).
-as we mentioned it is recommended gmake instead of make.
+as we mentioned, it is recommended to use gmake instead of make.
 (3) On RedHat 7.3 (native gcc-2.96).
 binutils-2.18 will not build themselves
 without manual intervention. binutils-2.17 with gcc-4.2.3 work just fine;
@@ -184,14 +184,15 @@ ARM tools are necessary to program the main board, since the software
 must be configured at compile time (LPC2138 is not so fat to configure
 at run time).
 
-AVR tools will be needed only if you use auxiliary targets. if you
+AVR tools will be needed only if you use auxiliary devices (currently
+odometer pulses counter and sample magnetic field generator). if you
 are to use auxiliary programs only, just build them as a separate project.
 
 The gEDA are required to edit the hardware part. executable files needed
 to produce the board like GERBERs are included into the distribution.
 this is possible because these targets are not configurable.
 
-HOW TO BUILD (as of Mar 2008)
+HOW TO BUILD (as of May 2008)
 
 In order to build you will need
 1. native C compiler
@@ -206,25 +207,30 @@ because the boards and schematics are not configurable and
 we don't want to force you to (figure out and) install a gEDA
 version compatible with ours.
 
-Stribog use GNU-standard configuration procedure
+Stribog uses GNU-standard configuration procedure
 (see INSTALL). Though general build versus source directory
-positions should work, the usual way is to build the project 
+positions should work, the canonical way is to build the project 
 in a separate directory out of the source tree, so
 the configure invocation sounds like this:
 
-../stribog/configure --prefix=$HOME/stribog
+../stribog/configure
 
-Currently, this procedure has been adopted for programs
-in sw/host and sw/target only. for instructions on using host tools
-read sw/host/README.
+With such an arrangement, the intermediate output files from
+the toolchain and the source configuration system will not
+lumber your source tree and disturb the revision control system.
 
-Auxiliary software is built with GNU make utility.
+Currently, this procedure has not been fully adopted.
+for instructions on using host tools read sw/host/README.
 
-You can disable ARM targets with --disable-arm-targets option. then you
-can build and install just the host tools, so you don't need to install
-ARM tools on that host. this can be useful if the program has been written
-in the MCU ROM or the MCU programs have been built on another host
-and fetched from there.
+You can disable ARM and AVR targets with --disable-arm-targets
+and --disable-avr-targets options. then you
+can build and install just the host tools, so you don't need
+to install the corresponding toolchains on that host.
+this can be useful if the program has already been written
+into the MCU ROM or the MCU programs have been built
+on another host and fetched from there. thus you can
+quickly install the host-side programs on a portable computer
+without cross-compiler.
 
 HOW TO REGENERATE BUILD SYSTEM
 
@@ -233,7 +239,7 @@ and to change the structure of the sources (add/remove source files
 and so on). you typically shall not want this.
 
 The configuring scripts are updated with 'autoreconf -v';
-you may 'rm -r autom4te.cache' after that.
+you may 'rm -rf $(find . -name autom4te.cache)' after that.
 
 As of May 2008, the versions used are autoconf-2.62 and automake-1.10.1.
 
