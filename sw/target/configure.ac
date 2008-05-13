@@ -250,7 +250,7 @@ echo "detected tools versions:">>summary
 $host_alias-as --version |grep assembler >>summary
 ${ARM_OBJCOPY} --version |grep objcopy >>summary
 ${CC} --version |grep ${CC} >>summary
-cat warnings >>summary
+cat warnings >>summary 2>/dev/null
 rm -f warnings
 
 case "z$recursive_stribog_build" in
