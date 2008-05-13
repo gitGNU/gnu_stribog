@@ -23,7 +23,9 @@ objcopy_vectors=$(OBJCOPY)\
  -j vectors -I elf32-littlearm -O binary
 common_sources=include/lpc2138.h src/boot.s
 #atexit.c is needed for gcc-2.95.3
+if atexit_needed
  common_sources+=lib/atexit.c
+endif
  AM_CFLAGS=$(arm_ascc_flags) -Wall -O2
  AM_ASFLAGS=$(arm_as_flags)
  AM_CPPFLAGS=-I$(srcdir)/src
@@ -31,7 +33,7 @@ common_sources=include/lpc2138.h src/boot.s
 AM_LIBS=-lgcc
 ram_flag=-T./ram2138.ld
 rom_flag=-T./2138.ld
-extra_common_sources=lib/atexit.c
+extra_common_sources=
 EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
  Makefile.am.m4 m4/makefile.m4 subst_ldscript
 divert(-1)

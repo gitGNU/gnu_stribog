@@ -198,12 +198,13 @@ ${srcdir}/subst_ldscript ROM $with_mainboard_mcu\
 CFLAGS="${saved_CFLAGS} -Wa,${ARM_MCU_FLAGS}"
 AC_SUBST([arm_as_flags],[${ARM_MCU_FLAGS}])
 AC_SUBST([arm_ascc_flags],[-Wa,${ARM_MCU_FLAGS}])
-LDFLAGS="$LDFLAGS -nostdlib -static -T./2138.ld boot.o"
+BASIC_LDFLAGS="${LDFLAGS} -nostdlib -static -T./2138.ld boot.o"
 #libgcc of gcc-2.95.3 needs atexit, 
 #which can safely be stubbed in our programs
 #TODO: make the programs built with gcc-2.95.3 work
-LDFLAGS="$LDFLAGS ${srcdir}/lib/atexit.c"
+ROBUST_LDFLAGS="${BASIC_LDFLAGS} ${srcdir}/lib/atexit.c"
 LIBS=-lgcc
+LDFLAGS=${ROBUST_LDFLAGS}
 
 AC_PROG_CC
 AM_PROG_AS
@@ -213,6 +214,20 @@ AM_PROG_AS
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
+LDFLAGS=${BASIC_LDFLAGS}
+AC_MSG_CHECKING([whether we can do without src/lib/atexit.c])
+reject_atexit_c=yes
+AC_LANG_CONFTEST(
+[AC_LANG_PROGRAM([[static int no_camel;]],[[no_camel=!0;]])]
+)
+if ! ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} conftest.c \
+-o /dev/null 2>/dev/null;then
+ LDFLAGS=${ROBUST_LDFLAGS}
+ reject_atexit_c=no
+fi
+AC_MSG_RESULT([$reject_atexit_c])
+AM_CONDITIONAL(atexit_needed, test $reject_atexit_c = no)
+
  AC_C_CONST
  AC_C_INLINE
  AC_C_VOLATILE
