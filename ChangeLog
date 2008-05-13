@@ -1,3 +1,5 @@
+13 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * branch: ethical deprecation removed
 12 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/target/boot.s: bugfixes from trunc branch;
  alignment-like bug disappeared
