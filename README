@@ -511,11 +511,6 @@ These files include:
 ./sw/host/depcomp
 ./sw/host/install-sh
 ./sw/host/missing
-./sw/host/conloq.src/Makefile.in
-./sw/host/elk.src/Makefile.in
-./sw/host/intlpc/Makefile.in
-./sw/host/lib/Makefile.in
-./sw/host/lib/argp/Makefile.in
 ./sw/host/postproc/Makefile.in
 ./sw/host/utils/Makefile.in
 ./sw/target/INSTALL
@@ -526,11 +521,16 @@ These files include:
 ./sw/target/config.sub
 ./sw/target/depcomp
 ./sw/target/install-sh
+./sw/target/m4/gnu-make.m4
 ./sw/target/missing
+
+./sw/target/m4/gnu-make.m4 come from gnulib; it is closely integrated into
+the build system and covered by the similar conditions as other
+Autotools-generated files.
 
 The text of the GNU GPL, namely
 ./COPYING ./sw/auxilia/COPYING ./sw/host/COPYING ./sw/target/COPYING 
-is copyrighted by FSF as stated in the file.
+is copyrighted by the FSF as stated in the file.
 
 The file AUTHORS has a special status. it essentially consists of copyright
 notices. as such, these notices can't be removed; the project maintainers
