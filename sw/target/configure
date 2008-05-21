@@ -697,6 +697,8 @@ CCASFLAGS
 CCASDEPMODE
 am__fastdepCCAS_TRUE
 am__fastdepCCAS_FALSE
+GNU_MAKE_TRUE
+GNU_MAKE_FALSE
 atexit_needed_TRUE
 atexit_needed_FALSE
 LIBOBJS
@@ -3902,6 +3904,33 @@ fi
 
 
 
+# Determine whether recent-enough GNU Make is being used.
+
+# Copyright (C) 2007 Free Software Foundation, Inc.
+
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# Written by Paul Eggert.
+
+# Set GNU_MAKE if we are using a recent-enough version of GNU make.
+
+# Use --version AND trailing junk, because SGI Make doesn't fail on --version.
+
+
+
+
+   if ${MAKE-make} --version /cannot/make/this >/dev/null 2>&1; then
+  GNU_MAKE_TRUE=
+  GNU_MAKE_FALSE='#'
+else
+  GNU_MAKE_TRUE='#'
+  GNU_MAKE_FALSE=
+fi
+
+
+
 # Checks for libraries.
 
 # Checks for header files.
@@ -4333,6 +4362,13 @@ if test -z "${am__fastdepCCAS_TRUE}" && test -z "${am__fastdepCCAS_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"am__fastdepCCAS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"am__fastdepCCAS\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${GNU_MAKE_TRUE}" && test -z "${GNU_MAKE_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"GNU_MAKE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"GNU_MAKE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi

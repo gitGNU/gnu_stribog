@@ -62,7 +62,8 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
 	config.guess config.sub depcomp install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/gnu-make.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -1919,8 +1920,8 @@ loader.map: $(loader_sources)
 #the next is a debugging purpose rule; 
 #it is disabled by default at configure time.
 #it is OK to need GNU make here.
-@percent_rules_enabled_TRUE@%.s: $(srcdir)/src/%.c
-@percent_rules_enabled_TRUE@	$(COMPILE) -S -o $@ $<
+@GNU_MAKE_TRUE@%.s: $(srcdir)/src/%.c
+@GNU_MAKE_TRUE@	$(COMPILE) -S -o $@ $<
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 dist-hook:

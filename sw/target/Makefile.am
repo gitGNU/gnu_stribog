@@ -478,7 +478,7 @@ loader.bin: $(loader_sources)
 	$(objcopy_bin) loader loader.bin
 loader.map: $(loader_sources)
 	$(MAKE) $(AM_MAKEFLAGS) loader
-if percent_rules_enabled
+if GNU_MAKE
 #the next is a debugging purpose rule; 
 #it is disabled by default at configure time.
 #it is OK to need GNU make here.
