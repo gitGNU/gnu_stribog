@@ -1,3 +1,6 @@
+21 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * README hw/README hw/packages/README hw/sym/README:
+ footprints and symbols claimed to be `external libraries'
 10 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/common/ram_loader_enums.h: new
  * sw/common/Makefile.am: ram_loader_enums.h added
