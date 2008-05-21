@@ -33,4 +33,6 @@ kept with sources for those who has no gEDA installed.
 
 Makefile.in is autoconf-generated (see ../README for details).
 
-See also README files in the subdirectories.
+See also README files in the subdirectories. particularly,
+files in `sym' and `packages' directories are `external libraries'
+and not parts of stribog.

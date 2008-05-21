@@ -13,7 +13,9 @@
  [04 Apr 2008]
  this probably will start when GCC supports fixed-point math on ARMs
 02 Apr 2008 [02 Apr 2008 start]
- [02 Apr 2008 should we claim sym/footprints to be an external library?]
+ [02 Apr 2008 should we claim sym/footprints to be an external library?
+  [21 May 2008 done. nice idea]
+ ]
  make sources look like a decent distribution:
 
  (1) clean up copyright notices. take as a good example Emacs sources

@@ -1,12 +1,17 @@
 Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
-See the end of the file for license conditions.
 
 This directory contains gEDA symbols for the hardware part of stribog.
+stribog schematics were constructed using them but do not otherwise depend
+on them.
+
+These files (except this README file) are NOT part of the stribog design,
+but are used with stribog. they form an `external library'
+as defined by the FSF.
 
 This file is part of stribog.
 
-Stribog is free software; you can redistribute it and/or modify
+stribog is free design; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
@@ -61,6 +66,6 @@ the symbols/packages impose no such restriction on them".
 Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
 (in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
 usually we just slightly corrected files from gEDA and PCB libraries.
-the AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
+the STRIBOG AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
 as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
 'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.

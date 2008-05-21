@@ -451,6 +451,10 @@ hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
 hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
 hw/packages/tp
 
+Files in hw/packages and hw/sym directories are not part of stribog,
+are not part of the stribog design, but are used with stribog.
+they form an `external library' as defined by the FSF.
+
 (See also README files in the respective directories)
 
 To all these files is applied the copyright and license notice placed earlier
@@ -469,7 +473,7 @@ the symbols/packages impose no such restriction on them".
 Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
 (in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
 usually we just slightly corrected files from gEDA and PCB libraries.
-the AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
+the STRIBOG AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
 as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
 'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
 
