@@ -91,12 +91,7 @@ autom4te.cache/*
 install-sh
 depcomp
 Makefile.in
-conloq.src/Makefile.in
-elk.src/Makefile.in
-intlpc/Makefile.in
 postproc/Makefile.in
-tests/Makefile.in
-utils/Makefile.in
 aclocal.m4
 compile
 config.h.in
@@ -104,6 +99,12 @@ configure.ac
 missing
 config.guess
 config.sub
+
+These files are not exclusively copyrighted by the stribog authors.
+we let our copyright notes come into these files like 'configure',
+and 'Makefile.in', but one should undestand that they are result of
+compilation of several sources and such a file can hardly represent
+a single copyrighted unit.
 
 The usual developer procedure of regeneration is to invoke
 autoscan and autoreconf in no certain sequence,
@@ -114,7 +115,7 @@ to ensure that user make procedure will not trigger autoreconf.
 
 This file is part of stribog.
 
-Stribog is free software; you can redistribute it and/or modify
+stribog is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.

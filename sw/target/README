@@ -1,6 +1,5 @@
 Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
-See the end of the file for license conditions.
 
 Stribog LPC213x-hosted programs
 This is a stribog subproject; it is not intended to be installed alone.
@@ -19,3 +18,21 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Note: Autotools-related files, namely
+INSTALL
+Makefile.in
+aclocal.m4
+config.guess
+configure
+config.sub
+depcomp
+install-sh
+m4/gnu-make.m4
+missing
+
+are not exclusively copyrighted by the stribog authors.
+we let our copyright notes come into these files like 'configure',
+and 'Makefile.in', but one should undestand that they are result of
+compilation of several sources and such a file can hardly represent
+a single copyrighted unit.
