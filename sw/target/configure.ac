@@ -221,6 +221,9 @@ LDFLAGS=${ROBUST_LDFLAGS}
 AC_PROG_CC
 AM_PROG_AS
 
+m4_include([m4/gnu-make.m4])
+gl_GNU_MAKE
+
 # Checks for libraries.
 
 # Checks for header files.
