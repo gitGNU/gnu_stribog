@@ -34,8 +34,8 @@ AM_LIBS=-lgcc
 ram_flag=-T./ram2138.ld
 rom_flag=-T./2138.ld
 extra_common_sources=
-EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/mutex.c\
- Makefile.am.m4 m4/makefile.m4 subst_ldscript
+EXTRA_DIST=src/ram2138.ld.in src/2138.ld.in src/loader.ld.in\
+ src/mutex.c Makefile.am.m4 m4/makefile.m4 subst_ldscript
 divert(-1)
  ST_TARGET(`program_name', `program_sources', `extra_dependencies')
  It expands into a sequence of automake commands that define 
@@ -125,7 +125,7 @@ if GNU_MAKE
 endif
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
-nodist_pkgdata_DATA+=summary ram2138.ld 2138.ld config.h
+nodist_pkgdata_DATA+=summary 2138.ld loader.ld ram2138.ld config.h
 dist-hook:
 	$(RM) $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
  $(nodist_pkgdata_DATA)
