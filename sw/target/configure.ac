@@ -102,18 +102,6 @@ AM_CONDITIONAL(mag_response_enabled, test $enable_mag_response = yes)
 AM_CONDITIONAL(magex_enabled, test $enable_magex = yes)
 AM_CONDITIONAL(multa_enabled, test $enable_multa = yes)
 
-AC_MSG_CHECKING([whether a rule for assembler files is requested])
-AC_ARG_ENABLE([assembler-files],
- [AS_HELP_STRING([--enable-assembler-files],
-  [Makefile will contain a debugging-purpose rule 
-   for assembler files generation 
-   (this uses a GNU make extension) [no]])])
-case "z$enable_assembler_files" in
- zyes) ;; *) enable_assembler_files=no ;;
-esac
-AC_MSG_RESULT([$enable_assembler_files])
-AM_CONDITIONAL(percent_rules_enabled, test $enable_assembler_files = yes)
-
 AC_MSG_CHECKING([whether original PPS is requested])
 AC_ARG_ENABLE([original-pps],
  [AS_HELP_STRING([--enable-original-pps],
