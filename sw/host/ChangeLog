@@ -1,3 +1,5 @@
+22 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am: typo correction
 21 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * README: copyright note on Autotools-related files
 10 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
