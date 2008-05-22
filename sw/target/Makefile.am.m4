@@ -119,7 +119,6 @@ loader.map: $(loader_sources)
 	$(MAKE) $(AM_MAKEFLAGS) loader
 if GNU_MAKE
 #the next is a debugging purpose rule; 
-#it is disabled by default at configure time.
 #it is OK to need GNU make here.
 %.s: $(srcdir)/src/%.c
 	$(COMPILE) -S -o $@ $<
