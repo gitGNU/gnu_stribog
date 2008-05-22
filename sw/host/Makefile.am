@@ -65,7 +65,7 @@ expon_legacy_SOURCES=conloq.src/expon.c\
  conloq.src/hodo.c conloq.src/hodo.h\
  conloq.src/lla.c conloq.src/lla.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
- conloq.src/preproc_gps.c conloq.src.src/preproc_gps.h\
+ conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
  conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 expon_legacy_LDADD=libstribog.a
 magex_conloq_SOURCES=conloq.src/magex-conloq.c\
