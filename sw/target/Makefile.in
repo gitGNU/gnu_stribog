@@ -557,7 +557,7 @@ top_srcdir = @top_srcdir@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
-nodist_pkgdata_DATA = summary ram2138.ld 2138.ld config.h
+nodist_pkgdata_DATA = summary 2138.ld loader.ld ram2138.ld config.h
 nodist_ram_programs_DATA = accelex.bin accelex.map adcex.bin adcex.map \
 	crcex.bin crcex.map dacex.bin dacex.map inledex.bin \
 	inledex.map ledex.bin ledex.map lm74ex.bin lm74ex.map \
@@ -590,8 +590,8 @@ AM_LIBS = -lgcc
 ram_flag = -T./ram2138.ld
 rom_flag = -T./2138.ld
 extra_common_sources = 
-EXTRA_DIST = src/ram2138.ld.in src/2138.ld.in src/mutex.c\
- Makefile.am.m4 m4/makefile.m4 subst_ldscript
+EXTRA_DIST = src/ram2138.ld.in src/2138.ld.in src/loader.ld.in\
+ src/mutex.c Makefile.am.m4 m4/makefile.m4 subst_ldscript
 
 accelex_sources = $(common_sources)\
  src/accelex.c src/accel.c src/accel.h\
@@ -1918,7 +1918,6 @@ loader.bin: $(loader_sources)
 loader.map: $(loader_sources)
 	$(MAKE) $(AM_MAKEFLAGS) loader
 #the next is a debugging purpose rule; 
-#it is disabled by default at configure time.
 #it is OK to need GNU make here.
 @GNU_MAKE_TRUE@%.s: $(srcdir)/src/%.c
 @GNU_MAKE_TRUE@	$(COMPILE) -S -o $@ $<

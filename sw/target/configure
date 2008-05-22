@@ -669,8 +669,6 @@ magex_enabled_TRUE
 magex_enabled_FALSE
 multa_enabled_TRUE
 multa_enabled_FALSE
-percent_rules_enabled_TRUE
-percent_rules_enabled_FALSE
 arm_as_present
 ARM_OBJCOPY
 arm_unknown_elf_objcopy
@@ -707,7 +705,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 with_mainboard_mcu
-enable_assembler_files
 enable_original_pps
 enable_swap_uarts
 enable_dependency_tracking
@@ -1348,10 +1345,6 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-assembler-files
-                          Makefile will contain a debugging-purpose rule for
-                          assembler files generation (this uses a GNU make
-                          extension) [no]
   --enable-original-pps   Input PPS signals through CAP1.1 rather than CAP1.2
                           [no]
   --enable-swap-uarts     UARTs functions are swapped [no]
@@ -2430,27 +2423,6 @@ fi
 else
   multa_enabled_TRUE='#'
   multa_enabled_FALSE=
-fi
-
-
-{ $as_echo "$as_me:$LINENO: checking whether a rule for assembler files is requested" >&5
-$as_echo_n "checking whether a rule for assembler files is requested... " >&6; }
-# Check whether --enable-assembler-files was given.
-if test "${enable_assembler_files+set}" = set; then
-  enableval=$enable_assembler_files;
-fi
-
-case "z$enable_assembler_files" in
- zyes) ;; *) enable_assembler_files=no ;;
-esac
-{ $as_echo "$as_me:$LINENO: result: $enable_assembler_files" >&5
-$as_echo "$enable_assembler_files" >&6; }
- if test $enable_assembler_files = yes; then
-  percent_rules_enabled_TRUE=
-  percent_rules_enabled_FALSE='#'
-else
-  percent_rules_enabled_TRUE='#'
-  percent_rules_enabled_FALSE=
 fi
 
 
@@ -4334,13 +4306,6 @@ if test -z "${multa_enabled_TRUE}" && test -z "${multa_enabled_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"multa_enabled\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"multa_enabled\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${percent_rules_enabled_TRUE}" && test -z "${percent_rules_enabled_FALSE}"; then
-  { { $as_echo "$as_me:$LINENO: error: conditional \"percent_rules_enabled\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-$as_echo "$as_me: error: conditional \"percent_rules_enabled\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
