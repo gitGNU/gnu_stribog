@@ -46,22 +46,22 @@ static int
 setup_stdin(void)
 {struct termios nov;
  if(tcgetattr(STDIN_FILENO,&saved_stdin_settings))
- {int err=errno;error("tcgettattr of stdin failed: errno %i",err);
-  error("system error message \"%s\"",strerror(err));return!0;
+ {int err=errno;error("tcgettattr of stdin failed: errno %i\n",err);
+  error("system error message \"%s\"\n",strerror(err));return!0;
  }nov=saved_stdin_settings;nov.c_lflag&=~(ECHO|ECHOE|ICANON);
  if(tcsetattr(STDIN_FILENO,TCSANOW,&nov))
- {int err=errno;error("tcsettattr of stdin failed: errno %i",err);
-  error("system error message \"%s\"",strerror(err));return!0;
+ {int err=errno;error("tcsettattr of stdin failed: errno %i\n",err);
+  error("system error message \"%s\"\n",strerror(err));return!0;
  }if(fcntl(STDIN_FILENO,F_SETFL,O_NDELAY))
- {int err=errno;error("fcntl of stdin failed: errno %i",err);
-  error("system error message \"%s\"",strerror(err));return!0;
+ {int err=errno;error("fcntl of stdin failed: errno %i\n",err);
+  error("system error message \"%s\"\n",strerror(err));return!0;
  }return 0;
 }static void
 reset_stdin(void)
 {int err;putchar('\n');
  if(!tcsetattr(STDIN_FILENO,TCSANOW,&saved_stdin_settings))return;
- err=errno;error("note: can't reset stdin errno %i",err);
- error("system error message \"%s\"",strerror(err));
+ err=errno;error("note: can't reset stdin errno %i\n",err);
+ error("system error message \"%s\"\n",strerror(err));
 }struct arguments
 {const char*port_name,*log_name;double dfreq;
  int verbosity,escapes,file_input,period,deafitude;
@@ -119,7 +119,7 @@ static struct argp_option options[]=
   "Open PORT instead of '"CONLOQ_PORT"'"
  },
  {"force-deaf-mode",'D',0,0,
-  "don't process keypresses (the program is terminated with Ctrl-C or"
+  "don't process keypresses (the program is terminated with Ctrl-C or "
   "other external signals only)"
  },
  {"stdin",'c',0,0,
