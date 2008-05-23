@@ -1,3 +1,8 @@
+23 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * utils/lpfilter.c: precision type made int rather than unsigned
+ * conloq.src/process_keypress.c: pretty_verbose constant
+ added to switch
+ * conloq.src/conloq.c: text alignment corrections
 22 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am: typo correction
 21 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
