@@ -36,7 +36,7 @@ valid_option(const struct argp_option*o)
 {return o->long_option||o->key;}
 void
 argp_usage(struct argp_state*state)
-{int chars_printed,line_length=51,aliased_key=0;
+{int chars_printed,line_length=51,aliased_key=0,opt=0;
  struct argp_option*options=state->argp->options,*option;
  chars_printed=printf("Usage: %s [-?V",state->prog_name);
  if(options)
@@ -53,7 +53,7 @@ argp_usage(struct argp_state*state)
  if(chars_printed>=line_length)chars_printed=new_line();
  if(options)
   for(option=options;valid_option(option);option++)
- {int opt=option->flags&OPTION_ARG_OPTIONAL;
+ {opt=option->flags&OPTION_ARG_OPTIONAL;
   if(aliased_key==option->key||!option->arg_name)continue;
   if(!(option->flags&OPTION_ALIAS))aliased_key=option->key;
   if(!printable_option_key(option->key))continue;
@@ -67,7 +67,8 @@ argp_usage(struct argp_state*state)
  }
  if(options)
   for(option=options;valid_option(option);option++)
- {int opt=option->flags&OPTION_ARG_OPTIONAL;
+ {if(!(option->flags&OPTION_ALIAS))
+   opt=option->flags&OPTION_ARG_OPTIONAL;
   if(!option->long_option)continue;
   chars_printed+=printf("[--%s",option->long_option);
   if(!option->arg_name)
