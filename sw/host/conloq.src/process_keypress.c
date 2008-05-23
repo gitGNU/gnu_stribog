@@ -43,6 +43,7 @@ show_turned_on(void)
  {case absolutely_mute:printf("absolutely mute");break;
   case relatively_mute:printf("relatively mute");break;
   case normal_verbosity:printf("normal");break;
+  case pretty_verbose:printf("verbose");break;
   default:error("unknown (%i)",get_verbosity());
  }printf(" verbosity level\n");
  if(stribog_message_turned_on(any_message))printf("turned on:");
