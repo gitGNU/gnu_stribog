@@ -33,6 +33,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<signal.h>
 #include<errno.h>
 #include<string.h>
+#include<time.h>
 #include<argp.h>
 enum program_exit_codes
 {normal_exit=0,no_log_file=1,no_uart=2,unknown_signal=3,stdin_unsetupable=4};
@@ -64,7 +65,8 @@ reset_stdin(void)
  error("system error message \"%s\"\n",strerror(err));
 }struct arguments
 {const char*port_name,*log_name;double dfreq;
- int verbosity,escapes,file_input,period,deafitude;
+ int verbosity,escapes,file_input,deafitude;
+ long period,timeout;
 };
 static struct arguments arguments;
 static void 
@@ -135,6 +137,10 @@ static struct argp_option options[]=
   "enable packet-layer escapes (don't use this unless you "
    "really know what you are doing)"
  },
+ {"timeout",'t',"TIMEOUT",0,
+  "quit when there has been no input for TIMEOUT seconds "
+  "(TIMEOUT = 0 disables the feature)"
+ },
  {"verbose",'v',"LEVEL",OPTION_ARG_OPTIONAL,"Be verbose"},
  {"verbous",0,"LEVEL",OPTION_ALIAS},
  {"quiet",'q',0,0,"Be quiet"},
@@ -154,7 +160,7 @@ parse_opt(int key, char*arg, struct argp_state*state)
      " (should be a real number)\n",arg);
     return ARGP_ERR_UNKNOWN;
    }break;
-  case 'n':r=sscanf(arg,"%i%n",&(arguments->period),&n);
+  case 'n':r=sscanf(arg,"%li%n",&(arguments->period),&n);
    if(r!=1||arg[n]||arguments->period<=0)
    {error("'%s' is not a valid decimation number"
      " (should be an integer > 0)\n",arg);
@@ -163,6 +169,12 @@ parse_opt(int key, char*arg, struct argp_state*state)
   case 'o':arguments->log_name=arg;break;
   case 'q':arguments->verbosity--;break;
   case 'e':arguments->escapes=!0;break;
+  case 't':r=sscanf(arg,"%li%n",&(arguments->timeout),&n);
+   if(r!=1||arg[n]||arguments->timeout<0)
+   {error("'%s' is not a valid timeout "
+     "(should be an integer >= 0)\n",arg);
+    return ARGP_ERR_UNKNOWN;
+   }break;
   case 'v':if(!arg){arguments->verbosity++;break;}
    r=sscanf(arg,"%i%n",&(arguments->verbosity),&n);
    if(r!=1||arg[n])
@@ -196,11 +208,11 @@ static int(*
 get_next_data)(unsigned char*,int)=data_lege;
 int 
 main(int argc,char**argv)
-{int period;
+{long period;
  init_error_dir(*argv,SOURCE_DIR);
  arguments.dfreq=8550;arguments.port_name=arguments.log_name=0;
  arguments.escapes=arguments.verbosity=arguments.file_input=0;
- arguments.deafitude=0;
+ arguments.timeout=arguments.deafitude=0;
  arguments.period=-1;
  argp_parse(&argp,argc,argv,0,0,&arguments);
  set_verbosity(arguments.verbosity);
@@ -245,15 +257,27 @@ main(int argc,char**argv)
  signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
  if(arguments.escapes)enable_escapes(!0);
  if(get_verbosity()>=pretty_verbose)
-  printf(arguments.escapes?
+ {printf(arguments.escapes?
     "escapes are enabled\n":"escapes are disabled\n");
+  printf("the assumed MCU frequency is adjusted by %.3f Hz\n",
+   arguments.freq);
+  if(arguments.timeout)
+   printf("timeout is %li s\n",arguments.timeout);
+  else printf("no timeout\n");
+  printf("ADC messages decimation number is %li\n",period);
+ }
  tb=new_tsip();init_exp(period);
  adjust_frequency(arguments.dfreq);
  {static int size,n,j;const unsigned char*_;
   unsigned char s[1152];unsigned long long N=0;
-  while(dont_exit())if(0<(n=get_next_data(s,sizeof s)))
-   for(j=0;j<n;putc(s[j++],f),N++)
-    if((_=parse_tsip(tb,s[j],&size)))if(expone(_,size))
-     error("(error at position %llu)\n",N);
+  time_t t=time(0);
+  while(dont_exit())
+  {if(0<(n=get_next_data(s,sizeof s)))
+   {for(j=0;j<n;putc(s[j++],f),N++)
+     if((_=parse_tsip(tb,s[j],&size)))if(expone(_,size))
+      error("(error at position %llu)\n",N);
+    t=time(0);
+   }if(arguments.timeout&&time(0)-t>arguments.timeout)break;
+  }
  }return normal_exit;
 }
