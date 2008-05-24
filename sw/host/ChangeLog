@@ -1,8 +1,13 @@
+24 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/conloq.c: timeout feature introduced;
+ decimation period made long int
 23 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * utils/lpfilter.c: precision type made int rather than unsigned
  * conloq.src/process_keypress.c: pretty_verbose constant
  added to switch
  * conloq.src/conloq.c: text alignment corrections
+ * lib/argp/argp.c(argp_usage): OPTION_ARG_OPTIONAL processing
+ for aliased options fixed
 22 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am: typo correction
 21 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
