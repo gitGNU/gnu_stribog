@@ -44,7 +44,6 @@ AM_PROG_CC_C_O
 AC_PROG_RANLIB
 
 if test "z$GCC" = zyes; then
- #enable all warnings
  CFLAGS="${CFLAGS} -Wall"
 fi
 
@@ -53,7 +52,7 @@ AC_CHECK_LIB([m], [sqrt])
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([fcntl.h float.h stdint.h stdlib.h])
+AC_CHECK_HEADERS([errno.h fcntl.h float.h stdint.h stdlib.h])
 AC_CHECK_HEADERS([string.h termios.h unistd.h sysexits.h])
 
 #argp library configuration
@@ -82,7 +81,13 @@ AC_CHECK_HEADER([argp.h],,
  enable_own_argp=yes
 ])
 # Checks for typedefs, structures, and compiler characteristics.
-AC_CHECK_TYPES([error_t])
+AC_CHECK_TYPES([error_t],,,
+[AC_INCLUDES_DEFAULT()
+[@%:@ifdef HAVE_ERRNO_H
+@%:@ include<errno.h>
+@%:@endif
+]] 
+)
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_UINT16_T
