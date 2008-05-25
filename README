@@ -157,7 +157,7 @@ as we mentioned, it is recommended to use gmake instead of make.
 you shall need to update gnupg. it comes with 1.0.6 version
 and it can't check new signatures; gnupg-1.4.9 is quite buildable there.
 
-Build system of binutils-2.18 is broken; the build process stops in bfd/doc.
+The build system of binutils-2.18 is broken; the process stops in bfd/doc.
 quick and dirty fix is to patch `missing':
 
 --- binutils-2.18/missing	2005-07-14 05:24:56.000000000 +0400
