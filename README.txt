@@ -129,7 +129,7 @@ to connect with gdb.
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
 
 --disable-libssp is mandatory for gcc-4.1.2 and later
-(currently up to gcc-4.2.4). otherwize the compiler
+(currently up to gcc-4.2.4). otherwise the compiler
 will not build itself.
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
