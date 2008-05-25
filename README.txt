@@ -100,11 +100,11 @@ HOW TO INSTALL DEVELOPMENT TOOLS
 First, we shall need binutils and gcc for ARM. we go to http://www.gnu.org and
 get binutils and gcc. generally, we use the latest releases, though there is 
 nothing dependent on any supernew features in stribog. currently we use 
-binutils-2.18 with gcc-4.2.2. we used also binutils-2.17, binutils-2.16.1, 
-binutils-2.16, gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2.
+binutils-2.17 with gcc-4.2.4. we used also binutils-2.16.1, binutils-2.16,
+gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2, gcc-4.2.3.
 they should work, too.
 
-binutils-2.15 don't work because their ld don't undestand expressions like
+binutils-2.15 won't do because their ld don't undestand expressions like
 _arm_stack_bottom = ORIGIN(ram) + LENGTH(ram) - 4;
 this has been fixed in 'trunc' branch of stribog.
 
@@ -113,31 +113,24 @@ Follow (with some changes) instructions from http://www.gnuarm.com
 $ export armprefix=$HOME/arm
                    (or where you want them to live. you must have write access
 		    thither)
-$ gpg --verify binutils-2.18.tar.bz2.sig && tar xjf binutils-2.18.tar.bz2
+$ gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
 $ mkdir bui;cd bui
-$ ../binutils-2.18/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib
+$ ../binutils-2.17/configure --target=arm-elf --prefix=$armprefix
 $ make all install
 $ export PATH=$armprefix/bin:$PATH; rm -fr *;cd ..
          (add this path in your shell profile after install, too)
-$ gpg --verify gcc-4.2.3.tar.bz2.sig && tar xjf gcc-4.2.3.tar.bz2;cd bui
-$ ../gcc-4.2.3/configure --target=arm-elf --prefix=$armprefix --enable-interwork --enable-multilib --enable-languages=c --disable-libssp
+$ gpg --verify gcc-4.2.4.tar.bz2.sig && tar xjf gcc-4.2.4.tar.bz2;cd bui
+$ ../gcc-4.2.4/configure --target=arm-elf --prefix=$armprefix --enable-languages=c --disable-libssp
 $ make all install
 
 That's all. we don't need newlib, and stribog main board has no contacts 
 to connect with gdb.
 
 This sequence worked on RedHat 7.3 and Fedora Core 4 (32-bit).
-binutils-2.18 won't build themselves on RedHat 7.3 without slightly editing.
 
 --disable-libssp is mandatory for gcc-4.1.2 and later
-(currently up to gcc-4.3.0). otherwize the compiler
+(currently up to gcc-4.2.4). otherwize the compiler
 will not build itself.
-
-gcc-4.3.0 have new dependency, MPFR. current version of MPFR, 2.3.1,
-requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
-after you install MPFR at prefix=$PREFIX you'll probably need to add 
-$PREFIX/lib to your LD_LIBRARY_PATH shell variable and append --with-mpfr=$PREFIX
-to the command line configuring the gcc (e.g. after --disable-libssp)
 
 Auxiliary targets (such as sw/auxilia/odo and sw/auxilia/coil) are based on
 AVR. their target programs are built with avr-binutils, avr-gcc and avr-libc.
