@@ -260,7 +260,7 @@ main(int argc,char**argv)
  {printf(arguments.escapes?
     "escapes are enabled\n":"escapes are disabled\n");
   printf("the assumed MCU frequency is adjusted by %.3f Hz\n",
-   arguments.freq);
+   arguments.dfreq);
   if(arguments.timeout)
    printf("timeout is %li s\n",arguments.timeout);
   else printf("no timeout\n");
