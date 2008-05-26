@@ -19,6 +19,10 @@ This is a limited, poorly tested and straight-forward implementation
 to use on systems lacking glibc.*/
 enum argp_key_values/*the positive values are option keys*/
 {ARGP_KEY_ARG=-1,ARGP_KEY_END=-2};
+#ifdef HAVE_ERRNO_H
+/*this header probably contains an error_t typdef*/
+# include<errno.h>
+#endif
 #if HAVE_ERROR_T
 #else
 typedef int error_t;
