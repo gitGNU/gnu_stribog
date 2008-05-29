@@ -2,6 +2,7 @@
  [03 May 2008 complete: the bug vanished]
  write new bootloader; look if the alignment-like bug disappear
 09 Feb 2008 [19Feb2008 start] [12 Apr 2008 hw/ schematics only remain]
+ [29 May 2008 schematics added: the task initially complete]
  invoke GNU autobuild tools
  [25 Mar 2008]
  migrate to autoconf-2.62 when it is released. [10 Apr 2008 done]
@@ -47,7 +48,8 @@
              enough to proceed to the next item]
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
- 1. of course, finish mounting the project on Autotools 
+     d. actually write the documentation
+ 1. of course, finish mounting the project on Autotools [29 May 2008 done]
 14 Apr 2008
  sw/auxilia: provide a script for convenient writing the installed
   in ${prefix} programs into target AVRs.
