@@ -275,8 +275,7 @@ With such an arrangement, the intermediate output files from
 the toolchain and the source configuration system will not
 lumber your source tree and disturb the revision control system.
 
-Currently, this procedure has not been fully adopted.
-for instructions on using host tools read sw/host/README.
+For instructions on using host tools read sw/host/README.
 
 You can disable ARM and AVR targets with --disable-arm-targets
 and --disable-avr-targets options. then you
@@ -392,9 +391,6 @@ $ git push savannah :refs/heads/feb2008
 
 What will go to Git
 
-We currently don't put into the repository gEDA-generated files.
-[12 Mar 2008 PCB-generated files are put into the repository
-and distribution; we plan also put the object-form schematics]
 [25 Apr 2008 these files are in object form. if someone
  redistributes them, this person must provide gEDA, too.
  this is not very convenient.
@@ -410,11 +406,10 @@ and distribution; we plan also put the object-form schematics]
 >which are not part of the work.
  GPLv2 does not.
 ]
-however, we do put all Autotools-generated files
-that will be distributed.
+[29 May 2008 gEDA-generated files do go to the repository]
 
-The general rules are to be worked on yet; the bottomline consideration
-should be that Git serves as a source of most recent package version.
+We put all distributed files into the repository. the bottomline
+consideration was that Git should be a source of the package.
 
 We think that today state may be right because
 1. gEDA (especially gschem) is not easy to install; it has long dependencies
@@ -423,9 +418,7 @@ We think that today state may be right because
   can't be developped. this would be wrong because the programs
   can be modified and rebuilt very quickly and at no cost.
   to rebuild the scripts one must have a compatible Autotools version
-  installed; but this is not enough. the configuration process is
-  very uniform and straightforward; the regeneration of the scripts
-  is not trivial and probably package-specific, it generally requires some knowledge
+  installed. regenerating the scripts generally requires some knowledge
   of several languages other than C, so it can take a lot of time
   when done by a person new to the package. this can be much harder
   than just fixing a bug or adding even a complicated feature.
