@@ -121,3 +121,37 @@ main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
+schematicsdir=$(pkgdatadir)/schematics
+schematics_DATA=
+###schematic stribog expanded definition begins
+EXTRA_DIST+=stribog.sch schematics/stribog.png
+schematics_DATA+=schematics/stribog.png
+schematics/stribog.png: stribog.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/stribog.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/stribog.sch 2>/dev/null
+	$(RM) gschem.log
+###schematic stribog expanded definition ends
+
+###schematic odo expanded definition begins
+EXTRA_DIST+=odo.sch schematics/odo.png
+schematics_DATA+=schematics/odo.png
+schematics/odo.png: odo.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/odo.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/odo.sch 2>/dev/null
+	$(RM) gschem.log
+###schematic odo expanded definition ends
+
+###schematic gyro expanded definition begins
+EXTRA_DIST+=gyro.sch schematics/gyro.png
+schematics_DATA+=schematics/gyro.png
+schematics/gyro.png: gyro.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/gyro.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/gyro.sch 2>/dev/null
+	$(RM) gschem.log
+###schematic gyro expanded definition ends
+
+dist-hook:
+	$(RM) image.scm

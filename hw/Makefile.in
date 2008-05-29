@@ -55,13 +55,13 @@ DIST_COMMON = README $(dist_boardmain_board.bisgerber_DATA) \
 	$(dist_boardmain_board.bisps_DATA) \
 	$(dist_boardmain_boardgerber_DATA) \
 	$(dist_boardmain_boardps_DATA) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in
+	$(srcdir)/Makefile.in $(srcdir)/image.scm.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = image.scm
 SOURCES =
 DIST_SOURCES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -73,15 +73,17 @@ am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(boardmain_board.bisgerberdir)" \
 	"$(DESTDIR)$(boardmain_board.bispsdir)" \
 	"$(DESTDIR)$(boardmain_boardgerberdir)" \
-	"$(DESTDIR)$(boardmain_boardpsdir)"
+	"$(DESTDIR)$(boardmain_boardpsdir)" \
+	"$(DESTDIR)$(schematicsdir)"
 dist_boardmain_board.bisgerberDATA_INSTALL = $(INSTALL_DATA)
 dist_boardmain_board.bispsDATA_INSTALL = $(INSTALL_DATA)
 dist_boardmain_boardgerberDATA_INSTALL = $(INSTALL_DATA)
 dist_boardmain_boardpsDATA_INSTALL = $(INSTALL_DATA)
+schematicsDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(dist_boardmain_board.bisgerber_DATA) \
 	$(dist_boardmain_board.bisps_DATA) \
 	$(dist_boardmain_boardgerber_DATA) \
-	$(dist_boardmain_boardps_DATA)
+	$(dist_boardmain_boardps_DATA) $(schematics_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -101,6 +103,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -111,6 +114,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+SCHEMATICS_IMAGE_SIZE = @SCHEMATICS_IMAGE_SIZE@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -161,6 +165,13 @@ top_srcdir = @top_srcdir@
 ###board main_board expanded definition ends
 
 ###board main_board.bis expanded definition begins
+###schematic stribog expanded definition begins
+###schematic stribog expanded definition ends
+
+###schematic odo expanded definition begins
+###schematic odo expanded definition ends
+
+###schematic gyro expanded definition begins
 EXTRA_DIST = Makefile.am.m4 m4/makefile.m4 gafrc sym/ATmega8-1.sym \
 	sym/JTAG.sym sym/README sym/adm202.sym sym/adxl210.sym \
 	sym/adxrs300.sym sym/bat54c.sym sym/dac7612.sym \
@@ -174,7 +185,8 @@ EXTRA_DIST = Makefile.am.m4 m4/makefile.m4 gafrc sym/ATmega8-1.sym \
 	packages/led0805 packages/lp2980 packages/msop8 packages/pin \
 	packages/qfp64 packages/tanA packages/tanC packages/tp \
 	main_board.pcb main_board.proj main_board.bis.pcb \
-	main_board.bis.proj
+	main_board.bis.proj stribog.sch schematics/stribog.png odo.sch \
+	schematics/odo.png gyro.sch schematics/gyro.png
 boardmain_boarddir = $(pkgdatadir)/main_board
 boardmain_boardgerberdir = $(boardmain_boarddir)/gerber
 boardmain_boardpsdir = $(boardmain_boarddir)/ps
@@ -205,6 +217,9 @@ dist_boardmain_board.bisgerber_DATA = main_board.bis/main_board.bis.back.gbr\
  main_board.bis/main_board.bis.plated-drill.cnc
 
 dist_boardmain_board.bisps_DATA = main_board.bis/main_board.bis.ps main_board.bis/main_board.bis.pdf
+schematicsdir = $(pkgdatadir)/schematics
+schematics_DATA = schematics/stribog.png schematics/odo.png \
+	schematics/gyro.png
 all: all-am
 
 .SUFFIXES:
@@ -237,6 +252,8 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
+image.scm: $(top_builddir)/config.status $(srcdir)/image.scm.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-dist_boardmain_board.bisgerberDATA: $(dist_boardmain_board.bisgerber_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(boardmain_board.bisgerberdir)" || $(MKDIR_P) "$(DESTDIR)$(boardmain_board.bisgerberdir)"
@@ -305,6 +322,23 @@ uninstall-dist_boardmain_boardpsDATA:
 	  echo " rm -f '$(DESTDIR)$(boardmain_boardpsdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(boardmain_boardpsdir)/$$f"; \
 	done
+install-schematicsDATA: $(schematics_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(schematicsdir)" || $(MKDIR_P) "$(DESTDIR)$(schematicsdir)"
+	@list='$(schematics_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(schematicsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(schematicsdir)/$$f'"; \
+	  $(schematicsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(schematicsdir)/$$f"; \
+	done
+
+uninstall-schematicsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(schematics_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(schematicsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(schematicsdir)/$$f"; \
+	done
 tags: TAGS
 TAGS:
 
@@ -338,11 +372,14 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	$(MAKE) $(AM_MAKEFLAGS) \
+	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
+	  dist-hook
 check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(boardmain_board.bisgerberdir)" "$(DESTDIR)$(boardmain_board.bispsdir)" "$(DESTDIR)$(boardmain_boardgerberdir)" "$(DESTDIR)$(boardmain_boardpsdir)"; do \
+	for dir in "$(DESTDIR)$(boardmain_board.bisgerberdir)" "$(DESTDIR)$(boardmain_board.bispsdir)" "$(DESTDIR)$(boardmain_boardgerberdir)" "$(DESTDIR)$(boardmain_boardpsdir)" "$(DESTDIR)$(schematicsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -390,7 +427,7 @@ info-am:
 install-data-am: install-dist_boardmain_board.bisgerberDATA \
 	install-dist_boardmain_board.bispsDATA \
 	install-dist_boardmain_boardgerberDATA \
-	install-dist_boardmain_boardpsDATA
+	install-dist_boardmain_boardpsDATA install-schematicsDATA
 
 install-dvi: install-dvi-am
 
@@ -427,27 +464,27 @@ ps-am:
 uninstall-am: uninstall-dist_boardmain_board.bisgerberDATA \
 	uninstall-dist_boardmain_board.bispsDATA \
 	uninstall-dist_boardmain_boardgerberDATA \
-	uninstall-dist_boardmain_boardpsDATA
+	uninstall-dist_boardmain_boardpsDATA uninstall-schematicsDATA
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am check check-am clean clean-generic distclean \
-	distclean-generic distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am \
+.PHONY: all all-am check check-am clean clean-generic dist-hook \
+	distclean distclean-generic distdir dvi dvi-am html html-am \
+	info info-am install install-am install-data install-data-am \
 	install-dist_boardmain_board.bisgerberDATA \
 	install-dist_boardmain_board.bispsDATA \
 	install-dist_boardmain_boardgerberDATA \
 	install-dist_boardmain_boardpsDATA install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am \
+	install-pdf-am install-ps install-ps-am install-schematicsDATA \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
 	uninstall-dist_boardmain_board.bisgerberDATA \
 	uninstall-dist_boardmain_board.bispsDATA \
 	uninstall-dist_boardmain_boardgerberDATA \
-	uninstall-dist_boardmain_boardpsDATA
+	uninstall-dist_boardmain_boardpsDATA uninstall-schematicsDATA
 
 main_board/main_board.fab.gbr: main_board.pcb
 	$(MKDIR_P) main_board
@@ -495,6 +532,25 @@ main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
+schematics/stribog.png: stribog.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/stribog.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/stribog.sch 2>/dev/null
+	$(RM) gschem.log
+schematics/odo.png: odo.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/odo.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/odo.sch 2>/dev/null
+	$(RM) gschem.log
+schematics/gyro.png: gyro.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/gyro.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/gyro.sch 2>/dev/null
+	$(RM) gschem.log
+###schematic gyro expanded definition ends
+
+dist-hook:
+	$(RM) image.scm
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
