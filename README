@@ -218,8 +218,7 @@ quick and dirty fix is to patch `missing':
 The problem was obviously not in `missing', but in automake-1.9.6, 
 which was used to regenerate the build system.
 
-GCC-4.3.0 has a new strong dependency, MPFR. we can't recommend it
-because MPFR distribution comes with no signature. current version of MPFR,
+GCC-4.3.0 has a new strong dependency, MPFR. current version of MPFR,
 2.3.1, requires gmp-4.1 or later; RedHat 7.3 has gmp-4.0.1.
 after you install MPFR at prefix=$PREFIX you'll probably need to add 
 $PREFIX/lib to your LD_LIBRARY_PATH shell variable and append
