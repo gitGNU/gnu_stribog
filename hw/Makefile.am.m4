@@ -34,3 +34,10 @@ ST_BOARD(main_board)
 ST_BOARD(main_board.bis)
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
+schematicsdir=$(pkgdatadir)/schematics
+schematics_DATA=
+ST_SCHEMATIC(stribog)
+ST_SCHEMATIC(odo)
+ST_SCHEMATIC(gyro)
+dist-hook:
+	$(RM) image.scm

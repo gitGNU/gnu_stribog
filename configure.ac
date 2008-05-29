@@ -71,6 +71,13 @@ case "z$enable_avr_targets" in
 esac
 AC_MSG_RESULT([$enable_avr_targets])
 
+AC_MSG_CHECKING([for schematics output resolution])
+AC_ARG_ENABLE([schematics-resolution],
+ [AS_HELP_STRING([--enable-schematics-resolution],
+  [schematics output resolution (actual only if the output is rebuilt)
+ @<:@3200x2400@:>@])],,
+  [enable_schematics_resolution=3200x2400
+])
 # Checks for programs.
 AC_CHECK_PROG([arm_gcc_present],[$with_arm_host-gcc],[yes],[no])
 case $arm_gcc_present in
@@ -122,8 +129,9 @@ case $enable_avr_targets in
 esac
 
 AC_PROG_MKDIR_P
+AC_PROG_LN_S
 
-#TODO check for pcb(?)
+#TODO check for pcb(?) and for gschem
 
 # Checks for libraries.
 # Checks for header files.
@@ -132,8 +140,11 @@ AC_PROG_MKDIR_P
 #output files setup
 export recursive_stribog_build=yes
 export ARM_TOOLS_PREFIX=$with_arm_host
-AC_CONFIG_FILES([Makefile hw/Makefile
+image_size=$(echo $enable_schematics_resolution|sed "s/x/ /g")
+AC_SUBST([SCHEMATICS_IMAGE_SIZE],[$image_size])
+AC_CONFIG_FILES([Makefile hw/Makefile hw/image.scm
                  sw/common/Makefile])
+
 AC_CONFIG_SUBDIRS([sw/host])
 case $enable_arm_targets in
  yes)

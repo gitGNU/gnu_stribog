@@ -58,7 +58,17 @@ $1/$1.pdf: $1/$1.ps
 ##board $1 PS/PDFs end
 ###board $1 expanded definition ends'
 )
-##boardsdir=$(pkgdatadir)/boards
+define(ST_SCHEMATIC,
+`###schematic $1 expanded definition begins
+EXTRA_DIST+=$1.sch schematics/$1.png
+schematics_DATA+=schematics/$1.png
+schematics/$1.png: $1.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/$1.png\
+ -s $(abs_builddir)/image.scm $(srcdir)/$1.sch 2>/dev/null
+	$(RM) gschem.log
+###schematic $1 expanded definition ends
+')
 divert`'dnl
 ##Makefile.am is generated with m4 from Makefile.am.m4
 #Makefile.in is generated with automake from Makefile.am
