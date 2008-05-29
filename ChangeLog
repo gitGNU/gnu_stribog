@@ -1,3 +1,6 @@
+29 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac hw/Makefile.am.m4 hw/m4/makefile.m4
+   hw/image.scm.in: schematics are output into PNGs
 21 May 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * README hw/README hw/packages/README hw/sym/README:
  footprints and symbols claimed to be `external libraries'
