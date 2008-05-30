@@ -232,6 +232,12 @@ documentation. for historical reasons we use uisp to load programs into these
 processors. generally avrdude is much better. they all live in 
 http://savannah.gnu.org
 
+As of May 2008, the AVR tools development seems to have concentrated
+within WinAVR, a project from http://sourceforge.net. we could build
+the toolchain based on gcc-4.2.2 and older; gcc-4.2.[34] and gcc-4.3.0
+evidently needs a patched binutils from WinAVR (binutils-2.18 lack
+necessary code for some subarchitectures).
+
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog. we currently use PCB 20070208
 and gschem-1.3.1 versions.
@@ -244,8 +250,8 @@ AVR tools will be needed only if you use auxiliary devices (currently
 odometer pulses counter and sample magnetic field generator). if you
 are to use auxiliary programs only, just build them as a separate project.
 
-The gEDA are required to edit the hardware part. executable files needed
-to produce the board like GERBERs are included into the distribution.
+The gEDA are required to edit the hardware part. the `executable' files
+needed to produce the board like GERBERs are included into the distribution.
 this is possible because these targets are not configurable.
 
 HOW TO BUILD (as of May 2008)

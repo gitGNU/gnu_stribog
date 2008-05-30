@@ -4,8 +4,6 @@ trunc<autobuild
 trunc branch
 main tasks are:
 
-Mounting the project on the GNU build system
-
 Parsing the command line arguments of the host tools in
 a GNU-standard way
 
@@ -13,19 +11,19 @@ Clean up ethical issues
 
 Fixing some usability issues before forking the first release branch
 
- Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 
- This file is part of stribog.
+This file is part of stribog.
 
- Stribog is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3, or (at your option)
- any later version.
+stribog is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3, or (at your option)
+any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program. If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
