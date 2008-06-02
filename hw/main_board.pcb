@@ -1,5 +1,5 @@
 # release: pcb 20070208
-# date:    Sat Dec  1 01:01:10 2007
+# date:    Mon Jun  2 18:47:42 2008
 # user:    dti (ineiev)
 # host:    conchobar
 
@@ -1117,7 +1117,7 @@ Element["" "0603" "C17" "0.1" 54724 111417 -10630 2756 0 100 ""]
 
 Element["onsolder" "0603" "C55" "0.1" 55117 69685 -1490 3451 2 100 "auto"]
 (
-	Pad[-2400 -900 -2400 900 2400 2000 3000 "2" "2" "selected,onsolder,square"]
+	Pad[-2400 -900 -2400 900 2400 2000 3000 "2" "2" "onsolder,square"]
 	Pad[2400 -900 2400 900 2400 2000 3000 "1" "1" "onsolder,square"]
 	ElementLine [4200 -2700 4200 2700 600]
 	ElementLine [-4200 -2700 4200 -2700 600]
@@ -2452,7 +2452,6 @@ Element["" "pin" "TX" "unknown" 203150 95275 5905 -3543 0 100 ""]
 	ElementArc [0 0 5000 5000 270 360 1000]
 
 	)
-Rat[52756 65748 0 50269 62598 0  ""]
 Layer(1 "solder")
 (
 	Line[77953 83071 77953 77559 2499 2000 ""]
