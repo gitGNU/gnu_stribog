@@ -135,7 +135,7 @@ AC_PROG_LN_S
 #TODO: check if pcb and gschem are capable to produce images
 AC_ARG_WITH([pcb],
 [AS_HELP_STRING([--without-pcb],
- [Do not invoke pcb])]),,
+ [Do not invoke pcb])],,
  [with_pcb=unspecified
 ])
 AC_CHECK_PROGS([PCB], [pcb], [no])
@@ -147,7 +147,7 @@ case $PCB in
  
   pcb invocation is requested, but no pcb is found])
    ;;
-  esac
+  esac;;
  *) we_have_pcb=yes;;
 esac
 case with_pcb in
@@ -157,7 +157,7 @@ esac
 AM_CONDITIONAL(use_pcb,test $use_pcb = yes)
 AC_ARG_WITH([gschem],
 [AS_HELP_STRING([--without-gschem],
- [Do not invoke gschem])]),,
+ [Do not invoke gschem])],,
  [with_gschem=unspecified
 ])
 AC_CHECK_PROGS([GSCHEM], [gschem], [no])
@@ -169,7 +169,8 @@ case $GSCHEM in
  
   gschem invocation is requested, but no gschem is found])
    ;;
- *) 
+  esac;;
+ *) we_have_gschem=yes;;
 esac
 case with_gschem in
  no) use_gschem=no;;
