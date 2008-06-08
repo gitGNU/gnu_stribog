@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 See the end of the file for more notes on the license conditions.
 
-This is the README file for stribog the sensing platform.
+This is the README file for stribog the attitude sensing platform.
 
 ATTENTION stribog is in his alpha stage. he is not functional yet.
 
@@ -417,17 +417,39 @@ What will go to Git
 We put all distributed files into the repository. the bottomline
 consideration was that Git should be a source of the package.
 
-We think that today state may be right because
+We think that today state may be correct because
 1. gEDA (especially gschem) is not easy to install; it has long dependencies
    on rather new versions of packages.
 3. If there are no build scripts, the programs
   can't be developped. this would be wrong because the programs
   can be modified and rebuilt very quickly and at no cost.
   to rebuild the scripts one must have a compatible Autotools version
+  [03 Jun 2008 tried to regenerate PCB build system from CVS. it appeared that
+   a. I want to install intltools (in Fedora Core 4 an upgrade is needed)
+      in $HOME/pcbcvs and this means that aclocal won't find it's m4
+      script until we have aclocal installed in $HOME/pcbcvs;
+   b. generally we need no gettext upgrade on FC4, but aclocal
+      from $HOME/pcbcvs didn't find gettext's script in /usr;
+      so let's install gettext in $HOME/pcbcvs.
+   c. we already installed autoconf-2.59 and automake-1.9.5 in $HOME/pcbcvs
+      and autogen.sh does not work yet:
+configure.ac:72: error: possibly undefined macro: AC_MSG_ERROR
+	If this token and others are legitimate, please use m4_pattern_allow.
+	See the Autoconf documentation.
+configure.ac:244: error: possibly undefined macro: AC_CHECK_FUNCS
+   d. tried again, autoconf-2.62 & automake-1.10.1: the same result
+   e. at last, cp /usr/share/aclocal/pkg.m4 $HOME/pcbcvs/share/aclocal. 
+      (the pkgconfig script) now it works
+
+   After all, testers are not developers and builds from CVS should be
+   available to them.
+  ]
   installed. regenerating the scripts generally requires some knowledge
   of several languages other than C, so it can take a lot of time
   when done by a person new to the package. this can be much harder
   than just fixing a bug or adding even a complicated feature.
+4. it is not convenient to have version-controlled and non-controlled files
+  mixed in the same directories.
 
 NOTES ON LICENSING TERMS
 
@@ -584,7 +606,7 @@ These files include:
 ./sw/target/missing
 
 ./sw/target/m4/gnu-make.m4 come from gnulib; it is closely integrated into
-the build system and covered by the similar conditions as other
+the build system and subject to conditions similar to other
 Autotools-generated files.
 
 The text of the GNU GPL, namely
