@@ -96,6 +96,7 @@ DEFS = @DEFS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+GSCHEM = @GSCHEM@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -114,6 +115,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PCB = @PCB@
 SCHEMATICS_IMAGE_SIZE = @SCHEMATICS_IMAGE_SIZE@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -486,67 +488,67 @@ uninstall-am: uninstall-dist_boardmain_board.bisgerberDATA \
 	uninstall-dist_boardmain_boardgerberDATA \
 	uninstall-dist_boardmain_boardpsDATA uninstall-schematicsDATA
 
-main_board/main_board.fab.gbr: main_board.pcb
-	$(MKDIR_P) main_board
-	pcb -x gerber --gerberfile main_board/main_board $(srcdir)/main_board.pcb
-main_board/main_board.back.gbr\
- main_board/main_board.backpaste.gbr\
- main_board/main_board.frontmask.gbr\
- main_board/main_board.frontsilk.gbr\
- main_board/main_board.backmask.gbr\
- main_board/main_board.backsilk.gbr\
- main_board/main_board.front.gbr\
- main_board/main_board.frontpaste.gbr\
- main_board/main_board.plated-drill.cnc\
- : main_board/main_board.fab.gbr
-	if test -f main_board; then touch main_board; else\
-  rm -f main_board/main_board.fab.gbr;\
-  $(MAKE) $(AM_MAKEFLAGS) main_board/main_board.fab.gbr; fi
-main_board/main_board.ps: main_board.pcb
-	$(MKDIR_P) main_board
-	pcb -x ps --psfile main_board/main_board.ps $(srcdir)/main_board.pcb
+@use_pcb_TRUE@main_board/main_board.fab.gbr: main_board.pcb
+@use_pcb_TRUE@	$(MKDIR_P) main_board
+@use_pcb_TRUE@	pcb -x gerber --gerberfile main_board/main_board $(srcdir)/main_board.pcb
+@use_pcb_TRUE@main_board/main_board.back.gbr\
+@use_pcb_TRUE@ main_board/main_board.backpaste.gbr\
+@use_pcb_TRUE@ main_board/main_board.frontmask.gbr\
+@use_pcb_TRUE@ main_board/main_board.frontsilk.gbr\
+@use_pcb_TRUE@ main_board/main_board.backmask.gbr\
+@use_pcb_TRUE@ main_board/main_board.backsilk.gbr\
+@use_pcb_TRUE@ main_board/main_board.front.gbr\
+@use_pcb_TRUE@ main_board/main_board.frontpaste.gbr\
+@use_pcb_TRUE@ main_board/main_board.plated-drill.cnc\
+@use_pcb_TRUE@ : main_board/main_board.fab.gbr
+@use_pcb_TRUE@	if test -f main_board; then touch main_board; else\
+@use_pcb_TRUE@  rm -f main_board/main_board.fab.gbr;\
+@use_pcb_TRUE@  $(MAKE) $(AM_MAKEFLAGS) main_board/main_board.fab.gbr; fi
+@use_pcb_TRUE@main_board/main_board.ps: main_board.pcb
+@use_pcb_TRUE@	$(MKDIR_P) main_board
+@use_pcb_TRUE@	pcb -x ps --psfile main_board/main_board.ps $(srcdir)/main_board.pcb
 main_board/main_board.pdf: main_board/main_board.ps
 	cd main_board;ps2pdf main_board.ps main_board.pdf
-main_board.bis/main_board.bis.fab.gbr: main_board.bis.pcb
-	$(MKDIR_P) main_board.bis
-	pcb -x gerber --gerberfile main_board.bis/main_board.bis $(srcdir)/main_board.bis.pcb
-main_board.bis/main_board.bis.back.gbr\
- main_board.bis/main_board.bis.backpaste.gbr\
- main_board.bis/main_board.bis.frontmask.gbr\
- main_board.bis/main_board.bis.frontsilk.gbr\
- main_board.bis/main_board.bis.backmask.gbr\
- main_board.bis/main_board.bis.backsilk.gbr\
- main_board.bis/main_board.bis.front.gbr\
- main_board.bis/main_board.bis.frontpaste.gbr\
- main_board.bis/main_board.bis.plated-drill.cnc\
- : main_board.bis/main_board.bis.fab.gbr
-	if test -f main_board.bis; then touch main_board.bis; else\
-  rm -f main_board.bis/main_board.bis.fab.gbr;\
-  $(MAKE) $(AM_MAKEFLAGS) main_board.bis/main_board.bis.fab.gbr; fi
-main_board.bis/main_board.bis.ps: main_board.bis.pcb
-	$(MKDIR_P) main_board.bis
-	pcb -x ps --psfile main_board.bis/main_board.bis.ps $(srcdir)/main_board.bis.pcb
+@use_pcb_TRUE@main_board.bis/main_board.bis.fab.gbr: main_board.bis.pcb
+@use_pcb_TRUE@	$(MKDIR_P) main_board.bis
+@use_pcb_TRUE@	pcb -x gerber --gerberfile main_board.bis/main_board.bis $(srcdir)/main_board.bis.pcb
+@use_pcb_TRUE@main_board.bis/main_board.bis.back.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.backpaste.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.frontmask.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.frontsilk.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.backmask.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.backsilk.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.front.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.frontpaste.gbr\
+@use_pcb_TRUE@ main_board.bis/main_board.bis.plated-drill.cnc\
+@use_pcb_TRUE@ : main_board.bis/main_board.bis.fab.gbr
+@use_pcb_TRUE@	if test -f main_board.bis; then touch main_board.bis; else\
+@use_pcb_TRUE@  rm -f main_board.bis/main_board.bis.fab.gbr;\
+@use_pcb_TRUE@  $(MAKE) $(AM_MAKEFLAGS) main_board.bis/main_board.bis.fab.gbr; fi
+@use_pcb_TRUE@main_board.bis/main_board.bis.ps: main_board.bis.pcb
+@use_pcb_TRUE@	$(MKDIR_P) main_board.bis
+@use_pcb_TRUE@	pcb -x ps --psfile main_board.bis/main_board.bis.ps $(srcdir)/main_board.bis.pcb
 main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
 	cd main_board.bis;ps2pdf main_board.bis.ps main_board.bis.pdf
 ###board main_board.bis expanded definition ends
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
-schematics/stribog.png: stribog.sch
-	$(MKDIR_P) schematics
-	gschem -p -o $(abs_builddir)/schematics/stribog.png\
- -s $(abs_builddir)/image.scm $(srcdir)/stribog.sch 2>/dev/null
-	$(RM) gschem.log
-schematics/odo.png: odo.sch
-	$(MKDIR_P) schematics
-	gschem -p -o $(abs_builddir)/schematics/odo.png\
- -s $(abs_builddir)/image.scm $(srcdir)/odo.sch 2>/dev/null
-	$(RM) gschem.log
-schematics/gyro.png: gyro.sch
-	$(MKDIR_P) schematics
-	gschem -p -o $(abs_builddir)/schematics/gyro.png\
- -s $(abs_builddir)/image.scm $(srcdir)/gyro.sch 2>/dev/null
-	$(RM) gschem.log
+@use_gschem_TRUE@schematics/stribog.png: stribog.sch
+@use_gschem_TRUE@	$(MKDIR_P) schematics
+@use_gschem_TRUE@	gschem -p -o $(abs_builddir)/schematics/stribog.png\
+@use_gschem_TRUE@ -s $(abs_builddir)/image.scm $(srcdir)/stribog.sch 2>/dev/null
+@use_gschem_TRUE@	$(RM) gschem.log
+@use_gschem_TRUE@schematics/odo.png: odo.sch
+@use_gschem_TRUE@	$(MKDIR_P) schematics
+@use_gschem_TRUE@	gschem -p -o $(abs_builddir)/schematics/odo.png\
+@use_gschem_TRUE@ -s $(abs_builddir)/image.scm $(srcdir)/odo.sch 2>/dev/null
+@use_gschem_TRUE@	$(RM) gschem.log
+@use_gschem_TRUE@schematics/gyro.png: gyro.sch
+@use_gschem_TRUE@	$(MKDIR_P) schematics
+@use_gschem_TRUE@	gschem -p -o $(abs_builddir)/schematics/gyro.png\
+@use_gschem_TRUE@ -s $(abs_builddir)/image.scm $(srcdir)/gyro.sch 2>/dev/null
+@use_gschem_TRUE@	$(RM) gschem.log
 ###schematic gyro expanded definition ends
 
 dist-hook:

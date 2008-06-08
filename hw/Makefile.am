@@ -49,6 +49,7 @@ dist_boardmain_boardgerber_DATA=main_board/main_board.back.gbr\
  main_board/main_board.front.gbr\
  main_board/main_board.frontpaste.gbr\
  main_board/main_board.plated-drill.cnc
+if use_pcb
 main_board/main_board.fab.gbr: main_board.pcb
 	$(MKDIR_P) main_board
 	pcb -x gerber --gerberfile main_board/main_board $(srcdir)/main_board.pcb
@@ -65,12 +66,15 @@ main_board/main_board.back.gbr\
 	if test -f main_board; then touch main_board; else\
   rm -f main_board/main_board.fab.gbr;\
   $(MAKE) $(AM_MAKEFLAGS) main_board/main_board.fab.gbr; fi
+endif
 ##board main_board gerbers end
 ##board main_board PS/PDFs begin
 dist_boardmain_boardps_DATA=main_board/main_board.ps main_board/main_board.pdf
+if use_pcb
 main_board/main_board.ps: main_board.pcb
 	$(MKDIR_P) main_board
 	pcb -x ps --psfile main_board/main_board.ps $(srcdir)/main_board.pcb
+endif
 main_board/main_board.pdf: main_board/main_board.ps
 	cd main_board;ps2pdf main_board.ps main_board.pdf
 ##board main_board PS/PDFs end
@@ -92,6 +96,7 @@ dist_boardmain_board.bisgerber_DATA=main_board.bis/main_board.bis.back.gbr\
  main_board.bis/main_board.bis.front.gbr\
  main_board.bis/main_board.bis.frontpaste.gbr\
  main_board.bis/main_board.bis.plated-drill.cnc
+if use_pcb
 main_board.bis/main_board.bis.fab.gbr: main_board.bis.pcb
 	$(MKDIR_P) main_board.bis
 	pcb -x gerber --gerberfile main_board.bis/main_board.bis $(srcdir)/main_board.bis.pcb
@@ -108,12 +113,15 @@ main_board.bis/main_board.bis.back.gbr\
 	if test -f main_board.bis; then touch main_board.bis; else\
   rm -f main_board.bis/main_board.bis.fab.gbr;\
   $(MAKE) $(AM_MAKEFLAGS) main_board.bis/main_board.bis.fab.gbr; fi
+endif
 ##board main_board.bis gerbers end
 ##board main_board.bis PS/PDFs begin
 dist_boardmain_board.bisps_DATA=main_board.bis/main_board.bis.ps main_board.bis/main_board.bis.pdf
+if use_pcb
 main_board.bis/main_board.bis.ps: main_board.bis.pcb
 	$(MKDIR_P) main_board.bis
 	pcb -x ps --psfile main_board.bis/main_board.bis.ps $(srcdir)/main_board.bis.pcb
+endif
 main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
 	cd main_board.bis;ps2pdf main_board.bis.ps main_board.bis.pdf
 ##board main_board.bis PS/PDFs end
@@ -126,31 +134,37 @@ schematics_DATA=
 ###schematic stribog expanded definition begins
 EXTRA_DIST+=stribog.sch schematics/stribog.png
 schematics_DATA+=schematics/stribog.png
+if use_gschem
 schematics/stribog.png: stribog.sch
 	$(MKDIR_P) schematics
 	gschem -p -o $(abs_builddir)/schematics/stribog.png\
  -s $(abs_builddir)/image.scm $(srcdir)/stribog.sch 2>/dev/null
 	$(RM) gschem.log
+endif
 ###schematic stribog expanded definition ends
 
 ###schematic odo expanded definition begins
 EXTRA_DIST+=odo.sch schematics/odo.png
 schematics_DATA+=schematics/odo.png
+if use_gschem
 schematics/odo.png: odo.sch
 	$(MKDIR_P) schematics
 	gschem -p -o $(abs_builddir)/schematics/odo.png\
  -s $(abs_builddir)/image.scm $(srcdir)/odo.sch 2>/dev/null
 	$(RM) gschem.log
+endif
 ###schematic odo expanded definition ends
 
 ###schematic gyro expanded definition begins
 EXTRA_DIST+=gyro.sch schematics/gyro.png
 schematics_DATA+=schematics/gyro.png
+if use_gschem
 schematics/gyro.png: gyro.sch
 	$(MKDIR_P) schematics
 	gschem -p -o $(abs_builddir)/schematics/gyro.png\
  -s $(abs_builddir)/image.scm $(srcdir)/gyro.sch 2>/dev/null
 	$(RM) gschem.log
+endif
 ###schematic gyro expanded definition ends
 
 dist-hook:
