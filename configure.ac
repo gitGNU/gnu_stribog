@@ -131,8 +131,51 @@ esac
 AC_PROG_MKDIR_P
 AC_PROG_LN_S
 
-#TODO check for pcb(?) and for gschem
-
+#TODO: check for ps2pdf
+#TODO: check if pcb and gschem are capable to produce images
+AC_ARG_WITH([pcb],
+[AS_HELP_STRING([--without-pcb],
+ [Do not invoke pcb])]),,
+ [with_pcb=unspecified
+])
+AC_CHECK_PROGS([PCB], [pcb], [no])
+case $PCB in
+ no) we_have_pcb=no
+  case with_pcb in
+   yes)
+    AC_MSG_ERROR([
+ 
+  pcb invocation is requested, but no pcb is found])
+   ;;
+  esac
+ *) we_have_pcb=yes;;
+esac
+case with_pcb in
+ no) use_pcb=no;;
+ *) use_pcb=$we_have_pcb;;
+esac
+AM_CONDITIONAL(use_pcb,test $use_pcb = yes)
+AC_ARG_WITH([gschem],
+[AS_HELP_STRING([--without-gschem],
+ [Do not invoke gschem])]),,
+ [with_gschem=unspecified
+])
+AC_CHECK_PROGS([GSCHEM], [gschem], [no])
+case $GSCHEM in
+ no) we_have_gschem=no
+  case with_gschem in
+   yes)
+    AC_MSG_ERROR([
+ 
+  gschem invocation is requested, but no gschem is found])
+   ;;
+ *) 
+esac
+case with_gschem in
+ no) use_gschem=no;;
+ *) use_gschem=$we_have_gschem;;
+esac
+AM_CONDITIONAL(use_gschem,test $use_gschem = yes)
 # Checks for libraries.
 # Checks for header files.
 # Checks for typedefs, structures, and compiler characteristics.
@@ -171,6 +214,32 @@ case $distribution_impossible in
   echo "NOTE: some subprojects have been disabled; dist* targets shall fail"\
   >>warnings
  ;;
+esac
+case $use_pcb in
+ no) 
+  case $we_have_pcb in
+   no)
+    echo "NOTE: no suitable pcb program: "\
+    "make will not update PCB images" >>warnings
+    ;;
+   *)
+    echo "NOTE: pcb program will not be used: "\
+    "make will not update PCB images" >>warnings
+    ;;
+   esac;;
+esac
+case $use_gschem in
+ no) 
+  case $we_have_pcb in
+   no)
+    echo "NOTE: no suitable gschem program: "\
+    "make will not update schematics PNGs" >>warnings
+    ;;
+   *)
+    echo "NOTE: gschem will not be used: "\
+    "make will not update schematics PNGs" >>warnings
+    ;;
+   esac;;
 esac
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
