@@ -104,11 +104,12 @@ AC_CHECK_FUNCS([get_current_dir_name getcwd])
 
 #Checks for system services
 #FIXME test headers and functions instead?
-case $host in
- *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-  the_host_is_windows=yes ;;
- *) the_host_is_windows=no ;;
-esac
+AC_CHECK_HEADERS([windows.h],
+[
+the_host_is_windows=yes
+],[
+the_host_is_windows=no
+])
 case $enable_own_argp in
  yes)
  AC_CONFIG_LINKS([argp.h:lib/argp/argp.h])
