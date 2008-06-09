@@ -103,7 +103,6 @@ AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror fchdir])
 AC_CHECK_FUNCS([get_current_dir_name getcwd])
 
 #Checks for system services
-#FIXME test headers and functions instead?
 AC_CHECK_HEADERS([windows.h],
 [
 the_host_is_windows=yes
