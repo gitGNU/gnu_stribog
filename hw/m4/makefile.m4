@@ -57,8 +57,10 @@ $1/$1.ps: $1.pcb
 	$(MKDIR_P) $1
 	pcb -x ps --psfile $1/$1.ps $(srcdir)/$1.pcb
 endif
+if use_ps2pdf
 $1/$1.pdf: $1/$1.ps
 	cd $1;ps2pdf $1.ps $1.pdf
+endif
 ##board $1 PS/PDFs end
 ###board $1 expanded definition ends'
 )

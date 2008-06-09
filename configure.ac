@@ -131,8 +131,7 @@ esac
 AC_PROG_MKDIR_P
 AC_PROG_LN_S
 
-#TODO: check for ps2pdf
-#TODO: check if pcb and gschem are capable to produce images
+#TODO: check for pcb, gschem and ps2pdf capabilities
 AC_ARG_WITH([pcb],
 [AS_HELP_STRING([--without-pcb],
  [Do not invoke pcb])],,
@@ -155,6 +154,30 @@ case with_pcb in
  *) use_pcb=$we_have_pcb;;
 esac
 AM_CONDITIONAL(use_pcb,test $use_pcb = yes)
+
+AC_ARG_WITH([ps2pdf],
+[AS_HELP_STRING([--without-ps2pdf],
+ [Do not invoke ps2pdf])],,
+ [with_ps2pdf=unspecified
+])
+AC_CHECK_PROGS([PS2PDF], [ps2pdf], [no])
+case $PCB in
+ no) we_have_ps2pdf=no
+  case with_ps2pdf in
+   yes)
+    AC_MSG_ERROR([
+ 
+  ps2pdf invocation is requested, but no ps2pdf is found])
+   ;;
+  esac;;
+ *) we_have_ps2pdf=yes;;
+esac
+case with_ps2pdf in
+ no) use_ps2pdf=no;;
+ *) use_ps2pdf=$we_have_ps2pdf;;
+esac
+AM_CONDITIONAL(use_ps2pdf,test $use_ps2pdf = yes)
+
 AC_ARG_WITH([gschem],
 [AS_HELP_STRING([--without-gschem],
  [Do not invoke gschem])],,
@@ -229,9 +252,23 @@ case $use_pcb in
     ;;
    esac;;
 esac
+case $use_ps2pdf in
+ no) 
+  case $we_have_ps2pdf in
+   no)
+    echo "NOTE: no suitable ps2pdf program: "\
+    "make will not update PCB PDFs" >>warnings
+    ;;
+   *)
+    echo "NOTE: ps2pdf will not be used: "\
+    "make will not update PCB PDFs" >>warnings
+    ;;
+   esac;;
+esac
+
 case $use_gschem in
  no) 
-  case $we_have_pcb in
+  case $we_have_gschem in
    no)
     echo "NOTE: no suitable gschem program: "\
     "make will not update schematics PNGs" >>warnings
