@@ -673,6 +673,9 @@ LN_S
 PCB
 use_pcb_TRUE
 use_pcb_FALSE
+PS2PDF
+use_ps2pdf_TRUE
+use_ps2pdf_FALSE
 GSCHEM
 use_gschem_TRUE
 use_gschem_FALSE
@@ -688,6 +691,7 @@ with_arm_host
 enable_avr_targets
 enable_schematics_resolution
 with_pcb
+with_ps2pdf
 with_gschem
 '
       ac_precious_vars='build_alias
@@ -1332,6 +1336,7 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-arm-host         affix for ARM toolchain [arm-unknown-elf]
   --without-pcb           Do not invoke pcb
+  --without-ps2pdf        Do not invoke ps2pdf
   --without-gschem        Do not invoke gschem
 
 Report bugs to <stribog-bug@nongnu.org>.
@@ -2555,8 +2560,7 @@ $as_echo "no, using $LN_S" >&6; }
 fi
 
 
-#TODO: check for ps2pdf
-#TODO: check if pcb and gschem are capable to produce images
+#TODO: check for pcb, gschem and ps2pdf capabilities
 
 # Check whether --with-pcb was given.
 if test "${with_pcb+set}" = set; then
@@ -2635,6 +2639,87 @@ else
   use_pcb_TRUE='#'
   use_pcb_FALSE=
 fi
+
+
+
+# Check whether --with-ps2pdf was given.
+if test "${with_ps2pdf+set}" = set; then
+  withval=$with_ps2pdf;
+else
+  with_ps2pdf=unspecified
+
+fi
+
+for ac_prog in ps2pdf
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+{ $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if test "${ac_cv_prog_PS2PDF+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$PS2PDF"; then
+  ac_cv_prog_PS2PDF="$PS2PDF" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_PS2PDF="$ac_prog"
+    $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+fi
+fi
+PS2PDF=$ac_cv_prog_PS2PDF
+if test -n "$PS2PDF"; then
+  { $as_echo "$as_me:$LINENO: result: $PS2PDF" >&5
+$as_echo "$PS2PDF" >&6; }
+else
+  { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  test -n "$PS2PDF" && break
+done
+test -n "$PS2PDF" || PS2PDF="no"
+
+case $PCB in
+ no) we_have_ps2pdf=no
+  case with_ps2pdf in
+   yes)
+    { { $as_echo "$as_me:$LINENO: error:
+
+  ps2pdf invocation is requested, but no ps2pdf is found" >&5
+$as_echo "$as_me: error:
+
+  ps2pdf invocation is requested, but no ps2pdf is found" >&2;}
+   { (exit 1); exit 1; }; }
+   ;;
+  esac;;
+ *) we_have_ps2pdf=yes;;
+esac
+case with_ps2pdf in
+ no) use_ps2pdf=no;;
+ *) use_ps2pdf=$we_have_ps2pdf;;
+esac
+ if test $use_ps2pdf = yes; then
+  use_ps2pdf_TRUE=
+  use_ps2pdf_FALSE='#'
+else
+  use_ps2pdf_TRUE='#'
+  use_ps2pdf_FALSE=
+fi
+
 
 
 # Check whether --with-gschem was given.
@@ -2896,6 +2981,13 @@ if test -z "${use_pcb_TRUE}" && test -z "${use_pcb_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"use_pcb\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"use_pcb\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${use_ps2pdf_TRUE}" && test -z "${use_ps2pdf_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"use_ps2pdf\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"use_ps2pdf\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -4106,9 +4198,23 @@ case $use_pcb in
     ;;
    esac;;
 esac
+case $use_ps2pdf in
+ no)
+  case $we_have_ps2pdf in
+   no)
+    echo "NOTE: no suitable ps2pdf program: "\
+    "make will not update PCB PDFs" >>warnings
+    ;;
+   *)
+    echo "NOTE: ps2pdf will not be used: "\
+    "make will not update PCB PDFs" >>warnings
+    ;;
+   esac;;
+esac
+
 case $use_gschem in
  no)
-  case $we_have_pcb in
+  case $we_have_gschem in
    no)
     echo "NOTE: no suitable gschem program: "\
     "make will not update schematics PNGs" >>warnings

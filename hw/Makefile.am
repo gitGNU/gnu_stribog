@@ -75,8 +75,10 @@ main_board/main_board.ps: main_board.pcb
 	$(MKDIR_P) main_board
 	pcb -x ps --psfile main_board/main_board.ps $(srcdir)/main_board.pcb
 endif
+if use_ps2pdf
 main_board/main_board.pdf: main_board/main_board.ps
 	cd main_board;ps2pdf main_board.ps main_board.pdf
+endif
 ##board main_board PS/PDFs end
 ###board main_board expanded definition ends
 
@@ -122,8 +124,10 @@ main_board.bis/main_board.bis.ps: main_board.bis.pcb
 	$(MKDIR_P) main_board.bis
 	pcb -x ps --psfile main_board.bis/main_board.bis.ps $(srcdir)/main_board.bis.pcb
 endif
+if use_ps2pdf
 main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
 	cd main_board.bis;ps2pdf main_board.bis.ps main_board.bis.pdf
+endif
 ##board main_board.bis PS/PDFs end
 ###board main_board.bis expanded definition ends
 

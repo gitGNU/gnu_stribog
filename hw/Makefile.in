@@ -116,6 +116,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PCB = @PCB@
+PS2PDF = @PS2PDF@
 SCHEMATICS_IMAGE_SIZE = @SCHEMATICS_IMAGE_SIZE@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -507,8 +508,8 @@ uninstall-am: uninstall-dist_boardmain_board.bisgerberDATA \
 @use_pcb_TRUE@main_board/main_board.ps: main_board.pcb
 @use_pcb_TRUE@	$(MKDIR_P) main_board
 @use_pcb_TRUE@	pcb -x ps --psfile main_board/main_board.ps $(srcdir)/main_board.pcb
-main_board/main_board.pdf: main_board/main_board.ps
-	cd main_board;ps2pdf main_board.ps main_board.pdf
+@use_ps2pdf_TRUE@main_board/main_board.pdf: main_board/main_board.ps
+@use_ps2pdf_TRUE@	cd main_board;ps2pdf main_board.ps main_board.pdf
 @use_pcb_TRUE@main_board.bis/main_board.bis.fab.gbr: main_board.bis.pcb
 @use_pcb_TRUE@	$(MKDIR_P) main_board.bis
 @use_pcb_TRUE@	pcb -x gerber --gerberfile main_board.bis/main_board.bis $(srcdir)/main_board.bis.pcb
@@ -528,8 +529,8 @@ main_board/main_board.pdf: main_board/main_board.ps
 @use_pcb_TRUE@main_board.bis/main_board.bis.ps: main_board.bis.pcb
 @use_pcb_TRUE@	$(MKDIR_P) main_board.bis
 @use_pcb_TRUE@	pcb -x ps --psfile main_board.bis/main_board.bis.ps $(srcdir)/main_board.bis.pcb
-main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
-	cd main_board.bis;ps2pdf main_board.bis.ps main_board.bis.pdf
+@use_ps2pdf_TRUE@main_board.bis/main_board.bis.pdf: main_board.bis/main_board.bis.ps
+@use_ps2pdf_TRUE@	cd main_board.bis;ps2pdf main_board.bis.ps main_board.bis.pdf
 ###board main_board.bis expanded definition ends
 
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
