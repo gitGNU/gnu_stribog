@@ -7407,7 +7407,6 @@ done
 
 
 #Checks for system services
-#FIXME test headers and functions instead?
 
 for ac_header in windows.h
 do

@@ -2693,7 +2693,7 @@ fi
 done
 test -n "$PS2PDF" || PS2PDF="no"
 
-case $PCB in
+case $PS2PDF in
  no) we_have_ps2pdf=no
   case with_ps2pdf in
    yes)
