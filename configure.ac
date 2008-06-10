@@ -161,7 +161,7 @@ AC_ARG_WITH([ps2pdf],
  [with_ps2pdf=unspecified
 ])
 AC_CHECK_PROGS([PS2PDF], [ps2pdf], [no])
-case $PCB in
+case $PS2PDF in
  no) we_have_ps2pdf=no
   case with_ps2pdf in
    yes)
