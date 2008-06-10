@@ -235,49 +235,39 @@ case $enable_avr_targets in
 esac
 case $distribution_impossible in
  yes)
-  echo "NOTE: some subprojects have been disabled; dist* targets shall fail"\
-  >>warnings
- ;;
+  echo "NOTE: some subprojects have been disabled -" >>warnings
+  echo "      dist* targets shall fail" >>warnings;;
 esac
 case $use_pcb in
  no) 
   case $we_have_pcb in
    no)
-    echo "NOTE: no suitable pcb program: "\
-    "make will not update PCB images" >>warnings
-    ;;
+    echo "NOTE: no suitable pcb program -" >>warnings;;
    *)
-    echo "NOTE: pcb program will not be used: "\
-    "make will not update PCB images" >>warnings
-    ;;
-   esac;;
+    echo "NOTE: pcb program will not be used -" >>warnings;;
+  esac;;
+  echo   "      make will not update PCB images" >>warnings
 esac
 case $use_ps2pdf in
  no) 
   case $we_have_ps2pdf in
    no)
-    echo "NOTE: no suitable ps2pdf program: "\
-    "make will not update PCB PDFs" >>warnings
-    ;;
+    echo "NOTE: no suitable ps2pdf program -" >>warnings;;
    *)
-    echo "NOTE: ps2pdf will not be used: "\
-    "make will not update PCB PDFs" >>warnings
-    ;;
-   esac;;
+    echo "NOTE: ps2pdf will not be used -" >>warnings;;
+  esac;;
+  echo   "      make will not update PCB PDFs" >>warnings
 esac
 
 case $use_gschem in
  no) 
   case $we_have_gschem in
    no)
-    echo "NOTE: no suitable gschem program: "\
-    "make will not update schematics PNGs" >>warnings
-    ;;
+    echo "NOTE: no suitable gschem program -" >>warnings;;
    *)
-    echo "NOTE: gschem will not be used: "\
-    "make will not update schematics PNGs" >>warnings
-    ;;
-   esac;;
+    echo "NOTE: gschem will not be used -" >>warnings;;
+  esac;;
+  echo   "      make will not update schematics PNGs" >>warnings
 esac
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
