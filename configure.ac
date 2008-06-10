@@ -245,8 +245,8 @@ case $use_pcb in
     echo "NOTE: no suitable pcb program -" >>warnings;;
    *)
     echo "NOTE: pcb program will not be used -" >>warnings;;
-  esac;;
-  echo   "      make will not update PCB images" >>warnings
+  esac
+  echo   "      make will not update PCB images" >>warnings;;
 esac
 case $use_ps2pdf in
  no) 
@@ -255,8 +255,8 @@ case $use_ps2pdf in
     echo "NOTE: no suitable ps2pdf program -" >>warnings;;
    *)
     echo "NOTE: ps2pdf will not be used -" >>warnings;;
-  esac;;
-  echo   "      make will not update PCB PDFs" >>warnings
+  esac
+  echo   "      make will not update PCB PDFs" >>warnings;;
 esac
 
 case $use_gschem in
@@ -266,8 +266,8 @@ case $use_gschem in
     echo "NOTE: no suitable gschem program -" >>warnings;;
    *)
     echo "NOTE: gschem will not be used -" >>warnings;;
-  esac;;
-  echo   "      make will not update schematics PNGs" >>warnings
+  esac
+  echo   "      make will not update schematics PNGs" >>warnings;;
 esac
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
