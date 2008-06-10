@@ -25,7 +25,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 #include<signal.h>
 #include<argp.h>
-enum exit_codes{normal_exit=0,no_log_file=1,no_uart=2,unknown_sig=3};
+enum exit_codes
+{normal_exit=0,no_log_file=1,no_uart=2,
+ terminated_via_signal=3
+};
 static FILE*
 next_file(void)
 {char s[289];int i=0;FILE*f;
@@ -37,14 +40,19 @@ next_file(void)
 static void 
 close_all(void)
 {closeserialia();close_exp();free_tsip(tb);tb=0;if(f)fclose(f);f=0;}
+static volatile int terminate_program,signal_value;
 static RETSIGTYPE
 sig_hunter(int sig)
-{int r=normal_exit;
- switch(sig)
+{signal_value=sig;terminate_program=!0;
+ return(RETSIGTYPE)0;
+}
+static void
+go_out(void)
+{switch(signal_value)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:fprintf(stderr,"unregistered signum; exiting\n");r=unknown_sig;
- }exit(r);return(RETSIGTYPE)0;
+  default:error("unregistered signum %i; exiting\n",signal_value);
+ }exit(terminated_via_signal);
 }
 const char*argp_program_version="magex-conloq"PACKAGE_VERSION_COMMENTED;
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
@@ -76,7 +84,8 @@ main(int argc,char**argv)
  if(!f){error("can't open log file\n");return 1;}init_exp(0);
  if(initserialia(arguments.port))
  {error("can't open serial port\n");return 2;}
- while(1)if(0<(n=lege(s,sizeof(s))))for(j=0;j<n;putc(s[j++],f))
-  if((_=parse_tsip(tb,s[j],&size)))if(!(i++&0x3F))expone(_,size);
- return 0;
+ while(!terminate_program)if(0<(n=lege(s,sizeof(s))))
+  for(j=0;j<n;putc(s[j++],f))if((_=parse_tsip(tb,s[j],&size)))
+   if(!(i++&0x3F))expone(_,size);
+ if(terminate_program)go_out();return 0;
 }

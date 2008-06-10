@@ -1,3 +1,11 @@
+10 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/conloq.c conloq.src/magex-conloq.c
+   tests/serial.c tests/term.c: signal handling fixed
+ as advised at
+ https://www.securecoding.cert.org/confluence/display/\
+ seccode/SIG30-C.+Call+only+asynchronous-safe+functions+\
+ within+signal+handlers
+ termination via signal counts as failure
 09 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: windows host is detected
  via windows.h presence

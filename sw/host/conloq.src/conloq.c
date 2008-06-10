@@ -36,7 +36,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<time.h>
 #include<argp.h>
 enum program_exit_codes
-{normal_exit=0,no_log_file=1,no_uart=2,unknown_signal=3,stdin_unsetupable=4};
+{normal_exit=0,no_log_file=1,no_uart=2,
+ terminated_via_signal=3,stdin_unsetupable=4
+};
 static FILE*
 next_file(const char**file_name)
 {static char s[289];int i=0;FILE*f;
@@ -86,14 +88,20 @@ close_all(void)
  {if(get_verbosity()>=pretty_verbose)printf("resetting stdin\n");
   reset_stdin();
  }
-}static RETSIGTYPE
+}
+static volatile int terminate_program,signal_value;
+static RETSIGTYPE
 sig_hunter(int sig)
-{int r=normal_exit;
- switch(sig)
+{signal_value=sig;terminate_program=!0;
+ return(RETSIGTYPE)0;
+}
+static void
+go_out(void)
+{switch(signal_value)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:error("unregistered signum %i; exiting\n",sig);r=unknown_signal;
- }exit(r);return(RETSIGTYPE)0;
+  default:error("unregistered signum %i; exiting\n",signal_value);
+ }exit(terminated_via_signal);
 }
 const char*argp_program_version="conloq"PACKAGE_VERSION_COMMENTED;
 #define KEY_ASSIGNMENTS_HELP "some key assignments:\n"\
@@ -272,7 +280,8 @@ main(int argc,char**argv)
   unsigned char s[1152];unsigned long long N=0;
   time_t t=time(0);
   while(dont_exit())
-  {if(0<(n=get_next_data(s,sizeof s)))
+  {if(terminate_program)go_out();
+   if(0<(n=get_next_data(s,sizeof s)))
    {for(j=0;j<n;putc(s[j++],f),N++)
      if((_=parse_tsip(tb,s[j],&size)))if(expone(_,size))
       error("(error at position %llu)\n",N);

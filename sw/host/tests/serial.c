@@ -93,20 +93,26 @@ close_all(void)
 lege(void*p,int n){return read(port,p,n);}
 int
 scribe(const void*p,int n){return write(port,p,n);}
-static void 
+static volatile int terminate_program,signal_value;
+static void
 sig_hunter(int sig)
-{switch(sig)
+{signal_value=sig;terminate_program=!0;}
+static void
+go_out(void)
+{switch(signal_value)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:fprintf(stderr,"unknown signum %i; exiting\n",sig);exit(1);
- }exit(0);
+  default:
+   fprintf(stderr,"unregistered signum %i; exiting\n",signal_value);
+ }exit(1);
 }static void
 loop(void)
 {int n,i;char s[0x11];const char tx[]="no camel";
  time_t t=time(0)-2;long transmitted=0,received=0;
  printf("start loop\n");
  while(1)
- {if(time(0)-t>1&&received==transmitted)
+ {if(terminate_program)go_out();
+  if(time(0)-t>1&&received==transmitted)
   {t=time(0);
    n=scribe(tx,sizeof(tx)-1);
    if(n>0)

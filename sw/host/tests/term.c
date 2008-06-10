@@ -43,16 +43,23 @@ reset_stdin(void)
 {putchar('\n');
  if(tcsetattr(STDIN_FILENO,TCSANOW,&saved_stdin_settings))
   report_error("resetting stdin");
-}static void 
+}static volatile int terminate_program,signal_value;
+static void
 sig_hunter(int sig)
-{switch(sig)
+{signal_value=sig;terminate_program=!0;}
+static void
+go_out(void)
+{switch(signal_value)
  {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
   case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:fprintf(stderr,"unknown signum %i; exiting\n",sig);exit(1);
- }exit(0);
+  default:
+   fprintf(stderr,"unregistered signum %i; exiting\n",signal_value);
+ }exit(1);
 }static int
-keypress_check(void)
-{int k=getc(stdin);if(EOF!=k)printf("'%c' pressed\n",k);return k!='q';}
+input_check(void)
+{int k=getc(stdin);if(EOF!=k)printf("'%c' pressed\n",k);
+ if(terminate_program)go_out();return k!='q';
+}
 static int
 data_lege(unsigned char*s,int n){return n;}
 int 
@@ -62,7 +69,7 @@ main(int argc,char**argv)
  {fprintf(stderr,"can't setup your terminal\n");return 2;}
  atexit(reset_stdin);
  {unsigned char s[0x11];unsigned long long N=0;
-  while(keypress_check())if(0<data_lege(s,sizeof s))
+  while(input_check())if(0<data_lege(s,sizeof s))
    if(++N==1l<<20){N=0;printf("chunk received\n");}
  }return 0;
 }
