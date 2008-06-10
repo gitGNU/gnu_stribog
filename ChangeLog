@@ -1,3 +1,5 @@
+10 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: warning reformatted; ps2pdf detection fixed
 09 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac hw/m4/makefile.m4: checks for ps2pdf
  availability added
