@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_strings.h>
 #include<stdlib.h>
 #include<stdio.h>
-#include<signal.h>
+#include<stribog_signal.h>
 #include<argp.h>
 enum exit_codes
 {normal_exit=0,no_log_file=1,no_uart=2,
@@ -40,20 +40,6 @@ next_file(void)
 static void 
 close_all(void)
 {closeserialia();close_exp();free_tsip(tb);tb=0;if(f)fclose(f);f=0;}
-static volatile int terminate_program,signal_value;
-static RETSIGTYPE
-sig_hunter(int sig)
-{signal_value=sig;terminate_program=!0;
- return(RETSIGTYPE)0;
-}
-static void
-go_out(void)
-{switch(signal_value)
- {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
-  case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:error("unregistered signum %i; exiting\n",signal_value);
- }exit(terminated_via_signal);
-}
 const char*argp_program_version="magex-conloq"PACKAGE_VERSION_COMMENTED;
 const char*argp_program_bug_address ="<"PACKAGE_BUGREPORT">";
 static char doc[]="listen to a stribog board\v"
@@ -80,12 +66,14 @@ main(int argc,char**argv)
  init_error(*argv);
  argp_parse(&argp,argc,argv,0,0,&arguments);
  f=next_file();tb=new_tsip();atexit(close_all);
- signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
+ if(init_signals()){error("can't setup signal handlers\n");return 4;}
  if(!f){error("can't open log file\n");return 1;}init_exp(0);
  if(initserialia(arguments.port))
  {error("can't open serial port\n");return 2;}
- while(!terminate_program)if(0<(n=lege(s,sizeof(s))))
+ while(1)
+ {check_signals(terminated_via_signal);
+  if(0<(n=lege(s,sizeof(s))))
   for(j=0;j<n;putc(s[j++],f))if((_=parse_tsip(tb,s[j],&size)))
    if(!(i++&0x3F))expone(_,size);
- if(terminate_program)go_out();return 0;
+ }return 0;
 }

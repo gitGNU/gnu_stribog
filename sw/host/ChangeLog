@@ -1,3 +1,11 @@
+16 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/conloq.c conloq.src/magex-conloq.c
+   tests/serial.c tests/term.c lib/signal.c lib/stribog_signal.h
+   Makefile.am configure.ac: yet improved signal handling,
+ a. if signal is ignored by parent, the handler is not setup;
+ b. sig_atomic_t is used for data transfer;
+ c. signal-concerned routines moved out into libstribog.a;
+ d. sigaction() is used instead of signal() when possible
 10 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq.src/conloq.c conloq.src/magex-conloq.c
    tests/serial.c tests/term.c: signal handling fixed

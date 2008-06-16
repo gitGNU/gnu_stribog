@@ -93,7 +93,7 @@ close_all(void)
 lege(void*p,int n){return read(port,p,n);}
 int
 scribe(const void*p,int n){return write(port,p,n);}
-static volatile int terminate_program,signal_value;
+static volatile sig_atomic_t terminate_program,signal_value;
 static void
 sig_hunter(int sig)
 {signal_value=sig;terminate_program=!0;}
@@ -127,8 +127,18 @@ loop(void)
    for(i=0;i<n;i++)printf("%c",s[i]);putchar('\n');
   }
  }
+}static sigset_t sa_mask;/*accumulated mask for all handled signals*/
+static void
+setup_signal(int sig,sighandler_t h)
+{struct sigaction sa;
+ if(sigaction(sig,0,&sa))return!0;
+ if(SIG_IGN==sa.sa_handler)return 0;
+ if(sigaddset(&sa_mask,sig))return!0;
+ sa.sa_mask=sa_mask;sa.sa_handler=h;
+ sa.sa_flags=0;return sigaction(sig,&sa,0);
 }int
 main(int argc,char**argv)
-{signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
+{sigemptyset(&sa_mask);
+ setup_signal(SIGINT,sig_hunter);setup_signal(SIGTERM,sig_hunter);
  if(init(argv[1]))return 1;atexit(close_all);loop();return 0;
 }

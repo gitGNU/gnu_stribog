@@ -100,7 +100,7 @@ AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([atexit memmove sqrt strchr strerror fchdir])
-AC_CHECK_FUNCS([get_current_dir_name getcwd])
+AC_CHECK_FUNCS([get_current_dir_name getcwd sigaction])
 
 #Checks for system services
 AC_CHECK_HEADERS([windows.h],
@@ -123,9 +123,10 @@ AM_CONDITIONAL(build_own_argp, test $enable_own_argp = yes)
 AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
                  stribog_strings.h:lib/stribog_strings.h
                  stribog_save_wd.h:lib/save_wd.h
+                 stribog_signal.h:lib/stribog_signal.h
                  form_fix.h:../common/form_fix.h
                  ram_loader_enums.h:../common/ram_loader_enums.h
-		 stribog_crc32.h:lib/crc32.h])
+                 stribog_crc32.h:lib/crc32.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile
                  postproc/Makefile])

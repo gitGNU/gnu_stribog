@@ -30,14 +30,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<unistd.h>
 #include<fcntl.h>
 #include<termios.h>
-#include<signal.h>
+#include<stribog_signal.h>
 #include<errno.h>
 #include<string.h>
 #include<time.h>
 #include<argp.h>
 enum program_exit_codes
 {normal_exit=0,no_log_file=1,no_uart=2,
- terminated_via_signal=3,stdin_unsetupable=4
+ terminated_via_signal=3,stdin_unsetupable=4,
+ signals_unsetupable=5
 };
 static FILE*
 next_file(const char**file_name)
@@ -88,20 +89,6 @@ close_all(void)
  {if(get_verbosity()>=pretty_verbose)printf("resetting stdin\n");
   reset_stdin();
  }
-}
-static volatile int terminate_program,signal_value;
-static RETSIGTYPE
-sig_hunter(int sig)
-{signal_value=sig;terminate_program=!0;
- return(RETSIGTYPE)0;
-}
-static void
-go_out(void)
-{switch(signal_value)
- {case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
-  case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
-  default:error("unregistered signum %i; exiting\n",signal_value);
- }exit(terminated_via_signal);
 }
 const char*argp_program_version="conloq"PACKAGE_VERSION_COMMENTED;
 #define KEY_ASSIGNMENTS_HELP "some key assignments:\n"\
@@ -262,7 +249,10 @@ main(int argc,char**argv)
  }
  if(get_verbosity()>=pretty_verbose&&get_interaction_mode()!=deaf_mode)
   printf("for help on keypresses press 'h'\n");
- signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
+ if(init_signals())
+ {error("can't setup signal handlers\n");
+  return signals_unsetupable;
+ }
  if(arguments.escapes)enable_escapes(!0);
  if(get_verbosity()>=pretty_verbose)
  {printf(arguments.escapes?
@@ -280,7 +270,7 @@ main(int argc,char**argv)
   unsigned char s[1152];unsigned long long N=0;
   time_t t=time(0);
   while(dont_exit())
-  {if(terminate_program)go_out();
+  {check_signals(terminated_via_signal);
    if(0<(n=get_next_data(s,sizeof s)))
    {for(j=0;j<n;putc(s[j++],f),N++)
      if((_=parse_tsip(tb,s[j],&size)))if(expone(_,size))

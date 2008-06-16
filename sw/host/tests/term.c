@@ -43,7 +43,7 @@ reset_stdin(void)
 {putchar('\n');
  if(tcsetattr(STDIN_FILENO,TCSANOW,&saved_stdin_settings))
   report_error("resetting stdin");
-}static volatile int terminate_program,signal_value;
+}static volatile sig_atomic_t terminate_program,signal_value;
 static void
 sig_hunter(int sig)
 {signal_value=sig;terminate_program=!0;}
@@ -62,9 +62,20 @@ input_check(void)
 }
 static int
 data_lege(unsigned char*s,int n){return n;}
+static sigset_t sa_mask;/*accumulated mask for all handled signals*/
+static void
+setup_signal(int sig,sighandler_t h)
+{struct sigaction sa;
+ if(sigaction(sig,0,&sa))return!0;
+ if(SIG_IGN==sa.sa_handler)return 0;
+ if(sigaddset(&sa_mask,sig))return!0;
+ sa.sa_mask=sa_mask;sa.sa_handler=h;
+ sa.sa_flags=0;return sigaction(sig,&sa,0);
+}
 int 
 main(int argc,char**argv)
-{signal(SIGINT,sig_hunter);signal(SIGTERM,sig_hunter);
+{sigemptyset(&sa_mask);
+ setup_signal(SIGINT,sig_hunter);setup_signal(SIGTERM,sig_hunter);
  if(setup_stdin())
  {fprintf(stderr,"can't setup your terminal\n");return 2;}
  atexit(reset_stdin);
