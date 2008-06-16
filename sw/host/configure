@@ -7306,7 +7306,8 @@ done
 
 
 
-for ac_func in get_current_dir_name getcwd
+
+for ac_func in get_current_dir_name getcwd sigaction
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 { $as_echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -7590,7 +7591,7 @@ fi
 
 #common headers are linked to top build directory
 #to be available the same as config.h
-ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h form_fix.h:../common/form_fix.h ram_loader_enums.h:../common/ram_loader_enums.h stribog_crc32.h:lib/crc32.h"
+ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h stribog_signal.h:lib/stribog_signal.h form_fix.h:../common/form_fix.h ram_loader_enums.h:../common/ram_loader_enums.h stribog_crc32.h:lib/crc32.h"
 
 #Makefiles are generated
 ac_config_files="$ac_config_files Makefile postproc/Makefile"
@@ -8235,6 +8236,7 @@ do
     "stribog_error.h") CONFIG_LINKS="$CONFIG_LINKS stribog_error.h:lib/stribog_error.h" ;;
     "stribog_strings.h") CONFIG_LINKS="$CONFIG_LINKS stribog_strings.h:lib/stribog_strings.h" ;;
     "stribog_save_wd.h") CONFIG_LINKS="$CONFIG_LINKS stribog_save_wd.h:lib/save_wd.h" ;;
+    "stribog_signal.h") CONFIG_LINKS="$CONFIG_LINKS stribog_signal.h:lib/stribog_signal.h" ;;
     "form_fix.h") CONFIG_LINKS="$CONFIG_LINKS form_fix.h:../common/form_fix.h" ;;
     "ram_loader_enums.h") CONFIG_LINKS="$CONFIG_LINKS ram_loader_enums.h:../common/ram_loader_enums.h" ;;
     "stribog_crc32.h") CONFIG_LINKS="$CONFIG_LINKS stribog_crc32.h:lib/crc32.h" ;;

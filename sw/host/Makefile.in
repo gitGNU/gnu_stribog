@@ -40,7 +40,7 @@ bin_PROGRAMS = elk$(EXEEXT) caed$(EXEEXT) conloq$(EXEEXT) \
 	odo$(EXEEXT) parse_tsipex$(EXEEXT) 50hz$(EXEEXT) \
 	drift$(EXEEXT) fdif$(EXEEXT) lpfilter$(EXEEXT) stat$(EXEEXT)
 noinst_PROGRAMS = expon.legacy$(EXEEXT) save_wdex$(EXEEXT) \
-	$(am__EXEEXT_1)
+	signalex$(EXEEXT) $(am__EXEEXT_1)
 @build_own_argp_TRUE@am__append_1 = libargp.a
 @build_own_argp_TRUE@am__append_2 = argpex
 subdir = .
@@ -51,6 +51,7 @@ DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(top_srcdir)/configure $(top_srcdir)/lib/argp/argp.h \
 	$(top_srcdir)/lib/crc32.h $(top_srcdir)/lib/save_wd.h \
 	$(top_srcdir)/lib/stribog_error.h \
+	$(top_srcdir)/lib/stribog_signal.h \
 	$(top_srcdir)/lib/stribog_strings.h AUTHORS COPYING ChangeLog \
 	INSTALL NEWS TODO compile config.guess config.sub depcomp \
 	install-sh missing
@@ -63,8 +64,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = argp.h stribog_error.h stribog_strings.h \
-	stribog_save_wd.h form_fix.h ram_loader_enums.h \
-	stribog_crc32.h
+	stribog_save_wd.h stribog_signal.h form_fix.h \
+	ram_loader_enums.h stribog_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
@@ -75,7 +76,7 @@ libargp_a_OBJECTS = $(am_libargp_a_OBJECTS)
 libstribog_a_AR = $(AR) $(ARFLAGS)
 libstribog_a_LIBADD =
 am_libstribog_a_OBJECTS = error.$(OBJEXT) save_wd.$(OBJEXT) \
-	crc32.$(OBJEXT)
+	crc32.$(OBJEXT) signal.$(OBJEXT)
 libstribog_a_OBJECTS = $(am_libstribog_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(pkgdatadir)"
@@ -166,6 +167,9 @@ parse_tsipex_DEPENDENCIES = libstribog.a
 am_save_wdex_OBJECTS = save_wdex.$(OBJEXT) save_wd.$(OBJEXT)
 save_wdex_OBJECTS = $(am_save_wdex_OBJECTS)
 save_wdex_LDADD = $(LDADD)
+am_signalex_OBJECTS = signalex.$(OBJEXT) signal.$(OBJEXT)
+signalex_OBJECTS = $(am_signalex_OBJECTS)
+signalex_LDADD = $(LDADD)
 am_stat_OBJECTS = stat.$(OBJEXT)
 stat_OBJECTS = $(am_stat_OBJECTS)
 stat_LDADD = $(LDADD)
@@ -185,7 +189,7 @@ SOURCES = $(libargp_a_SOURCES) $(libstribog_a_SOURCES) $(50hz_SOURCES) \
 	$(fdif_SOURCES) $(lpfilter_SOURCES) $(magex_conloq_SOURCES) \
 	$(EXTRA_magex_conloq_SOURCES) $(magexp_SOURCES) $(odo_SOURCES) \
 	$(EXTRA_odo_SOURCES) $(parse_tsipex_SOURCES) \
-	$(save_wdex_SOURCES) $(stat_SOURCES)
+	$(save_wdex_SOURCES) $(signalex_SOURCES) $(stat_SOURCES)
 DIST_SOURCES = $(libargp_a_SOURCES) $(libstribog_a_SOURCES) \
 	$(50hz_SOURCES) $(argpex_SOURCES) $(caed_SOURCES) \
 	$(am__conloq_SOURCES_DIST) $(EXTRA_conloq_SOURCES) \
@@ -194,7 +198,8 @@ DIST_SOURCES = $(libargp_a_SOURCES) $(libstribog_a_SOURCES) \
 	$(lpfilter_SOURCES) $(am__magex_conloq_SOURCES_DIST) \
 	$(EXTRA_magex_conloq_SOURCES) $(magexp_SOURCES) \
 	$(am__odo_SOURCES_DIST) $(EXTRA_odo_SOURCES) \
-	$(parse_tsipex_SOURCES) $(save_wdex_SOURCES) $(stat_SOURCES)
+	$(parse_tsipex_SOURCES) $(save_wdex_SOURCES) \
+	$(signalex_SOURCES) $(stat_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -417,9 +422,11 @@ elk_SOURCES = elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
 elk_LDADD = $(argp_lib) libstribog.a
 EXTRA_elk_SOURCES = elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES = lib/error.c lib/stribog_error.h\
- lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h
+ lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
+ lib/stribog_signal.h lib/signal.c
 
 save_wdex_SOURCES = lib/save_wdex.c lib/save_wd.c lib/save_wd.h
+signalex_SOURCES = lib/signalex.c lib/signal.c lib/stribog_signal.h
 #small utilities
 50hz_SOURCES = utils/50hz.c
 drift_SOURCES = utils/drift.c
@@ -564,6 +571,9 @@ parse_tsipex$(EXEEXT): $(parse_tsipex_OBJECTS) $(parse_tsipex_DEPENDENCIES)
 save_wdex$(EXEEXT): $(save_wdex_OBJECTS) $(save_wdex_DEPENDENCIES) 
 	@rm -f save_wdex$(EXEEXT)
 	$(LINK) $(save_wdex_OBJECTS) $(save_wdex_LDADD) $(LIBS)
+signalex$(EXEEXT): $(signalex_OBJECTS) $(signalex_DEPENDENCIES) 
+	@rm -f signalex$(EXEEXT)
+	$(LINK) $(signalex_OBJECTS) $(signalex_LDADD) $(LIBS)
 stat$(EXEEXT): $(stat_OBJECTS) $(stat_DEPENDENCIES) 
 	@rm -f stat$(EXEEXT)
 	$(LINK) $(stat_OBJECTS) $(stat_LDADD) $(LIBS)
@@ -627,6 +637,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/save_wd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/save_wdex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialia.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signalex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/verbosity_level.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wser.Po@am__quote@
@@ -700,6 +712,20 @@ crc32.obj: lib/crc32.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/crc32.c' object='crc32.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o crc32.obj `if test -f 'lib/crc32.c'; then $(CYGPATH_W) 'lib/crc32.c'; else $(CYGPATH_W) '$(srcdir)/lib/crc32.c'; fi`
+
+signal.o: lib/signal.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT signal.o -MD -MP -MF $(DEPDIR)/signal.Tpo -c -o signal.o `test -f 'lib/signal.c' || echo '$(srcdir)/'`lib/signal.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/signal.Tpo $(DEPDIR)/signal.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/signal.c' object='signal.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o signal.o `test -f 'lib/signal.c' || echo '$(srcdir)/'`lib/signal.c
+
+signal.obj: lib/signal.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT signal.obj -MD -MP -MF $(DEPDIR)/signal.Tpo -c -o signal.obj `if test -f 'lib/signal.c'; then $(CYGPATH_W) 'lib/signal.c'; else $(CYGPATH_W) '$(srcdir)/lib/signal.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/signal.Tpo $(DEPDIR)/signal.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/signal.c' object='signal.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o signal.obj `if test -f 'lib/signal.c'; then $(CYGPATH_W) 'lib/signal.c'; else $(CYGPATH_W) '$(srcdir)/lib/signal.c'; fi`
 
 50hz.o: utils/50hz.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 50hz.o -MD -MP -MF $(DEPDIR)/50hz.Tpo -c -o 50hz.o `test -f 'utils/50hz.c' || echo '$(srcdir)/'`utils/50hz.c
@@ -1148,6 +1174,20 @@ save_wdex.obj: lib/save_wdex.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/save_wdex.c' object='save_wdex.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o save_wdex.obj `if test -f 'lib/save_wdex.c'; then $(CYGPATH_W) 'lib/save_wdex.c'; else $(CYGPATH_W) '$(srcdir)/lib/save_wdex.c'; fi`
+
+signalex.o: lib/signalex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT signalex.o -MD -MP -MF $(DEPDIR)/signalex.Tpo -c -o signalex.o `test -f 'lib/signalex.c' || echo '$(srcdir)/'`lib/signalex.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/signalex.Tpo $(DEPDIR)/signalex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/signalex.c' object='signalex.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o signalex.o `test -f 'lib/signalex.c' || echo '$(srcdir)/'`lib/signalex.c
+
+signalex.obj: lib/signalex.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT signalex.obj -MD -MP -MF $(DEPDIR)/signalex.Tpo -c -o signalex.obj `if test -f 'lib/signalex.c'; then $(CYGPATH_W) 'lib/signalex.c'; else $(CYGPATH_W) '$(srcdir)/lib/signalex.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/signalex.Tpo $(DEPDIR)/signalex.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/signalex.c' object='signalex.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o signalex.obj `if test -f 'lib/signalex.c'; then $(CYGPATH_W) 'lib/signalex.c'; else $(CYGPATH_W) '$(srcdir)/lib/signalex.c'; fi`
 
 stat.o: utils/stat.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT stat.o -MD -MP -MF $(DEPDIR)/stat.Tpo -c -o stat.o `test -f 'utils/stat.c' || echo '$(srcdir)/'`utils/stat.c
