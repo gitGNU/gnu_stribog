@@ -88,7 +88,7 @@ int
 init_signals(void)
 {int i;setup_sa_mask();
  for(i=0;i<sizeof(handled_list)/sizeof*handled_list;i++)
-  if(setup_a_signal(handled_list))return!0;
+  if(setup_a_signal(handled_list[i]))return!0;
  return 0;
 }
 static void
