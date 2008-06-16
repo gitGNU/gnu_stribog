@@ -25,9 +25,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 enum local_constants
 {sigarray_size=SIGTERM+1,max_distinct_signal=sigarray_size-1};
-#if HAVE_SIGACTION
-static sigset_t sa_mask;/*accumulated mask for all handled signals*/
-#endif
 static volatile sig_atomic_t
 /*non-null value of signal_numbers[i] indicates that
  a signal number i+1 has been handled*/
@@ -48,6 +45,29 @@ why sigaction() should be used when possible*/
  if(sig<=max_distinct_signal&&sig>0)
   signal_numbers[sig]=!0;
 }
+static const int
+handled_list[]=/*array of handled signals*/
+{
+#ifdef SIGQUIT
+ SIGQUIT,/*SIGQUIT is a POSIX feature; C89 lacks it*/
+#endif
+#ifdef SIGHUP
+ SIGHUP,/*the same as SIGQUIT*/
+#endif
+ SIGINT,SIGTERM,SIGABRT
+};
+#if HAVE_SIGACTION
+static sigset_t sa_mask;/*accumulated mask for all handled signals*/
+static void
+setup_sa_mask(void)
+{int i;sigemptyset(&sa_mask);
+ for(i=0;i<sizeof(handled_list)/sizeof*handled_list;i++)
+  sigaddset(&sa_mask,handled_list[i]);
+}
+#else
+static void
+setup_sa_mask(void){}
+#endif
 static int
 setup_a_signal(int sig)
 {
@@ -57,20 +77,7 @@ setup_a_signal(int sig)
  if(SIG_IGN==sa.sa_handler)return 0;
  if(sigaddset(&sa_mask,sig))return!0;
  sa.sa_mask=sa_mask;sa.sa_handler=sig_hunter;
-#if SA_ONESHOT
- sa.sa_flags&=~SA_ONESHOT;
-#elif SA_RESETHAND
- sa.sa_flags&=~SA_RESETHAND;
-#endif
-#if SA_NOMASK
- sa.sa_flags&=~SA_NOMASK;
-#elif SA_NODEFER
- sa.sa_flags&=~SA_NODEFER;
-#endif
-#if SA_SIGINFO
- sa.sa_flags&=~SA_SIGINFO;
-#endif 
- return sigaction(sig,&sa,0);
+ sa.sa_flags=0;return sigaction(sig,&sa,0);
 #else
  if(SIG_IGN==signal(sig,sig_hunter))
   return SIG_ERR==signal(sig,SIG_IGN);
@@ -79,23 +86,28 @@ setup_a_signal(int sig)
 }
 int
 init_signals(void)
-{
-#if HAVE_SIGACTION
- sigemptyset(&sa_mask);
-#endif
- if(setup_a_signal(SIGINT))return!0;
- return setup_a_signal(SIGTERM);
+{int i;setup_sa_mask();
+ for(i=0;i<sizeof(handled_list)/sizeof*handled_list;i++)
+  if(setup_a_signal(handled_list))return!0;
+ return 0;
 }
 static void
-output_signal_name(int i)
-{if(i<0)
+output_signal_name(int sig)
+{if(sig<0)
  {fprintf(stderr,"INDEFINITE SIGNAL CAUGHT\n");
   return;
  }
- switch(i)
+ switch(sig)
  {case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
   case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
-  default:fprintf(stderr,"UNKNOWN SIGNAL %i CAUGHT\n",i);
+  case SIGABRT:fprintf(stderr,"ABORTED\n");break;
+#ifdef SIGQUIT
+  case SIGQUIT:fprintf(stderr,"USER-REQUESTED ABORT\n");break;
+#endif
+#ifdef SIGHUP
+  case SIGHUP:fprintf(stderr,"HANGUP\n");break;
+#endif
+  default:fprintf(stderr,"UNKNOWN SIGNAL %i CAUGHT\n",sig);
  }
 }
 void
