@@ -15,6 +15,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+
+/*The purpose of the library is to terminate the application
+when received usual signals; the application resources are freed
+by functions registered with atexit()
+
+C89 implementation (via signal()) is theoretically unreliable:
+it may behave badly when receiving several signals at a time */
 #if HAVE_CONFIG_H
 # include<config.h>
 #else
@@ -54,7 +61,7 @@ handled_list[]=/*array of handled signals*/
 #ifdef SIGHUP
  SIGHUP,/*the same as SIGQUIT*/
 #endif
- SIGINT,SIGTERM,SIGABRT
+ SIGINT,SIGTERM
 };
 #if HAVE_SIGACTION
 static sigset_t sa_mask;/*accumulated mask for all handled signals*/
@@ -100,7 +107,6 @@ output_signal_name(int sig)
  switch(sig)
  {case SIGTERM:fprintf(stderr,"TERMINATED\n");break;
   case SIGINT:fprintf(stderr,"INTERRUPTED\n");break;
-  case SIGABRT:fprintf(stderr,"ABORTED\n");break;
 #ifdef SIGQUIT
   case SIGQUIT:fprintf(stderr,"USER-REQUESTED ABORT\n");break;
 #endif
