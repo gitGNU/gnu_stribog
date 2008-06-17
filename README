@@ -233,10 +233,19 @@ processors. generally avrdude is much better. they all live in
 http://savannah.gnu.org
 
 As of May 2008, the AVR tools development seems to have concentrated
-within WinAVR, a project from http://sourceforge.net. we could build
+within WinAVR, a project from http://sourceforge.net/projects/winavr. we could build
 the toolchain based on gcc-4.2.2 and older; gcc-4.2.[34] and gcc-4.3.0
 evidently needs a patched binutils from WinAVR (binutils-2.18 lack
 necessary code for some subarchitectures).
+[17 Jun 2008 WinAVR-20070525 gcc(-4.1.2) doesn't accept our 
+ automake-generated dependencies. we have tried to build the toolchain
+ (binutils-2.17, gcc-4.1.2, avr-libc-1.4.5),
+ (binutils-2.17, gcc-4.2.2, avr-libc-1.6.2)
+ on cygwin (binutils-2.17.50 20060817, gcc-3.4.4) and it worked.
+ WinAVR-20080512 (binutils-2.18, gcc-4.3.0), too
+ WinAVR-20080609 (binutils-2.18, gcc-4.3.0), too
+ WinAVR-20040404 (binutils-2.14 20030612 + coff-avr-patch (20030831), gcc-3.3.2), too
+]
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog. we currently use PCB 20070208
