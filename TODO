@@ -48,11 +48,16 @@
              enough to proceed to the next item]
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
+        [16 Jun 2008 request sent]
      d. actually write the documentation
+	    [17 Jun 2008 start]
  1. of course, finish mounting the project on Autotools [29 May 2008 done]
 14 Apr 2008
  sw/auxilia: provide a script for convenient writing the installed
   in ${prefix} programs into target AVRs.
+17 Jun 2008
+ sw/target: make the programs event-driven
+ hw: add switches to enable power-saving modes
 
  Copyright (C) 2008
   Ineiev<ineiev@users.sourceforge.net>, super V 93
