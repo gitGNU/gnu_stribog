@@ -23,6 +23,14 @@ by functions registered with atexit()
 
 C89 implementation (via signal()) is theoretically unreliable:
 it may behave badly when receiving several signals at a time */
+
+/*define SIGNALS_TEST to non-zero to compile a test*/
+#ifndef SIGNALS_TEST
+# define SIGNALS_TEST 0
+#endif
+#if SIGNALS_TEST
+static int signals_count;
+#endif
 #if HAVE_CONFIG_H
 # include<config.h>
 #else
@@ -49,9 +57,12 @@ when two different signals appear simultaneously; that is
 why sigaction() should be used when possible*/
  signal(sig,sig_hunter);
 #endif
- signal_caught=!0;
+ if((!SIGNALS_TEST)||(sig==SIGINT))signal_caught=!0;
  if(sig<=max_distinct_signal&&sig>0)
   signal_numbers[sig]=!0;
+#if SIGNALS_TEST
+ signals_count++;
+#endif
  return(RETSIGTYPE)0;
 }
 static const int
@@ -127,3 +138,13 @@ check_signals(int exit_code)
  if(vex)output_signal_name(-1);
  exit(exit_code);
 }
+#if SIGNALS_TEST
+static void
+report_all(void)
+{printf("signals count: %i\n",signals_count);}
+int
+main(void)
+{init_signals();atexit(report_all);
+ while(1)check_signals(1);return 0;
+}
+#endif
