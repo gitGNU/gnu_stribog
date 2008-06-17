@@ -31,7 +31,8 @@ install-sh
 m4/gnu-make.m4
 missing
 
-are not exclusively copyrighted by the stribog authors.
+are not exclusively copyrighted by the stribog authors: some are
+not at all, other only partially.
 we let our copyright notes come into these files like 'configure',
 and 'Makefile.in', but one should undestand that they are result of
 compilation of several sources and such a file can hardly represent
