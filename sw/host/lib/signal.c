@@ -17,7 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 
 /*The purpose of the library is to terminate the application
-when received usual signals; the application resources are freed
+having received usual signals (SIGINT, SIGTERM etc);
+the application resources are freed
 by functions registered with atexit()
 
 C89 implementation (via signal()) is theoretically unreliable:
@@ -51,6 +52,7 @@ why sigaction() should be used when possible*/
  signal_caught=!0;
  if(sig<=max_distinct_signal&&sig>0)
   signal_numbers[sig]=!0;
+ return(RETSIGTYPE)0;
 }
 static const int
 handled_list[]=/*array of handled signals*/
