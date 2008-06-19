@@ -1,3 +1,6 @@
+19 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/parse_tsipex.c: s/random/rand/
+ * conloq.src/conloq.c: made compile when there is no termios.h
 17 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/signal.c: a test program written-in
 16 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
