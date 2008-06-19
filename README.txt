@@ -44,10 +44,10 @@ that to be forked out.
 
 Git is branched and tagged accordingly.
 eventually a branch named 0.1 is created from trunc,
-and the revision in configure.ac is set to 0.1.1-rc0-minus.
+and the revision in configure.ac is set to 0.1.0-rc0-minus.
 then release candidates 0.1.0-rc1, 0.1.0-rc2 and so on 
 are released and at last release 0.1.0 is published.
-after that the release name is changed to 0.1.2-rc0-minus
+after that the release name is changed to 0.1.1-rc0-minus
 
 All release and release candidates should be tagged with
 their numbers (e.g. 0.1.2-rc1); these tags should be
