@@ -251,6 +251,9 @@ necessary code for some subarchitectures).
 [19 Jun 2008 WinAVR gccs produce unusable dependency rules since
  the rules contain paths to system headers containing colons like
  c:/winavr.../avr/io.h
+
+ one can configure --disable-dependency-tracking
+ or try to install the toolset from the sources in a POSIX environment
 ]
 
 It is much more problematic to install gEDA and friends. you'll need them if
