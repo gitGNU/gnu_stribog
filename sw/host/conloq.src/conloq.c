@@ -27,9 +27,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"process_keypress.h"
 #include<stdlib.h>
 #include<stdio.h>
-#include<unistd.h>
-#include<fcntl.h>
-#include<termios.h>
+#if HAVE_TERMIOS_H
+# include<unistd.h>
+# include<fcntl.h>
+# include<termios.h>
+# define IGNORE_KEYPRESSES (0)
+#else
+/*no termios: usual keypresses will be ignored*/
+# define IGNORE_KEYPRESSES (1)
+#endif
 #include<stribog_signal.h>
 #include<errno.h>
 #include<string.h>
@@ -45,10 +51,15 @@ next_file(const char**file_name)
 {static char s[289];int i=0;FILE*f;
  do{snprintf(s,sizeof s,"%iconloq.log",i++);f=fopen(s,"rt");if(f)fclose(f);}
  while(f);*file_name=s;return fopen(s,"wb");
-}static tsip_buf*tb;static FILE*f;static struct termios saved_stdin_settings;
+}static tsip_buf*tb;static FILE*f;
+#if HAVE_TERMIOS_H
+static struct termios saved_stdin_settings;
+#endif
 static int
 setup_stdin(void)
-{struct termios nov;
+{
+#if HAVE_TERMIOS_H
+ struct termios nov;
  if(tcgetattr(STDIN_FILENO,&saved_stdin_settings))
  {int err=errno;error("tcgettattr of stdin failed: errno %i\n",err);
   error("system error message \"%s\"\n",strerror(err));return!0;
@@ -59,13 +70,18 @@ setup_stdin(void)
  }if(fcntl(STDIN_FILENO,F_SETFL,O_NDELAY))
  {int err=errno;error("fcntl of stdin failed: errno %i\n",err);
   error("system error message \"%s\"\n",strerror(err));return!0;
- }return 0;
+ }
+#endif
+ return 0;
 }static void
 reset_stdin(void)
-{int err;putchar('\n');
+{
+#if HAVE_TERMIOS_H
+ int err;putchar('\n');
  if(!tcsetattr(STDIN_FILENO,TCSANOW,&saved_stdin_settings))return;
  err=errno;error("note: can't reset stdin errno %i\n",err);
  error("system error message \"%s\"\n",strerror(err));
+#endif
 }struct arguments
 {const char*port_name,*log_name;double dfreq;
  int verbosity,escapes,file_input,deafitude;
@@ -189,7 +205,7 @@ there_is_something_to_read(void)
 {return!(feof(input_file)||ferror(input_file));}
 static int
 keypress_check(void)
-{return process_keypress(getc(stdin));}
+{return IGNORE_KEYPRESSES||process_keypress(getc(stdin));}
 static int
 forever(void){return 1;}
 static int(*
