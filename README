@@ -159,7 +159,9 @@ and it can't check new signatures; gnupg-1.4.9 is quite buildable there.
 
 The build system of binutils-2.18 is broken; the process stops in bfd/doc.
 quick and dirty fix is to patch `missing':
-
+[19 Jun 2008 Paul Smith <psmith@gnu.org> reported this to bug-binutils@gnu.org
+ on Wed, Jun 18, 2008 at 6:39 AM
+]
 --- binutils-2.18/missing	2005-07-14 05:24:56.000000000 +0400
 +++ missing	2008-05-24 10:53:30.000000000 +0400
 @@ -27,5 +27,5 @@
@@ -215,7 +217,7 @@ quick and dirty fix is to patch `missing':
  # Now exit if we have it, but it failed.  Also exit now if we
  # don't have it and --version was passed (most likely to detect
 
-The problem was obviously not in `missing', but in automake-1.9.6, 
+The problem was obviously not with `missing', but probably with automake-1.9.6,
 which was used to regenerate the build system.
 
 GCC-4.3.0 has a new strong dependency, MPFR. current version of MPFR,
@@ -246,6 +248,10 @@ necessary code for some subarchitectures).
  WinAVR-20080609 (binutils-2.18, gcc-4.3.0), too
  WinAVR-20040404 (binutils-2.14 20030612 + coff-avr-patch (20030831), gcc-3.3.2), too
 ]
+[19 Jun 2008 WinAVR gccs produce unusable dependency rules since
+ the rules contain paths to system headers containing colons like
+ c:/winavr.../avr/io.h
+]
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog. we currently use PCB 20070208
@@ -263,7 +269,7 @@ The gEDA are required to edit the hardware part. the `executable' files
 needed to produce the board like GERBERs are included into the distribution.
 this is possible because these targets are not configurable.
 
-HOW TO BUILD (as of May 2008)
+HOW TO BUILD (as of June 2008)
 
 In order to build you will need
 1. native C compiler
