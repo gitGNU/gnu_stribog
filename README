@@ -234,8 +234,8 @@ documentation. for historical reasons we use uisp to load programs into these
 processors. generally avrdude is much better. they all live in 
 http://savannah.gnu.org
 
-As of May 2008, the AVR tools development seems to have concentrated
-within WinAVR, a project from http://sourceforge.net/projects/winavr. we could build
+As of May 2008, the AVR tools development seems to be concentrated
+within WinAVR (http://sourceforge.net/projects/winavr). we could build
 the toolchain based on gcc-4.2.2 and older; gcc-4.2.[34] and gcc-4.3.0
 evidently needs a patched binutils from WinAVR (binutils-2.18 lack
 necessary code for some subarchitectures).
@@ -287,8 +287,8 @@ because the boards and schematics are not configurable and
 we don't want to force you to (figure out and) install a gEDA
 version compatible with ours.
 
-Stribog uses GNU-standard configuration procedure
-(see INSTALL). Though general build versus source directory
+Stribog uses GNU-standard configuration procedure described
+in INSTALL file. Though general build versus source directory
 positions should work, the canonical way is to build the project 
 in a separate directory out of the source tree, so
 the configure invocation sounds like this:
@@ -298,6 +298,9 @@ the configure invocation sounds like this:
 With such an arrangement, the intermediate output files from
 the toolchain and the source configuration system will not
 lumber your source tree and disturb the revision control system.
+
+Default prefix is $HOME/stribog-install. we suggest not to
+install the package in system directories.
 
 For instructions on using host tools read sw/host/README.
 
