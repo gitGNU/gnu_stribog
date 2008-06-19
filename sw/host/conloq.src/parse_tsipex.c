@@ -26,9 +26,9 @@ static unsigned long long bytes_processed;
 crc32_input_array_token buf[0x121];int message_length;
 int
 lege(unsigned char*s,int n)
-{int len,i;message_length=(1+(random()%5))<<2;
+{int len,i;message_length=(1+(rand()%5))<<2;
  if(n<(message_length+4)*2+4)return 0;
- for(i=0;i<message_length;i++)buf[i]=random();
+ for(i=0;i<message_length;i++)buf[i]=rand();
  form_fix(buf,message_length>>2,(char*)s,&len);bytes_processed+=len;return len;
 }void
 expone(const unsigned char*s,int size)
