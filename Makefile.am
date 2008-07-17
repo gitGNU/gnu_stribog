@@ -20,6 +20,9 @@ endif
 if enable_avr_targets
  SUBDIRS+=sw/auxilia
 endif
+if enable_doc
+ SUBDIRS+=doc
+endif
 EXTRA_DIST=branch
 nodist_pkgdata_DATA=summary
 dist-hook:

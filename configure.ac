@@ -28,6 +28,34 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 
 #checks for command-line options
+AC_MSG_CHECKING([if documentation is enabled])
+AC_ARG_ENABLE([doc],
+ [AS_HELP_STRING([--enable-doc],
+  [Manage documentation @<:@yes when available@:>@])],,
+  [enable_doc=unspecified
+])
+case "z$enable_doc" in
+ zno | zyes) ;;
+ *) enable_doc=unspecified ;;
+esac
+AC_MSG_RESULT([$enable_doc])
+AC_MSG_CHECKING([if documentation is available])
+if test -f ${srcdir}/doc/stribog.texinfo;then
+else
+ case $enable_doc in
+  yes) 
+   AC_MSG_RESULT([$enable_doc])
+   AC_MSG_ERROR([
+
+ Documentation is requested, but unavailable
+]) ;;
+  *)
+  #TODO when documentation is in git, distribution_impossible=yes here
+   enable_doc=no;;
+ esac
+fi
+AM_CONDITIONAL(enable_doc, test $enable_doc = yes)
+
 # ARM toolchain-specific
 AC_MSG_CHECKING([if ARM targets are enabled])
 AC_ARG_ENABLE([arm-targets],
@@ -49,7 +77,8 @@ AC_ARG_WITH([arm-host],
    AC_MSG_RESULT([$with_arm_host])
    AC_MSG_ERROR([
 
- Please either don't disable ARM targets or don't specify ARM toolchain affix])
+ Please either don't disable ARM targets or don't specify ARM toolchain affix
+])
    ;; 
  esac
  arm_host_specified=yes
@@ -94,7 +123,8 @@ case $arm_gcc_present in
    yes)
     AC_MSG_ERROR([
 
- ARM toolchain affix is specified, but no toolchain is found])
+ ARM toolchain affix is specified, but no toolchain is found
+])
   ;;
   esac ;;
  yes)
@@ -167,8 +197,8 @@ case $PS2PDF in
    yes)
     AC_MSG_ERROR([
  
-  ps2pdf invocation is requested, but no ps2pdf is found])
-   ;;
+  ps2pdf invocation is requested, but no ps2pdf is found
+]);;
   esac;;
  *) we_have_ps2pdf=yes;;
 esac
@@ -190,8 +220,8 @@ case $GSCHEM in
    yes)
     AC_MSG_ERROR([
  
-  gschem invocation is requested, but no gschem is found])
-   ;;
+  gschem invocation is requested, but no gschem is found
+]);;
   esac;;
  *) we_have_gschem=yes;;
 esac
@@ -213,6 +243,7 @@ AC_CONFIG_FILES([Makefile hw/Makefile hw/image.scm
                  sw/common/Makefile])
 
 AC_CONFIG_SUBDIRS([sw/host])
+
 case $enable_arm_targets in
  yes)
   AC_CONFIG_SUBDIRS([sw/target])
@@ -227,6 +258,9 @@ esac
 AC_OUTPUT
 #summary output
 enabled_subprojects=hosttools
+case $enable_doc in
+ yes)enabled_subprojects="$enabled_subprojects doc";;
+esac
 case $enable_arm_targets in
  yes)enabled_subprojects="$enabled_subprojects target";;
 esac
