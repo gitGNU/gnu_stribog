@@ -41,6 +41,9 @@ esac
 AC_MSG_RESULT([$enable_doc])
 AC_MSG_CHECKING([if documentation is available])
 if test -f ${srcdir}/doc/stribog.texinfo;then
+ case $enable_doc in
+  no) ;; *) enable_doc=yes;;
+ esac
 else
  case $enable_doc in
   yes) 
@@ -50,10 +53,12 @@ else
  Documentation is requested, but unavailable
 ]) ;;
   *)
-  #TODO when documentation is in git, distribution_impossible=yes here
    enable_doc=no;;
  esac
 fi
+case $enable_doc in
+ no) distribution_impossible=yes ;;
+esac
 AM_CONDITIONAL(enable_doc, test $enable_doc = yes)
 
 # ARM toolchain-specific
@@ -243,6 +248,12 @@ AC_CONFIG_FILES([Makefile hw/Makefile hw/image.scm
                  sw/common/Makefile])
 
 AC_CONFIG_SUBDIRS([sw/host])
+
+case $enable_doc in
+ yes)
+  AC_CONFIG_SUBDIRS([doc])
+ ;;
+esac
 
 case $enable_arm_targets in
  yes)
