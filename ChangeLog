@@ -1,3 +1,6 @@
+18 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * .gitignore THANKS: new
+ * configure.ac: made doc (not in Git yet) subproject work
 17 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac Makefile.am: documentation optionally added
 10 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
