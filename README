@@ -640,3 +640,6 @@ is copyrighted by the FSF as stated in the file.
 The file AUTHORS has a special status. it essentially consists of copyright
 notices. as such, these notices can't be removed; the project maintainers
 are encouraged to keep the notices up-to-date.
+
+The same is true for THANKS file, but it includes acknowledements for support
+which does not cause copyright issues.

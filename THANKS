@@ -1,0 +1,38 @@
+stribog THANKS file
+
+Aleksey Kugushev
+ 2007, 2008
+ Vehicle for field tests
+
+Alexey Mlinnik
+ 2006
+ Ideas on switches schematics, precise resistors
+
+Andrey Leksin alexin@suntal.ru
+ 2005 and earlier, 2006, 2007, 2008
+ Comprehensive material and organisational support
+
+Brian Dessent brian@dessent.net
+ 03 Jul 2008
+  Info on Cygwin make and on mixing Cygwin tools with native applications 
+
+Maksim Grishin
+ 2007, 2008
+  Vehicle for field tests
+
+Sergey Monin monin76@mail.ru
+ 2006
+ Heating resistor for thermal experiments
+
+Stepan Kasal
+ 03 Jul 2008
+  Some ideas on making Automake-generated Makefiles not to track
+  dependencies on system headers
+
+This file is part of stribog. 
+
+It is not a source file, but a compilation of acknowledgements
+which don't imply possible copyright issues.
+
+These notices should not be removed; the project maintainers 
+are encouraged to keep the file up-to-date.
