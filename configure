@@ -663,6 +663,8 @@ am__leading_dot
 AMTAR
 am__tar
 am__untar
+enable_doc_TRUE
+enable_doc_FALSE
 arm_gcc_present
 enable_arm_targets_TRUE
 enable_arm_targets_FALSE
@@ -686,6 +688,7 @@ LTLIBOBJS'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+enable_doc
 enable_arm_targets
 with_arm_host
 enable_avr_targets
@@ -698,6 +701,7 @@ with_gschem
 host_alias
 target_alias'
 ac_subdirs_all='sw/host
+doc
 sw/target
 sw/auxilia'
 
@@ -1325,6 +1329,7 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-doc            Manage documentation [yes when available]
   --enable-arm-targets    Build ARM targets [yes when possible]
   --enable-avr-targets    Build AVR targets [yes when possible]
   --enable-schematics-resolution
@@ -2283,6 +2288,58 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 #checks for command-line options
+{ $as_echo "$as_me:$LINENO: checking if documentation is enabled" >&5
+$as_echo_n "checking if documentation is enabled... " >&6; }
+# Check whether --enable-doc was given.
+if test "${enable_doc+set}" = set; then
+  enableval=$enable_doc;
+else
+  enable_doc=unspecified
+
+fi
+
+case "z$enable_doc" in
+ zno | zyes) ;;
+ *) enable_doc=unspecified ;;
+esac
+{ $as_echo "$as_me:$LINENO: result: $enable_doc" >&5
+$as_echo "$enable_doc" >&6; }
+{ $as_echo "$as_me:$LINENO: checking if documentation is available" >&5
+$as_echo_n "checking if documentation is available... " >&6; }
+if test -f ${srcdir}/doc/stribog.texinfo;then
+ case $enable_doc in
+  no) ;; *) enable_doc=yes;;
+ esac
+else
+ case $enable_doc in
+  yes)
+   { $as_echo "$as_me:$LINENO: result: $enable_doc" >&5
+$as_echo "$enable_doc" >&6; }
+   { { $as_echo "$as_me:$LINENO: error:
+
+ Documentation is requested, but unavailable
+" >&5
+$as_echo "$as_me: error:
+
+ Documentation is requested, but unavailable
+" >&2;}
+   { (exit 1); exit 1; }; } ;;
+  *)
+   enable_doc=no;;
+ esac
+fi
+case $enable_doc in
+ no) distribution_impossible=yes ;;
+esac
+ if test $enable_doc = yes; then
+  enable_doc_TRUE=
+  enable_doc_FALSE='#'
+else
+  enable_doc_TRUE='#'
+  enable_doc_FALSE=
+fi
+
+
 # ARM toolchain-specific
 { $as_echo "$as_me:$LINENO: checking if ARM targets are enabled" >&5
 $as_echo_n "checking if ARM targets are enabled... " >&6; }
@@ -2311,10 +2368,12 @@ if test "${with_arm_host+set}" = set; then
 $as_echo "$with_arm_host" >&6; }
    { { $as_echo "$as_me:$LINENO: error:
 
- Please either don't disable ARM targets or don't specify ARM toolchain affix" >&5
+ Please either don't disable ARM targets or don't specify ARM toolchain affix
+" >&5
 $as_echo "$as_me: error:
 
- Please either don't disable ARM targets or don't specify ARM toolchain affix" >&2;}
+ Please either don't disable ARM targets or don't specify ARM toolchain affix
+" >&2;}
    { (exit 1); exit 1; }; }
    ;;
  esac
@@ -2413,10 +2472,12 @@ $as_echo "$as_me: error:
    yes)
     { { $as_echo "$as_me:$LINENO: error:
 
- ARM toolchain affix is specified, but no toolchain is found" >&5
+ ARM toolchain affix is specified, but no toolchain is found
+" >&5
 $as_echo "$as_me: error:
 
- ARM toolchain affix is specified, but no toolchain is found" >&2;}
+ ARM toolchain affix is specified, but no toolchain is found
+" >&2;}
    { (exit 1); exit 1; }; }
   ;;
   esac ;;
@@ -2699,12 +2760,13 @@ case $PS2PDF in
    yes)
     { { $as_echo "$as_me:$LINENO: error:
 
-  ps2pdf invocation is requested, but no ps2pdf is found" >&5
+  ps2pdf invocation is requested, but no ps2pdf is found
+" >&5
 $as_echo "$as_me: error:
 
-  ps2pdf invocation is requested, but no ps2pdf is found" >&2;}
-   { (exit 1); exit 1; }; }
-   ;;
+  ps2pdf invocation is requested, but no ps2pdf is found
+" >&2;}
+   { (exit 1); exit 1; }; };;
   esac;;
  *) we_have_ps2pdf=yes;;
 esac
@@ -2779,12 +2841,13 @@ case $GSCHEM in
    yes)
     { { $as_echo "$as_me:$LINENO: error:
 
-  gschem invocation is requested, but no gschem is found" >&5
+  gschem invocation is requested, but no gschem is found
+" >&5
 $as_echo "$as_me: error:
 
-  gschem invocation is requested, but no gschem is found" >&2;}
-   { (exit 1); exit 1; }; }
-   ;;
+  gschem invocation is requested, but no gschem is found
+" >&2;}
+   { (exit 1); exit 1; }; };;
   esac;;
  *) we_have_gschem=yes;;
 esac
@@ -2816,6 +2879,14 @@ ac_config_files="$ac_config_files Makefile hw/Makefile hw/image.scm sw/common/Ma
 
 
 subdirs="$subdirs sw/host"
+
+
+case $enable_doc in
+ yes)
+  subdirs="$subdirs doc"
+
+ ;;
+esac
 
 case $enable_arm_targets in
  yes)
@@ -2963,6 +3034,13 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
+if test -z "${enable_doc_TRUE}" && test -z "${enable_doc_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"enable_doc\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"enable_doc\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${enable_arm_targets_TRUE}" && test -z "${enable_arm_targets_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"enable_arm_targets\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -4173,6 +4251,9 @@ fi
 
 #summary output
 enabled_subprojects=hosttools
+case $enable_doc in
+ yes)enabled_subprojects="$enabled_subprojects doc";;
+esac
 case $enable_arm_targets in
  yes)enabled_subprojects="$enabled_subprojects target";;
 esac
