@@ -1,3 +1,6 @@
+25 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: AM_CONDITIONAL quoted properly,
+ m2sh constructs used instead of `if' and `case',
 19 Jun 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq.src/parse_tsipex.c: s/random/rand/
  * conloq.src/conloq.c: made compile when there is no termios.h
