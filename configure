@@ -2299,19 +2299,22 @@ else
 fi
 
 case "z$enable_doc" in
- zno | zyes) ;;
- *) enable_doc=unspecified ;;
+  zno | zyes) : ;;
+  *) enable_doc=unspecified ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: $enable_doc" >&5
 $as_echo "$enable_doc" >&6; }
 { $as_echo "$as_me:$LINENO: checking if documentation is available" >&5
 $as_echo_n "checking if documentation is available... " >&6; }
-if test -f ${srcdir}/doc/stribog.texinfo;then
- case $enable_doc in
-  no) ;; *) enable_doc=yes;;
- esac
+if test -f ${srcdir}/doc/stribog.texinfo; then
+  case $enable_doc in
+  no) : ;;
+  *) enable_doc=yes ;;
+esac
+
 else
- case $enable_doc in
+  case $enable_doc in
   yes)
    { $as_echo "$as_me:$LINENO: result: $enable_doc" >&5
 $as_echo "$enable_doc" >&6; }
@@ -2324,13 +2327,14 @@ $as_echo "$as_me: error:
  Documentation is requested, but unavailable
 " >&2;}
    { (exit 1); exit 1; }; } ;;
-  *)
-   enable_doc=no;;
- esac
+  *) enable_doc=no ;;
+esac
+
 fi
 case $enable_doc in
- no) distribution_impossible=yes ;;
+  no) distribution_impossible=yes ;;
 esac
+
  if test $enable_doc = yes; then
   enable_doc_TRUE=
   enable_doc_FALSE='#'
@@ -2352,9 +2356,10 @@ else
 fi
 
 case "z$enable_arm_targets" in
- zno | zyes) ;;
- *) enable_arm_targets=unspecified ;;
+  zno | zyes) : ;;
+  *) enable_arm_targets=unspecified ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: $enable_arm_targets" >&5
 $as_echo "$enable_arm_targets" >&6; }
 { $as_echo "$as_me:$LINENO: checking for ARM toolchain affix" >&5
@@ -2375,8 +2380,8 @@ $as_echo "$as_me: error:
  Please either don't disable ARM targets or don't specify ARM toolchain affix
 " >&2;}
    { (exit 1); exit 1; }; }
-   ;;
- esac
+ ;;
+esac
  arm_host_specified=yes
 
 else
@@ -2399,9 +2404,10 @@ else
 fi
 
 case "z$enable_avr_targets" in
- zno | zyes) ;;
- *) enable_avr_targets=unspecified ;;
+  zno | zyes) : ;;
+  *) enable_avr_targets=unspecified ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: $enable_avr_targets" >&5
 $as_echo "$enable_avr_targets" >&6; }
 
@@ -2454,22 +2460,23 @@ $as_echo "no" >&6; }
 fi
 
 
+
 case $arm_gcc_present in
- no)
+  no)
   case $enable_arm_targets in
-   yes)
+  yes)
     { { $as_echo "$as_me:$LINENO: error:
 
  ARM targets are requested, but no toolchain is found" >&5
 $as_echo "$as_me: error:
 
  ARM targets are requested, but no toolchain is found" >&2;}
-   { (exit 1); exit 1; }; }
-   ;;
-  esac
+   { (exit 1); exit 1; }; } ;;
+esac
+
   case $arm_host_specified in
-   no) enable_arm_targets=no ;;
-   yes)
+  no) enable_arm_targets=no ;;
+  yes)
     { { $as_echo "$as_me:$LINENO: error:
 
  ARM toolchain affix is specified, but no toolchain is found
@@ -2478,13 +2485,16 @@ $as_echo "$as_me: error:
 
  ARM toolchain affix is specified, but no toolchain is found
 " >&2;}
-   { (exit 1); exit 1; }; }
-  ;;
-  esac ;;
- yes)
+   { (exit 1); exit 1; }; } ;;
+esac
+   ;;
+   yes)
   case $enable_arm_targets in
-   no) ;; *) enable_arm_targets=yes ;;
-  esac ;;
+  no) : ;;
+  *) enable_arm_targets=yes ;;
+esac
+
+ ;;
 esac
  if test $enable_arm_targets = yes; then
   enable_arm_targets_TRUE=
@@ -2495,8 +2505,9 @@ else
 fi
 
 case $enable_arm_targets in
- no) distribution_impossible=yes ;;
+  no) distribution_impossible=yes ;;
 esac
+
 
 # Extract the first word of "avr-gcc", so it can be a program name with args.
 set dummy avr-gcc; ac_word=$2
@@ -2537,9 +2548,8 @@ fi
 
 
 case $avr_gcc_present in
- no)
-  case $enable_avr_targets in
-   yes)
+  no) case $enable_avr_targets in
+  yes)
     { { $as_echo "$as_me:$LINENO: error:
 
  AVR targets are requested, but no toolchain is found" >&5
@@ -2547,13 +2557,15 @@ $as_echo "$as_me: error:
 
  AVR targets are requested, but no toolchain is found" >&2;}
    { (exit 1); exit 1; }; }
-   ;;
-  esac
-  ;;
- yes)
-  case $enable_avr_targets in
-   no) ;; *) enable_avr_targets=yes ;;
-  esac ;;
+ ;;
+esac
+ ;;
+   yes) case $enable_avr_targets in
+  no) : ;;
+  *) enable_avr_targets=yes ;;
+esac
+
+ ;;
 esac
  if test $enable_avr_targets = yes; then
   enable_avr_targets_TRUE=
@@ -2564,8 +2576,9 @@ else
 fi
 
 case $enable_avr_targets in
- no) distribution_impossible=yes ;;
+  no) distribution_impossible=yes ;;
 esac
+
 
 { $as_echo "$as_me:$LINENO: checking for a thread-safe mkdir -p" >&5
 $as_echo_n "checking for a thread-safe mkdir -p... " >&6; }
@@ -2675,9 +2688,9 @@ done
 test -n "$PCB" || PCB="no"
 
 case $PCB in
- no) we_have_pcb=no
-  case with_pcb in
-   yes)
+  no) we_have_pcb=no
+  case $with_pcb in
+  yes)
     { { $as_echo "$as_me:$LINENO: error:
 
   pcb invocation is requested, but no pcb is found" >&5
@@ -2685,14 +2698,16 @@ $as_echo "$as_me: error:
 
   pcb invocation is requested, but no pcb is found" >&2;}
    { (exit 1); exit 1; }; }
-   ;;
-  esac;;
- *) we_have_pcb=yes;;
+ ;;
 esac
-case with_pcb in
- no) use_pcb=no;;
- *) use_pcb=$we_have_pcb;;
+ ;;
+  *) we_have_pcb=yes ;;
 esac
+case $with_pcb in
+  no) use_pcb=no ;;
+  *) use_pcb=$we_have_pcb ;;
+esac
+
  if test $use_pcb = yes; then
   use_pcb_TRUE=
   use_pcb_FALSE='#'
@@ -2755,9 +2770,9 @@ done
 test -n "$PS2PDF" || PS2PDF="no"
 
 case $PS2PDF in
- no) we_have_ps2pdf=no
-  case with_ps2pdf in
-   yes)
+  no) we_have_ps2pdf=no
+  case $with_ps2pdf in
+  yes)
     { { $as_echo "$as_me:$LINENO: error:
 
   ps2pdf invocation is requested, but no ps2pdf is found
@@ -2766,14 +2781,18 @@ $as_echo "$as_me: error:
 
   ps2pdf invocation is requested, but no ps2pdf is found
 " >&2;}
-   { (exit 1); exit 1; }; };;
-  esac;;
- *) we_have_ps2pdf=yes;;
+   { (exit 1); exit 1; }; }
+ ;;
 esac
-case with_ps2pdf in
- no) use_ps2pdf=no;;
- *) use_ps2pdf=$we_have_ps2pdf;;
+ ;;
+  *)   we_have_ps2pdf=yes ;;
 esac
+
+case $with_ps2pdf in
+  no) use_ps2pdf=no ;;
+  *) use_ps2pdf=$we_have_ps2pdf ;;
+esac
+
  if test $use_ps2pdf = yes; then
   use_ps2pdf_TRUE=
   use_ps2pdf_FALSE='#'
@@ -2836,9 +2855,9 @@ done
 test -n "$GSCHEM" || GSCHEM="no"
 
 case $GSCHEM in
- no) we_have_gschem=no
-  case with_gschem in
-   yes)
+  no) we_have_gschem=no
+  case $with_gschem in
+  yes)
     { { $as_echo "$as_me:$LINENO: error:
 
   gschem invocation is requested, but no gschem is found
@@ -2847,14 +2866,16 @@ $as_echo "$as_me: error:
 
   gschem invocation is requested, but no gschem is found
 " >&2;}
-   { (exit 1); exit 1; }; };;
-  esac;;
- *) we_have_gschem=yes;;
+   { (exit 1); exit 1; }; } ;;
+  *) we_have_gschem=yes ;;
 esac
-case with_gschem in
- no) use_gschem=no;;
- *) use_gschem=$we_have_gschem;;
+ ;;
 esac
+case $with_gschem in
+  no) use_gschem=no ;;
+  *) use_gschem=$we_have_gschem ;;
+esac
+
  if test $use_gschem = yes; then
   use_gschem_TRUE=
   use_gschem_FALSE='#'
@@ -2880,26 +2901,22 @@ ac_config_files="$ac_config_files Makefile hw/Makefile hw/image.scm sw/common/Ma
 
 subdirs="$subdirs sw/host"
 
-
 case $enable_doc in
- yes)
-  subdirs="$subdirs doc"
-
+  yes) subdirs="$subdirs doc"
  ;;
 esac
+
 
 case $enable_arm_targets in
- yes)
-  subdirs="$subdirs sw/target"
-
+  yes) subdirs="$subdirs sw/target"
  ;;
 esac
+
 case $enable_avr_targets in
- yes)
-  subdirs="$subdirs sw/auxilia"
-
+  yes) subdirs="$subdirs sw/auxilia"
  ;;
 esac
+
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -4252,50 +4269,69 @@ fi
 #summary output
 enabled_subprojects=hosttools
 case $enable_doc in
- yes)enabled_subprojects="$enabled_subprojects doc";;
+  yes) enabled_subprojects="$enabled_subprojects doc" ;;
 esac
+
 case $enable_arm_targets in
- yes)enabled_subprojects="$enabled_subprojects target";;
+  yes) enabled_subprojects="$enabled_subprojects target" ;;
 esac
+
 case $enable_avr_targets in
- yes)enabled_subprojects="$enabled_subprojects auxilia";;
+  yes) enabled_subprojects="$enabled_subprojects auxilia" ;;
 esac
+
 case $distribution_impossible in
- yes)
+  yes)
   echo "NOTE: some subprojects have been disabled -" >>warnings
-  echo "      dist* targets shall fail" >>warnings;;
+  echo "      dist* targets shall fail" >>warnings
+ ;;
 esac
+
 case $use_pcb in
- no)
+  no)
   case $we_have_pcb in
-   no)
-    echo "NOTE: no suitable pcb program -" >>warnings;;
-   *)
-    echo "NOTE: pcb program will not be used -" >>warnings;;
-  esac
-  echo   "      make will not update PCB images" >>warnings;;
+  no)
+    echo "NOTE: no suitable pcb program -" >>warnings
+	 ;;
+  *)
+    echo "NOTE: pcb program will not be used -" >>warnings
+ ;;
 esac
+
+  echo   "      make will not update PCB images" >>warnings
+ ;;
+esac
+
 case $use_ps2pdf in
- no)
+  no)
   case $we_have_ps2pdf in
-   no)
-    echo "NOTE: no suitable ps2pdf program -" >>warnings;;
-   *)
-    echo "NOTE: ps2pdf will not be used -" >>warnings;;
-  esac
-  echo   "      make will not update PCB PDFs" >>warnings;;
+  no)
+    echo "NOTE: no suitable ps2pdf program -" >>warnings
+	 ;;
+  *)
+    echo "NOTE: ps2pdf will not be used -" >>warnings
+	 ;;
+esac
+
+  echo   "      make will not update PCB PDFs" >>warnings
+ ;;
 esac
 
 case $use_gschem in
- no)
+  no)
   case $we_have_gschem in
-   no)
-    echo "NOTE: no suitable gschem program -" >>warnings;;
-   *)
-    echo "NOTE: gschem will not be used -" >>warnings;;
-  esac
-  echo   "      make will not update schematics PNGs" >>warnings;;
+  no)
+    echo "NOTE: no suitable gschem program -" >>warnings
+    ;;
+  *)
+    echo "NOTE: gschem will not be used -" >>warnings
+    ;;
 esac
+
+  echo   "      make will not update schematics PNGs" >>warnings
+ ;;
+esac
+
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo "prefix:               ${prefix}">>summary
@@ -4306,8 +4342,10 @@ rm -f warnings
 echo;cat summary
 echo;cat sw/host/summary|grep -v "^prefix:"
 case $enable_arm_targets in
- yes) echo; cat sw/target/summary|grep -v "^prefix:" ;;
+  yes) echo; cat sw/target/summary|grep -v "^prefix:" ;;
 esac
+
 case $enable_avr_targets in
- yes) echo; cat sw/auxilia/summary|grep -v "^prefix:" ;;
+  yes) echo; cat sw/auxilia/summary|grep -v "^prefix:" ;;
 esac
+

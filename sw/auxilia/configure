@@ -1789,19 +1789,25 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 # force avr-based host without forcing avr-based build
 case "z${target_recursion_trigger}" in
- ztriggered) ;;
- *) export target_recursion_trigger=triggered
+  ztriggered) : ;;
+  *)
+ export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
  case $# in
-  0) ${0} --build=${config_guessed} --host=avr;;
+  0) ${0} --build=${config_guessed} --host=avr ;;
+  *)
  #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=avr;;
- esac
+  ${0} --build=${config_guessed} $@ --host=avr
+   ;;
+esac
+
  result=$?
  export target_recursion_trigger=triggered
- exit $result ;;
+ exit $result
+ ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: NB here we force $host_alias host" >&5
 $as_echo "NB here we force $host_alias host" >&6; }
 
@@ -3466,8 +3472,9 @@ fi
 
 
 case "z$GCC" in
- zyes) CFLAGS="-O3 -Wall" ;;
+  zyes) CFLAGS="-O3 -Wall" ;;
 esac
+
 # Checks for libraries.
 
 # Checks for header files.
@@ -4988,5 +4995,6 @@ avr-as --version |grep assembler >>summary
 ${CC} --version |grep ${CC} >>summary
 
 case "z$recursive_stribog_build" in
- zyes) ;; *) cat summary;;
+  zyes) cat summary ;;
 esac
+

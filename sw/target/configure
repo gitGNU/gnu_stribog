@@ -1816,22 +1816,29 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 # force arm-based host without forcing arm-based build
 case "z${target_recursion_trigger}" in
- ztriggered) ;;
- *) export target_recursion_trigger=triggered
+  ztriggered) : ;;
+  *)
+ export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
  case "z$ARM_TOOLS_PREFIX" in
-  z) export ARM_TOOLS_PREFIX=arm-unknown-elf;;
- esac
+  z) export ARM_TOOLS_PREFIX=arm-unknown-elf ;;
+esac
+
  case $# in
-  0) ${0} --build=${config_guessed} --host=${ARM_TOOLS_PREFIX};;
- #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=${ARM_TOOLS_PREFIX};;
- esac
+  0) ${0} --build=${config_guessed} --host=${ARM_TOOLS_PREFIX} ;;
+  *)
+  #if --build is set it will override the guessed value
+  ${0} --build=${config_guessed} $@ --host=${ARM_TOOLS_PREFIX}
+  ;;
+esac
+
  result=$?
  export target_recursion_trigger=triggered
- exit $result ;;
+ exit $result
+ ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: NB here we force $host_alias host" >&5
 $as_echo "NB here we force $host_alias host" >&6; }
 rm -f warnings
@@ -2353,11 +2360,13 @@ else
 fi
 
 case $with_mainboard_mcu in
- LPC213[12468]) ;;
- *) { { $as_echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5
+  LPC213[12468]) : ;;
+  *) { { $as_echo "$as_me:$LINENO: error: unknown MCU '$with_mainboard_mcu' is requested" >&5
 $as_echo "$as_me: error: unknown MCU '$with_mainboard_mcu' is requested" >&2;}
-   { (exit 1); exit 1; }; } ;;
+   { (exit 1); exit 1; }; }
+ ;;
 esac
+
 mcu_conf=$with_mainboard_mcu
 
 enable_mag_response=yes
@@ -2365,42 +2374,45 @@ enable_magex=yes
 enable_multa=yes
 adc1_present=yes
 case $with_mainboard_mcu in
- LPC2131)
+  LPC2131)
   echo NOTE: LPC2131 has only 8k RAM >> warnings
   enable_multa=no
-  ;;
+ ;;
 esac
+
 case $with_mainboard_mcu in
- LPC213[12])
+  LPC213[12])
   echo NOTE: LPC213[12] have no ADC1. some parts of programs are disabled\
   >> warnings
   adc1_present=no
   enable_mag_response=no
   enable_magex=no
   enable_multa=no
-  ;;
+ ;;
 esac
+
 adc1_define=1
 case $adc1_present in
- no) adc1_define=0 ;;
+  no) adc1_define=0 ;;
 esac
+
 
 cat >>confdefs.h <<_ACEOF
 #define HAVE_ADC1 $adc1_define
 _ACEOF
 
 case $enable_mag_response in
- no)
- echo NOTE: \'mag_response\' program is disabled >>warnings
+  no) echo NOTE: \'mag_response\' program is disabled >>warnings ;;
 esac
+
 case $enable_magex in
- no)
- echo NOTE: \'magex\' program is disabled >>warnings
+  no) echo NOTE: \'magex\' program is disabled >>warnings ;;
 esac
+
 case $enable_multa in
- no)
- echo NOTE: \'multa\' program is disabled >>warnings
+  no) echo NOTE: \'multa\' program is disabled >>warnings ;;
 esac
+
  if test $enable_mag_response = yes; then
   mag_response_enabled_TRUE=
   mag_response_enabled_FALSE='#'
@@ -2435,9 +2447,10 @@ fi
 
 current_define=0
 case "z$enable_original_pps" in
- zyes) current_define=1 ;;
- *) enable_original_pps=no ;;
+  zyes) current_define=1 ;;
+  *) enable_original_pps=no ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: $enable_original_pps" >&5
 $as_echo "$enable_original_pps" >&6; }
 
@@ -2455,9 +2468,10 @@ fi
 
 current_define=0
 case "z$enable_swap_uarts" in
- zyes) current_define=1 ;;
- *) enable_swap_uarts=no ;;
+  zyes) current_define=1 ;;
+  *) enable_swap_uarts=no ;;
 esac
+
 { $as_echo "$as_me:$LINENO: result: $enable_swap_uarts" >&5
 $as_echo "$enable_swap_uarts" >&6; }
 
@@ -2506,7 +2520,7 @@ fi
 
 
 case $arm_as_present in
- no)
+  no)
  { { $as_echo "$as_me:$LINENO: error:
 
  $host_alias-as is not available
@@ -2517,26 +2531,30 @@ $as_echo "$as_me: error:
  $host_alias-as is not available
  probably no ARM toolchain has been installed
 " >&2;}
-   { (exit 1); exit 1; }; }
- ;;
+   { (exit 1); exit 1; }; } ;;
 esac
+
 ARM_MCU_FLAGS=-mcpu=arm7tdmi
 ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
 { $as_echo "$as_me:$LINENO: checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option" >&5
 $as_echo_n "checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option... " >&6; }
-if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
- arm_elf_as=yes;else arm_elf_as=no;
+if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null; then
+  arm_elf_as=yes
+else
+  arm_elf_as=no
 fi
+
 { $as_echo "$as_me:$LINENO: result: $arm_elf_as" >&5
 $as_echo "$arm_elf_as" >&6; }
 case $arm_elf_as in
- no)
+  no)
  #older gases like 2.11.2 prefer this form of option
  ARM_MCU_FLAGS=-marm7tdmi
  ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
  { $as_echo "$as_me:$LINENO: checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option" >&5
 $as_echo_n "checking if $host_alias-as accepts '${ARM_MCU_FLAGS}' option... " >&6; }
- if ! $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
+ if ! $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null; then
+
   { $as_echo "$as_me:$LINENO: result: no" >&5
 $as_echo "no" >&6; }
   { { $as_echo "$as_me:$LINENO: error:
@@ -2552,11 +2570,13 @@ $as_echo "$as_me: error:
  (binutils-2.11.2 to 2.18 should work)
 " >&2;}
    { (exit 1); exit 1; }; }
- fi
+fi
+
  { $as_echo "$as_me:$LINENO: result: yes" >&5
 $as_echo "yes" >&6; }
  ;;
 esac
+
 #on OpenBSD arm-unknown-elf-objcopy once installed itself as mere objcopy
 for ac_prog in $host_alias-objcopy objcopy
 do
@@ -2602,7 +2622,7 @@ done
 test -n "$ARM_OBJCOPY" || ARM_OBJCOPY="no"
 
 case ${ARM_OBJCOPY} in
- no)
+  no)
   { { $as_echo "$as_me:$LINENO: error:
 
  objcopy tool is not available
@@ -2613,13 +2633,14 @@ $as_echo "$as_me: error:
  objcopy tool is not available
  probably no ARM toolchain has been installed
 " >&2;}
-   { (exit 1); exit 1; }; }
- ;;
+   { (exit 1); exit 1; }; } ;;
 esac
+
 { $as_echo "$as_me:$LINENO: checking whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'" >&5
 $as_echo_n "checking whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'... " >&6; }
 if ! ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
- boot.o /dev/null 2>/dev/null;then
+ boot.o /dev/null 2>/dev/null; then
+
   { $as_echo "$as_me:$LINENO: result: no" >&5
 $as_echo "no" >&6; }
   { { $as_echo "$as_me:$LINENO: error:
@@ -2627,17 +2648,18 @@ $as_echo "no" >&6; }
  ${ARM_OBJCOPY} can't manage elf32-littlearm object files.
  Probably no ARM toolchain has been installed properly.
  If you think it has been, try to place path to the toolchain
- before path to the system objcopy in your PATH variable
+before path to the system objcopy in your PATH variable
 " >&5
 $as_echo "$as_me: error:
 
  ${ARM_OBJCOPY} can't manage elf32-littlearm object files.
  Probably no ARM toolchain has been installed properly.
  If you think it has been, try to place path to the toolchain
- before path to the system objcopy in your PATH variable
+before path to the system objcopy in your PATH variable
 " >&2;}
    { (exit 1); exit 1; }; }
 fi
+
 { $as_echo "$as_me:$LINENO: result: yes" >&5
 $as_echo "yes" >&6; }
 arm_unknown_elf_objcopy=${ARM_OBJCOPY}
@@ -3929,10 +3951,13 @@ no_camel=!0;
 
 _ACEOF
 if ! ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} conftest.c \
--o /dev/null 2>/dev/null;then
+-o /dev/null 2>/dev/null; then
+
  LDFLAGS=${ROBUST_LDFLAGS}
  reject_atexit_c=no
+
 fi
+
 { $as_echo "$as_me:$LINENO: result: $reject_atexit_c" >&5
 $as_echo "$reject_atexit_c" >&6; }
  if test $reject_atexit_c = no; then
@@ -5720,5 +5745,6 @@ cat warnings >>summary 2>/dev/null
 rm -f warnings
 
 case "z$recursive_stribog_build" in
- zyes) ;; *) cat summary;;
+  zyes) cat summary ;;
 esac
+

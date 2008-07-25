@@ -5440,8 +5440,9 @@ fi
 
 
 if test "z$GCC" = zyes; then
- CFLAGS="${CFLAGS} -Wall"
+  CFLAGS="${CFLAGS} -Wall"
 fi
+
 
 # Checks for libraries.
 
@@ -6014,12 +6015,13 @@ $as_echo_n "checking if stribog argp implementation is asked for... " >&6; }
 if test "${enable_own_argp+set}" = set; then
   enableval=$enable_own_argp;
    case "z$enable_own_argp" in
-    zyes | zno) ;;
-    *) { { $as_echo "$as_me:$LINENO: error: --enable-own-argp should be either 'yes' or 'no'" >&5
+  zyes | zno) : ;;
+  *) { { $as_echo "$as_me:$LINENO: error: --enable-own-argp should be either 'yes' or 'no'" >&5
 $as_echo "$as_me: error: --enable-own-argp should be either 'yes' or 'no'" >&2;}
    { (exit 1); exit 1; }; }
     ;;
-   esac
+esac
+
 
 else
   enable_own_argp=unspecified
@@ -6172,7 +6174,8 @@ $as_echo "no usable argp.h found; stribog version should be used" >&6; }
 $as_echo "$as_me: error: own argp disabled and no usable system argp available" >&2;}
    { (exit 1); exit 1; }; }
   ;;
- esac
+esac
+
  enable_own_argp=yes
 
 fi
@@ -7565,13 +7568,14 @@ fi
 done
 
 case $enable_own_argp in
- yes)
+  yes)
  ac_config_links="$ac_config_links argp.h:lib/argp/argp.h"
 
  argp_lib=libargp.a
 
  ;;
 esac
+
  if test $the_host_is_windows = yes; then
   the_host_is_windows_TRUE=
   the_host_is_windows_FALSE='#'
@@ -9098,9 +9102,10 @@ $as_echo "$as_me: WARNING: Unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 case $enable_own_argp in
- yes) argp_type="supplied with stribog" ;;
- *) argp_type="built in host OS (typically, GNU)" ;;
+  yes) argp_type="supplied with stribog" ;;
+  *) argp_type="built in host OS (typically, GNU)" ;;
 esac
+
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo "prefix:               ${prefix}">>summary
@@ -9113,5 +9118,6 @@ echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 
 case "z$recursive_stribog_build" in
- zyes) ;; *) cat summary ;;
+  zyes) cat summary ;;
 esac
+
