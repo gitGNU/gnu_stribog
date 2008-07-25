@@ -140,4 +140,4 @@ echo "CFLAGS:               ${CFLAGS}">>summary
 echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 
-AS_CASE(["z$recursive_stribog_build"],[zyes],[cat summary])
+AS_CASE(["z$recursive_stribog_build"],[zyes],,[cat summary])

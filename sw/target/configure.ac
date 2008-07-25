@@ -234,4 +234,4 @@ ${CC} --version |grep ${CC} >>summary
 cat warnings >>summary 2>/dev/null
 rm -f warnings
 
-AS_CASE(["z$recursive_stribog_build"],[zyes],[cat summary])
+AS_CASE(["z$recursive_stribog_build"],[zyes],,[cat summary])

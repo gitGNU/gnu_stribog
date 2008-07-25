@@ -93,4 +93,4 @@ echo "detected tools versions:">>summary
 avr-as --version |grep assembler >>summary
 ${CC} --version |grep ${CC} >>summary
 
-AS_CASE(["z$recursive_stribog_build"],[zyes],[cat summary])
+AS_CASE(["z$recursive_stribog_build"],[zyes],,[cat summary])
