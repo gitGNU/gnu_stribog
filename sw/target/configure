@@ -5745,6 +5745,7 @@ cat warnings >>summary 2>/dev/null
 rm -f warnings
 
 case "z$recursive_stribog_build" in
-  zyes) cat summary ;;
+  zyes) : ;;
+  *) cat summary ;;
 esac
 

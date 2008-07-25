@@ -4995,6 +4995,7 @@ avr-as --version |grep assembler >>summary
 ${CC} --version |grep ${CC} >>summary
 
 case "z$recursive_stribog_build" in
-  zyes) cat summary ;;
+  zyes) : ;;
+  *) cat summary ;;
 esac
 

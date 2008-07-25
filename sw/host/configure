@@ -9118,6 +9118,7 @@ echo "LDFLAGS:              ${LDFLAGS}">>summary
 echo "LIBS:                 ${LIBS}">>summary
 
 case "z$recursive_stribog_build" in
-  zyes) cat summary ;;
+  zyes) : ;;
+  *) cat summary ;;
 esac
 
