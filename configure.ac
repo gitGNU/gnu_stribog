@@ -34,32 +34,23 @@ AC_ARG_ENABLE([doc],
   [Manage documentation @<:@yes when available@:>@])],,
   [enable_doc=unspecified
 ])
-case "z$enable_doc" in
- zno | zyes) ;;
- *) enable_doc=unspecified ;;
-esac
+AS_CASE(["z$enable_doc"],
+ [zno | zyes],,
+ [enable_doc=unspecified])
 AC_MSG_RESULT([$enable_doc])
 AC_MSG_CHECKING([if documentation is available])
-if test -f ${srcdir}/doc/stribog.texinfo;then
- case $enable_doc in
-  no) ;; *) enable_doc=yes;;
- esac
-else
- case $enable_doc in
-  yes) 
+AS_IF([test -f ${srcdir}/doc/stribog.texinfo],
+ [AS_CASE([$enable_doc],[no],,[enable_doc=yes])],
+[AS_CASE([$enable_doc],
+  [yes],[ 
    AC_MSG_RESULT([$enable_doc])
    AC_MSG_ERROR([
 
  Documentation is requested, but unavailable
-]) ;;
-  *)
-   enable_doc=no;;
- esac
-fi
-case $enable_doc in
- no) distribution_impossible=yes ;;
-esac
-AM_CONDITIONAL(enable_doc, test $enable_doc = yes)
+])],[enable_doc=no])dnl AS_CASE
+])dnl AS_IF([test -f ${srcdir}/doc/stribog.texinfo],
+AS_CASE([$enable_doc],[no],[distribution_impossible=yes])
+AM_CONDITIONAL([enable_doc],[test $enable_doc = yes])
 
 # ARM toolchain-specific
 AC_MSG_CHECKING([if ARM targets are enabled])
@@ -68,24 +59,21 @@ AC_ARG_ENABLE([arm-targets],
   [Build ARM targets @<:@yes when possible@:>@])],,
   [enable_arm_targets=unspecified
 ])
-case "z$enable_arm_targets" in
- zno | zyes) ;;
- *) enable_arm_targets=unspecified ;;
-esac
+AS_CASE(["z$enable_arm_targets"],
+ [zno | zyes],,[enable_arm_targets=unspecified])
 AC_MSG_RESULT([$enable_arm_targets])
 AC_MSG_CHECKING([for ARM toolchain affix])
 AC_ARG_WITH([arm-host],
 [AS_HELP_STRING([--with-arm-host],
 [affix for ARM toolchain [arm-unknown-elf]])],
-[case $enable_arm_targets in
-  no)
+[AS_CASE([$enable_arm_targets],
+  [no],[
    AC_MSG_RESULT([$with_arm_host])
    AC_MSG_ERROR([
 
  Please either don't disable ARM targets or don't specify ARM toolchain affix
 ])
-   ;; 
- esac
+])dnl AS_CASE([$enable_arm_targets],
  arm_host_specified=yes
 ],
  [with_arm_host=arm-unknown-elf
@@ -99,10 +87,8 @@ AC_ARG_ENABLE([avr-targets],
   [Build AVR targets @<:@yes when possible@:>@])],,
   [enable_avr_targets=unspecified
 ])
-case "z$enable_avr_targets" in
- zno | zyes) ;;
- *) enable_avr_targets=unspecified ;;
-esac
+AS_CASE(["z$enable_avr_targets"],
+ [zno | zyes],,[enable_avr_targets=unspecified])
 AC_MSG_RESULT([$enable_avr_targets])
 
 AC_MSG_CHECKING([for schematics output resolution])
@@ -114,54 +100,41 @@ AC_ARG_ENABLE([schematics-resolution],
 ])
 # Checks for programs.
 AC_CHECK_PROG([arm_gcc_present],[$with_arm_host-gcc],[yes],[no])
-case $arm_gcc_present in
- no)
-  case $enable_arm_targets in
-   yes)
+
+AS_CASE([$arm_gcc_present],
+ [no],[
+  AS_CASE([$enable_arm_targets],
+   [yes],[
     AC_MSG_ERROR([
 
- ARM targets are requested, but no toolchain is found])
-   ;;
-  esac
-  case $arm_host_specified in
-   no) enable_arm_targets=no ;;
-   yes)
+ ARM targets are requested, but no toolchain is found])])
+  AS_CASE([$arm_host_specified],
+   [no],[enable_arm_targets=no],
+   [yes],[
     AC_MSG_ERROR([
 
  ARM toolchain affix is specified, but no toolchain is found
-])
-  ;;
-  esac ;;
- yes)
-  case $enable_arm_targets in
-   no) ;; *) enable_arm_targets=yes ;;
-  esac ;;
-esac
-AM_CONDITIONAL(enable_arm_targets, test $enable_arm_targets = yes)
-case $enable_arm_targets in
- no) distribution_impossible=yes ;;
-esac
+])])dnl AS_CASE([$arm_host_specified],
+  ],dnl  [no],[
+ [yes],[
+  AS_CASE([$enable_arm_targets],[no],,[enable_arm_targets=yes])
+])dnl AS_CASE([$arm_gcc_present],
+AM_CONDITIONAL([enable_arm_targets],[test $enable_arm_targets = yes])
+AS_CASE([$enable_arm_targets],[no],[distribution_impossible=yes])
 
 AC_CHECK_PROG([avr_gcc_present],[avr-gcc],[yes],[no])
-case $avr_gcc_present in
- no)
-  case $enable_avr_targets in
-   yes)
+AS_CASE([$avr_gcc_present],
+ [no],[AS_CASE([$enable_avr_targets],
+   [yes],[
     AC_MSG_ERROR([
 
  AVR targets are requested, but no toolchain is found])
-   ;;
-  esac
-  ;;
- yes)
-  case $enable_avr_targets in
-   no) ;; *) enable_avr_targets=yes ;;
-  esac ;;
-esac
-AM_CONDITIONAL(enable_avr_targets, test $enable_avr_targets = yes)
-case $enable_avr_targets in
- no) distribution_impossible=yes ;;
-esac
+])],dnl [no],[AS_CASE([$enable_avr_targets],
+ [yes],[AS_CASE([$enable_avr_targets],
+   [no],,[enable_avr_targets=yes])]
+)dnl AS_CASE([$avr_gcc_present],
+AM_CONDITIONAL([enable_avr_targets], [test $enable_avr_targets = yes])
+AS_CASE([$enable_avr_targets],[no],[distribution_impossible=yes])
 
 AC_PROG_MKDIR_P
 AC_PROG_LN_S
@@ -173,22 +146,17 @@ AC_ARG_WITH([pcb],
  [with_pcb=unspecified
 ])
 AC_CHECK_PROGS([PCB], [pcb], [no])
-case $PCB in
- no) we_have_pcb=no
-  case with_pcb in
-   yes)
+AS_CASE([$PCB],
+ [no],[we_have_pcb=no
+  AS_CASE([$with_pcb],
+   [yes],[
     AC_MSG_ERROR([
  
   pcb invocation is requested, but no pcb is found])
-   ;;
-  esac;;
- *) we_have_pcb=yes;;
-esac
-case with_pcb in
- no) use_pcb=no;;
- *) use_pcb=$we_have_pcb;;
-esac
-AM_CONDITIONAL(use_pcb,test $use_pcb = yes)
+])],dnl AS_CASE([$with_pcb],
+[we_have_pcb=yes])dnl AS_CASE([$PCB],
+AS_CASE([$with_pcb],[no],[use_pcb=no],[use_pcb=$we_have_pcb])
+AM_CONDITIONAL([use_pcb],[test $use_pcb = yes])
 
 AC_ARG_WITH([ps2pdf],
 [AS_HELP_STRING([--without-ps2pdf],
@@ -196,22 +164,20 @@ AC_ARG_WITH([ps2pdf],
  [with_ps2pdf=unspecified
 ])
 AC_CHECK_PROGS([PS2PDF], [ps2pdf], [no])
-case $PS2PDF in
- no) we_have_ps2pdf=no
-  case with_ps2pdf in
-   yes)
+AS_CASE([$PS2PDF],
+ [no],[we_have_ps2pdf=no
+  AS_CASE([$with_ps2pdf],
+   [yes],[
     AC_MSG_ERROR([
  
   ps2pdf invocation is requested, but no ps2pdf is found
-]);;
-  esac;;
- *) we_have_ps2pdf=yes;;
-esac
-case with_ps2pdf in
- no) use_ps2pdf=no;;
- *) use_ps2pdf=$we_have_ps2pdf;;
-esac
-AM_CONDITIONAL(use_ps2pdf,test $use_ps2pdf = yes)
+])
+])],dnl AS_CASE([$with_ps2pdf],
+  [we_have_ps2pdf=yes])dnl AS_CASE([$PS2PDF],
+
+AS_CASE([$with_ps2pdf],
+ [no],[use_ps2pdf=no],[use_ps2pdf=$we_have_ps2pdf])
+AM_CONDITIONAL([use_ps2pdf],[test $use_ps2pdf = yes])
 
 AC_ARG_WITH([gschem],
 [AS_HELP_STRING([--without-gschem],
@@ -219,22 +185,19 @@ AC_ARG_WITH([gschem],
  [with_gschem=unspecified
 ])
 AC_CHECK_PROGS([GSCHEM], [gschem], [no])
-case $GSCHEM in
- no) we_have_gschem=no
-  case with_gschem in
-   yes)
+AS_CASE([$GSCHEM],
+ [no],[we_have_gschem=no
+  AS_CASE([$with_gschem],
+   [yes],[
     AC_MSG_ERROR([
  
   gschem invocation is requested, but no gschem is found
-]);;
-  esac;;
- *) we_have_gschem=yes;;
-esac
-case with_gschem in
- no) use_gschem=no;;
- *) use_gschem=$we_have_gschem;;
-esac
-AM_CONDITIONAL(use_gschem,test $use_gschem = yes)
+])],
+ [we_have_gschem=yes])dnl AS_CASE([$with_gschem],
+])dnl AS_CASE([$GSCHEM],
+AS_CASE([$with_gschem],
+ [no],[use_gschem=no],[use_gschem=$we_have_gschem])
+AM_CONDITIONAL([use_gschem],[test $use_gschem = yes])
 # Checks for libraries.
 # Checks for header files.
 # Checks for typedefs, structures, and compiler characteristics.
@@ -248,72 +211,55 @@ AC_CONFIG_FILES([Makefile hw/Makefile hw/image.scm
                  sw/common/Makefile])
 
 AC_CONFIG_SUBDIRS([sw/host])
+AS_CASE([$enable_doc],[yes],[AC_CONFIG_SUBDIRS([doc])])
 
-case $enable_doc in
- yes)
-  AC_CONFIG_SUBDIRS([doc])
- ;;
-esac
-
-case $enable_arm_targets in
- yes)
-  AC_CONFIG_SUBDIRS([sw/target])
- ;;
-esac
-case $enable_avr_targets in
- yes)
-  AC_CONFIG_SUBDIRS([sw/auxilia])
- ;;
-esac
+AS_CASE([$enable_arm_targets],[yes],[AC_CONFIG_SUBDIRS([sw/target])])
+AS_CASE([$enable_avr_targets],[yes],[AC_CONFIG_SUBDIRS([sw/auxilia])])
 
 AC_OUTPUT
 #summary output
 enabled_subprojects=hosttools
-case $enable_doc in
- yes)enabled_subprojects="$enabled_subprojects doc";;
-esac
-case $enable_arm_targets in
- yes)enabled_subprojects="$enabled_subprojects target";;
-esac
-case $enable_avr_targets in
- yes)enabled_subprojects="$enabled_subprojects auxilia";;
-esac
-case $distribution_impossible in
- yes)
+AS_CASE([$enable_doc],[yes],
+ [enabled_subprojects="$enabled_subprojects doc"])
+AS_CASE([$enable_arm_targets],[yes],
+ [enabled_subprojects="$enabled_subprojects target"])
+AS_CASE([$enable_avr_targets],[yes],
+ [enabled_subprojects="$enabled_subprojects auxilia"])
+AS_CASE([$distribution_impossible],
+ [yes],[
   echo "NOTE: some subprojects have been disabled -" >>warnings
-  echo "      dist* targets shall fail" >>warnings;;
-esac
-case $use_pcb in
- no) 
-  case $we_have_pcb in
-   no)
-    echo "NOTE: no suitable pcb program -" >>warnings;;
-   *)
-    echo "NOTE: pcb program will not be used -" >>warnings;;
-  esac
-  echo   "      make will not update PCB images" >>warnings;;
-esac
-case $use_ps2pdf in
- no) 
-  case $we_have_ps2pdf in
-   no)
-    echo "NOTE: no suitable ps2pdf program -" >>warnings;;
-   *)
-    echo "NOTE: ps2pdf will not be used -" >>warnings;;
-  esac
-  echo   "      make will not update PCB PDFs" >>warnings;;
-esac
-
-case $use_gschem in
- no) 
-  case $we_have_gschem in
-   no)
-    echo "NOTE: no suitable gschem program -" >>warnings;;
-   *)
-    echo "NOTE: gschem will not be used -" >>warnings;;
-  esac
-  echo   "      make will not update schematics PNGs" >>warnings;;
-esac
+  echo "      dist* targets shall fail" >>warnings
+])
+AS_CASE([$use_pcb],
+ [no],[ 
+  AS_CASE([$we_have_pcb],
+   [no],[
+    echo "NOTE: no suitable pcb program -" >>warnings
+	],[
+    echo "NOTE: pcb program will not be used -" >>warnings
+])
+  echo   "      make will not update PCB images" >>warnings
+])
+AS_CASE([$use_ps2pdf],
+ [no],[
+  AS_CASE([$we_have_ps2pdf],
+   [no],[
+    echo "NOTE: no suitable ps2pdf program -" >>warnings
+	],[
+    echo "NOTE: ps2pdf will not be used -" >>warnings
+	])
+  echo   "      make will not update PCB PDFs" >>warnings
+])
+AS_CASE([$use_gschem],
+ [no],[
+  AS_CASE([$we_have_gschem],
+   [no],[
+    echo "NOTE: no suitable gschem program -" >>warnings
+   ],[
+    echo "NOTE: gschem will not be used -" >>warnings
+   ])
+  echo   "      make will not update schematics PNGs" >>warnings
+])
 
 echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo "prefix:               ${prefix}">>summary
@@ -323,9 +269,7 @@ rm -f warnings
 
 echo;cat summary
 echo;cat sw/host/summary|grep -v "^prefix:"
-case $enable_arm_targets in
- yes) echo; cat sw/target/summary|grep -v "^prefix:" ;;
-esac
-case $enable_avr_targets in
- yes) echo; cat sw/auxilia/summary|grep -v "^prefix:" ;;
-esac
+AS_CASE([$enable_arm_targets],
+ [yes],[echo; cat sw/target/summary|grep -v "^prefix:"])
+AS_CASE([$enable_avr_targets],
+ [yes],[echo; cat sw/auxilia/summary|grep -v "^prefix:"])

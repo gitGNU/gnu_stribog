@@ -17,20 +17,21 @@
 AC_PREREQ(2.62)
 AC_INIT([stribog-auxilia], [0.0-minus], [stribog-bug@nongnu.org])
 # force avr-based host without forcing avr-based build
-case "z${target_recursion_trigger}" in
- ztriggered) ;;
- *) export target_recursion_trigger=triggered
+AS_CASE(["z${target_recursion_trigger}"],
+ [ztriggered],,[
+ export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
- case $# in
-  0) ${0} --build=${config_guessed} --host=avr;;
+ AS_CASE([$#],
+  [0],[${0} --build=${config_guessed} --host=avr],
+  [
  #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=avr;;
- esac
+  ${0} --build=${config_guessed} $@ --host=avr
+  ])
  result=$?
  export target_recursion_trigger=triggered
- exit $result ;;
-esac
+ exit $result
+])
 AC_MSG_RESULT([NB here we force $host_alias host])
 
 AC_CONFIG_SRCDIR([coil/sampler.c])
@@ -72,9 +73,7 @@ AC_DEFINE_UNQUOTED([ODO_INPUT_MASK],[((unsigned char)(${with_odo_mask}))],
 # Checks for programs.
 
 AC_PROG_CC
-case "z$GCC" in
- zyes) CFLAGS="-O3 -Wall" ;;
-esac
+AS_CASE(["z$GCC"],[zyes],[CFLAGS="-O3 -Wall"])
 # Checks for libraries.
 
 # Checks for header files.
@@ -94,6 +93,4 @@ echo "detected tools versions:">>summary
 avr-as --version |grep assembler >>summary
 ${CC} --version |grep ${CC} >>summary
 
-case "z$recursive_stribog_build" in
- zyes) ;; *) cat summary;;
-esac
+AS_CASE(["z$recursive_stribog_build"],[zyes],[cat summary])

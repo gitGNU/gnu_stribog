@@ -17,23 +17,22 @@
 AC_PREREQ(2.62)
 AC_INIT([stribog-target],[0.0-minus],[stribog-bug@nongnu.org])
 # force arm-based host without forcing arm-based build
-case "z${target_recursion_trigger}" in
- ztriggered) ;;
- *) export target_recursion_trigger=triggered
+AS_CASE(["z${target_recursion_trigger}"],
+ [ztriggered],,[
+ export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
- case "z$ARM_TOOLS_PREFIX" in
-  z) export ARM_TOOLS_PREFIX=arm-unknown-elf;;
- esac
- case $# in
-  0) ${0} --build=${config_guessed} --host=${ARM_TOOLS_PREFIX};;
- #if --build is set it will override the guessed value
-  *) ${0} --build=${config_guessed} $@ --host=${ARM_TOOLS_PREFIX};;
- esac
+ AS_CASE(["z$ARM_TOOLS_PREFIX"],
+  [z],[export ARM_TOOLS_PREFIX=arm-unknown-elf])
+ AS_CASE([$#],
+  [0],[${0} --build=${config_guessed} --host=${ARM_TOOLS_PREFIX}],[
+  #if --build is set it will override the guessed value
+  ${0} --build=${config_guessed} $@ --host=${ARM_TOOLS_PREFIX}
+ ])
  result=$?
  export target_recursion_trigger=triggered
- exit $result ;;
-esac
+ exit $result
+])
 AC_MSG_RESULT([NB here we force $host_alias host])
 rm -f warnings
 
@@ -55,62 +54,50 @@ AC_ARG_WITH([mainboard-mcu],
  (LPC2131 | LPC2132 | LPC2134 | LPC2136 | LPC2138) [LPC2138]])],,
  [with_mainboard_mcu=LPC2138
 ])
-case $with_mainboard_mcu in
- LPC213[[12468]]) ;;
- *) AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested]) ;;
-esac
+AS_CASE([$with_mainboard_mcu],
+ [LPC213[[12468]]],,
+ [AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested])
+])
 AC_SUBST([mcu_conf],[$with_mainboard_mcu])
 enable_mag_response=yes
 enable_magex=yes
 enable_multa=yes
 adc1_present=yes
-case $with_mainboard_mcu in
- LPC2131)
+AS_CASE([$with_mainboard_mcu],
+ [LPC2131],[
   echo NOTE: LPC2131 has only 8k RAM >> warnings
   enable_multa=no
-  ;;
-esac
-case $with_mainboard_mcu in
- LPC213[[12]])
+])
+AS_CASE([$with_mainboard_mcu],
+ [LPC213[[12]]],[
   echo NOTE: LPC213[[12]] have no ADC1. some parts of programs are disabled\
   >> warnings
   adc1_present=no
   enable_mag_response=no
   enable_magex=no
   enable_multa=no
-  ;;
-esac
+])
 adc1_define=1
-case $adc1_present in
- no) adc1_define=0 ;;
-esac
+AS_CASE([$adc1_present],[no],[adc1_define=0])
 AC_DEFINE_UNQUOTED([HAVE_ADC1],$adc1_define,
  [Define to 0 if the MCU has no second ADC])
-case $enable_mag_response in
- no)
- echo NOTE: \'mag_response\' program is disabled >>warnings
-esac
-case $enable_magex in
- no)
- echo NOTE: \'magex\' program is disabled >>warnings
-esac
-case $enable_multa in
- no)
- echo NOTE: \'multa\' program is disabled >>warnings
-esac
-AM_CONDITIONAL(mag_response_enabled, test $enable_mag_response = yes)
-AM_CONDITIONAL(magex_enabled, test $enable_magex = yes)
-AM_CONDITIONAL(multa_enabled, test $enable_multa = yes)
+AS_CASE([$enable_mag_response],
+ [no],[echo NOTE: \'mag_response\' program is disabled >>warnings])
+AS_CASE([$enable_magex],
+ [no],[echo NOTE: \'magex\' program is disabled >>warnings])
+AS_CASE([$enable_multa],
+ [no],[echo NOTE: \'multa\' program is disabled >>warnings])
+AM_CONDITIONAL([mag_response_enabled],[test $enable_mag_response = yes])
+AM_CONDITIONAL([magex_enabled],[test $enable_magex = yes])
+AM_CONDITIONAL([multa_enabled],[test $enable_multa = yes])
 
 AC_MSG_CHECKING([whether original PPS is requested])
 AC_ARG_ENABLE([original-pps],
  [AS_HELP_STRING([--enable-original-pps],
   [Input PPS signals through CAP1.1 rather than CAP1.2 [no]])])
 current_define=0
-case "z$enable_original_pps" in
- zyes) current_define=1 ;;
- *) enable_original_pps=no ;;
-esac
+AS_CASE(["z$enable_original_pps"],
+ [zyes],[current_define=1],[enable_original_pps=no])
 AC_MSG_RESULT([$enable_original_pps])
 AC_DEFINE_UNQUOTED([HAVE_ORIGINAL_PPS],$current_define,
  [Define to 0 - PPS input is CAP1.1; 1 - CAP1.2])
@@ -120,75 +107,66 @@ AC_ARG_ENABLE([swap-uarts],
  [AS_HELP_STRING([--enable-swap-uarts],
   [UARTs functions are swapped [no]])])
 current_define=0
-case "z$enable_swap_uarts" in
- zyes) current_define=1 ;;
- *) enable_swap_uarts=no ;;
-esac
+AS_CASE(["z$enable_swap_uarts"],
+ [zyes],[current_define=1],[enable_swap_uarts=no])
 AC_MSG_RESULT([$enable_swap_uarts])
 AC_DEFINE_UNQUOTED([SWAP_UARTS],$current_define,
  [Define to 0 if UARTs are not swapped])
 
 # Checks for programs.
 AC_CHECK_PROG([arm_as_present],[$host_alias-as],[yes],[no])
-case $arm_as_present in
- no)
+AS_CASE([$arm_as_present],
+ [no],[
  AC_MSG_ERROR([
 
  $host_alias-as is not available
  probably no ARM toolchain has been installed
-])
- ;;
-esac
+])])
 ARM_MCU_FLAGS=-mcpu=arm7tdmi
 ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
 AC_MSG_CHECKING(
  [if $host_alias-as accepts '${ARM_MCU_FLAGS}' option])
-if $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
- arm_elf_as=yes;else arm_elf_as=no;
-fi
+AS_IF([$host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null],
+ [arm_elf_as=yes],[arm_elf_as=no])
 AC_MSG_RESULT([$arm_elf_as])
-case $arm_elf_as in
- no)
+AS_CASE([$arm_elf_as],
+ [no],[
  #older gases like 2.11.2 prefer this form of option
  ARM_MCU_FLAGS=-marm7tdmi
  ASFLAGS="${saved_ASFLAGS} ${ARM_MCU_FLAGS}"
  AC_MSG_CHECKING(
   [if $host_alias-as accepts '${ARM_MCU_FLAGS}' option])
- if ! $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null;then
+ AS_IF([! $host_alias-as -o boot.o ${ASFLAGS} ${srcdir}/src/boot.s 2>/dev/null],
+  [
   AC_MSG_RESULT([no])
   AC_MSG_ERROR([
 
  $host_alias-as can't assemble startup program.
  probably the ARM binutils installed are too old
  (binutils-2.11.2 to 2.18 should work)
-])
- fi
+])])
  AC_MSG_RESULT([yes])
- ;;
-esac
+])
 #on OpenBSD arm-unknown-elf-objcopy once installed itself as mere objcopy
 AC_CHECK_PROGS([ARM_OBJCOPY],[$host_alias-objcopy objcopy],[no])
-case ${ARM_OBJCOPY} in
- no)
+AS_CASE([${ARM_OBJCOPY}],
+ [no],[
   AC_MSG_ERROR([[
 
  objcopy tool is not available
  probably no ARM toolchain has been installed
-]])
- ;;
-esac
+]])])
 AC_MSG_CHECKING([whether ${ARM_OBJCOPY} accepts '-I elf32-littlearm'])
-if ! ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
- boot.o /dev/null 2>/dev/null;then
+AS_IF([! ${ARM_OBJCOPY} -I elf32-littlearm -O binary -R startup\
+ boot.o /dev/null 2>/dev/null],[
   AC_MSG_RESULT([no])
   AC_MSG_ERROR([
 
  ${ARM_OBJCOPY} can't manage elf32-littlearm object files.
  Probably no ARM toolchain has been installed properly.
  If you think it has been, try to place path to the toolchain
- before path to the system objcopy in your PATH variable
-])
-fi
+before path to the system objcopy in your PATH variable
+])])
 AC_MSG_RESULT([yes])
 AC_SUBST([arm_unknown_elf_objcopy],[${ARM_OBJCOPY}])
 
@@ -223,13 +201,13 @@ reject_atexit_c=yes
 AC_LANG_CONFTEST(
 [AC_LANG_PROGRAM([[static int no_camel;]],[[no_camel=!0;]])]
 )
-if ! ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} conftest.c \
--o /dev/null 2>/dev/null;then
+AS_IF([! ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} conftest.c \
+-o /dev/null 2>/dev/null],[
  LDFLAGS=${ROBUST_LDFLAGS}
  reject_atexit_c=no
-fi
+])
 AC_MSG_RESULT([$reject_atexit_c])
-AM_CONDITIONAL(atexit_needed, test $reject_atexit_c = no)
+AM_CONDITIONAL([atexit_needed],[test $reject_atexit_c = no])
 
  AC_C_CONST
  AC_C_INLINE
@@ -256,6 +234,4 @@ ${CC} --version |grep ${CC} >>summary
 cat warnings >>summary 2>/dev/null
 rm -f warnings
 
-case "z$recursive_stribog_build" in
- zyes) ;; *) cat summary;;
-esac
+AS_CASE(["z$recursive_stribog_build"],[zyes],[cat summary])
