@@ -258,6 +258,7 @@ necessary code for some subarchitectures).
 [06 Jul 2008 GNU make from CVS can manage these kind of dependencies
  (Thanks to Brian Dessent and Stepan Kasal for ideas on fixing this).
 ]
+[26 Jul 2008 Good news: AVR gcc-4.2.4 builds upon binutils-2.18.20080725]
 
 It is much more problematic to install gEDA and friends. you'll need them if
 you want to edit the hardware part of stribog. we currently use PCB 20070208
@@ -588,6 +589,7 @@ copyright notes come into these files like 'configure', and
 compilation of several sources and such a file can hardly represent
 a single copyrighted unit.
 
+[26 Jul 2008 add also relevant doc/* files when they have gone to Git]
 These files include:
 ./INSTALL
 ./Makefile.in
