@@ -17,16 +17,22 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdarg.h>
 #include"snprintf_checked.h"
+#include<stribog_error.h>
 #include<stdio.h>
 int 
 output_snprintf_error(const char*file,int line,
  char*s,unsigned size,const char*fmt,...)
 {va_list ap;int result;
  va_start(ap,fmt);result=vsnprintf(s,size,fmt,ap);va_end(ap);
- if(result<0||result>=size)
- {fprintf(stderr,"%s:%i: snprintf() failed: ",file,line);
-  if(result>=size)
-   fprintf(stderr,"too short buffer (%i chars, %i needed)\n",size,result);
-  if(result<0)fprintf(stderr,"conversion error %i\n",result);return!0;
+ if(result<0)
+ {stribog_error_at(file,line)
+  ("snprintf() failed: conversion error %i\n",result);
+  return!0;
+ }
+ if(result>=size)
+ {stribog_error_at(file,line)
+  ("snprintf() failed: too short buffer (%i chars, %i needed)\n",
+   size,result);
+  return!0;
  }return 0;
 }
