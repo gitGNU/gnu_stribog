@@ -1,4 +1,4 @@
-/*gnu-like error messages
+/*GNU-like error messages
 Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
@@ -26,8 +26,6 @@ error_(const char*fmt,...)
 void
 output_prefix_for_error(void)
 {if(program_name)error_("%s:",program_name);}
-void
-init_error(const char*prog_name){program_name=prog_name;}
 void
 error_location(const char*file,int line)
 {error_("%s:%i: ",file+skipped_source_chars,line);}
