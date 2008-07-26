@@ -23,27 +23,43 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([utils/lpfilter.c])
 AC_CONFIG_HEADER([config.h])
 #Checks for features required via command-line arguments
+AC_MSG_CHECKING([default port for board loading (elk-port)])
 AC_ARG_WITH([elk-port],
 [AS_HELP_STRING([--with-elk-port],
  [Set default port for elk program [/dev/ttyS0]])],,
  [with_elk_port=/dev/ttyS0
 ])
+AC_MSG_RESULT([$with_elk_port])
+AC_MSG_CHECKING([default port for board communication (conloq-port)])
+AC_DEFINE_UNQUOTED([ELK_PORT],
+ ["$with_elk_port"],[Default port for board uploading (elk)])
 AC_ARG_WITH([conloq-port],
 [AS_HELP_STRING([--with-conloq-port],
  [Set default port for conloq programs [/dev/ttyS1]])],,
  [with_conloq_port=/dev/ttyS1
 ])
-AC_DEFINE_UNQUOTED([CONLOQ_PORT],["$with_conloq_port"],
- [Default port for conloq programs])
-AC_DEFINE_UNQUOTED([ELK_PORT],["$with_elk_port"],
- [Default port for elk])
+AC_MSG_RESULT([$with_conloq_port])
+AC_DEFINE_UNQUOTED([CONLOQ_PORT],
+ ["$with_conloq_port"],[Default port for board communication])
+#argp library configuration
+AC_MSG_CHECKING([if stribog argp implementation is asked for])
+AC_ARG_ENABLE([own-argp],
+ [AS_HELP_STRING([--enable-own-argp],
+  [Use stribog implementation of argp library @<:@no when possible@:>@])
+ ]
+)
+AS_CASE(["z$enable_own_argp"],[zyes | zno],,
+ [enable_own_argp=unspecified]
+)
+AC_MSG_RESULT([$enable_own_argp])
+
 AC_GNU_SOURCE
 # Checks for programs.
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_RANLIB
 
-AS_IF([test "z$GCC" = zyes],[CFLAGS="${CFLAGS} -Wall"])
+AS_CASE(["z$GCC"],[zyes],[CFLAGS="${CFLAGS} -Wall"])
 
 # Checks for libraries.
 AC_CHECK_LIB([m], [sqrt])
@@ -53,21 +69,6 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h fcntl.h float.h stdint.h stdlib.h])
 AC_CHECK_HEADERS([string.h termios.h unistd.h sysexits.h])
 
-#argp library configuration
-AC_MSG_CHECKING([if stribog argp implementation is asked for])
-AC_ARG_ENABLE([own-argp],
- [AS_HELP_STRING([--enable-own-argp],
-  [Use stribog implementation of argp library [no]])],
-  [
-   AS_CASE(["z$enable_own_argp"],
-    [zyes | zno],,
-    [AC_MSG_ERROR([--enable-own-argp should be either 'yes' or 'no'])]
-   )
-],
-  [enable_own_argp=unspecified
-])
-#$enable_own_argp is (yes | no | unspecified)
-AC_MSG_RESULT([$enable_own_argp])
 AC_CHECK_HEADER([argp.h],,
 [AC_MSG_RESULT([no usable argp.h found; stribog version should be used])
  AS_CASE([$enable_own_argp],
@@ -116,6 +117,7 @@ AM_CONDITIONAL([build_own_argp],[test $enable_own_argp = yes])
 #common headers are linked to top build directory
 #to be available the same as config.h
 AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
+                 snprintf_checked.h:lib/snprintf_checked.h
                  stribog_strings.h:lib/stribog_strings.h
                  stribog_save_wd.h:lib/save_wd.h
                  stribog_signal.h:lib/stribog_signal.h
