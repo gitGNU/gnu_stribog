@@ -22,7 +22,7 @@ AS_CASE(["z${target_recursion_trigger}"],
  export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
- AS_CASE(["z$ARM_TOOLS_PREFIX"],
+ AS_CASE(["z${ARM_TOOLS_PREFIX}"],
   [z],[export ARM_TOOLS_PREFIX=arm-unknown-elf])
  AS_CASE([$#],
   [0],[${0} --build=${config_guessed} --host=${ARM_TOOLS_PREFIX}],[
@@ -48,6 +48,7 @@ saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
 
 #Checks for features required via command-line arguments
+AC_MSG_CHECKING([for host MCU])
 AC_ARG_WITH([mainboard-mcu],
 [AS_HELP_STRING([--with-mainboard-mcu],
  [Configure MCU on the main board 
@@ -58,6 +59,7 @@ AS_CASE([$with_mainboard_mcu],
  [LPC213[[12468]]],,
  [AC_MSG_ERROR([unknown MCU '$with_mainboard_mcu' is requested])
 ])
+AC_MSG_RESULT([$with_mainboard_mcu])
 AC_SUBST([mcu_conf],[$with_mainboard_mcu])
 enable_mag_response=yes
 enable_magex=yes
