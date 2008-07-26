@@ -1,3 +1,20 @@
+26 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/expon conloq.src/scripts/expon
+   Makefile.am: expon script moved to fix `make' namespace conflict
+ * lib/error.c lib/stribog_error.h conloq.src/conloq.c
+   conloq.src/caed.c conloq.src/elig.c conloq.src/expon.c
+   conloq.src/magex-conloq.c conloq.src/parse_tsipex.c elk.src/elk.c:
+ error output initialisation changed
+ * lib/error.c lib/stribog_error.h: initialisation redefined;
+ low_level error output macro provided
+ * elk.src/snprintf_checked.c: output made stribog_error.h-based
+ * elk.src/snprintf_checked.c elk.src/snprintf_checked.h
+   lib/snprintf_checked.c lib/snprintf_checked.h
+   elk.src/elk.c Makefile.am configure.ac:
+ snprintf_checked moved to stribog library
+ * configure.ac: minor fixes
+ * conloq.src/caed.c conloq.src/conloq.c conloq.src/magex-conloq.c:
+ snprintf used via snprintf_checked
 25 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: AM_CONDITIONAL quoted properly,
  m2sh constructs used instead of `if' and `case',
