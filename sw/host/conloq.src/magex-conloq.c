@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<stribog_signal.h>
+#include<snprintf_checked.h>
 #include<argp.h>
 enum exit_codes
 {normal_exit=0,no_log_file=1,no_uart=2,
@@ -33,7 +34,7 @@ static FILE*
 next_file(void)
 {char s[289];int i=0;FILE*f;
  do
- {snprintf(s,sizeof s,"%imagex-conloq.log",i++);
+ {if(snprintf_checked(s,sizeof s,"%imagex-conloq.log",i++))return 0;
   f=fopen(s,"rt");if(f)fclose(f);
  }while(f);return fopen(s,"wb");
 }static tsip_buf*tb;static FILE*f;

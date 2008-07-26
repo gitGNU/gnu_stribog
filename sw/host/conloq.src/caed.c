@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_crc32.h>
 #include<stribog_error.h>
 #include<stribog_strings.h>
+#include<snprintf_checked.h>
 #include"get_u.h"
 #include<stdio.h>
 #include<argp.h>
@@ -85,7 +86,8 @@ main(int argc,char**argv)
  tb=new_tsip();
  scanf("%lg",&t);
  /*FIXME support long filenames*/
- snprintf(file_name,sizeof file_name,"%s.%3.3i",arguments.file_name,i++);
+ if(snprintf_checked(file_name,sizeof file_name,"%s.%3.3i",
+     arguments.file_name,i++))return 4;
  if(!(log=fopen(file_name,"wb")))
  {error("can't open output file '%s'\n",file_name);
   return 3;
@@ -97,7 +99,8 @@ main(int argc,char**argv)
   {expone(_,size);
    if(!feof(stdin))if(mcu_stamp()>t)
    {fclose(log);
-    snprintf(file_name,sizeof file_name,"%s.%3.3i",arguments.file_name,i++);
+    if(snprintf_checked(file_name,sizeof file_name,"%s.%3.3i",
+        arguments.file_name,i++))return 4;
     if(!(log=fopen(file_name,"wb")))
     {error("can't open output file '%s'\n",file_name);
      return 3;

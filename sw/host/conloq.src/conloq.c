@@ -37,6 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 # define IGNORE_KEYPRESSES (1)
 #endif
 #include<stribog_signal.h>
+#include<snprintf_checked.h>
 #include<errno.h>
 #include<string.h>
 #include<time.h>
@@ -49,8 +50,10 @@ enum program_exit_codes
 static FILE*
 next_file(const char**file_name)
 {static char s[289];int i=0;FILE*f;
- do{snprintf(s,sizeof s,"%iconloq.log",i++);f=fopen(s,"rt");if(f)fclose(f);}
- while(f);*file_name=s;return fopen(s,"wb");
+ do
+ {if(snprintf_checked(s,sizeof s,"%iconloq.log",i++))return 0;
+  f=fopen(s,"rt");if(f)fclose(f);
+ }while(f);*file_name=s;return fopen(s,"wb");
 }static tsip_buf*tb;static FILE*f;
 #if HAVE_TERMIOS_H
 static struct termios saved_stdin_settings;
