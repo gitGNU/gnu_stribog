@@ -31,7 +31,7 @@ bin_PROGRAMS=elk\
  caed conloq elig magex-conloq magexp odo parse_tsipex\
  50hz drift fdif lpfilter stat
 noinst_LIBRARIES=libstribog.a
-dist_bin_SCRIPTS=conloq.src/expon utils/cutdrift
+dist_bin_SCRIPTS=conloq.src/scripts/expon utils/cutdrift
 noinst_PROGRAMS=expon.legacy save_wdex signalex
 EXTRA_DIST=tests/serial.c tests/term.c
 if build_own_argp
@@ -92,11 +92,11 @@ parse_tsipex_LDADD=libstribog.a
 elk_CPPFLAGS=$(AM_CPPFLAGS) -DBUILDING_ELK=1
 elk_SOURCES=elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
  elk.src/serialia.h elk.src/ram_loader.c elk.src/ram_loader.h\
- elk.src/lpc_loader.c elk.src/lpc_loader.h\
- elk.src/snprintf_checked.c elk.src/snprintf_checked.h
+ elk.src/lpc_loader.c elk.src/lpc_loader.h
 elk_LDADD=$(argp_lib) libstribog.a
 EXTRA_elk_SOURCES=elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES=lib/error.c lib/stribog_error.h\
+ lib/snprintf_checked.c lib/snprintf_checked.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
  lib/stribog_signal.h lib/signal.c
 save_wdex_SOURCES=lib/save_wdex.c lib/save_wd.c lib/save_wd.h
