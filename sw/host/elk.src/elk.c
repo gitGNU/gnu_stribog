@@ -250,10 +250,10 @@ parse_opt(int key,char*arg,struct argp_state*state)
 int
 main(int argc,char**argv)
 {enum program_exit_codes err;
+ INIT_ERROR(*argv);
  args.run=args.write=0;
  args.freq=14746;args.target_name="multa";
  args.directory=args.package_data_dir=args.port_name=0;
- init_error_dir(*argv,SOURCE_DIR);
  argp_parse(&argp,argc,argv,0,0,&args);
  printf("crystal frequency assumed %i kHz\n",args.freq);
  if(!args.target_name&&(args.write||args.run))

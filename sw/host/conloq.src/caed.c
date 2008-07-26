@@ -79,7 +79,7 @@ main(int argc,char**argv)
 {tsip_buf*tb;int size,c,i=0;const unsigned char*_;
  FILE*f,*log;double t=0;struct arguments arguments;char file_name[0x121];
  arguments.file_name=0;arguments.escapes=0;
- init_error(*argv);
+ INIT_ERROR(*argv);
  argp_parse(&argp,argc,argv,0,0,&arguments);
  if(arguments.escapes)enable_escapes(!0);
  tb=new_tsip();

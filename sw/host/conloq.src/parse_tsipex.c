@@ -50,7 +50,7 @@ expone(const unsigned char*s,int size)
 }int
 main(int argc,char**argv)
 {tsip_buf*tb;int size,n,j;const unsigned char*_;unsigned char s[0x121];
- init_error(*argv);
+ INIT_ERROR(*argv);
  if(argc>1)
  {printf("escapes enabled\n");enable_escapes(!0);enable_push_esc=!0;}
  else printf("default behaviour (no escapes)\n");

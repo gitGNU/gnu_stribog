@@ -220,7 +220,7 @@ get_next_data)(unsigned char*,int)=data_lege;
 int 
 main(int argc,char**argv)
 {long period;
- init_error_dir(*argv,SOURCE_DIR);
+ INIT_ERROR(*argv);
  arguments.dfreq=8550;arguments.port_name=arguments.log_name=0;
  arguments.escapes=arguments.verbosity=arguments.file_input=0;
  arguments.timeout=arguments.deafitude=0;

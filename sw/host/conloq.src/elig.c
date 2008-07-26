@@ -66,7 +66,7 @@ static void expone(const unsigned char*c,int size)
 int main(int argc,char**argv)
 {tsip_buf*tb;int size;const unsigned char*_;
  struct arguments arguments;arguments.escapes=0;
- init_error(*argv);
+ INIT_ERROR(*argv);
  argp_parse(&argp,argc,argv,0,0,&arguments);
  if(arguments.escapes)enable_escapes(!0);
  tb=new_tsip();
