@@ -17,9 +17,9 @@
 AC_PREREQ(2.62)
 AC_INIT([stribog-auxilia], [0.0-minus], [stribog-bug@nongnu.org])
 # force avr-based host without forcing avr-based build
-AS_CASE(["z${target_recursion_trigger}"],
+AS_CASE(["z${avr_recursion_trigger}"],
  [ztriggered],,[
- export target_recursion_trigger=triggered
+ export avr_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
  AS_CASE([$#],
@@ -29,7 +29,7 @@ AS_CASE(["z${target_recursion_trigger}"],
   ${0} --build=${config_guessed} $@ --host=avr
   ])
  result=$?
- export target_recursion_trigger=triggered
+ export avr_recursion_trigger=triggered
  exit $result
 ])
 AC_MSG_RESULT([NB here we force $host_alias host])
@@ -67,8 +67,11 @@ AC_ARG_WITH([odo-mask],
  [with_odo_mask='1<<5'
 ])
 AC_MSG_RESULT([$with_odo_mask])
-AC_DEFINE_UNQUOTED([ODO_INPUT_MASK],[((unsigned char)(${with_odo_mask}))],
-[Define as PINC input mask for odometer pulses (typically one non-null bit)])
+AC_DEFINE_UNQUOTED([ODO_INPUT_MASK],
+ [((unsigned char)(${with_odo_mask}))],
+ [Define as PINC input mask for odometer pulses
+  (typically one non-null bit)]
+)
 
 # Checks for programs.
 
