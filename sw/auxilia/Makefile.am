@@ -49,5 +49,4 @@ hodo.map: odo/hodo.c
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 nodist_pkgdata_DATA+=summary config.h
-dist-hook:
-	$(RM) $(nodist_pkgdata_DATA)
+DISTCLEANFILES=$(nodist_pkgdata_DATA)

@@ -788,6 +788,9 @@ loader_sources = src/loader.boot.s include/lpc2138.h\
 loader_SOURCES = $(loader_sources)
 loader_LDFLAGS = $(AM_LDFLAGS) -T./loader.ld
 loader_DEPENDENCIES = loader.ld
+DISTCLEANFILES = $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
+ $(nodist_pkgdata_DATA)
+
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -1549,9 +1552,6 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	$(MAKE) $(AM_MAKEFLAGS) \
-	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
-	  dist-hook
 	-find $(distdir) -type d ! -perm -777 -exec chmod a+rwx {} \; -o \
 	  ! -type d ! -perm -444 -links 1 -exec chmod a+r {} \; -o \
 	  ! -type d ! -perm -400 -exec chmod a+r {} \; -o \
@@ -1682,6 +1682,7 @@ clean-generic:
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1754,15 +1755,14 @@ uninstall-am: uninstall-nodist_pkgdataDATA \
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
 	clean-generic clean-noinstPROGRAMS ctags dist dist-all \
-	dist-bzip2 dist-gzip dist-hook dist-lzma dist-shar dist-tarZ \
-	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-nodist_pkgdataDATA \
-	install-nodist_ram_programsDATA \
+	dist-bzip2 dist-gzip dist-lzma dist-shar dist-tarZ dist-zip \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-nodist_pkgdataDATA install-nodist_ram_programsDATA \
 	install-nodist_rom_programsDATA install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
@@ -1923,9 +1923,6 @@ loader.map: $(loader_sources)
 @GNU_MAKE_TRUE@	$(COMPILE) -S -o $@ $<
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
-dist-hook:
-	$(RM) $(nodist_rom_programs_DATA) $(nodist_ram_programs_DATA)\
- $(nodist_pkgdata_DATA)
 ram2138.ld: $(srcdir)/src/ram2138.ld.in $(srcdir)/subst_ldscript
 	$(srcdir)/subst_ldscript RAM $(mcu_conf) \
  < $(srcdir)/src/ram2138.ld.in > ram2138.ld

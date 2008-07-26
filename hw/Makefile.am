@@ -171,5 +171,4 @@ schematics/gyro.png: gyro.sch
 endif
 ###schematic gyro expanded definition ends
 
-dist-hook:
-	$(RM) image.scm
+DISTCLEANFILES=image.scm

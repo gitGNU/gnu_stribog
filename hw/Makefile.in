@@ -223,6 +223,8 @@ dist_boardmain_board.bisps_DATA = main_board.bis/main_board.bis.ps main_board.bi
 schematicsdir = $(pkgdatadir)/schematics
 schematics_DATA = schematics/stribog.png schematics/odo.png \
 	schematics/gyro.png
+###schematic gyro expanded definition ends
+DISTCLEANFILES = image.scm
 all: all-am
 
 .SUFFIXES:
@@ -375,9 +377,6 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	$(MAKE) $(AM_MAKEFLAGS) \
-	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
-	  dist-hook
 check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
@@ -405,6 +404,7 @@ clean-generic:
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -471,9 +471,9 @@ uninstall-am: uninstall-dist_boardmain_board.bisgerberDATA \
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am check check-am clean clean-generic dist-hook \
-	distclean distclean-generic distdir dvi dvi-am html html-am \
-	info info-am install install-am install-data install-data-am \
+.PHONY: all all-am check check-am clean clean-generic distclean \
+	distclean-generic distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am \
 	install-dist_boardmain_board.bisgerberDATA \
 	install-dist_boardmain_board.bispsDATA \
 	install-dist_boardmain_boardgerberDATA \
@@ -550,10 +550,6 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 @use_gschem_TRUE@	gschem -p -o $(abs_builddir)/schematics/gyro.png\
 @use_gschem_TRUE@ -s $(abs_builddir)/image.scm $(srcdir)/gyro.sch 2>/dev/null
 @use_gschem_TRUE@	$(RM) gschem.log
-###schematic gyro expanded definition ends
-
-dist-hook:
-	$(RM) image.scm
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
