@@ -15,14 +15,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
+int 
+output_snprintf_error(const char*file,int line,
+ char*s,unsigned size,const char*fmt,...)
+#ifdef __GNUC__
+__attribute__((format(printf,5,6)))
+#endif
+;
 #define snprintf_checked(s,size,fmt,...)\
  output_snprintf_error(\
  __FILE__,__LINE__,s,size,fmt,__VA_ARGS__)
-#ifdef __GNUC__
-int output_snprintf_error(const char*file,int line,
- char*s,unsigned size,const char*fmt,...)
-__attribute__((format(printf,5,6)));
-#endif
-int 
-output_snprintf_error(const char*file,int line,
- char*s,unsigned size,const char*fmt,...);
