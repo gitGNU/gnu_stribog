@@ -39,5 +39,4 @@ schematics_DATA=
 ST_SCHEMATIC(stribog)
 ST_SCHEMATIC(odo)
 ST_SCHEMATIC(gyro)
-dist-hook:
-	$(RM) image.scm
+DISTCLEANFILES=image.scm

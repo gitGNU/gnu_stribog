@@ -25,5 +25,4 @@ if enable_doc
 endif
 EXTRA_DIST=branch
 nodist_pkgdata_DATA=summary
-dist-hook:
-	$(RM) $(nodist_pkgdata_DATA)
+DISTCLEANFILES=summary

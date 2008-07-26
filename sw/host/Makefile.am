@@ -108,5 +108,4 @@ fdif_SOURCES=utils/fdif.c
 lpfilter_SOURCES=utils/lpfilter.c
 stat_SOURCES=utils/stat.c
 nodist_pkgdata_DATA=summary
-dist-hook:
-	$(RM) $(nodist_pkgdata_DATA)
+DISTCLEANFILES=summary
