@@ -665,13 +665,13 @@ am__tar
 am__untar
 enable_doc_TRUE
 enable_doc_FALSE
+LN_S
 arm_gcc_present
 enable_arm_targets_TRUE
 enable_arm_targets_FALSE
 avr_gcc_present
 enable_avr_targets_TRUE
 enable_avr_targets_FALSE
-LN_S
 PCB
 use_pcb_TRUE
 use_pcb_FALSE
@@ -692,10 +692,10 @@ enable_doc
 enable_arm_targets
 with_arm_host
 enable_avr_targets
-enable_schematics_resolution
 with_pcb
-with_ps2pdf
 with_gschem
+with_ps2pdf
+enable_schematics_resolution
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1341,8 +1341,9 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-arm-host         affix for ARM toolchain [arm-unknown-elf]
   --without-pcb           Do not invoke pcb
-  --without-ps2pdf        Do not invoke ps2pdf
+
   --without-gschem        Do not invoke gschem
+  --without-ps2pdf        Do not invoke ps2pdf
 
 Report bugs to <stribog-bug@nongnu.org>.
 _ACEOF
@@ -2293,9 +2294,6 @@ $as_echo_n "checking if documentation is enabled... " >&6; }
 # Check whether --enable-doc was given.
 if test "${enable_doc+set}" = set; then
   enableval=$enable_doc;
-else
-  enable_doc=unspecified
-
 fi
 
 case "z$enable_doc" in
@@ -2308,12 +2306,16 @@ $as_echo "$enable_doc" >&6; }
 { $as_echo "$as_me:$LINENO: checking if documentation is available" >&5
 $as_echo_n "checking if documentation is available... " >&6; }
 if test -f ${srcdir}/doc/stribog.texinfo; then
+  { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
   case $enable_doc in
   no) : ;;
   *) enable_doc=yes ;;
 esac
 
 else
+  { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
   case $enable_doc in
   yes)
    { $as_echo "$as_me:$LINENO: result: $enable_doc" >&5
@@ -2344,15 +2346,12 @@ else
 fi
 
 
-# ARM toolchain-specific
+# ARM toolchain-specific command-line options
 { $as_echo "$as_me:$LINENO: checking if ARM targets are enabled" >&5
 $as_echo_n "checking if ARM targets are enabled... " >&6; }
 # Check whether --enable-arm-targets was given.
 if test "${enable_arm_targets+set}" = set; then
   enableval=$enable_arm_targets;
-else
-  enable_arm_targets=unspecified
-
 fi
 
 case "z$enable_arm_targets" in
@@ -2369,9 +2368,9 @@ $as_echo_n "checking for ARM toolchain affix... " >&6; }
 if test "${with_arm_host+set}" = set; then
   withval=$with_arm_host; case $enable_arm_targets in
   no)
-   { $as_echo "$as_me:$LINENO: result: $with_arm_host" >&5
+    { $as_echo "$as_me:$LINENO: result: $with_arm_host" >&5
 $as_echo "$with_arm_host" >&6; }
-   { { $as_echo "$as_me:$LINENO: error:
+    { { $as_echo "$as_me:$LINENO: error:
 
  Please either don't disable ARM targets or don't specify ARM toolchain affix
 " >&5
@@ -2379,8 +2378,7 @@ $as_echo "$as_me: error:
 
  Please either don't disable ARM targets or don't specify ARM toolchain affix
 " >&2;}
-   { (exit 1); exit 1; }; }
- ;;
+   { (exit 1); exit 1; }; } ;;
 esac
  arm_host_specified=yes
 
@@ -2389,18 +2387,15 @@ else
   arm_host_specified=no
 
 fi
-
 { $as_echo "$as_me:$LINENO: result: $with_arm_host" >&5
 $as_echo "$with_arm_host" >&6; }
-#the same for AVR
+
+# AVR toolchain-specific command-line options
 { $as_echo "$as_me:$LINENO: checking if AVR targets are enabled" >&5
 $as_echo_n "checking if AVR targets are enabled... " >&6; }
 # Check whether --enable-avr-targets was given.
 if test "${enable_avr_targets+set}" = set; then
   enableval=$enable_avr_targets;
-else
-  enable_avr_targets=unspecified
-
 fi
 
 case "z$enable_avr_targets" in
@@ -2410,6 +2405,55 @@ esac
 
 { $as_echo "$as_me:$LINENO: result: $enable_avr_targets" >&5
 $as_echo "$enable_avr_targets" >&6; }
+
+#gEDA tools-specific command-line options
+{ $as_echo "$as_me:$LINENO: checking whether to use pcb" >&5
+$as_echo_n "checking whether to use pcb... " >&6; }
+
+# Check whether --with-pcb was given.
+if test "${with_pcb+set}" = set; then
+  withval=$with_pcb;
+fi
+
+case "z$with_pcb" in
+  zno | zyes) : ;;
+  *) with_pcb=unspecified ;;
+esac
+
+{ $as_echo "$as_me:$LINENO: result: $with_pcb" >&5
+$as_echo "$with_pcb" >&6; }
+
+{ $as_echo "$as_me:$LINENO: checking whether to use gschem" >&5
+$as_echo_n "checking whether to use gschem... " >&6; }
+
+# Check whether --with-gschem was given.
+if test "${with_gschem+set}" = set; then
+  withval=$with_gschem;
+fi
+
+case "z$with_gschem" in
+  zno | zyes) : ;;
+  *) with_gschem=unspecified ;;
+esac
+
+{ $as_echo "$as_me:$LINENO: result: $with_gschem" >&5
+$as_echo "$with_gschem" >&6; }
+
+{ $as_echo "$as_me:$LINENO: checking whether to use ps2pdf" >&5
+$as_echo_n "checking whether to use ps2pdf... " >&6; }
+
+# Check whether --with-ps2pdf was given.
+if test "${with_ps2pdf+set}" = set; then
+  withval=$with_ps2pdf;
+fi
+
+case "z$with_ps2pdf" in
+  zno | zyes) : ;;
+  *) with_ps2pdf=unspecified ;;
+esac
+
+{ $as_echo "$as_me:$LINENO: result: $with_ps2pdf" >&5
+$as_echo "$with_ps2pdf" >&6; }
 
 { $as_echo "$as_me:$LINENO: checking for schematics output resolution" >&5
 $as_echo_n "checking for schematics output resolution... " >&6; }
@@ -2421,165 +2465,12 @@ else
 
 fi
 
+{ $as_echo "$as_me:$LINENO: result: $enable_schematics_resolution" >&5
+$as_echo "$enable_schematics_resolution" >&6; }
+
 # Checks for programs.
-# Extract the first word of "$with_arm_host-gcc", so it can be a program name with args.
-set dummy $with_arm_host-gcc; ac_word=$2
-{ $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if test "${ac_cv_prog_arm_gcc_present+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$arm_gcc_present"; then
-  ac_cv_prog_arm_gcc_present="$arm_gcc_present" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_arm_gcc_present="yes"
-    $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
 
-  test -z "$ac_cv_prog_arm_gcc_present" && ac_cv_prog_arm_gcc_present="no"
-fi
-fi
-arm_gcc_present=$ac_cv_prog_arm_gcc_present
-if test -n "$arm_gcc_present"; then
-  { $as_echo "$as_me:$LINENO: result: $arm_gcc_present" >&5
-$as_echo "$arm_gcc_present" >&6; }
-else
-  { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-
-case $arm_gcc_present in
-  no)
-  case $enable_arm_targets in
-  yes)
-    { { $as_echo "$as_me:$LINENO: error:
-
- ARM targets are requested, but no toolchain is found" >&5
-$as_echo "$as_me: error:
-
- ARM targets are requested, but no toolchain is found" >&2;}
-   { (exit 1); exit 1; }; } ;;
-esac
-
-  case $arm_host_specified in
-  no) enable_arm_targets=no ;;
-  yes)
-    { { $as_echo "$as_me:$LINENO: error:
-
- ARM toolchain affix is specified, but no toolchain is found
-" >&5
-$as_echo "$as_me: error:
-
- ARM toolchain affix is specified, but no toolchain is found
-" >&2;}
-   { (exit 1); exit 1; }; } ;;
-esac
-   ;;
-   yes)
-  case $enable_arm_targets in
-  no) : ;;
-  *) enable_arm_targets=yes ;;
-esac
-
- ;;
-esac
- if test $enable_arm_targets = yes; then
-  enable_arm_targets_TRUE=
-  enable_arm_targets_FALSE='#'
-else
-  enable_arm_targets_TRUE='#'
-  enable_arm_targets_FALSE=
-fi
-
-case $enable_arm_targets in
-  no) distribution_impossible=yes ;;
-esac
-
-
-# Extract the first word of "avr-gcc", so it can be a program name with args.
-set dummy avr-gcc; ac_word=$2
-{ $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if test "${ac_cv_prog_avr_gcc_present+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$avr_gcc_present"; then
-  ac_cv_prog_avr_gcc_present="$avr_gcc_present" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_avr_gcc_present="yes"
-    $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_avr_gcc_present" && ac_cv_prog_avr_gcc_present="no"
-fi
-fi
-avr_gcc_present=$ac_cv_prog_avr_gcc_present
-if test -n "$avr_gcc_present"; then
-  { $as_echo "$as_me:$LINENO: result: $avr_gcc_present" >&5
-$as_echo "$avr_gcc_present" >&6; }
-else
-  { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-case $avr_gcc_present in
-  no) case $enable_avr_targets in
-  yes)
-    { { $as_echo "$as_me:$LINENO: error:
-
- AVR targets are requested, but no toolchain is found" >&5
-$as_echo "$as_me: error:
-
- AVR targets are requested, but no toolchain is found" >&2;}
-   { (exit 1); exit 1; }; }
- ;;
-esac
- ;;
-   yes) case $enable_avr_targets in
-  no) : ;;
-  *) enable_avr_targets=yes ;;
-esac
-
- ;;
-esac
- if test $enable_avr_targets = yes; then
-  enable_avr_targets_TRUE=
-  enable_avr_targets_FALSE='#'
-else
-  enable_avr_targets_TRUE='#'
-  enable_avr_targets_FALSE=
-fi
-
-case $enable_avr_targets in
-  no) distribution_impossible=yes ;;
-esac
-
-
+# general OS programs
 { $as_echo "$as_me:$LINENO: checking for a thread-safe mkdir -p" >&5
 $as_echo_n "checking for a thread-safe mkdir -p... " >&6; }
 if test -z "$MKDIR_P"; then
@@ -2634,16 +2525,168 @@ $as_echo "no, using $LN_S" >&6; }
 fi
 
 
-#TODO: check for pcb, gschem and ps2pdf capabilities
-
-# Check whether --with-pcb was given.
-if test "${with_pcb+set}" = set; then
-  withval=$with_pcb;
+# ARM toolchain-specific programs
+# Extract the first word of "$with_arm_host-gcc", so it can be a program name with args.
+set dummy $with_arm_host-gcc; ac_word=$2
+{ $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if test "${ac_cv_prog_arm_gcc_present+set}" = set; then
+  $as_echo_n "(cached) " >&6
 else
-  with_pcb=unspecified
+  if test -n "$arm_gcc_present"; then
+  ac_cv_prog_arm_gcc_present="$arm_gcc_present" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_arm_gcc_present="yes"
+    $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
 
+  test -z "$ac_cv_prog_arm_gcc_present" && ac_cv_prog_arm_gcc_present="no"
+fi
+fi
+arm_gcc_present=$ac_cv_prog_arm_gcc_present
+if test -n "$arm_gcc_present"; then
+  { $as_echo "$as_me:$LINENO: result: $arm_gcc_present" >&5
+$as_echo "$arm_gcc_present" >&6; }
+else
+  { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
 fi
 
+
+case $arm_gcc_present in
+  no)
+  case $enable_arm_targets in
+  yes)
+    { { $as_echo "$as_me:$LINENO: error:
+
+ ARM targets are requested, but no toolchain is found" >&5
+$as_echo "$as_me: error:
+
+ ARM targets are requested, but no toolchain is found" >&2;}
+   { (exit 1); exit 1; }; } ;;
+esac
+
+  case $arm_host_specified in
+  no) enable_arm_targets=no ;;
+  yes)
+    { { $as_echo "$as_me:$LINENO: error:
+
+ ARM toolchain affix is specified, but no toolchain is found
+" >&5
+$as_echo "$as_me: error:
+
+ ARM toolchain affix is specified, but no toolchain is found
+" >&2;}
+   { (exit 1); exit 1; }; } ;;
+esac
+   ;;
+   yes)
+  case $enable_arm_targets in
+  no) : ;;
+  *) enable_arm_targets=yes ;;
+esac
+
+ ;;
+esac
+ if test $enable_arm_targets = yes; then
+  enable_arm_targets_TRUE=
+  enable_arm_targets_FALSE='#'
+else
+  enable_arm_targets_TRUE='#'
+  enable_arm_targets_FALSE=
+fi
+
+case $enable_arm_targets in
+  no) distribution_impossible=yes ;;
+esac
+
+
+# AVR toolchain-specific programs
+# Extract the first word of "avr-gcc", so it can be a program name with args.
+set dummy avr-gcc; ac_word=$2
+{ $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if test "${ac_cv_prog_avr_gcc_present+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$avr_gcc_present"; then
+  ac_cv_prog_avr_gcc_present="$avr_gcc_present" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_avr_gcc_present="yes"
+    $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_avr_gcc_present" && ac_cv_prog_avr_gcc_present="no"
+fi
+fi
+avr_gcc_present=$ac_cv_prog_avr_gcc_present
+if test -n "$avr_gcc_present"; then
+  { $as_echo "$as_me:$LINENO: result: $avr_gcc_present" >&5
+$as_echo "$avr_gcc_present" >&6; }
+else
+  { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+case $avr_gcc_present in
+  no)
+  case $enable_avr_targets in
+  yes)
+    { { $as_echo "$as_me:$LINENO: error:
+
+ AVR targets are requested, but no toolchain is found" >&5
+$as_echo "$as_me: error:
+
+ AVR targets are requested, but no toolchain is found" >&2;}
+   { (exit 1); exit 1; }; }
+ ;;
+esac
+ ;;
+  yes) case $enable_avr_targets in
+  no) : ;;
+  *) enable_avr_targets=yes ;;
+esac
+
+ ;;
+esac
+ if test $enable_avr_targets = yes; then
+  enable_avr_targets_TRUE=
+  enable_avr_targets_FALSE='#'
+else
+  enable_avr_targets_TRUE='#'
+  enable_avr_targets_FALSE=
+fi
+
+case $enable_avr_targets in
+  no) distribution_impossible=yes ;;
+esac
+
+
+#gEDA-specific programs
+#TODO: check for pcb, gschem and ps2pdf capabilities
 for ac_prog in pcb
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
@@ -2698,10 +2741,11 @@ $as_echo "$as_me: error:
 
   pcb invocation is requested, but no pcb is found" >&2;}
    { (exit 1); exit 1; }; }
- ;;
+   ;;
 esac
  ;;
-  *) we_have_pcb=yes ;;
+  *)  we_have_pcb=yes
+ ;;
 esac
 case $with_pcb in
   no) use_pcb=no ;;
@@ -2716,15 +2760,6 @@ else
   use_pcb_FALSE=
 fi
 
-
-
-# Check whether --with-ps2pdf was given.
-if test "${with_ps2pdf+set}" = set; then
-  withval=$with_ps2pdf;
-else
-  with_ps2pdf=unspecified
-
-fi
 
 for ac_prog in ps2pdf
 do
@@ -2785,7 +2820,8 @@ $as_echo "$as_me: error:
  ;;
 esac
  ;;
-  *)   we_have_ps2pdf=yes ;;
+  *)   we_have_ps2pdf=yes
+ ;;
 esac
 
 case $with_ps2pdf in
@@ -2801,15 +2837,6 @@ else
   use_ps2pdf_FALSE=
 fi
 
-
-
-# Check whether --with-gschem was given.
-if test "${with_gschem+set}" = set; then
-  withval=$with_gschem;
-else
-  with_gschem=unspecified
-
-fi
 
 for ac_prog in gschem
 do
@@ -2867,8 +2894,9 @@ $as_echo "$as_me: error:
   gschem invocation is requested, but no gschem is found
 " >&2;}
    { (exit 1); exit 1; }; } ;;
-  *) we_have_gschem=yes ;;
 esac
+ ;;
+  *) we_have_gschem=yes
  ;;
 esac
 case $with_gschem in
@@ -2883,6 +2911,7 @@ else
   use_gschem_TRUE='#'
   use_gschem_FALSE=
 fi
+
 
 # Checks for libraries.
 # Checks for header files.
@@ -4289,15 +4318,11 @@ esac
 
 case $use_pcb in
   no)
-  case $we_have_pcb in
-  no)
-    echo "NOTE: no suitable pcb program -" >>warnings
-	 ;;
-  *)
-    echo "NOTE: pcb program will not be used -" >>warnings
- ;;
-esac
 
+  ($we_have_pcb,no,
+   echo "NOTE: no suitable pcb program -" >>warnings;,
+   echo "NOTE: pcb program will not be used -" >>warnings;
+  )
   echo   "      make will not update PCB images" >>warnings
  ;;
 esac
@@ -4333,7 +4358,7 @@ esac
 esac
 
 
-echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
+echo "***Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo "prefix:               ${prefix}">>summary
 echo "enabled subprojects:  ${enabled_subprojects}">>summary
 cat warnings >>summary

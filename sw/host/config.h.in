@@ -1,9 +1,9 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Default port for conloq programs */
+/* Default port for board communication */
 #undef CONLOQ_PORT
 
-/* Default port for elk */
+/* Default port for board uploading (elk) */
 #undef ELK_PORT
 
 /* Define to 1 if you have the `atexit' function. */

@@ -50,6 +50,7 @@ DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(top_srcdir)/../common/ram_loader_enums.h \
 	$(top_srcdir)/configure $(top_srcdir)/lib/argp/argp.h \
 	$(top_srcdir)/lib/crc32.h $(top_srcdir)/lib/save_wd.h \
+	$(top_srcdir)/lib/snprintf_checked.h \
 	$(top_srcdir)/lib/stribog_error.h \
 	$(top_srcdir)/lib/stribog_signal.h \
 	$(top_srcdir)/lib/stribog_strings.h AUTHORS COPYING ChangeLog \
@@ -63,9 +64,9 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = argp.h stribog_error.h stribog_strings.h \
-	stribog_save_wd.h stribog_signal.h form_fix.h \
-	ram_loader_enums.h stribog_crc32.h
+CONFIG_CLEAN_FILES = argp.h stribog_error.h snprintf_checked.h \
+	stribog_strings.h stribog_save_wd.h stribog_signal.h \
+	form_fix.h ram_loader_enums.h stribog_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
@@ -75,8 +76,8 @@ am_libargp_a_OBJECTS = argp.$(OBJEXT)
 libargp_a_OBJECTS = $(am_libargp_a_OBJECTS)
 libstribog_a_AR = $(AR) $(ARFLAGS)
 libstribog_a_LIBADD =
-am_libstribog_a_OBJECTS = error.$(OBJEXT) save_wd.$(OBJEXT) \
-	crc32.$(OBJEXT) signal.$(OBJEXT)
+am_libstribog_a_OBJECTS = error.$(OBJEXT) snprintf_checked.$(OBJEXT) \
+	save_wd.$(OBJEXT) crc32.$(OBJEXT) signal.$(OBJEXT)
 libstribog_a_OBJECTS = $(am_libstribog_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(pkgdatadir)"
@@ -120,13 +121,12 @@ elig_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am__elk_SOURCES_DIST = elk.src/elk.c elk.src/serial.c \
 	elk.src/serialia.c elk.src/wser.c elk.src/serialia.h \
 	elk.src/ram_loader.c elk.src/ram_loader.h elk.src/lpc_loader.c \
-	elk.src/lpc_loader.h elk.src/snprintf_checked.c \
-	elk.src/snprintf_checked.h
+	elk.src/lpc_loader.h
 @the_host_is_windows_FALSE@am__objects_2 = elk-serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_2 = elk-wser.$(OBJEXT)
 am_elk_OBJECTS = elk-elk.$(OBJEXT) elk-serial.$(OBJEXT) \
 	$(am__objects_2) elk-ram_loader.$(OBJEXT) \
-	elk-lpc_loader.$(OBJEXT) elk-snprintf_checked.$(OBJEXT)
+	elk-lpc_loader.$(OBJEXT)
 elk_OBJECTS = $(am_elk_OBJECTS)
 elk_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_expon_legacy_OBJECTS = expon.$(OBJEXT) exp.$(OBJEXT) \
@@ -355,7 +355,7 @@ AM_CPPFLAGS = -DPACKAGE_DATA_DIR="\"$(datadir)\""\
  -DSOURCE_DIR="\"$(srcdir)\""
 
 noinst_LIBRARIES = libstribog.a $(am__append_1)
-dist_bin_SCRIPTS = conloq.src/expon utils/cutdrift
+dist_bin_SCRIPTS = conloq.src/scripts/expon utils/cutdrift
 EXTRA_DIST = tests/serial.c tests/term.c
 libargp_a_SOURCES = lib/argp/argp.c
 argpex_SOURCES = lib/argp/argpex.c
@@ -416,12 +416,12 @@ parse_tsipex_LDADD = libstribog.a
 elk_CPPFLAGS = $(AM_CPPFLAGS) -DBUILDING_ELK=1
 elk_SOURCES = elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
  elk.src/serialia.h elk.src/ram_loader.c elk.src/ram_loader.h\
- elk.src/lpc_loader.c elk.src/lpc_loader.h\
- elk.src/snprintf_checked.c elk.src/snprintf_checked.h
+ elk.src/lpc_loader.c elk.src/lpc_loader.h
 
 elk_LDADD = $(argp_lib) libstribog.a
 EXTRA_elk_SOURCES = elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES = lib/error.c lib/stribog_error.h\
+ lib/snprintf_checked.c lib/snprintf_checked.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
  lib/stribog_signal.h lib/signal.c
 
@@ -616,7 +616,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-ram_loader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-serial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-serialia.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-snprintf_checked.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elk-wser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exp-brief.Po@am__quote@
@@ -639,6 +638,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialia.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signalex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snprintf_checked.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/verbosity_level.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wser.Po@am__quote@
@@ -684,6 +684,20 @@ error.obj: lib/error.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/error.c' object='error.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o error.obj `if test -f 'lib/error.c'; then $(CYGPATH_W) 'lib/error.c'; else $(CYGPATH_W) '$(srcdir)/lib/error.c'; fi`
+
+snprintf_checked.o: lib/snprintf_checked.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT snprintf_checked.o -MD -MP -MF $(DEPDIR)/snprintf_checked.Tpo -c -o snprintf_checked.o `test -f 'lib/snprintf_checked.c' || echo '$(srcdir)/'`lib/snprintf_checked.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/snprintf_checked.Tpo $(DEPDIR)/snprintf_checked.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/snprintf_checked.c' object='snprintf_checked.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o snprintf_checked.o `test -f 'lib/snprintf_checked.c' || echo '$(srcdir)/'`lib/snprintf_checked.c
+
+snprintf_checked.obj: lib/snprintf_checked.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT snprintf_checked.obj -MD -MP -MF $(DEPDIR)/snprintf_checked.Tpo -c -o snprintf_checked.obj `if test -f 'lib/snprintf_checked.c'; then $(CYGPATH_W) 'lib/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/lib/snprintf_checked.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/snprintf_checked.Tpo $(DEPDIR)/snprintf_checked.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='lib/snprintf_checked.c' object='snprintf_checked.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o snprintf_checked.obj `if test -f 'lib/snprintf_checked.c'; then $(CYGPATH_W) 'lib/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/lib/snprintf_checked.c'; fi`
 
 save_wd.o: lib/save_wd.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT save_wd.o -MD -MP -MF $(DEPDIR)/save_wd.Tpo -c -o save_wd.o `test -f 'lib/save_wd.c' || echo '$(srcdir)/'`lib/save_wd.c
@@ -1034,20 +1048,6 @@ elk-lpc_loader.obj: elk.src/lpc_loader.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/lpc_loader.c' object='elk-lpc_loader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-lpc_loader.obj `if test -f 'elk.src/lpc_loader.c'; then $(CYGPATH_W) 'elk.src/lpc_loader.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/lpc_loader.c'; fi`
-
-elk-snprintf_checked.o: elk.src/snprintf_checked.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.o -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.o `test -f 'elk.src/snprintf_checked.c' || echo '$(srcdir)/'`elk.src/snprintf_checked.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-snprintf_checked.Tpo $(DEPDIR)/elk-snprintf_checked.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/snprintf_checked.c' object='elk-snprintf_checked.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.o `test -f 'elk.src/snprintf_checked.c' || echo '$(srcdir)/'`elk.src/snprintf_checked.c
-
-elk-snprintf_checked.obj: elk.src/snprintf_checked.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT elk-snprintf_checked.obj -MD -MP -MF $(DEPDIR)/elk-snprintf_checked.Tpo -c -o elk-snprintf_checked.obj `if test -f 'elk.src/snprintf_checked.c'; then $(CYGPATH_W) 'elk.src/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/snprintf_checked.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/elk-snprintf_checked.Tpo $(DEPDIR)/elk-snprintf_checked.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elk.src/snprintf_checked.c' object='elk-snprintf_checked.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(elk_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o elk-snprintf_checked.obj `if test -f 'elk.src/snprintf_checked.c'; then $(CYGPATH_W) 'elk.src/snprintf_checked.c'; else $(CYGPATH_W) '$(srcdir)/elk.src/snprintf_checked.c'; fi`
 
 expon.o: conloq.src/expon.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT expon.o -MD -MP -MF $(DEPDIR)/expon.Tpo -c -o expon.o `test -f 'conloq.src/expon.c' || echo '$(srcdir)/'`conloq.src/expon.c

@@ -738,8 +738,8 @@ ac_user_opts='
 enable_option_checking
 with_elk_port
 with_conloq_port
-enable_dependency_tracking
 enable_own_argp
+enable_dependency_tracking
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1381,9 +1381,12 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-own-argp       Use stribog implementation of argp library [no when
+                          possible]
+
+
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
-  --enable-own-argp       Use stribog implementation of argp library [no]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -2430,6 +2433,8 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 ac_config_headers="$ac_config_headers config.h"
 
 #Checks for features required via command-line arguments
+{ $as_echo "$as_me:$LINENO: checking default port for board loading (elk-port)" >&5
+$as_echo_n "checking default port for board loading (elk-port)... " >&6; }
 
 # Check whether --with-elk-port was given.
 if test "${with_elk_port+set}" = set; then
@@ -2438,6 +2443,15 @@ else
   with_elk_port=/dev/ttyS0
 
 fi
+
+{ $as_echo "$as_me:$LINENO: result: $with_elk_port" >&5
+$as_echo "$with_elk_port" >&6; }
+{ $as_echo "$as_me:$LINENO: checking default port for board communication (conloq-port)" >&5
+$as_echo_n "checking default port for board communication (conloq-port)... " >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define ELK_PORT "$with_elk_port"
+_ACEOF
 
 
 # Check whether --with-conloq-port was given.
@@ -2448,15 +2462,29 @@ else
 
 fi
 
+{ $as_echo "$as_me:$LINENO: result: $with_conloq_port" >&5
+$as_echo "$with_conloq_port" >&6; }
 
 cat >>confdefs.h <<_ACEOF
 #define CONLOQ_PORT "$with_conloq_port"
 _ACEOF
 
+#argp library configuration
+{ $as_echo "$as_me:$LINENO: checking if stribog argp implementation is asked for" >&5
+$as_echo_n "checking if stribog argp implementation is asked for... " >&6; }
+# Check whether --enable-own-argp was given.
+if test "${enable_own_argp+set}" = set; then
+  enableval=$enable_own_argp;
+fi
 
-cat >>confdefs.h <<_ACEOF
-#define ELK_PORT "$with_elk_port"
-_ACEOF
+case "z$enable_own_argp" in
+  zyes | zno) : ;;
+  *) enable_own_argp=unspecified
+ ;;
+esac
+
+{ $as_echo "$as_me:$LINENO: result: $enable_own_argp" >&5
+$as_echo "$enable_own_argp" >&6; }
 
 DEPDIR="${am__leading_dot}deps"
 
@@ -5439,9 +5467,9 @@ else
 fi
 
 
-if test "z$GCC" = zyes; then
-  CFLAGS="${CFLAGS} -Wall"
-fi
+case "z$GCC" in
+  zyes) CFLAGS="${CFLAGS} -Wall" ;;
+esac
 
 
 # Checks for libraries.
@@ -6008,29 +6036,6 @@ fi
 done
 
 
-#argp library configuration
-{ $as_echo "$as_me:$LINENO: checking if stribog argp implementation is asked for" >&5
-$as_echo_n "checking if stribog argp implementation is asked for... " >&6; }
-# Check whether --enable-own-argp was given.
-if test "${enable_own_argp+set}" = set; then
-  enableval=$enable_own_argp;
-   case "z$enable_own_argp" in
-  zyes | zno) : ;;
-  *) { { $as_echo "$as_me:$LINENO: error: --enable-own-argp should be either 'yes' or 'no'" >&5
-$as_echo "$as_me: error: --enable-own-argp should be either 'yes' or 'no'" >&2;}
-   { (exit 1); exit 1; }; }
-    ;;
-esac
-
-
-else
-  enable_own_argp=unspecified
-
-fi
-
-#$enable_own_argp is (yes | no | unspecified)
-{ $as_echo "$as_me:$LINENO: result: $enable_own_argp" >&5
-$as_echo "$enable_own_argp" >&6; }
 if test "${ac_cv_header_argp_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for argp.h" >&5
 $as_echo_n "checking for argp.h... " >&6; }
@@ -7595,7 +7600,7 @@ fi
 
 #common headers are linked to top build directory
 #to be available the same as config.h
-ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h stribog_signal.h:lib/stribog_signal.h form_fix.h:../common/form_fix.h ram_loader_enums.h:../common/ram_loader_enums.h stribog_crc32.h:lib/crc32.h"
+ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h snprintf_checked.h:lib/snprintf_checked.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h stribog_signal.h:lib/stribog_signal.h form_fix.h:../common/form_fix.h ram_loader_enums.h:../common/ram_loader_enums.h stribog_crc32.h:lib/crc32.h"
 
 #Makefiles are generated
 ac_config_files="$ac_config_files Makefile postproc/Makefile"
@@ -8238,6 +8243,7 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "argp.h") CONFIG_LINKS="$CONFIG_LINKS argp.h:lib/argp/argp.h" ;;
     "stribog_error.h") CONFIG_LINKS="$CONFIG_LINKS stribog_error.h:lib/stribog_error.h" ;;
+    "snprintf_checked.h") CONFIG_LINKS="$CONFIG_LINKS snprintf_checked.h:lib/snprintf_checked.h" ;;
     "stribog_strings.h") CONFIG_LINKS="$CONFIG_LINKS stribog_strings.h:lib/stribog_strings.h" ;;
     "stribog_save_wd.h") CONFIG_LINKS="$CONFIG_LINKS stribog_save_wd.h:lib/save_wd.h" ;;
     "stribog_signal.h") CONFIG_LINKS="$CONFIG_LINKS stribog_signal.h:lib/stribog_signal.h" ;;

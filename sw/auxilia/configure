@@ -1788,10 +1788,10 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 # force avr-based host without forcing avr-based build
-case "z${target_recursion_trigger}" in
+case "z${avr_recursion_trigger}" in
   ztriggered) : ;;
   *)
- export target_recursion_trigger=triggered
+ export avr_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
  case $# in
@@ -1803,7 +1803,7 @@ case "z${target_recursion_trigger}" in
 esac
 
  result=$?
- export target_recursion_trigger=triggered
+ export avr_recursion_trigger=triggered
  exit $result
  ;;
 esac

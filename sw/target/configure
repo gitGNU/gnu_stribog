@@ -1821,7 +1821,7 @@ case "z${target_recursion_trigger}" in
  export target_recursion_trigger=triggered
  config_guessed=$(echo ${0} | sed "s/configure$/config.guess/")
  config_guessed=$(${config_guessed})
- case "z$ARM_TOOLS_PREFIX" in
+ case "z${ARM_TOOLS_PREFIX}" in
   z) export ARM_TOOLS_PREFIX=arm-unknown-elf ;;
 esac
 
@@ -2350,6 +2350,8 @@ saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
 
 #Checks for features required via command-line arguments
+{ $as_echo "$as_me:$LINENO: checking for host MCU" >&5
+$as_echo_n "checking for host MCU... " >&6; }
 
 # Check whether --with-mainboard-mcu was given.
 if test "${with_mainboard_mcu+set}" = set; then
@@ -2367,6 +2369,8 @@ $as_echo "$as_me: error: unknown MCU '$with_mainboard_mcu' is requested" >&2;}
  ;;
 esac
 
+{ $as_echo "$as_me:$LINENO: result: $with_mainboard_mcu" >&5
+$as_echo "$with_mainboard_mcu" >&6; }
 mcu_conf=$with_mainboard_mcu
 
 enable_mag_response=yes
