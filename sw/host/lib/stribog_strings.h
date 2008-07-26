@@ -15,12 +15,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-
 #define PACKAGE_VERSION_COMMENTED " ("PACKAGE_NAME") "\
  PACKAGE_VERSION"\n"\
 "Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"\
-"stribog comes with NO WARRANTY, to the extent permitted by law.\n"\
-"You may redistribute copies of stribog\n"\
-"under the terms of the GNU General Public License V3+.\n"\
-"For more information about these matters,\n"\
-"see <http://www.gnu.org/licenses/>."
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"\
+"This is free software: you are free to change and redistribute it."\
+"There is NO WARRANTY, to the extent permitted by law."
