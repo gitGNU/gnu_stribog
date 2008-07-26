@@ -1,5 +1,6 @@
 26 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: fixed all that made yesterday
+ * Makefile.am hw/Makefile.am.m4: make use of DISTCLEANFILES
 25 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: AM_CONDITIONAL quoted properly,
  m2sh constructs used instead of `if' and `case',

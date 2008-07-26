@@ -1,4 +1,5 @@
 26 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am: make use of DISTCLEANFILES
  * conloq.src/expon conloq.src/scripts/expon
    Makefile.am: expon script moved to fix `make' namespace conflict
  * lib/error.c lib/stribog_error.h conloq.src/conloq.c
