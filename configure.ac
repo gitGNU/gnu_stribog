@@ -31,17 +31,15 @@ AC_CONFIG_SRCDIR([sw/common/Makefile.am])
 AC_MSG_CHECKING([if documentation is enabled])
 AC_ARG_ENABLE([doc],
  [AS_HELP_STRING([--enable-doc],
-  [Manage documentation @<:@yes when available@:>@])],,
-  [enable_doc=unspecified
-])
-AS_CASE(["z$enable_doc"],
- [zno | zyes],,
- [enable_doc=unspecified])
+  [Manage documentation @<:@yes when available@:>@])])
+AS_CASE(["z$enable_doc"],[zno | zyes],,[enable_doc=unspecified])
 AC_MSG_RESULT([$enable_doc])
 AC_MSG_CHECKING([if documentation is available])
 AS_IF([test -f ${srcdir}/doc/stribog.texinfo],
- [AS_CASE([$enable_doc],[no],,[enable_doc=yes])],
-[AS_CASE([$enable_doc],
+ [AC_MSG_RESULT([yes])
+  AS_CASE([$enable_doc],[no],,[enable_doc=yes])],
+[AC_MSG_RESULT([no])
+  AS_CASE([$enable_doc],
   [yes],[ 
    AC_MSG_RESULT([$enable_doc])
    AC_MSG_ERROR([
@@ -52,44 +50,60 @@ AS_IF([test -f ${srcdir}/doc/stribog.texinfo],
 AS_CASE([$enable_doc],[no],[distribution_impossible=yes])
 AM_CONDITIONAL([enable_doc],[test $enable_doc = yes])
 
-# ARM toolchain-specific
+# ARM toolchain-specific command-line options
 AC_MSG_CHECKING([if ARM targets are enabled])
 AC_ARG_ENABLE([arm-targets],
  [AS_HELP_STRING([--enable-arm-targets],
-  [Build ARM targets @<:@yes when possible@:>@])],,
-  [enable_arm_targets=unspecified
-])
+  [Build ARM targets @<:@yes when possible@:>@])])
 AS_CASE(["z$enable_arm_targets"],
  [zno | zyes],,[enable_arm_targets=unspecified])
 AC_MSG_RESULT([$enable_arm_targets])
 AC_MSG_CHECKING([for ARM toolchain affix])
 AC_ARG_WITH([arm-host],
-[AS_HELP_STRING([--with-arm-host],
-[affix for ARM toolchain [arm-unknown-elf]])],
-[AS_CASE([$enable_arm_targets],
-  [no],[
-   AC_MSG_RESULT([$with_arm_host])
-   AC_MSG_ERROR([
+ [AS_HELP_STRING([--with-arm-host],
+ [affix for ARM toolchain [arm-unknown-elf]])],
+ [AS_CASE([$enable_arm_targets],
+   [no],[
+    AC_MSG_RESULT([$with_arm_host])
+    AC_MSG_ERROR([
 
  Please either don't disable ARM targets or don't specify ARM toolchain affix
-])
-])dnl AS_CASE([$enable_arm_targets],
+])])dnl AS_CASE([$enable_arm_targets],
  arm_host_specified=yes
 ],
  [with_arm_host=arm-unknown-elf
   arm_host_specified=no
-])
+])dnl AC_ARG_WITH([arm-host],
 AC_MSG_RESULT([$with_arm_host])
-#the same for AVR
+
+# AVR toolchain-specific command-line options
 AC_MSG_CHECKING([if AVR targets are enabled])
 AC_ARG_ENABLE([avr-targets],
  [AS_HELP_STRING([--enable-avr-targets],
-  [Build AVR targets @<:@yes when possible@:>@])],,
-  [enable_avr_targets=unspecified
-])
+  [Build AVR targets @<:@yes when possible@:>@])])
 AS_CASE(["z$enable_avr_targets"],
  [zno | zyes],,[enable_avr_targets=unspecified])
 AC_MSG_RESULT([$enable_avr_targets])
+
+#gEDA tools-specific command-line options
+AC_MSG_CHECKING([whether to use pcb])
+AC_ARG_WITH([pcb],
+ [AS_HELP_STRING([--without-pcb],[Do not invoke pcb])]
+)
+AS_CASE(["z$with_pcb"],[zno | zyes],,[with_pcb=unspecified])
+AC_MSG_RESULT([$with_pcb])
+
+AC_MSG_CHECKING([whether to use gschem])
+AC_ARG_WITH([gschem],
+ [AS_HELP_STRING([--without-gschem],[Do not invoke gschem])])
+AS_CASE(["z$with_gschem"],[zno | zyes],,[with_gschem=unspecified])
+AC_MSG_RESULT([$with_gschem])
+
+AC_MSG_CHECKING([whether to use ps2pdf])
+AC_ARG_WITH([ps2pdf],
+ [AS_HELP_STRING([--without-ps2pdf],[Do not invoke ps2pdf])])
+AS_CASE(["z$with_ps2pdf"],[zno | zyes],,[with_ps2pdf=unspecified])
+AC_MSG_RESULT([$with_ps2pdf])
 
 AC_MSG_CHECKING([for schematics output resolution])
 AC_ARG_ENABLE([schematics-resolution],
@@ -98,9 +112,16 @@ AC_ARG_ENABLE([schematics-resolution],
  @<:@3200x2400@:>@])],,
   [enable_schematics_resolution=3200x2400
 ])
-# Checks for programs.
-AC_CHECK_PROG([arm_gcc_present],[$with_arm_host-gcc],[yes],[no])
+AC_MSG_RESULT([$enable_schematics_resolution])
 
+# Checks for programs.
+
+# general OS programs
+AC_PROG_MKDIR_P
+AC_PROG_LN_S
+
+# ARM toolchain-specific programs
+AC_CHECK_PROG([arm_gcc_present],[$with_arm_host-gcc],[yes],[no])
 AS_CASE([$arm_gcc_present],
  [no],[
   AS_CASE([$enable_arm_targets],
@@ -122,29 +143,25 @@ AS_CASE([$arm_gcc_present],
 AM_CONDITIONAL([enable_arm_targets],[test $enable_arm_targets = yes])
 AS_CASE([$enable_arm_targets],[no],[distribution_impossible=yes])
 
+# AVR toolchain-specific programs
 AC_CHECK_PROG([avr_gcc_present],[avr-gcc],[yes],[no])
 AS_CASE([$avr_gcc_present],
- [no],[AS_CASE([$enable_avr_targets],
+ [no],[
+  AS_CASE([$enable_avr_targets],
    [yes],[
     AC_MSG_ERROR([
 
  AVR targets are requested, but no toolchain is found])
-])],dnl [no],[AS_CASE([$enable_avr_targets],
- [yes],[AS_CASE([$enable_avr_targets],
-   [no],,[enable_avr_targets=yes])]
+])dnl AS_CASE([$enable_avr_targets],
+],
+ [yes],
+  [AS_CASE([$enable_avr_targets],[no],,[enable_avr_targets=yes])]
 )dnl AS_CASE([$avr_gcc_present],
 AM_CONDITIONAL([enable_avr_targets], [test $enable_avr_targets = yes])
 AS_CASE([$enable_avr_targets],[no],[distribution_impossible=yes])
 
-AC_PROG_MKDIR_P
-AC_PROG_LN_S
-
+#gEDA-specific programs
 #TODO: check for pcb, gschem and ps2pdf capabilities
-AC_ARG_WITH([pcb],
-[AS_HELP_STRING([--without-pcb],
- [Do not invoke pcb])],,
- [with_pcb=unspecified
-])
 AC_CHECK_PROGS([PCB], [pcb], [no])
 AS_CASE([$PCB],
  [no],[we_have_pcb=no
@@ -153,16 +170,12 @@ AS_CASE([$PCB],
     AC_MSG_ERROR([
  
   pcb invocation is requested, but no pcb is found])
-])],dnl AS_CASE([$with_pcb],
-[we_have_pcb=yes])dnl AS_CASE([$PCB],
+  ])],dnl AS_CASE(["$with_pcb"],
+ [we_have_pcb=yes]
+)dnl AS_CASE([$PCB],
 AS_CASE([$with_pcb],[no],[use_pcb=no],[use_pcb=$we_have_pcb])
 AM_CONDITIONAL([use_pcb],[test $use_pcb = yes])
 
-AC_ARG_WITH([ps2pdf],
-[AS_HELP_STRING([--without-ps2pdf],
- [Do not invoke ps2pdf])],,
- [with_ps2pdf=unspecified
-])
 AC_CHECK_PROGS([PS2PDF], [ps2pdf], [no])
 AS_CASE([$PS2PDF],
  [no],[we_have_ps2pdf=no
@@ -173,17 +186,13 @@ AS_CASE([$PS2PDF],
   ps2pdf invocation is requested, but no ps2pdf is found
 ])
 ])],dnl AS_CASE([$with_ps2pdf],
-  [we_have_ps2pdf=yes])dnl AS_CASE([$PS2PDF],
+  [we_have_ps2pdf=yes]
+)dnl AS_CASE([$PS2PDF],
 
 AS_CASE([$with_ps2pdf],
  [no],[use_ps2pdf=no],[use_ps2pdf=$we_have_ps2pdf])
 AM_CONDITIONAL([use_ps2pdf],[test $use_ps2pdf = yes])
 
-AC_ARG_WITH([gschem],
-[AS_HELP_STRING([--without-gschem],
- [Do not invoke gschem])],,
- [with_gschem=unspecified
-])
 AC_CHECK_PROGS([GSCHEM], [gschem], [no])
 AS_CASE([$GSCHEM],
  [no],[we_have_gschem=no
@@ -192,12 +201,13 @@ AS_CASE([$GSCHEM],
     AC_MSG_ERROR([
  
   gschem invocation is requested, but no gschem is found
-])],
- [we_have_gschem=yes])dnl AS_CASE([$with_gschem],
-])dnl AS_CASE([$GSCHEM],
+])])dnl AS_CASE([$with_gschem],
+],[we_have_gschem=yes]
+)dnl AS_CASE([$GSCHEM],
 AS_CASE([$with_gschem],
  [no],[use_gschem=no],[use_gschem=$we_have_gschem])
 AM_CONDITIONAL([use_gschem],[test $use_gschem = yes])
+
 # Checks for libraries.
 # Checks for header files.
 # Checks for typedefs, structures, and compiler characteristics.
@@ -232,12 +242,11 @@ AS_CASE([$distribution_impossible],
 ])
 AS_CASE([$use_pcb],
  [no],[ 
-  AS_CASE([$we_have_pcb],
-   [no],[
-    echo "NOTE: no suitable pcb program -" >>warnings
-	],[
-    echo "NOTE: pcb program will not be used -" >>warnings
-])
+  AS_CASE
+  ([$we_have_pcb],[no],
+   [echo "NOTE: no suitable pcb program -" >>warnings;],
+   [echo "NOTE: pcb program will not be used -" >>warnings;]
+  )
   echo   "      make will not update PCB images" >>warnings
 ])
 AS_CASE([$use_ps2pdf],
@@ -261,7 +270,7 @@ AS_CASE([$use_gschem],
   echo   "      make will not update schematics PNGs" >>warnings
 ])
 
-echo "Configuration summary for ${PACKAGE} ${VERSION}:" >summary
+echo "***Configuration summary for ${PACKAGE} ${VERSION}:" >summary
 echo "prefix:               ${prefix}">>summary
 echo "enabled subprojects:  ${enabled_subprojects}">>summary
 cat warnings >>summary
