@@ -1,4 +1,4 @@
-/*elk the LPC21x programmer: snprintf with errors output to stderr
+/*snprintf with errors output to stderr
 Copyright (C) 2006, 2007, 2008\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
@@ -19,7 +19,7 @@ int
 output_snprintf_error(const char*file,int line,
  char*s,unsigned size,const char*fmt,...)
 #ifdef __GNUC__
-__attribute__((format(printf,5,6)))
+ __attribute__((__format__(__printf__,5,6)))
 #endif
 ;
 #define snprintf_checked(s,size,fmt,...)\

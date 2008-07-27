@@ -1,4 +1,4 @@
-/*gnu-like error messages
+/*GNU-like error messages
 Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 void error_(const char*fmt,...)
 #ifdef __GNUC__
-__attribute__((format(printf,1,2)))
+ __attribute__((__format__(__printf__,1,2)))
 #endif
 ;
 void output_prefix_for_error(void);
