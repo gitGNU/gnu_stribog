@@ -1,4 +1,4 @@
-/*elk the LPC21x programmer: snprintf with errors output to stderr
+/*snprintf with errors output to stderr
 Copyright (C) 2006, 2007, 2008\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
