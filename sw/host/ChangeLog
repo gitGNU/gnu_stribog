@@ -1,3 +1,6 @@
+27 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/snprintf_checked.h lib/stribog_error.h:
+ using __-protected __attribute__s
 26 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * Makefile.am: make use of DISTCLEANFILES
  * conloq.src/expon conloq.src/scripts/expon
