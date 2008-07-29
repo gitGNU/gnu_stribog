@@ -86,8 +86,9 @@ main(int argc,char**argv)
  tb=new_tsip();
  scanf("%lg",&t);
  /*FIXME support long filenames*/
- if(snprintf_checked(file_name,sizeof file_name,"%s.%3.3i",
-     arguments.file_name,i++))return 4;
+ if(snprintf_checked(__FILE__,__LINE__,
+     file_name,sizeof file_name,"%s.%3.3i",arguments.file_name,i++))
+  return 4;
  if(!(log=fopen(file_name,"wb")))
  {error("can't open output file '%s'\n",file_name);
   return 3;
@@ -99,8 +100,9 @@ main(int argc,char**argv)
   {expone(_,size);
    if(!feof(stdin))if(mcu_stamp()>t)
    {fclose(log);
-    if(snprintf_checked(file_name,sizeof file_name,"%s.%3.3i",
-        arguments.file_name,i++))return 4;
+    if(snprintf_checked(__FILE__,__LINE__,
+        file_name,sizeof file_name,"%s.%3.3i",arguments.file_name,i++))
+     return 4;
     if(!(log=fopen(file_name,"wb")))
     {error("can't open output file '%s'\n",file_name);
      return 3;

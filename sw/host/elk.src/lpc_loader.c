@@ -103,11 +103,12 @@ synchronize(unsigned long freq)
  scribe(sy,sizeof(sy)-1);printf("sent '%s'; ",sy);
  n=wait_for_chars(s,18,1);s[n]=0;printf("received %i bytes: '%s'; ",n,s);
  if(strcmp(ok,s))return!0;
- if(snprintf_checked(s,sizeof s,"%lu\r\n",freq))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"%lu\r\n",freq))return!0;
  printf("sent '%lu'; ",freq);scribe(s,strlen(s));i=strlen(s)+4;
  n=wait_for_chars(s,i,2);s[n]=0;
  printf("received %i bytes: '%s'; ",n,s);
- if(snprintf_checked(s0,sizeof s0,"%lu\r\nOK\r\n",freq))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,s0,sizeof s0,"%lu\r\nOK\r\n",freq))
+  return!0;
  if(!(vex=strcmp(s0,s)))echo_off(1);
  unlock();read_partid();return vex;
 }void
@@ -118,7 +119,8 @@ read_version(void)
 }int
 prepare_sectors(unsigned start,unsigned end)
 {char s[289];int n;
- if(snprintf_checked(s,sizeof s,"P %u %u\r\n",start,end))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"P %u %u\r\n",start,end))
+  return!0;
  drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));
  n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
@@ -126,7 +128,8 @@ prepare_sectors(unsigned start,unsigned end)
 }int
 erase_sectors(unsigned start,unsigned end)
 {char s[289];int n;if(prepare_sectors(start,end))return-1;
- if(snprintf_checked(s,sizeof s,"E %u %u\r\n",start,end))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"E %u %u\r\n",start,end))
+  return!0;
  drain_uart();printf("sent %s",s);scribe(s,strlen(s));
  n=wait_for_chars(s,test_code_strlen,3);s[n]=0;
  printf("received %i bytes: %s",n,s);return test_code(s);
@@ -168,7 +171,8 @@ decode_string(char*s,int*k,int*checksum,FILE*f)
 int
 read_memory(unsigned long addr,unsigned l,FILE*f)
 {char s[289];int n,vex=0,r=0,cs=0;l-=l%4;
- if(snprintf_checked(s,sizeof s,"R %lu %u\r\n",addr,l))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"R %lu %u\r\n",addr,l))
+  return!0;
  drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));
  if(receive_test_code(s))return!0;
@@ -187,19 +191,23 @@ write_string(const char*s,unsigned long addr,int n)
 {int i,j;char t[289];unsigned long cs;
  drain_uart();
  do
- {if(snprintf_checked(t,sizeof t,"W %lu %i\r\n",addr,n))return!0;
+ {if(snprintf_checked(__FILE__,__LINE__,t,sizeof t,"W %lu %i\r\n",addr,n))
+   return!0;
   scribe(t,strlen(t));
   i=wait_for_chars(t,test_code_strlen,1);t[i]=0;
   if(!mute)printf("received %i: %s",i,t);
   if(test_code(t))return!0;
   while(1)
-  {if(snprintf_checked(t,sizeof t,"%c",n+0x20))return!0;j=strlen(t);
+  {if(snprintf_checked(__FILE__,__LINE__,t,sizeof t,"%c",n+0x20))return!0;
+   j=strlen(t);
    for(i=cs=0;i<n;i+=3)
    {cs+=(s[i]&0xFF)+(s[i+1]&0xFF)+(s[i+2]&0xFF);t[j++]=0x20+((s[i]>>2)&0x3F);
     t[j++]=0x20+(((s[i]<<4)&0x30)|((s[i+1]>>4)&0xF));
     t[j++]=0x20+(((s[i+1]<<2)&0x3C)|((s[i+2]>>6)&0x3));
     t[j++]=0x20+(s[i+2]&0x3F);
-   }if(snprintf_checked(t+j,-j-1+sizeof t,"\r\n%lu\r\n",cs))return!0;
+   }
+   if(snprintf_checked(__FILE__,__LINE__,t+j,-j-1+sizeof t,"\r\n%lu\r\n",cs))
+    return!0;
    scribe(t,strlen(t));i=wait_for_chars(t,4,1);t[i]=0;
    if(!mute)printf("received %i: %s",i,t);if(!strcmp(t,OK))break;
    if(mute)printf("received %i: %s",i,t);i=strlen(t);
@@ -234,13 +242,17 @@ cache_checksum(FILE*f)
 }int
 copy_memory(unsigned long addr)
 {char s[289];int k,n;unsigned long bs,ra;if(prepare_sectors(0,8))return-1;
- if(snprintf_checked(s,sizeof s,"C %lu %lu %lu\r\n",addr,ram,block))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,
+     s,sizeof s,"C %lu %lu %lu\r\n",addr,ram,block))
+  return!0;
  k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));
  n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
  printf("received %i bytes: %s",n,s);if(test_code(s))return test_code(s);
  ra=ram;bs=block;if(addr<64){ra+=64-addr;addr=64;bs-=64;}
- if(snprintf_checked(s,sizeof s,"M %lu %lu %lu\r\n",addr,ra,bs))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,
+     s,sizeof s,"M %lu %lu %lu\r\n",addr,ra,bs))
+  return!0;
  k=strlen(s);
  printf("sent %s",s);scribe(s,strlen(s));
  n=wait_for_chars(s,test_code_strlen,1);s[n]=0;
@@ -249,7 +261,7 @@ copy_memory(unsigned long addr)
 write_file(const char*target_name)
 {char s[289];FILE*f;int i,n=0;unsigned long addr=ram;
  /*it is impractical to have longer target names*/
- if(snprintf_checked(s,sizeof s,"%s-rom.bin",target_name))
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"%s-rom.bin",target_name))
   return!0;
  f=fopen(s,"rb");
  if(!f){error("can't open file '%s'\n",s);return!0;}
@@ -270,7 +282,7 @@ write_file(const char*target_name)
 }int 
 run(unsigned long addr)
 {char s[289];int n,r;
- if(snprintf_checked(s,sizeof s,"G %lu A\r\n",addr))return!0;
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"G %lu A\r\n",addr))return!0;
  drain_uart();
  printf("sent %s",s);scribe(s,strlen(s));
  n=wait_for_chars(s,test_code_strlen,1);s[n]=0;

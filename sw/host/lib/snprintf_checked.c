@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_error.h>
 #include<stdio.h>
 int 
-output_snprintf_error(const char*file,int line,
+snprintf_checked(const char*file,int line,
  char*s,unsigned size,const char*fmt,...)
 {va_list ap;int result;
  va_start(ap,fmt);result=vsnprintf(s,size,fmt,ap);va_end(ap);

@@ -91,7 +91,7 @@ int
 load_target(const char*target_name)
 {static const unsigned long ram_org=0x40000000;
  int i,ret=0;FILE*f=0;unsigned long addr;char s[packet_size];
- if(snprintf_checked(s,sizeof s,"%s.bin",target_name))
+ if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"%s.bin",target_name))
   return!0;
  if(sync_ram_loader())return!0;
  f=fopen(s,"rb");ret=!f;if(ret)goto x;

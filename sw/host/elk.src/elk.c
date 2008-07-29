@@ -101,7 +101,7 @@ reset_prefs(void)
 {int i;printf("\n");for(i=0;i<0x11;i++)if(!reset_prefs_once())return 0;
  printf("can't reset connection\n");return!0;
 }void
-send_empty_prefs(void){char c[2]={reset,end};scribe(c,2);}
+send_empty_prefs(void){unsigned char c[2]={reset,end};scribe(c,2);}
 static int no_preferences;static FILE*preferences_file;
 int
 load_prefs(void)
@@ -116,7 +116,7 @@ load_prefs(void)
  {error("wrong preferences format\n");
   error("should be \"%s\"\n",format);return!0;
  }fclose(preferences_file);preferences_file=0;
- if(x[3]<=0)x[3]=9;c[(sizeof c)-1]=end;
+ if(x[3]<=0)x[3]=9;c[(sizeof c)-1]=(char)end;
  for(i=0;i<sizeof x/sizeof*x;i++)c[i]=x[i];
  for(i=0;i<0x11;i++)
  {if(reset_prefs())return!0;

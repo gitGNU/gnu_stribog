@@ -51,7 +51,8 @@ static FILE*
 next_file(const char**file_name)
 {static char s[289];int i=0;FILE*f;
  do
- {if(snprintf_checked(s,sizeof s,"%iconloq.log",i++))return 0;
+ {if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"%iconloq.log",i++))
+   return 0;
   f=fopen(s,"rt");if(f)fclose(f);
  }while(f);*file_name=s;return fopen(s,"wb");
 }static tsip_buf*tb;static FILE*f;

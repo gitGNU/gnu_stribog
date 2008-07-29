@@ -34,7 +34,8 @@ static FILE*
 next_file(void)
 {char s[289];int i=0;FILE*f;
  do
- {if(snprintf_checked(s,sizeof s,"%imagex-conloq.log",i++))return 0;
+ {if(snprintf_checked(__FILE__,__LINE__,s,sizeof s,"%imagex-conloq.log",i++))
+   return 0;
   f=fopen(s,"rt");if(f)fclose(f);
  }while(f);return fopen(s,"wb");
 }static tsip_buf*tb;static FILE*f;
