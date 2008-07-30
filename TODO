@@ -21,8 +21,10 @@
 
  (1) clean up copyright notices. take as a good example Emacs sources
  [12 Apr 2008 basically done. 
-  AUTHORS file status to be cleared; THANKS to be added]
+  AUTHORS file status to be cleared; THANKS to be added
+ ]
  [06 May 2008 AUTHORS status clarified]
+ [30 Jul 2008 THANKS is present; more thorough revision in progress]
  (2) wait for 17 days for FSF answer on cross-compilers; decide on
      these dependencies inclusion
      [14 Apr 2008 no answer yet. preliminary decision is to pack several
@@ -33,7 +35,7 @@
        second, GPLv3 has an exception clause for free tools
       ]
  (3) prepare documentation:
-     a. basically learn texinfo 
+     a. basically learn texinfo [30 Jul 2008 done]
         [08 Apr 2008 at the moment texinfo does not support
          non-Latin characters. LaTeX is much better in this.
          the documentation system is to be selected.]
@@ -49,6 +51,7 @@
      c. get from savannah administration permission to change
         the set of the licenses (add the FDL)
         [16 Jun 2008 request sent]
+	[30 Jul 2008 the documentation is scheduled to become an external project]
      d. actually write the documentation
 	    [17 Jun 2008 start]
  1. of course, finish mounting the project on Autotools [29 May 2008 done]
@@ -64,7 +67,7 @@
 
  This file is part of stribog.
 
- Stribog is free software; you can redistribute it and/or modify
+ stribog is free design; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 3, or (at your option)
  any later version.

@@ -1,3 +1,6 @@
+30 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * README: thorough per-file copyright clarification
+ * THANKS: placed under the GPLv3+
 26 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: fixed all that made yesterday
  * Makefile.am hw/Makefile.am.m4: make use of DISTCLEANFILES
