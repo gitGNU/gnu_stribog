@@ -2,7 +2,7 @@ Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 This file is part of stribog.
 
-Stribog is free software; you can redistribute it and/or modify
+stribog is free design; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
@@ -539,7 +539,15 @@ The software part is released right under the terms
 of the GNU GPL v3 or later with
 all new statements on 'Installation Information'; there are few ambiguities.
 
-The following non-text source files possibly contain no copyright notices, 
+All the files in the distribution are classified according
+to their origin and copyright status this way (`object code' and
+other non-source files are marked as such explicitly according to
+the terms of respective licenses):
+
+(0) The files originally written for project and are (currently)
+placed under the aegis of the GPLv3+.
+
+(1) The following non-text source files possibly contain no copyright notices, 
 because it was practically hard or absurd to maintain them there,
 or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
@@ -557,7 +565,7 @@ hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
 hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
 hw/packages/tp
 
-Files in hw/packages and hw/sym directories are not part of stribog,
+(2) Files in hw/packages and hw/sym directories
 are not part of the stribog design, but are used with stribog.
 they form an `external library' as defined by the FSF.
 
@@ -583,7 +591,7 @@ the STRIBOG AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
 as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
 'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
 
-The same is true for the GNU autobuild system files. we let our
+(3) The same is true for the GNU autobuild system files. we let our
 copyright notes come into these files like 'configure', and
 'Makefile.in', but one should undestand that they are result of
 compilation of several sources and such a file can hardly represent
@@ -591,57 +599,454 @@ a single copyrighted unit.
 
 [26 Jul 2008 add also relevant doc/* files when they have gone to Git]
 These files include:
-./INSTALL
-./Makefile.in
-./aclocal.m4
-./config.h.in
-./configure
-./depcomp
-./install-sh
-./missing
-./hw/Makefile.in
-./sw/auxilia/INSTALL
-./sw/auxilia/Makefile.in
-./sw/auxilia/aclocal.m4
-./sw/auxilia/config.guess
-./sw/auxilia/config.h.in
-./sw/auxilia/configure
-./sw/common/Makefile.in
-./sw/host/INSTALL
-./sw/host/Makefile.in
-./sw/host/aclocal.m4
-./sw/host/compile
-./sw/host/config.h.in
-./sw/host/config.guess
-./sw/host/configure
-./sw/host/config.sub
-./sw/host/depcomp
-./sw/host/install-sh
-./sw/host/missing
-./sw/host/postproc/Makefile.in
-./sw/host/utils/Makefile.in
-./sw/target/INSTALL
-./sw/target/Makefile.in
-./sw/target/aclocal.m4
-./sw/target/config.guess
-./sw/target/configure
-./sw/target/config.sub
-./sw/target/depcomp
-./sw/target/install-sh
-./sw/target/m4/gnu-make.m4
-./sw/target/missing
+./Makefile.in AT_permissive => GPLv3+ (object code)
+./aclocal.m4 AT_permissive => GPLv3+ (object code)
+./config.h.in GPLv3+ (object code)
+./configure C_unlimited -> GPLv3+
+./hw/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/auxilia/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/auxilia/aclocal.m4 AT_permissive => GPLv3+ (object code)
+./sw/auxilia/config.h.in GPLv3+ (object code)
+./sw/auxilia/configure C_unlimited => GPLv3+ (object code)
+./sw/common/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/host/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/host/aclocal.m4 AT_permissive => GPLv3+ (object code)
+./sw/host/config.h.in GPLv3+ (object code)
+./sw/host/configure C_unlimited => GPLv3+ (object code)
+./sw/host/postproc/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/host/utils/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/target/Makefile.in AT_permissive => GPLv3+ (object code)
+./sw/target/aclocal.m4 AT_permissive => GPLv3+ (object code)
+./sw/target/configure C_unlimited => GPLv3+ (object code)
 
-./sw/target/m4/gnu-make.m4 come from gnulib; it is closely integrated into
+AT_permissive means
+==(quote begins)
+Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+2005, 2006, 2007, 2008  Free Software Foundation, Inc.
+This file is free software; the Free Software Foundation
+gives unlimited permission to copy and/or distribute it,
+with or without modifications, as long as this notice is preserved.
+==(quote ends)
+
+C_unlimited means
+==(quote begins)
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2000, 2001,
+2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+This configure script is free software; the Free Software Foundation
+gives unlimited permission to copy, distribute and modify it.
+==(quote ends)
+
+AT_permissive => GPLv3+ means "has AT_unlimited copyright note,
+rendered under the GPLv3+ due to being an object form of some code
+distributed under the GPLv3+".
+
+(3a) Some of these files copyrighted by the FSF are parts 
+of Autotools distributed under respective licenses, namely
+./depcomp GPLv2+ -> GPLv3+
+./INSTALL I_unlimited -> GPLv3+
+./missing GPLv2+ -> GPLv3+
+./sw/auxilia/INSTALL I_unlimited -> GPLv3+
+./sw/auxilia/config.guess GPLv2+ -> GPLv3+
+./sw/host/compile GPLv2+ -> GPLv3+
+./sw/host/config.guess GPLv2+ -> GPLv3+
+./sw/host/config.sub GPLv2+ -> GPLv3+
+./sw/host/depcomp GPLv2+ -> GPLv3+
+./sw/host/INSTALL I_unlimited -> GPLv3+
+./sw/host/missing GPLv2+ -> GPLv3+
+./sw/target/config.guess GPLv2+ -> GPLv3+
+./sw/target/depcomp GPLv2+ -> GPLv3+
+./sw/target/config.sub GPLv2+ -> GPLv3+
+./sw/target/INSTALL I_unlimited -> GPLv3+
+./sw/target/missing GPLv2+ -> GPLv3+
+
+I_unlimited means
+==(quote begins)
+Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005,
+2006, 2007 Free Software Foundation, Inc.
+
+This file is free documentation; the Free Software Foundation gives
+unlimited permission to copy, distribute and modify it.
+==(quote ends)
+
+I_unlimited -> GPLv3+ means "come under the I_unlimited terms,
+redistributed under the GPLv3+".
+this is not necessary and has no practical implications
+other than that the project status becomes more simple.
+you always may get these files under their original terms from
+the copyright holder.
+
+(3b) These files are copyrighted by X Consortium
+./install-sh X_permissive -> GPLv3+
+./sw/host/install-sh X_permissive -> GPLv3+
+./sw/target/install-sh X_permissive -> GPLv3+
+
+The original usage terms are for these files are
+==(quote begins)
+This originates from X11R5 (mit/util/scripts/install.sh), which was
+later released in X11R6 (xc/config/util/install.sh) with the
+following copyright and license.
+
+Copyright (C) 1994 X Consortium
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNEC-
+TION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Except as contained in this notice, the name of the X Consortium shall not
+be used in advertising or otherwise to promote the sale, use or other deal-
+ings in this Software without prior written authorization from the X Consor-
+tium.
+
+
+FSF changes to this file are in the public domain.
+==(quote ends)
+
+(4) ./sw/target/m4/gnu-make.m4 come from gnulib; it is closely integrated into
 the build system and subject to conditions similar to other
-Autotools-generated files.
+Autotools-generated files:
 
-The text of the GNU GPL, namely
+./sw/target/m4/gnu-make.m4 GNU_MAKE_permissive -> GPLv3+
+
+The original terms are
+==(quote begins)
+Copyright (C) 2007 Free Software Foundation, Inc.
+
+This file is free software; the Free Software Foundation
+gives unlimited permission to copy and/or distribute it,
+with or without modifications, as long as this notice is preserved.
+==(quote ends)
+
+(5) The text of the GNU GPL, namely
 ./COPYING ./sw/auxilia/COPYING ./sw/host/COPYING ./sw/target/COPYING 
 is copyrighted by the FSF as stated in the file.
+(``Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.'')
 
-The file AUTHORS has a special status. it essentially consists of copyright
+(6) The file AUTHORS has a special status. it essentially consists of copyright
 notices. as such, these notices can't be removed; the project maintainers
 are encouraged to keep the notices up-to-date.
 
-The same is true for THANKS file, but it includes acknowledements for support
-which does not cause copyright issues.
+(6a) The file THANKS file is also special. it includes acknowledements
+for support which does not cause copyright issues. the laws probably don't
+require to preserve these notes.
+
+(7) If you get a Git repository, you will find
+revision control files located at ./.git/.
+they shall not be enumerated here.
+
+(8) ./sw/host/elk.src/prefs.dat is not a source file; it is very small
+thus not copyrightable by itself.
+
+As of 30 July 2008 the full filelist including symbolic links
+extracted with 
+(find . -type f;find . -type l)|grep -v "^[.]/[.]git"|sort
+with comments on origin added is as follows:
+
+./aclocal.m4 (3) AT_permissive => GPLv3+ (object code)
+./AUTHORS (6) copyright notes: open for necessary additions
+./branch (0) GPLv3+
+./ChangeLog (0) GPLv3+
+./config.h.in (3) GPLv3+ (object code)
+./configure (3) C_unlimited => GPLv3+ (object code)
+./configure.ac (0) GPLv3+
+./COPYING (5) license terms: distributable verbatim
+./depcomp (3a) GPLv2+ -> GPLv3+
+./hw/gafrc (0) GPLv3+
+./hw/gyro.sch (0) GPLv3+
+./hw/image.scm.in (0) GPLv3+
+./hw/m4/makefile.m4 (0) GPLv3+
+./hw/main_board.bis/main_board.bis.back.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.backmask.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.backpaste.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.backsilk.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.fab.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.front.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.frontmask.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.frontpaste.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.frontsilk.gbr (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.pdf (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.plated-drill.cnc (0) GPLv3+ (object code)
+./hw/main_board.bis/main_board.bis.ps (0) GPLv3+ (object code)
+./hw/main_board.bis.pcb (0) GPLv3+
+./hw/main_board.bis.proj (0) GPLv3+
+./hw/main_board/main_board.back.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.backmask.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.backpaste.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.backsilk.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.fab.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.front.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.frontmask.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.frontpaste.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.frontsilk.gbr (0) GPLv3+ (object code)
+./hw/main_board/main_board.pdf (0) GPLv3+ (object code)
+./hw/main_board/main_board.plated-drill.cnc (0) GPLv3+ (object code)
+./hw/main_board/main_board.ps (0) GPLv3+ (object code)
+./hw/main_board.pcb (0) GPLv3+
+./hw/main_board.proj (0) GPLv3+
+./hw/Makefile.am (0) GPLv3+ (object code)
+./hw/Makefile.am.m4 (0) GPLv3+
+./hw/Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./hw/odo.sch (0) GPLv3+
+./hw/packages/0.125W_resistor (2) GPLv3+
+./hw/packages/0603 (2) GPLv3+
+./hw/packages/0805 (2) GPLv3+
+./hw/packages/1210 (2) GPLv3+
+./hw/packages/2.5mm_10pin_header (2) GPLv3+
+./hw/packages/adxl210 (2) GPLv3+
+./hw/packages/crystal (2) GPLv3+
+./hw/packages/hmc1021z (2) GPLv3+
+./hw/packages/jtag1.27x1 (2) GPLv3+
+./hw/packages/led0805 (2) GPLv3+
+./hw/packages/lp2980 (2) GPLv3+
+./hw/packages/msop8 (2) GPLv3+
+./hw/packages/pin (2) GPLv3+
+./hw/packages/qfp64 (2) GPLv3+
+./hw/packages/README (0) GPLv3+
+./hw/packages/tanA (2) GPLv3+
+./hw/packages/tanC (2) GPLv3+
+./hw/packages/tp (2) GPLv3+
+./hw/README (0) GPLv3+
+./hw/schematics/gyro.png (0) GPLv3+ (object code)
+./hw/schematics/odo.png (0) GPLv3+ (object code)
+./hw/schematics/stribog.png (0) GPLv3+ (object code)
+./hw/stribog.sch (0) GPLv3+
+./hw/sym/adm202.sym (2) GPLv3+
+./hw/sym/adxl210.sym (2) GPLv3+
+./hw/sym/adxrs300.sym (2) GPLv3+
+./hw/sym/ATmega8-1.sym (2) GPLv3+
+./hw/sym/bat54c.sym (2) GPLv3+
+./hw/sym/dac7612.sym (2) GPLv3+
+./hw/sym/hmc1021.sym (2) GPLv3+
+./hw/sym/hmc1022.sym (2) GPLv3+
+./hw/sym/ina118.sym (2) GPLv3+
+./hw/sym/irf7317.sym (2) GPLv3+
+./hw/sym/irf7507.sym (2) GPLv3+
+./hw/sym/irlml.sym (2) GPLv3+
+./hw/sym/JTAG.sym (2) GPLv3+
+./hw/sym/led.sym (2) GPLv3+
+./hw/sym/lm74.sym (2) GPLv3+
+./hw/sym/lp2980AIM5-3.sym (2) GPLv3+
+./hw/sym/lp2980AIM5-5.sym (2) GPLv3+
+./hw/sym/lpc2138.sym (2) GPLv3+
+./hw/sym/README (0) GPLv3+
+./hw/sym/ref195.sym (2) GPLv3+
+./hw/sym/tps76316.sym (2) GPLv3+
+./INSTALL (3a) I_unlimited -> GPLv3+
+./install-sh (3b) X_permissive -> GPLv3+
+./Makefile.am (0) GPLv3+
+./Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./missing (3a) GPLv2+ -> GPLv3+
+./NEWS (0) GPLv3+
+./README (0) GPLv3+
+./sw/auxilia/aclocal.m4 (3) AT_permissive => GPLv3+ (object code)
+./sw/auxilia/AUTHORS (6) copyright notes: open for necessary additions
+./sw/auxilia/ChangeLog (0) GPLv3+
+./sw/auxilia/coil/sampler.c (0) GPLv3+
+./sw/auxilia/config.guess (3a) GPLv2+ -> GPLv3+
+./sw/auxilia/config.h.in (3) GPLv3+ (object code)
+./sw/auxilia/configure (3) C_unlimited => GPLv3+ (object code)
+./sw/auxilia/configure.ac (0) GPLv3+
+./sw/auxilia/COPYING (5) license terms: distributable verbatim
+./sw/auxilia/INSTALL (3a) I_unlimited -> GPLv3+
+./sw/auxilia/m4/makefile.m4 (0) GPLv3+
+./sw/auxilia/Makefile.am (0) GPLv3+ (object code)
+./sw/auxilia/Makefile.am.m4 (0) GPLv3+
+./sw/auxilia/Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./sw/auxilia/NEWS (0) GPLv3+
+./sw/auxilia/odo/hodo.c (0) GPLv3+
+./sw/auxilia/odo/prog (0) GPLv3+
+./sw/auxilia/README (0) GPLv3+
+./sw/common/form_fix.h (0) GPLv3+
+./sw/common/Makefile.am (0) GPLv3+
+./sw/common/Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./sw/common/ram_loader_enums.h (0) GPLv3+
+./sw/host/aclocal.m4 (3) AT_permissive => GPLv3+ (object code)
+./sw/host/AUTHORS (6) copyright notes: open for necessary additions
+./sw/host/ChangeLog (0) GPLv3+
+./sw/host/compile (3a) GPLv2+ -> GPLv3+
+./sw/host/config.guess (3a) GPLv2+ -> GPLv3+
+./sw/host/config.h.in (3) GPLv3+ (object code)
+./sw/host/config.sub (3a) GPLv2+ -> GPLv3+
+./sw/host/configure (3) C_unlimited => GPLv3+ (object code)
+./sw/host/configure.ac (0) GPLv3+
+./sw/host/conloq.src/caed.c (0) GPLv3+
+./sw/host/conloq.src/conloq.c (0) GPLv3+
+./sw/host/conloq.src/elig.c (0) GPLv3+
+./sw/host/conloq.src/exp-brief.c (0) GPLv3+
+./sw/host/conloq.src/exp.c (0) GPLv3+
+./sw/host/conloq.src/exp_gps.h (0) GPLv3+
+./sw/host/conloq.src/exp.h (0) GPLv3+
+./sw/host/conloq.src/expon.c (0) GPLv3+
+./sw/host/conloq.src/garmin_bin.c (0) GPLv3+
+./sw/host/conloq.src/garmin_nmea.c (0) GPLv3+
+./sw/host/conloq.src/get_u.h (0) GPLv3+
+./sw/host/conloq.src/hodo.c (0) GPLv3+
+./sw/host/conloq.src/hodo.h (0) GPLv3+
+./sw/host/conloq.src/lla.c (0) GPLv3+
+./sw/host/conloq.src/lla.h (0) GPLv3+
+./sw/host/conloq.src/magex-conloq.c (0) GPLv3+
+./sw/host/conloq.src/magexp.c (0) GPLv3+
+./sw/host/conloq.src/odo.c (0) GPLv3+
+./sw/host/conloq.src/parse_tsip.c (0) GPLv3+
+./sw/host/conloq.src/parse_tsipex.c (0) GPLv3+
+./sw/host/conloq.src/parse_tsip.h (0) GPLv3+
+./sw/host/conloq.src/preproc_gps.c (0) GPLv3+
+./sw/host/conloq.src/preproc_gps.h (0) GPLv3+
+./sw/host/conloq.src/process_keypress.c (0) GPLv3+
+./sw/host/conloq.src/process_keypress.h (0) GPLv3+
+./sw/host/conloq.src/scripts/expon (0) GPLv3+
+./sw/host/conloq.src/serialia.c (0) GPLv3+
+./sw/host/conloq.src/serialia.h (0) GPLv3+
+./sw/host/conloq.src/usage.h (0) GPLv3+
+./sw/host/conloq.src/verbosity_level.c (0) GPLv3+
+./sw/host/conloq.src/verbosity_level.h (0) GPLv3+
+./sw/host/conloq.src/wser.c (0) GPLv3+
+./sw/host/COPYING (5) license terms: distributable verbatim
+./sw/host/depcomp (3a) GPLv2+ -> GPLv3+
+./sw/host/elk.src/elk.c (0) GPLv3+
+./sw/host/elk.src/lpc_loader.c (0) GPLv3+
+./sw/host/elk.src/lpc_loader.h (0) GPLv3+
+./sw/host/elk.src/prefs.dat (8) not copyrightable
+./sw/host/elk.src/ram_loader.c (0) GPLv3+
+./sw/host/elk.src/ram_loader.h (0) GPLv3+
+./sw/host/elk.src/serial.c (0) GPLv3+
+./sw/host/elk.src/serialia.c (0) GPLv3+
+./sw/host/elk.src/serialia.h (0) GPLv3+
+./sw/host/elk.src/wser.c (0) GPLv3+
+./sw/host/INSTALL (3a) I_unlimited -> GPLv3+
+./sw/host/install-sh (3b) X_permissive -> GPLv3+
+./sw/host/lib/argp/argp.c (0) GPLv3+
+./sw/host/lib/argp/argpex.c (0) GPLv3+
+./sw/host/lib/argp/argp.h (0) GPLv3+
+./sw/host/lib/crc32.c (0) GPLv3+
+./sw/host/lib/crc32.h (0) GPLv3+
+./sw/host/lib/error.c (0) GPLv3+
+./sw/host/lib/save_wd.c (0) GPLv3+
+./sw/host/lib/save_wdex.c (0) GPLv3+
+./sw/host/lib/save_wd.h (0) GPLv3+
+./sw/host/lib/signal.c (0) GPLv3+
+./sw/host/lib/signalex.c (0) GPLv3+
+./sw/host/lib/snprintf_checked.c (0) GPLv3+
+./sw/host/lib/snprintf_checked.h (0) GPLv3+
+./sw/host/lib/stribog_error.h (0) GPLv3+
+./sw/host/lib/stribog_signal.h (0) GPLv3+
+./sw/host/lib/stribog_strings.h (0) GPLv3+
+./sw/host/Makefile.am (0) GPLv3+
+./sw/host/Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./sw/host/missing (3a) GPLv2+ -> GPLv3+
+./sw/host/NEWS (0) GPLv3+
+./sw/host/postproc/calib.dat (0) GPLv3+
+./sw/host/postproc/error.c (0) GPLv3+
+./sw/host/postproc/error.h (0) GPLv3+
+./sw/host/postproc/exvel.c (0) GPLv3+
+./sw/host/postproc/lege_lineam.c (0) GPLv3+
+./sw/host/postproc/lege_lineam.h (0) GPLv3+
+./sw/host/postproc/Makefile.am (0) GPLv3+
+./sw/host/postproc/Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./sw/host/postproc/plot.gp (0) GPLv3+
+./sw/host/postproc/process (0) GPLv3+
+./sw/host/README (0) GPLv3+
+./sw/host/tests/serial.c (0) GPLv3+
+./sw/host/tests/term.c (0) GPLv3+
+./sw/host/TODO (0) GPLv3+
+./sw/host/utils/50hz.c (0) GPLv3+
+./sw/host/utils/cutdrift (0) GPLv3+
+./sw/host/utils/drift.c (0) GPLv3+
+./sw/host/utils/driftex.c (0) GPLv3+
+./sw/host/utils/fdif.c (0) GPLv3+
+./sw/host/utils/lpfilter.c (0) GPLv3+
+./sw/host/utils/stat.c (0) GPLv3+
+./sw/target/aclocal.m4 (3) AT_permissive => GPLv3+ (object code)
+./sw/target/AUTHORS (6) copyright notes: open for necessary additions
+./sw/target/ChangeLog (0) GPLv3+
+./sw/target/config.guess (3a) GPLv2+ -> GPLv3+
+./sw/target/config.h.in (3) GPLv3+ (object code)
+./sw/target/config.sub (3a) GPLv2+ -> GPLv3+
+./sw/target/configure (3) C_unlimited => GPLv3+ (object code)
+./sw/target/configure.ac (0) GPLv3+
+./sw/target/COPYING (5) license terms: distributable verbatim
+./sw/target/depcomp (3a) GPLv2+ -> GPLv3+
+./sw/target/include/lpc2138.h (0) GPLv3+
+./sw/target/INSTALL (3a) I_unlimited -> GPLv3+
+./sw/target/install-sh (3b) X_permissive -> GPLv3+
+./sw/target/lib/atexit.c (0) GPLv3+
+./sw/target/m4/gnu-make.m4 (4) GNU_MAKE_permissive -> GPLv3+
+./sw/target/m4/makefile.m4 (0) GPLv3+
+./sw/target/Makefile.am (0) GPLv3+ (object code)
+./sw/target/Makefile.am.m4 (0) GPLv3+
+./sw/target/Makefile.in (3) AT_permissive => GPLv3+ (object code)
+./sw/target/missing (3a) GPLv2+ -> GPLv3+
+./sw/target/NEWS (0) GPLv3+
+./sw/target/README (0) GPLv3+
+./sw/target/src/2138.ld.in (0) GPLv3+
+./sw/target/src/accel.c (0) GPLv3+
+./sw/target/src/accelex.c (0) GPLv3+
+./sw/target/src/accel.h (0) GPLv3+
+./sw/target/src/adc.c (0) GPLv3+
+./sw/target/src/adcex.c (0) GPLv3+
+./sw/target/src/adc.h (0) GPLv3+
+./sw/target/src/boot.s (0) GPLv3+
+./sw/target/src/crc32.c (0) GPLv3+
+./sw/target/src/crc32.h (0) GPLv3+
+./sw/target/src/crcex.c (0) GPLv3+
+./sw/target/src/dac.c (0) GPLv3+
+./sw/target/src/dacex.c (0) GPLv3+
+./sw/target/src/dac.h (0) GPLv3+
+./sw/target/src/freq.h (0) GPLv3+
+./sw/target/src/host/sqrtex.c (0) GPLv3+
+./sw/target/src/init.c (0) GPLv3+
+./sw/target/src/init.h (0) GPLv3+
+./sw/target/src/inledex.c (0) GPLv3+
+./sw/target/src/led.c (0) GPLv3+
+./sw/target/src/ledex.c (0) GPLv3+
+./sw/target/src/led.h (0) GPLv3+
+./sw/target/src/lm74.c (0) GPLv3+
+./sw/target/src/lm74ex.c (0) GPLv3+
+./sw/target/src/lm74.h (0) GPLv3+
+./sw/target/src/loader.boot.s (0) GPLv3+
+./sw/target/src/loader.c (0) GPLv3+
+./sw/target/src/loader.ld.in (0) GPLv3+
+./sw/target/src/mag.c (0) GPLv3+
+./sw/target/src/magex.c (0) GPLv3+
+./sw/target/src/mag.h (0) GPLv3+
+./sw/target/src/mag_response.c (0) GPLv3+
+./sw/target/src/multa.c (0) GPLv3+
+./sw/target/src/mutex.c (0) GPLv3+
+./sw/target/src/mutex.h (0) GPLv3+
+./sw/target/src/pll.c (0) GPLv3+
+./sw/target/src/pllex.c (0) GPLv3+
+./sw/target/src/pll.h (0) GPLv3+
+./sw/target/src/power.c (0) GPLv3+
+./sw/target/src/powerex.c (0) GPLv3+
+./sw/target/src/power.h (0) GPLv3+
+./sw/target/src/ram2138.ld.in (0) GPLv3+
+./sw/target/src/sizes.c (0) GPLv3+
+./sw/target/src/sqrt.c (0) GPLv3+
+./sw/target/src/sqrt.h (0) GPLv3+
+./sw/target/src/tempus.c (0) GPLv3+
+./sw/target/src/tempusex.c (0) GPLv3+
+./sw/target/src/tempus.h (0) GPLv3+
+./sw/target/src/uart0.c (0) GPLv3+
+./sw/target/src/uart0.h (0) GPLv3+
+./sw/target/src/uart1.c (0) GPLv3+
+./sw/target/src/uart1ex.c (0) GPLv3+
+./sw/target/src/uart1.h (0) GPLv3+
+./sw/target/src/uart1out.c (0) GPLv3+
+./sw/target/src/uart1out.h (0) GPLv3+
+./sw/target/src/uart.config.h (0) GPLv3+
+./sw/target/subst_ldscript (0) GPLv3+
+./THANKS (6a) GPLv3+ informal acknowledgemets
+./TODO (0) GPLv3+
