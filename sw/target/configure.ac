@@ -40,6 +40,17 @@ AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
 AC_CONFIG_SRCDIR([src/pll.c])
+
+AH_TOP(
+[/* Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+ This file is an object-code part of stribog: it is produced
+ automatically with autoheader when invoking autoreconf
+ stribog is free design; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.*/
+])
+
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_LINKS([ram_loader_enums.h:../common/ram_loader_enums.h])
 

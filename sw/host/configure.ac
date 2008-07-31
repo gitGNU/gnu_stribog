@@ -21,6 +21,17 @@ AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
 
 AC_CONFIG_SRCDIR([utils/lpfilter.c])
+
+AH_TOP(
+[/* Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+ This file is an object-code part of stribog: it is produced
+ automatically with autoheader when invoking autoreconf
+ stribog is free design; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.*/
+])
+
 AC_CONFIG_HEADER([config.h])
 #Checks for features required via command-line arguments
 AC_MSG_CHECKING([default port for board loading (elk-port)])
@@ -30,9 +41,9 @@ AC_ARG_WITH([elk-port],
  [with_elk_port=/dev/ttyS0
 ])
 AC_MSG_RESULT([$with_elk_port])
-AC_MSG_CHECKING([default port for board communication (conloq-port)])
 AC_DEFINE_UNQUOTED([ELK_PORT],
  ["$with_elk_port"],[Default port for board uploading (elk)])
+AC_MSG_CHECKING([default port for board communication (conloq-port)])
 AC_ARG_WITH([conloq-port],
 [AS_HELP_STRING([--with-conloq-port],
  [Set default port for conloq programs [/dev/ttyS1]])],,

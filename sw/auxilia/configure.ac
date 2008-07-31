@@ -35,6 +35,17 @@ AS_CASE(["z${avr_recursion_trigger}"],
 AC_MSG_RESULT([NB here we force $host_alias host])
 
 AC_CONFIG_SRCDIR([coil/sampler.c])
+
+AH_TOP(
+[/* Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+ This file is an object-code part of stribog: it is produced
+ automatically with autoheader when invoking autoreconf
+ stribog is free design; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.*/
+])
+
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
