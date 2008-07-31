@@ -2430,6 +2430,10 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
+
+
+
+
 ac_config_headers="$ac_config_headers config.h"
 
 #Checks for features required via command-line arguments
@@ -2446,13 +2450,13 @@ fi
 
 { $as_echo "$as_me:$LINENO: result: $with_elk_port" >&5
 $as_echo "$with_elk_port" >&6; }
-{ $as_echo "$as_me:$LINENO: checking default port for board communication (conloq-port)" >&5
-$as_echo_n "checking default port for board communication (conloq-port)... " >&6; }
 
 cat >>confdefs.h <<_ACEOF
 #define ELK_PORT "$with_elk_port"
 _ACEOF
 
+{ $as_echo "$as_me:$LINENO: checking default port for board communication (conloq-port)" >&5
+$as_echo_n "checking default port for board communication (conloq-port)... " >&6; }
 
 # Check whether --with-conloq-port was given.
 if test "${with_conloq_port+set}" = set; then
