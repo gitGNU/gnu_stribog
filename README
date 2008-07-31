@@ -601,7 +601,6 @@ a single copyrighted unit.
 These files include:
 ./Makefile.in AT_permissive => GPLv3+ (object code)
 ./aclocal.m4 AT_permissive => GPLv3+ (object code)
-./config.h.in GPLv3+ (object code)
 ./configure C_unlimited -> GPLv3+
 ./hw/Makefile.in AT_permissive => GPLv3+ (object code)
 ./sw/auxilia/Makefile.in AT_permissive => GPLv3+ (object code)
@@ -759,7 +758,6 @@ with comments on origin added is as follows:
 ./AUTHORS (6) copyright notes: open for necessary additions
 ./branch (0) GPLv3+
 ./ChangeLog (0) GPLv3+
-./config.h.in (3) GPLv3+ (object code)
 ./configure (3) C_unlimited => GPLv3+ (object code)
 ./configure.ac (0) GPLv3+
 ./COPYING (5) license terms: distributable verbatim
