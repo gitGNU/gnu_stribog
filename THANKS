@@ -2,15 +2,15 @@ stribog THANKS file
 
 Aleksey Kugushev
  2007, 2008
- Vehicle for field tests
+  Vehicle for field tests
 
-Alexey Mlinnik
+Aleksey Mlinnik
  2006
- Ideas on switches schematics, precise resistors
+  Ideas on switches schematics; precise resistors
 
 Andrey Leksin alexin@suntal.ru
  2005 and earlier, 2006, 2007, 2008
- Comprehensive material and organisational support
+  Comprehensive material and organisational support
 
 Brian Dessent brian@dessent.net
  03 Jul 2008
@@ -20,11 +20,15 @@ Maksim Grishin
  2007, 2008
   Vehicle for field tests
 
+Ralf Wildenhues Ralf.Wildenhues@gmx.de
+ 28 Jul 2008
+  Hint on disabling implicit rules for particular target
+
 Sergey Monin monin76@mail.ru
  2006
  Heating resistor for thermal experiments
 
-Stepan Kasal
+Stepan Kasal kasal@ucw.cz
  03 Jul 2008
   Some ideas on making Automake-generated Makefiles not to track
   dependencies on system headers
