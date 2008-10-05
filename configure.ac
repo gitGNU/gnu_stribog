@@ -242,8 +242,7 @@ AS_CASE([$distribution_impossible],
 ])
 AS_CASE([$use_pcb],
  [no],[ 
-  AS_CASE
-  ([$we_have_pcb],[no],
+  AS_CASE([$we_have_pcb],[no],
    [echo "NOTE: no suitable pcb program -" >>warnings;],
    [echo "NOTE: pcb program will not be used -" >>warnings;]
   )
