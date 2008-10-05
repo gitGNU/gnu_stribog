@@ -4318,11 +4318,12 @@ esac
 
 case $use_pcb in
   no)
+  case $we_have_pcb in
+  no) echo "NOTE: no suitable pcb program -" >>warnings; ;;
+  *) echo "NOTE: pcb program will not be used -" >>warnings;
+   ;;
+esac
 
-  ($we_have_pcb,no,
-   echo "NOTE: no suitable pcb program -" >>warnings;,
-   echo "NOTE: pcb program will not be used -" >>warnings;
-  )
   echo   "      make will not update PCB images" >>warnings
  ;;
 esac
