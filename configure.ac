@@ -20,7 +20,7 @@
 #b. --help=recursive implementation had a bug
 AC_PREREQ(2.62)
 AC_INIT([stribog],[0.0-minus],[stribog-bug@nongnu.org])
-rm -f warnings
+rm -f warnings;touch warnings
 distribution_impossible=no
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
