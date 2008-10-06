@@ -1,0 +1,1388 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename stribog.info
+@set manualtitle Stribog Developer Manual
+@set UPDATED 04 Oct 2008 (yet incomplete)
+@c VERSION is for the project, EDITION is for the manual
+@c EDITION names are unique within a VERSION
+@set EDITION 0-minus
+@set VERSION 0.0-minus
+@set GPLVERSION 3
+@macro gplcurrent 
+ the GNU GPL version @value{GPLVERSION}
+@end macro
+@macro gplactual
+ @gplcurrent or later
+@end macro
+@macro gploptions
+ @gplcurrent or (at your option) any later version
+@end macro
+@set email @email{ineiev@@users.sourceforge.net}
+@macro publisherinfo
+@c additional legal stuff for printed manuals
+@c like the publisher name, cover art credits, ISBN and so on
+Published by <insert the proper name here>
+@end macro
+@settitle @value{manualtitle} @value{EDITION}
+@c %**end of header
+@copying
+
+This manual is for stribog @value{VERSION}
+(edition @value{EDITION}, updated @value{UPDATED}),
+which is a MEMS-based attitude sensing platform.
+
+Copyright @copyright{} 2008 Ineiev
+
+@quotation
+@c the GNU FDL needs not to be an Invariant Section,
+@c because the license requires including itself
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.2 or any later version published by the Free Software
+Foundation; with the Invariant Sections being ``Distribution''
+and ``GNU General Public License'', with the Front-Cover texts
+being ``GFDL-covered'', and with no Back-Cover
+Texts.  A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+@end quotation
+@end copying
+@dircategory Development
+@direntry
+* stribog: (stribog).           Attitude sensing platform
+@end direntry
+@titlepage
+@title @value{manualtitle}
+@subtitle edition @value{EDITION} for release @value{VERSION}
+@subtitle updated @value{UPDATED}
+@author Ineiev @value{email}
+
+@page
+@vskip 0pt plus 1filll
+
+@c here customarily goes the annotation
+
+@insertcopying
+
+@publisherinfo
+@end titlepage
+
+@ifplaintext
+@c plain text titlepage
+@strong{@value{manualtitle}}
+
+edition @value{EDITION} for release @value{VERSION}
+
+updated @value{UPDATED}
+
+originally written by Ineiev @value{email}
+
+@end ifplaintext
+@contents
+@ifnottex
+@node Top
+@top @value{manualtitle}
+
+@insertcopying
+@end ifnottex
+
+@menu
+* Distribution::                        Your rights and freedoms
+@c * Thanks::                              Acknowledgements
+
+* Intro::                               Who, What, Where
+* Getting Started::
+* Host-side Utilities::                 stribog programs to run on fat machine
+* In-depth Guide::                      Development process
+
+* GNU General Public License::          Propagating the project
+* GNU Free Documentation License::      Copying and sharing this manual
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+* Intro::                               Who, What, Where
+*   In Short::                          What stribog is
+*   Address::                           Where to get
+*   Name::                              How to pronounce @samp{stribog}
+
+* Getting Started::
+*   Prerequisites::                     General development environment
+*   Tools Used::                        What you'll probably want to install
+*     GNU Cross-tools::                 General notes on the cross-tools
+*     ARM Tools::                       ARM-specific binutils+gcc build
+*     AVR Tools::                       AVR-targeted build and AVR-libc
+*     PCB::                             Printed Circuit Board Layout Editor
+*     gerbv::                           Gerber files previewer
+*     gEDA::                            gschem, gsch2pcb and dependencies
+*   Building stribog::                  
+*     Host Files::                      Prepare your POSIX machine
+*     Hardware Manufacturing::          Make the boards
+*     Firmware Installation::           Upload the programs to hardware
+
+* Host-side Utilities::                 stribog programs to run on fat machine
+
+* In-depth Guide::                      
+*   Using Git::                         Getting the version you need
+*     Git Commands::                    Git invocation
+*     Branches::                        Naming and meta-documentation
+*     VCS Contents::                    What goes to Git, and why
+*   Autoreconf::                        Regenerating build system
+@c *   Schematics capture::                =
+@c *   Boards design::                     =
+
+ Invariant sections
+
+* Distribution::                        Your rights and freedoms
+@c *   Providers::                         Providers' duties are limited
+*   Jurisdictions::                     Possible local variations
+*   Contents::                          What needs to be in a distribution
+*   Final remarks::
+@c * Thanks::                              =Acknowledgements
+@end detailmenu
+@end menu
+
+@node Distribution
+@chapter Distribution
+@c @footnote{This chapter is declared to be an ``Invariant Section'' by Ineiev.
+@c You should not modify it. If you think there are some mistakes, typos or
+@c other errata, please communicate with the author.}
+
+@flushright
+Dropping out will not stop
+capitalism and the state and
+while such communities may try
+to ignore the system, they will
+find that the system will not
+ignore them --- they will come
+under competitive and ecological
+pressures from capitalism
+whether they like it or not.
+
+---An Anarchist FAQ, section J.5
+@end flushright
+
+@menu
+@c * Providers::
+* Jurisdictions::
+* Contents::                            What needs to be in a distribution
+* Final remarks::
+@end menu
+
+You may distribute stribog under the terms of @gploptions{}.
+These terms were not usual when the project started,
+neither for software and particularly for hardware designs;
+commonly used terms were much more restrictive.
+This is why you should tell everyone to whom
+you distribute the project that it is free;
+you also should make sure that your
+customer has the correct idea of this freedom.
+
+When all technical information is free,
+this requirement shall not bind you any more.
+
+@c a section written by an ass; perhaps this should be removed
+@c @node Providers
+@c @section Provider cases
+@c 
+@c The GNU GPL does not state it very explicitly,
+@c but the original copyright holder is not
+@c restricted by the license terms. They only apply
+@c to persons who recieve the project and want
+@c to @emph{redistribute} it@footnote{You are not required
+@c to accept this License in order to receive or run
+@c a copy of the Program. --- the GNU GPLv3, section 9.}.
+@c 
+@c The original author did not received the project
+@c under the terms of any license. In the case of
+@c stribog, the only parts not copyrighted
+@c by the original author (as of Aug 2008)
+@c are Autotools-related build scripts. They come
+@c with permissive licenses and effectively
+@c don't restrict the author.
+@c 
+@c However, the stribog author does distribute
+@c the project in a compliant way. The reason
+@c is not in the law, it is in the ethics.
+@c For the instance, it would be OK for the law to give out
+@c a project under non-further-distributable
+@c terms and call it free, but it would not be honest.
+@c Complying the conditions himself or herself,
+@c the author constructively ensures that such a distribution
+@c of this particular project is possible,
+@c and gives a reference implementation of
+@c a comliant distribution.
+@c 
+@c There is another issue that should be cleared
+@c because it is often misundestood. Some
+@c people are afraid of words 
+@c @emph{you may distribute stribog under
+@c the terms of @gploptions}.
+@c They interpret them as @emph{you may
+@c force your distributor to conform the terms
+@c of @gploptions}. Then they say they don't control
+@c future versions of the license and they don't
+@c want to obey them all.
+@c 
+@c Actually, it is the distributor who
+@c chooses the particular version, not the customer.
+@c The distributor should tell the customer
+@c the precise version, though it is not always
+@c done in practice; it is not very good, but
+@c it is acceptable because the version usually
+@c can be figured out looking at the COPYING file.
+@c 
+@c Current version of the license,
+@c under which the stribog author propagates
+@c stribog, is @gplcurrent{}.
+
+@node Jurisdictions
+@section Jurisdiction cases
+In theory, the implications of applying
+the GNU GPL to the hardware design
+can depend on your jurisdiction.
+
+The Bern Convention, article 2.7 saith:
+@quotation
+it shall be a matter for legislation in the countries 
+of the Union to determine the extent of the application of their 
+laws to works of applied art and industrial designs and models, 
+as well as the conditions under which such works,
+designs and models shall be protected.
+@end quotation
+
+It is virtually universally accepted that
+the software falls under this convention,
+but this does not extends to hardware designs.
+
+Thus, three groups of cases are possible:
+
+@subsection No official law
+
+This is possible in cases when in your country either
+
+@enumerate a
+@item the government does not honour copyright and Bern Convention, or
+@item the law practice does not consider technical articles
+like software and hardware descriptions as pieces of art.
+@end enumerate
+
+Then you are lucky and the GPL is not about you. Beware
+that this is the most impossible case, in spite of that
+it is the most reasonable one.
+
+@subsection Homogeneous law
+
+This means that both programs and hardware are considered as works of art
+and printed circuit boards are treated as derived from the design description
+works. Then the conditions are like following.
+
+All that comes from the project forms a derived work, including the assembled
+boards. They should be distributed in a the GPL-compliant way as "Object Code".
+Essentially this means that if someone ships a stribog-derived board, 
+this person or organisation must make available (for those who get
+the product) a copy of documentation needed at least to reproduce this board;
+this supplier shall not prevent downstream distribution in terms other
+than that of @gplactual{}. Another thing to note is the Section 11 of 
+@gplcurrent (on patents). While there should be no software
+patents, the hardware ones are ubiquitous.
+
+As a consequence using stribog-derived circuits in a device is permitted 
+in either of two ways:
+@enumerate a
+@item The whole device is distributed under the terms of @gplactual
+ (with the stribog's authors' interpretation for the hardware part).
+ This is the preferable way.
+@item The device can reasonably be considered as an independent work.
+@end enumerate
+
+For example, connecting a board to stribog main board via connectors
+that provide power, UART signals and angular rate sensors output does not
+make the former board stribog-derived, because there is nothing very
+specific in those signals and the boards are distinct;
+but if some stribog circuits are incorporated into another board, 
+there is no more separable independent work, so that board 
+must be covered by @gplactual{}. Similarly, 
+if you modify stribog so that it will require/provide
+complicated signals from/to your board, therefore
+making it unimaginable to function one without the other --- in this
+case the whole system shall be covered by @gploptions{}.
+
+@subsection Heterogeneous law
+
+Printed boards are not considered to be a derived work. This is
+probably the most frequent case (at least, this applies to the USA).
+
+You may produce the boards and do all you want with them. You are not
+obliged (though encouraged) to give the design files when you supply
+the board instances (till now, we have not been speaking of software,
+just about the hardware design).
+
+I'm afraid it's you who is in charge to find out what your case is.
+However, you certainly won't be sued if you don't hide
+any project-derived sources.
+
+@node Contents
+@section Distribution contents
+
+When any version the GNU GPL concerned, there is some
+difference between embedded and desktop software.
+
+Harald Welte provides a nice guide on what should come with distribution
+at @url{http://www.gpl-violations.org/faq/sourcecode-faq.html}.
+He argues that it must contain the whole toolchain (or at least
+an offer, which is actually harder to implement). Fortunately,
+we use the GNU GPL version 3. It's section 1 (Source Code)
+contains an exception:
+@quotation
+However, it (the "Corresponding Source" --- ineiev) does not include the work's
+System Libraries, or general-purpose tools or generally available free
+programs which are used unmodified in performing those activities but
+which are not part of the work.
+@end quotation
+
+This means that you don't need to include all these tools when you
+use them unpatched --- and the maintainer policy is to use mainstream
+tools. If something is wrong, it is much better to send the patch to
+the original developers so that it could be useful for other users.
+
+Also, the GNU GPL makes difference between source and object form.
+The source code may be distributed even if there is no reasonable
+way to produce any executables. For the instance, the savannah
+Git repository or a tarball of a working copy makes a compliant
+distribution.
+
+In contrast, if somebody distribute object
+forms, they need to provide all the corresponding sources.
+This is mainly concerned with the case when a board with GPL-covered
+firmware is supplied.
+
+@node Final remarks
+@section Final remarks
+Please note that the intention of these provisions is not to prevent you
+from using the project, but to create conditions leading to the society
+without copyright restrictions on spreading technical ideas.
+Again, all these mumbo-jumbos are not valid by themselves, it is the insane
+legal system that gives them power. They are but direct reaction
+on this system. They just prevent @emph{certain} uses that are
+(and not without a good reason) considered to be socially harmful;
+they prevent such uses precisely and only because they considered
+to be socially harmful.
+
+@c @node Thanks
+@c @chapter Acknowledgements
+
+@node Intro
+@chapter Introduction
+
+@menu
+* In Short::                            What stribog is
+* Address::                             Where to get
+* Name::                                How to pronounce @samp{stribog}
+@end menu
+
+@node In Short
+@section In Short
+
+Stribog is an attempt implement a platform for measuring user orientation
+relative to sides of world: azimuth, pitch and roll.
+The hardware includes a 3-axis
+magnetoresistive compass, a tilt sensor based on accelerometer ICs and
+an ARM microcontroller to manage all.
+
+The project consists of hardware and software sections,
+both under the GNU GPL.
+
+The hardware section includes all information needed for
+reproducing the system, i.e. schematics, boards layout
+in the form that most board
+manufacturers accept and so on. It is implemented using
+GPLd packages gEDA (@url{http://geda.seul.org}) and pcb
+(@url{https://sourceforge.net/projects/pcb}).
+
+The hardware is based on Honeywell magnetoresistive sensors,
+the most precise relatively low-cost magnetic sensors,
+Analog Devices MEMS accelerometers
+and optionally Analog Devices angular rate sensors.
+the microcontroller is a Philips ARM-based LPC2138.
+All these are expected to show about 1-degree
+precision. ARM programs are developped with
+GNU toolchain (GCC/Binutils) and some stribog internal
+programs.
+
+Some auxiliary parts are impelmented using AVR
+microcontrollers.
+
+The programs are developped
+using free AVR-libc/GCC/Binutils/uisp toolchains.
+
+It is also planned to use the platform motion
+data obtained from a GPS sensor.
+
+The current status is alpha. The data from magnetic, GPS
+and other sensors are logged on a computer; then
+some post-processing is made.
+
+@node Address
+@section Address
+
+Stribog project is hosted at Savannah, it's project page is 
+@url{http://savannah.nongnu.org/projects/stribog}.
+
+The most recent revisions are available via savannah Git repository
+(@xref{Using Git}).
+
+Released sources and sample data are available at
+downloads page @url{http://download.savannah.gnu.org/releases/stribog/}.
+
+@node Name
+@section The Name
+
+The project was named after a Slavonic god, most probably the god of winds.
+The original term has not been in active use since 
+XII century@footnote{@cite{The Word
+about Igor's Troop} shows some latest appearances of the genuine tradition.}.
+The rithms of the tongue have transformed very much
+since then, the very orthography suffered a reform. Thus we can't tell how
+to pronounce the name correctly; we are even not sure how to transliterate it
+with Latin letters properly. The problem is that the word ended
+with a reduced vowel designated with a special letter,
+@samp{yerr}@footnote{This letter is now known as @samp{hard sign} and has
+a different meaning.}. These reduced vowels fell two centuries later,
+and the Bolsheviks abolished them in 1918 together with
+other adorable archaics.
+
+With all these things being respected, we do have a tendency
+to pronounce it in two syllables with the second one stressed.
+This second syllable sounds pretty like @samp{bog}; the first is similar to
+@samp{string} without the ending @samp{ng}, the difference is in @samp{t},
+which is not alveolar, but dental in most of the Easten Slavonic languages,
+that is, it is pronounced with the tongue touching the upper teeth, unlike
+the English @samp{t}. Also, the Slavonic @samp{r} certainly sounds
+much harder than the English one, and it is palatised before the @samp{i}.
+
+To distinguish the project from the deity please write the former in
+the lowercase whenever possible: @samp{stribog}.
+
+@node Getting Started
+@chapter Getting Started
+
+@menu
+* Prerequisites::
+* Tools Used::
+* Building stribog::
+@end menu
+
+@node Prerequisites
+@section Prerequisites
+
+The canonical development environment for this project is a GNU/Linux
+operating system. The maintainer tries to ensure that any more or less
+POSIX operating system with an X Window implementation can be
+used@footnote{This actually means
+that the authors won't bet that stribog is unbuildable there},
+at least, to build the project from distribution tarball,
+though it is impossible to test all such systems.
+
+The distributed files are arranged to permit a reasonable development
+flexibility. This means that when you have not, for example,
+X Window installed, you still can develop the components of stribog that
+don't require graphical editors. If you need a reference to the project
+schematics or boards, you can browse them in general graphics formats.
+These files are stored in addition to the sources in the distributions.
+
+Autoconf @file{configure} scripts check the tools availability and switch off
+the corresponding projects automatically. You also can do it manually.
+
+This approach was adopted due to need for portability. While running
+field tests, we could not sometimes predict the platform on which
+the host-side utilities would have to run. It would be very inconvenient
+to install the full toolset every time, so the parts of the project
+using different tools should be capable to build independently.
+
+Actually the minimum set of tools is a shell capable to run Autoconf-generated
+scripts and a @command{make} understanding Automake-generated @file{Makefile}s.
+These tools produce configuration files which control building and regeneration
+processes of stribog object files.
+
+Moreover, it is almost inevitable to have a native C compiler. It is needed
+to build stribog host-side utilities; it is needed to install all tools used by 
+stribog: the orthodoxal way is to build them from the sources. The sources
+are vitally necessary in the free software world, you can't tell the software
+free until you have built it from the sources. If you don't, you must rely
+on the other's words, and blindly relying is always dangerous.
+
+It is very naturally for a POSIX system to have a native C compiler.
+However, there is plenty of most different GNU/Linux
+distributions now, and there is a chance that you have no working compiler
+in yours. In most cases, this can be fixed very easily if your computer
+has an Internet connection; if it has not, you probably know yourself how to
+deal with it.
+
+@node Tools Used
+@section Tools Used
+
+This section explains how to install main tools used to develop stribog,
+and what prerequisites they may require.
+
+If some tools are not covered with this section, it means that they
+must be available on most Unix-like systems or they can be easily installed.
+Generic installation instructions are usually situated in the @file{INSTALL}
+file.
+
+@menu
+* GNU Cross-tools::                     General notes on the cross-tools
+* ARM Tools::                           ARM-specific binutils+gcc build
+* AVR Tools::                           AVR-targeted build and AVR-libc
+* PCB::                                 Printed Circuit Board Layout Editor
+* gerbv::                               Gerber files previewer
+* gEDA::                                gschem, gsch2pcb and dependencies
+@end menu
+
+@node GNU Cross-tools
+@subsection GNU Cross-tools
+
+The programs for processors of stribog are built with GNU toolchain
+including Binutils and GCC. To produce a complete toolset for AVR we
+also need AVR-libc, which is free software, but it is not a part of the GNU
+project.
+
+Some releases of GCC use in their build process
+general parsers generators, bison and flex.
+
+On systems other than GNU you should invoke GNU make. Some of these packages
+don't build themselves as described below with OpenBSD 3.9 native make.
+Use gmake instead. The same is true for stribog sources. When GNU make
+is not available, you may want to try non-VPATH build, that is
+to run `configure' in the topmost directory, like
+@command{./configure --target=arm-unknown-elf} and so on.
+Another widely known
+tradition prescribes @command{mkdir obj;cd obj;../configure ...}.
+
+Binutils releases tarballs are located at
+@uref{ftp://ftp.gnu.org/pub/gnu/binutils/},
+GCC can be found on the same FTP site at
+@uref{ftp://ftp.gnu.org/pub/gnu/gcc/}. We need single binutils tarball
+(e.g. binutils-2.17.tar.bz2), it's PGP signature (binutils-2.17.tar.bz2.sig)
+to make sure that we downloaded the file correctly, and the same
+for GCC (say, gcc-core-4.2.2.tar.bz2 and gcc-core-4.2.2.tar.bz2.sig).
+You can download gcc-4.2.2.tar.bz2 instead of gcc-core-4.2.2.tar.bz2.
+It contains additional language support such as Fortran and Ada.
+We don't use these languages, and our ARM-hosted startup
+programs don't support them.
+
+You also will need to get public keys for these signatures and import
+them into your gnupg keyring. Read gnupg manual on how to do this.
+
+As of Aug 2008, we recommend binutils-2.17 and gcc-4.2.2.
+
+Newer GCC releases series (gcc-4.3.0 and later) require MPFR library.
+This somewhat lengthens the dependencies list; it may require
+your GMP library update.
+
+The latest binutils release, binutils-2.18, is not very stable;
+it has some installation-time problems.
+
+As for gcc-4.2.3 and gcc-4.2.4, they are OK for building our ARM toolchain,
+but unfortunately, AVR target is unbuildable on top of binutils-2.17 and
+even binutils-2.18; we have a good reason to hope that the next release
+will fix this.
+
+If you have no fast Internet access and can't choose the versions,
+older releases will work, too. To be sure, gcc-3.4.6 and binutils-2.13
+are good enough for us.
+
+@node ARM Tools
+@subsection ARM Tools
+
+To develop the programs that run on the stribog mainboard, we shall want to
+install an ARM toolchain. Actually, @emph{the} ARM toolchain,
+as the project maintainers know no other. 
+
+First, we shall need binutils and gcc for ARM. We go to 
+@uref{ftp://ftp.gnu.org/pub/gnu} and get binutils and gcc.
+Generally, we use the latest releases, though there is 
+nothing dependent on any supernew features in stribog. Currently we use 
+binutils-2.17 with gcc-4.2.4. we used also binutils-2.16.1, binutils-2.16,
+gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2, gcc-4.2.3.
+
+The oldest versions of tools with which we have ever had a successful build
+are binutils-2.11.2 and gcc-3.3.4. We can't make our buggy programs work
+with earlier releases.
+
+The next instructions come (with some changes)
+from @uref{http://www.gnuarm.com}.
+
+First, define the directory where the cross-tools shall be installed
+with command line:
+
+@example
+ export armprefix=$HOME/arm
+@end example
+
+This variable will be used in the next commands and means nothing by itself.
+
+@quotation Note
+ You must have write access into that directory when you will `make install'
+@end quotation
+
+Verify and (in case of success) unpack binutils archive:
+
+@example
+ gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
+@end example
+
+Make directory for object files and cd there:
+
+@example
+ mkdir bui;cd bui
+@end example
+
+Configure, build and install binutils:
+
+@example
+ ../binutils-2.17/configure --target=arm-unknown-elf --prefix=$armprefix
+ make
+ make install
+@end example
+
+Adjust your PATH variable in order to make the newly installed binutils accessible
+during gcc building:
+
+@example
+ export PATH=$armprefix/bin:$PATH;
+@end example
+
+@quotation Note
+ You will need to add this directory to your PATH
+ whenever you use this toolset
+@end quotation
+
+Verify and (in case of success) unpack binutils archive:
+
+@example
+ gpg --verify gcc-core-4.2.4.tar.bz2.sig && tar xjf gcc-core-4.2.4.tar.bz2
+@end example
+
+Clear the object files directory:
+
+@example
+ cd ..;rm -fr bui;mkdir bui;cd bui
+@end example
+
+Configure, build and install gcc:
+
+@example
+ ../gcc-4.2.4/configure --target=arm-unknown-elf --prefix=$armprefix --enable-languages=c --disable-libssp
+ make
+ make install
+@end example
+
+That's all. We don't need newlib, and stribog main board has no contacts 
+to connect with gdb.
+
+@option{--disable-libssp} is mandatory for gcc-4.1.2 and later
+(currently up to gcc-4.3.1). Otherwise the compiler
+will not build itself.
+
+You also may want to add @option{--disable-nls} both to binutils and gcc
+configure invocation. This option will switch off non-English messages from
+these tools. It saves some disk space.
+
+The order of the @command{configure} command line arguments does not matter.
+
+This sequence was tested on
+@enumerate
+@item Fedora Core 8
+ (64-bit x86, native gcc (GCC) 4.1.2 20070925 (Red Hat 4.1.2-33)) 
+@item Fedora Core 4 
+ (32-bit x86, native gcc (GCC) 4.0.0 20050519 (Red Hat 4.0.0-8))
+@item OpenBSD 3.9 (i386, native gcc-3.3.5).
+As we mentioned, it is recommended to use gmake instead of make.
+@c add GNU/Hurd/Mach
+@item RedHat 7.3 (i386, native gcc-2.96)
+You shall need to update gnupg. It comes with 1.0.6 version
+and it can't check new signatures; gnupg-1.4.9 is quite buildable there.
+@end enumerate
+
+@node AVR Tools
+@subsection AVR Tools
+
+AVR toolchain is used to program some auxiliary boards. The toolchain consists
+of the GNU Binutils, GCC and (non-GNU) AVR-libc.
+
+AVR-libc is available at
+@url{http://savannah.nongnu.org/projects/avr-libc/}. Any reasonably new version
+should work for our purposes; stribog authors made no thourough research. The
+versions wich we knew closely are 1.4.5 and 1.6.1.
+
+The binutils-gcc building is similar to ARM tools, but target triplet should be
+non-canonical (avr rather than avr-unknown-elf) ---
+this is an AVR-libc requirement; also, the latest working GCC release
+for this target is gcc-4.2.2. The later GCC releases require support
+for newer processors from binutils, but officially released
+binutils lack it. Current binutils snapshots do provide
+the necessary stuff, but it is to be released yet.
+You can get them from @url{ftp://sourceware.org/pub/binutils/snapshots}.
+
+@example
+ export avrprefix=$HOME/avr
+ f=binutils-2.17.tar.bz2;gpg --verify $f.sig && tar xjf $f 
+ mkdir bui;cd bui
+ ../binutils-2.17/configure --target=avr --prefix=$avrprefix
+ make
+ make install
+ f=gcc-core-4.2.2.tar.bz2;gpg --verify $f.sig && tar xjf $f
+ ../gcc-4.2.2/configure --target=arm-unknown-elf --prefix=$avrprefix --enable-languages=c --disable-libssp
+ make
+ make install
+@end example
+
+After that, install AVR-libc:
+
+@example
+ f=avr-libc-1.6.1.tar.bz2;gpg --verify $f.sig && tar xjf $f
+ ../avr-libc-1.6.1/configure --prefix=$avrprefix --host=avr --build=$(../avr-libc-1.6.1/config.guess)
+ make
+ make install
+@end example
+
+Note that @option{--host=avr}, not @option{--target=avr}. The library provides parts
+of executables that run on AVRs, it does not build programs for AVRs.
+
+@option{--build=$(../avr-libc-1.6.1/config.guess)} means that the @command{config.guess} script,
+supplied with the build system of the library, is run to get the canonical name for your
+operating system. This name will be used essentially to notify the configure scripts that
+they don't build a native library, but a library for cross-tools.
+
+@node PCB
+@subsection PCB
+
+PCB is a printed circuit board layout editor. It is actually a part of gEDA,
+it is developped by programmers of the same team.
+However, we describe it's installation distinctly because it has somewhat lesser
+requirements@footnote{For example, it does not need Perl and guile. Also, you
+can build it with older GTK version (2.4.0 minimum) or with Lesstif at your option.}
+and because we use it more intensively than other gEDA programs. It can be installed
+independently and almost self-sufficient.
+
+The version of PCB we currently recommend is pcb-20080202. The previous one,
+pcb-20070907, was particularly buggy.
+You can get the archive at @url{http://sourceforge.net/projects/pcb}.
+PCB releases come without PGP signatures, but the release notes on the downloads page
+usually contain MD5 and SHA1 sums. It is a good idea to cut-and-paste them into
+pcb-20080202.tar.gz.sha1 and then @command{sha1sum -c pcb-20080202.tar.gz.sha1}.
+
+My file looked like this (no spaces before and two spaces after the checksum):
+
+@example
+4eb538db7086ca1b1f29e03450ed6ad28abd5c42  pcb-20080202.tar.gz
+@end example
+
+Unpack the archive, make directory for object files and cd there:
+
+@example
+ tar xzf pcb-20080202.tar.gz
+ mkdir bui;cd bui
+@end example
+
+Configure, build and install it:
+
+@example
+ ../pcb-20080202/configure --prefix=$HOME/geda
+ make
+ make install
+@end example
+
+You may be interested in some configure options, especially the following:
+@itemize
+@item @option{--with-gui} selects user interface front-end. You can choose
+between gtk (GTK-based) and lesstif (LessTif or compatibles).
+The default is gtk.
+@item @option{--enable-maintainer-mode} enables rebuilding some files that
+usually are not rebuilt. This is useful when you get yet-unreleased
+sources from CVS.
+@item @option{--disable-doc} prohibits rebuilding the documentation.
+You may want to use it when building from CVS with maintainer mode disabled
+or in case when you have no texinfo installed.
+@item @option{--with-exporters} selects file formats in which
+PCB will be able to output the PCB. Some formats may need additional
+libraries, so you may want to disable them. You will need no exporters
+just for edit layouts, but you certainly need Gerber or PNG export
+to print the board.
+@end itemize
+
+@node gerbv
+@subsection Gerbv
+Gerbv is a program for browsing Gerber and Excellon files@footnote{
+Gerber-274X is a programming language for photoplotter devices. It is used
+to define topologies of PCB layers (copper layers, silkscreen,
+mask and paste layers and so on). Each layer is described with a separate file.
+
+Excellon is a similar language for drilling machines. For simple boards
+two Excellon files are produced: one for unplated holes and another for
+vias, pins and other copper-plated holes. For blind and buried vias
+extra Excellon files are needed.}
+that PCB outputs and that you'll hopefully send to PCB manufacturer.
+
+Like PCB, gerbv is a part of gEDA, though it doesn't use libgeda,
+it was born as a separate project and keeps some independence for historical reasons.
+
+Current version, gerbv-2.1.0, is recommended. It has a lot of new exciting features.
+
+To install it, download from the project site
+on @url{http://sourceforge.net/projects/gerbv}
+@file{gerbv-2.1.0.tar.gz} and @file{gerbv-2.1.0.cksum}.
+Check the sum; if it is correct, unpack and install the package:
+
+@example
+ tar xzf gerbv-2.1.0.tar.gz
+ mkdir bui;cd bui
+ ../gerbv-2.1.0/configure --prefix=$HOME/geda
+ make all install
+@end example
+
+The most strict requirement is cairo library. If you have not it, you may want to
+add @option{--disable-cairo} option to configure command-line, but it is not
+supported very well. Alternatively,
+you can install the previous generation release, gerbv-1.0.2@footnote{the latest
+release of this series, gerbv-1.0.3, is not recommended. It displays Excellon files
+incorrectly.}.
+
+@node gEDA
+@subsection gEDA
+
+@quotation Note
+ There are @emph{a lot of} prerequisites for these programs.
+ They may be much harder to install than the gEDA suit itself.
+@end quotation
+
+gEDA is a large software collection.
+It's homepage is @url{http://geda.seul.org}.
+We don't use all these packages. 
+To install those used in stribog development you need
+at least the next files:
+
+@itemize
+@item @file{gEDA-gaf-1.3.1.md5sum}: MD5 checksums (not really needed,
+ but highly recommended)
+@item @file{geda-docs-1.3.1.tar.gz}: documentation
+@item @file{geda-gschem-1.3.1.tar.gz}: schematics editor
+@item @file{geda-gnetlist-1.3.1.tar.gz}: netlist generator; used by gsch2pcb
+@item @file{geda-symbols-1.3.1.tar.gz}: symbols library
+@item @file{geda-utils-1.3.1.tar.gz}: some utilities; we'll need gsch2pcb
+@item @file{libgeda-1.3.1.tar.gz}: common library
+@end itemize
+
+First, define the directory whither you will install this stuff:
+
+@example
+ export gedaprefix=$HOME/geda
+@end example
+
+@quotation Note
+ Install gEDA into the same directory as PCB: stribog hardware
+ project desctiption scripts make this assumption;
+ these scripts will need editing otherwise. You'll see this when
+ you invoke gsch2pcb.
+@end quotation
+
+Make your system aware of the executables and libraries, 
+which will be installed thither:
+
+@example
+ export PATH=$gedaprefix/bin:$PATH
+ export LD_LIBRARY_PATH=$gedaprefix/lib:$LD_LIBRARY_PATH
+ export LD_RUN_PATH=$gedaprefix/lib:$LD_RUN_PATH
+ export PKG_CONFIG_PATH=$gedaprefix/lib/pkgconfig:$PKG_CONFI_PATH
+@end example
+
+Check the MD5 sums:
+
+@example
+ md5sum -c gEDA-gaf-1.3.1.md5sum
+@end example
+
+If the sums are OK for all existing files, install the programs:
+
+@example
+ rm -fr bui; tar xzf libgeda-1.3.1.tar.gz
+ mkdir bui; cd bui
+ ../libgeda-1.3.1/configure --prefix=$gedaprefix
+ make all install; cd ..
+ rm -fr bui libgeda-1.3.1
+ tar xzf geda-utils-1.3.1.tar.gz
+ mkdir bui;cd bui
+ make all install; cd ..
+ rm -fr bui geda-utils-1.3.1
+ tar xzf geda-symbols-1.3.1.tar.gz
+ make all install; cd ..
+ rm -fr bui geda-symbols-1.3.1
+ tar xzf geda-gschem-1.3.1.tar.gz
+ make all install; cd ..
+ rm -fr bui geda-gschem-1.3.1
+ tar xzf geda-docs-1.3.1.tar.gz
+ make all install; cd ..
+ rm -fr bui geda-docs-1.3.1
+@end example
+
+@node Building stribog
+@section Building stribog
+
+This section describes how to build stribog instance from sources.
+
+The whole process constists of three steps: setting up host environment,
+hardware production and programming the hardware. 
+
+@menu
+* Host Files::                          Prepare your POSIX machine
+* Hardware Manufacturing::              Make the boards
+* Firmware Installation::               Upload the programs to hardware
+@end menu
+
+@node Host Files
+@subsection Host Files
+
+Stribog uses GNU-standard configuration procedure described
+in @file{INSTALL} file. Though general build versus source directory
+positions should work, the canonical way is to build the project 
+in a separate directory out of the source tree, so
+the configure invocation sounds like this:
+
+@example
+ ../stribog/configure
+@end example
+
+With such an arrangement, the intermediate output files from
+the toolchain and the source configuration system will not
+lumber your source tree and disturb the revision control system.
+
+The default prefix is @file{$HOME/stribog-install} directory. In particular,
+host tools executables are placed in @file{$HOME/stribog-install/bin}.
+We suggest not to install the package in your system directories. 
+
+You can disable ARM and AVR targets with @option{--disable-arm-targets}
+and @option{--disable-avr-targets} options. Then you
+can build and install just the host tools, so you don't need
+to install the corresponding toolchains on that host.
+This can be useful if the program has already been written
+into the MCU ROM or the MCU programs have been built
+on another host and fetched from there. Thus you can
+quickly install the host-side programs on a portable computer
+without cross-compiler.
+
+Documentation on other options is available via general
+@option{--help} option of the @command{configure} script.
+
+@node Hardware Manufacturing
+@subsection Hardware Manufacturing
+
+The first thing to build stribog hardware is to make a main board PCB.
+There are two versions of the board: @file{main_board.pcb}
+and @file{main_board.bis.pcb}. They represent the same schematics,
+the difference is in components placement. The former is more
+compact, on the latter the magnetic sensors moved away from
+other components; these componets influence the temperature drift
+of the magnetic response, so @file{main_board.bis.pcb} magnetic
+output should be more stable.
+
+The files needed for production come with the distribution
+in @file{hw/main_board} and @file{hw/main_board.bis}
+directories; they are also installed and updated
+in @file{$PREFIX/share/stribog} directory.
+
+One can order the PCB from different manufacturers or build it
+with own hands@footnote{Well, you can also ask someone who
+may have spare boards, like stribog authors.}.
+
+There are a lot of tutorials how to make a home-made PCB in the net.
+If you decide to reproduce the process, you'll most probably
+print the layers drawings on some substance with a printer.
+The files to print are provided in PDF and PostScript format.
+Every layer is placed at a separate page.
+
+To order the PCB from commercial manufacturers one send
+them Gerber and Excellon files with notes on desired
+quantity, board material and width and so on. The set of the files may
+depend on e.g. whether you want to make the solder mask
+or silkscreen inscriptions.
+The minimum set consists solder and component copper layers
+(@file{.back.gbr} and @file{.front.gbr}),
+the drill file (@file{-drill.cnc}) and the outline (@file{.fab.gbr}).
+
+After the board is printed, mount the elements and make the cables.
+We use coaxial cables to provide the power (+12 V)
+to prevent the influence of the electric current
+on the magnetic field and to connect PPS signal from the GPS
+receiver to our main board.
+
+We put our main boards into aluminium boxes. The boxes are not
+strictly germetic, but they resist the condensates satisfactorily
+during thermocycling.
+
+Auxiliary devices are assembled on breadboards using the schematics.
+The PNG images of schematic diagrammes come with the distribution
+in @file{hw/schematics} directory; the updated copies are
+installed in @file{$PREFIX/share/stribog/schematics} directory.
+
+@node Firmware Installation
+@subsection Firmware Installation
+
+@subsubsection Programming the Main Board
+
+When there is no program in the LPC2138 flash ROM, the MCU runs
+it's bootloader on power-up. It communicates directly
+with @command{elk}.
+
+
+Currently the usual way to run a program on the main board is to
+load it into RAM via @command{elk}:
+
+@example
+ elk -r -t multa
+@end example
+
+You also can write it into ROM, then it will run on power-up
+by itself:
+
+@example
+ elk -w -t multa
+@end example
+
+The latter way is not tested well as the whole project is in it's
+early stage. In order to erase the program, you'll need to
+invoke LPC2138 bootloader; it will start when you connect
+pin P0.14 of the MCU (pin 8 of J1) to ground on power-up.
+Then run @command{elk} interactively and issue @kbd{u}, @kbd{p} and
+@kbd{e} commands.
+
+@subsubsection Programming Auxiliary Boards
+
+Auxiliary boards are AVR-based. There are a lot of programmers for
+this MCU family, e.g. @command{avrdude} available at
+@url{http://savannah.nongnu.org/projects/avrdude} or obsolete
+@command{uisp} at @url{http://savannah.nongnu.org/projects/uisp}.
+These programs support many programming cables. Read the documentation
+and choose the cable that is best for you.
+
+@node Host-side Utilities
+@chapter Host-side Utilities
+
+This section describes using stribog host-side programs.
+To build them it is typically
+enough to have a POSIX evironment installed.
+These programs include:
+
+@itemize
+@item
+@command{elk}: LPC213x bootloader host-side part. after
+the loaded program is run @command{elk} also sends preferences to it.
+@item
+@command{conloq}: data logger used to save stribog observations
+on the host filesystem. it is assummed that @file{multa.elf}
+is running on the stribog main board.
+@item
+@command{expon}: a program to translate binary files saved
+with @command{conloq/conloq} into text messages
+for subsequent processing. actually a simple script invoking
+@command{conloq/conloq} with specific options.
+@item
+@command{conloq/magex-conloq}: the same as conloq
+for @file{magex.elf} running on the board.
+@item
+@command{magexp}: a program to translate binary files saved
+with @command{conloq/magex-conloq} into text
+messages for subsequent processing.
+@item
+@command{parse_tsipex}: host-side test for stribog UART protocol.
+@item
+@command{caed}: splits files saved with @command{conloq} on pieces at
+given board times.
+@item
+@command{postproc/exvel}: ad-hoc mechanisation.
+@item
+@command{postproc/process}: a script running @command{exvel}
+and sorting it's output to draw the results with @command{gnuplot}.
+@item
+@command{50hz}: 50Hz synchronous detector for magnetic data.
+@item
+@command{drift}: estimates temperature drifts of gains and biases
+of the sensors.
+@item
+@command{fdif}: outputs difference between two curves.
+@item
+@command{lpfilter}: trivial per-column low-pass filter.
+@item
+@command{stat}: per-column mean and RMS estimation.
+@end itemize
+
+@node In-depth Guide
+@chapter In-depth Guide
+
+@menu
+* Using Git::                           Getting the version you need
+* Autoreconf::                          Regenerating build system
+@c * Schematics capture::
+@c * Boards design::
+@end menu
+
+@node Using Git
+@section Using Git
+
+Git is the revision control system used by the project.
+This section describes typical configuration, branch naming
+conventions and usual commands.
+
+This section does not tell how to install Git on your system.
+It also does not explain Git capabilities. It is just a quick reference
+of invocations customised to the project on savannah.
+
+@menu
+* Git Commands::                        Common spells
+* Branches::                            Naming and meta-documentation
+* VCS Contents::                        What goes to Git, and why
+@end menu
+
+@node Git Commands
+@subsection Git Commands
+
+@subsubsection Git Configuration
+
+To conveniently use Git, you should customise it, that is fill
+.gitconfig file in your home directory.
+
+This is needed to identify the changes you'll make to the sources as yours
+and to tell Git what editor you want to use when writing comments to your
+changes.
+
+Here is a typical ~/.gitconfig file contents
+(please replace the names and email with yours):
+
+@example
+[user]
+ name = Ineiev (favourite host)
+ email = ineiev@@users.sourceforge.net
+[core]
+ editor = vim
+@end example
+
+@subsubsection Anonymous Access
+
+For anonymous access, use these:
+
+@example
+git clone git://git.savannah.nongnu.org/stribog.git
+@end example
+to make your local repository
+
+@example
+git checkout -b feb2008 origin/feb2008
+@end example
+to make a local branch feb2008 based on fetched origin/feb2008
+
+@example
+git fetch
+@end example
+to update copies of remote branches
+
+@example
+git pull
+@end example
+to fetch all remote branches and merge
+one of them into your current branch
+
+See also the next set of commands, common for anonymous and read-write access.
+
+@subsubsection Common Git Commands
+
+Common to both anonymous and maintainer access:
+
+@example
+git checkout master
+@end example
+to switch to existing branch 'master'
+
+@example
+git checkout -f master
+@end example
+the same, through away local changes 
+(and delete files removed from fetched repository since last sync)
+
+@example
+git status
+@end example
+to see what files are not in sync with the current branch
+
+@example
+git diff
+@end example
+to see what will be "git add"ed
+
+@example
+git branch
+@end example
+to list the local repository branches
+
+@example
+git branch -r
+@end example
+to list the public repositories branches
+
+@example
+git commit
+@end example
+to move the changes to your current branch
+
+@example
+git show
+@end example
+to see the latest commit description
+
+@subsubsection Maintainer Access
+
+If you are a maintainer, your usual spells are
+(replace ineiev with your login name)
+
+@example
+git clone ineiev@@git.savannah.nongnu.org:/srv/git/stribog.git
+@end example
+to get a new local repository
+
+@example
+add savannah ineiev@@git.savannah.nongnu.org:/srv/git/stribog.git
+@end example
+to add a reference for the public repository
+
+@example
+git push savannah feb2008
+@end example
+to push into savannah local branch named 'feb2008' 
+(non-existent will be created)
+
+@example
+git push savannah
+@end example
+to push into savannah all local branches
+
+@example
+git push savannah :refs/heads/feb2008
+@end example
+to remove branch feb2008 from remote savannah
+
+@node Branches
+@subsection Branches
+
+Each branch should have a text file named 'branch'
+in the root directory. From this file the name
+of current branch (possibly with it's predecessors)
+and the purpose of the branch can be learnt.
+
+Branch named `master' is dedicated to most actual
+meta-documentation on using Git branches, revisions
+and so on. There you can read about history
+and purposes of Git branches of the project.
+
+The revisions are named within the build system
+(configure.ac files) like 0.MAJOR.MINOR[-suffix]
+where MAJOR is the release branch number, MINOR is
+the number of release on the branch, optional suffix
+means unstable releases (rc[0-9]*) or marks interrelease
+revisions (minus), e.g.
+@itemize
+@item
+0.1.2-rc2-minus means a revision between 0.1.2-rc1 and
+0.1.2-rc2.
+@item
+0.1.2-rc[0-9]* preceeds stable version named 0.1.2
+@end itemize
+
+Trunc revisions are named like 0.1-minus, which means
+that the branch 0.1 is the next revision branch
+that to be forked out.
+
+Git is branched and tagged accordingly.
+eventually a branch named 0.1 is created from trunc,
+and the revision in configure.ac is set to 0.1.0-rc0-minus.
+then release candidates 0.1.0-rc1, 0.1.0-rc2 and so on 
+are released and at last release 0.1.0 is published.
+after that the release name is changed to 0.1.2-rc0-minus
+
+All release and release candidates should be tagged with
+their numbers (e.g. 0.1.2-rc1); these tags should be
+signed like this:
+
+@example
+git tag -s -m "release candidate" 0.1.2-rc1
+@end example
+
+An experimental branch name begins with exp.year.mon.task,
+where `exp' is common prefix; 
+the next two parts form date of forking:
+`mon' is 3-letter month abbreviation, `year' is 4-digit year;
+`task' hints reason why the branch was created;
+the letters will be lower-case.
+
+@node VCS Contents
+@subsection Repository Contents
+
+We put all distributed files into the repository. The bottomline
+consideration was that Git should be a source of the package.
+
+We think that today state may be correct because
+
+@enumerate
+@item
+gEDA (especially gschem) is not always easy to install;
+it has long dependencies on rather new versions of packages.
+@item
+It is not convenient to have version-controlled and non-controlled files
+mixed in the same directories.
+@item
+If there are no build scripts, the programs can't be compiled.
+This would be wrong because the programs
+can be modified and rebuilt very quickly and at no cost.
+To rebuild the scripts one must have a compatible Autotools version
+installed. Regenerating the scripts generally requires decent knowledge
+Autotools operation; it is substantially project-specific, so it may take
+a lot of time when done by a person new to the project. This may be much harder
+than just fixing a bug or adding even a complicated feature.
+@item
+After all, testers are not developers and builds from repository should be
+available to them.
+@end enumerate
+
+@node Autoreconf
+@section Autoreconf
+
+You should need this only to improve the configuring scripts
+and to change the structure of the sources (add/remove source files
+and so on). You often shall not want this.
+
+The configuring scripts are updated with @samp{autoreconf -v};
+you may @samp{rm -rf $(find . -name autom4te.cache)} after that.
+
+As of Aug 2008, the versions used are autoconf-2.62 and automake-1.10.1.
+
+Previous version of Autoconf (2.61) does not allow user-defined
+@file{confugure} arguments preprocessing.
+
+For some subdirectories, regeneration some portions of build system
+(e.g, @file{Makefile.am}s) needs building the project
+(the corresponding @file{Makefile}s contain rules to refresh those files).
+
+@c @node Schematics capture
+@c @section Schematics capture
+
+@c @node Boards design
+@c @section Boards design
+
+@node GNU General Public License
+@appendix GNU General Public License
+
+@include gpl-3.0.texi
+
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+
+@include fdl.texi
+
+@bye

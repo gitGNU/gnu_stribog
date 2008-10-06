@@ -544,8 +544,16 @@ to their origin and copyright status this way (`object code' and
 other non-source files are marked as such explicitly according to
 the terms of respective licenses):
 
-(0) The files originally written for project and are (currently)
+(0) The files originally written for the project and are
 placed under the aegis of the GPLv3+.
+
+(0a) doc/ directory contains the project documentation, namely
+stribog.texinfo and it's opaque form stribog.info. the files are
+copyrighted by Ineiev and GNU FDL-covered.
+
+The files in doc/ directory are NOT part of the stribog design,
+but are used with stribog. they form an `external library'
+as defined by the FSF.
 
 (1) The following non-text source files possibly contain no copyright notices, 
 because it was practically hard or absurd to maintain them there,
@@ -601,7 +609,10 @@ a single copyrighted unit.
 These files include:
 ./Makefile.in AT_permissive => GPLv3+ (object code)
 ./aclocal.m4 AT_permissive => GPLv3+ (object code)
-./configure C_unlimited -> GPLv3+
+./configure C_unlimited => GPLv3+ (object code)
+./doc/Makefile.in AT_permissive => GPLv3+ (object code)
+./doc/aclocal.m4 AT_permissive => GPLv3+ (object code)
+./doc/configure C_unlimited => GPLv3+
 ./hw/Makefile.in AT_permissive => GPLv3+ (object code)
 ./sw/auxilia/Makefile.in AT_permissive => GPLv3+ (object code)
 ./sw/auxilia/aclocal.m4 AT_permissive => GPLv3+ (object code)
@@ -642,6 +653,7 @@ distributed under the GPLv3+".
 (3a) Some of these files copyrighted by the FSF are parts 
 of Autotools distributed under respective licenses, namely
 ./depcomp GPLv2+ -> GPLv3+
+./doc/INSTALL I_unlimited -> GPLv3+
 ./INSTALL I_unlimited -> GPLv3+
 ./missing GPLv2+ -> GPLv3+
 ./sw/auxilia/INSTALL I_unlimited -> GPLv3+
@@ -713,6 +725,9 @@ tium.
 FSF changes to this file are in the public domain.
 ==(quote ends)
 
+(3c) ./doc/texinfo.tex is part of texinfo package;
+it is copyrighted by the FSF and distributed under the GNU GPLv3+.
+
 (4) ./sw/target/m4/gnu-make.m4 come from gnulib; it is closely integrated into
 the build system and subject to conditions similar to other
 Autotools-generated files:
@@ -728,9 +743,10 @@ gives unlimited permission to copy and/or distribute it,
 with or without modifications, as long as this notice is preserved.
 ==(quote ends)
 
-(5) The text of the GNU GPL, namely
-./COPYING ./sw/auxilia/COPYING ./sw/host/COPYING ./sw/target/COPYING 
-is copyrighted by the FSF as stated in the file.
+(5) The texts of GNU licenses, namely
+./COPYING ./doc/COPYING ./doc/fdl.texi ./doc/gpl-3.0.texi
+./sw/auxilia/COPYING ./sw/host/COPYING ./sw/target/COPYING 
+are copyrighted by the FSF as stated in the files.
 (``Everyone is permitted to copy and distribute verbatim copies
 of this license document, but changing it is not allowed.'')
 
@@ -762,6 +778,22 @@ with comments on origin added is as follows:
 ./configure.ac (0) GPLv3+
 ./COPYING (5) license terms: distributable verbatim
 ./depcomp (3a) GPLv2+ -> GPLv3+
+./doc/aclocal.m4      (3) AT_permissive => GPLv3+ (object code)
+./doc/AUTHORS         (6) copyright notes: open for necessary additions
+./doc/ChangeLog       (0) GPLv3+
+./doc/configure       (3) C_unlimited => GPLv3+ (object code)
+./doc/configure.ac    (0) GPLv3+
+./doc/COPYING         (5) license terms: distributable verbatim
+./doc/fdl.texi        (5) license terms: distributable verbatim
+./doc/gpl-3.0.texi    (5) license terms: distributable verbatim
+./doc/INSTALL         (3a) I_unlimited -> GPLv3+
+./doc/Makefile.am     (0) GPLv3+
+./doc/Makefile.in     (3) AT_permissive => GPLv3+ (object code)
+./doc/NEWS            (0) GPLv3+
+./doc/README          (0) GPLv3+
+./doc/stribog.info    (0a) FDLv1.2+ (opaque object)
+./doc/stribog.texinfo (0a) FDLv1.2+ (transparent object)
+./doc/texinfo.tex     (3c) GPLv3+
 ./hw/gafrc (0) GPLv3+
 ./hw/gyro.sch (0) GPLv3+
 ./hw/image.scm.in (0) GPLv3+

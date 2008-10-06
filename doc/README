@@ -1,0 +1,118 @@
+Copyright (C) 2006, 2007, 2008
+ Ineiev <ineiev@users.sourceforge.net>, super V 93
+
+These files are NOT part of the stribog design,
+but are used with stribog. they form an `external library'
+as defined by the FSF.
+
+They will become a part of stribog if we get savannah
+administration permission to add the GNU FDL to the project licenses.
+
+(0a) This directory contains the project documentation, namely
+stribog.texinfo and it's opaque form stribog.info. the files are
+copyrighted by Ineiev and GNU FDL-covered. the rest is distributed
+as follows:
+
+(0) This file, ./README, ./ChangeLog, ./NEWS and Autotools input files
+(./configure.ac, ./Makefile.am) are copyrighted by Ineiev
+and covered with the GNU GPLv3+.
+
+(3) Autotools-related files are distributed
+under respective licenses, namely
+./Makefile.in AT_permissive => GPLv3+ (object code)
+./aclocal.m4 AT_permissive => GPLv3+ (object code)
+./configure C_unlimited => GPLv3+
+
+AT_permissive means
+==(quote begins)
+Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+2005, 2006, 2007, 2008  Free Software Foundation, Inc.
+This file is free software; the Free Software Foundation
+gives unlimited permission to copy and/or distribute it,
+with or without modifications, as long as this notice is preserved.
+==(quote ends)
+
+C_unlimited means
+==(quote begins)
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2000, 2001,
+2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+This configure script is free software; the Free Software Foundation
+gives unlimited permission to copy, distribute and modify it.
+==(quote ends)
+
+I_unlimited means
+==(quote begins)
+Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005,
+2006, 2007 Free Software Foundation, Inc.
+
+This file is free documentation; the Free Software Foundation gives
+unlimited permission to copy, distribute and modify it.
+==(quote ends)
+
+AT_permissive => GPLv3+ means "has AT_unlimited copyright note,
+rendered under the GPLv3+ due to being an object form of some code
+distributed under the GPLv3+".
+
+(3a) Some of these files copyrighted by the FSF are parts 
+of Autotools distributed under respective licenses, namely
+./INSTALL I_unlimited -> GPLv3+
+
+I_unlimited -> GPLv3+ means "come under the I_unlimited terms,
+redistributed under the GPLv3+".
+
+(3c) ./texinfo.tex is copyrighted by the FSF and distributed under
+the GNU GPLv3+.
+
+(5) The texts of the GNU licenses, ./fdl.texi and ./gpl-3.0.texi,
+are copyrighted by the FSF as stated in these files.
+(``Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.'')
+./COPYING is a plain text version of ./gpl-3.0.texi.
+
+These files are not copyrighted by the stribog authors: some are
+not at all, other only partially. we let our copyright notes
+come into these files like 'configure', and 'Makefile.in',
+but one should undestand that they are result of
+compilation of several sources and such a file can hardly represent
+a single copyrighted unit. the files come to the project under
+permissive terms compatible with the GPLv3+. stribog authors
+redistribute them under the terms of the GPLv3+.
+
+(6) The file ./AUTHORS has a special status.
+it essentially consists of copyright notices.
+as such, these notices can't be removed; the project maintainers
+are encouraged to keep the notices up-to-date.
+
+Here is the full files list
+./aclocal.m4      (3) GPLv3+ (object code)
+./AUTHORS         (6) copyright notes: open for necessary additions
+./ChangeLog       (0) GPLv3+
+./configure       (3) GPLv3+ (object code)
+./configure.ac    (0) GPLv3+
+./COPYING         (5) license terms: distributable verbatim
+./fdl.texi        (5) license terms: distributable verbatim
+./gpl-3.0.texi    (5) license terms: distributable verbatim
+./INSTALL         (3a) GPLv3+
+./Makefile.am     (0) GPLv3+
+./Makefile.in     (3) GPLv3+ (object code)
+./NEWS            (0) GPLv3+
+./README          (0) GPLv3+
+./stribog.info    (0a) FDLv1.2+ (opaque object)
+./stribog.texinfo (0a) FDLv1.2+ (transparent object)
+./texinfo.tex     (3c) GPLv3+
+
+In case of doubt, see the file in question contents
+for the legal statements.
+
+stribog is free design; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.

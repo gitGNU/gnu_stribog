@@ -1,3 +1,5 @@
+06 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * doc/: added to git
 05 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: AS_CASE syntax typo fixed
  `warning' file touched

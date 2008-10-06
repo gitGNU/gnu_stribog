@@ -1,0 +1,26 @@
+06 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * doc/aclocal.m4 doc/ChangeLog  doc/configure.ac
+   doc/fdl.texi doc/INSTALL doc/Makefile.in  doc/README
+   doc/stribog.texinfo doc/AUTHORS doc/configure doc/COPYING       
+   doc/gpl-3.0.texi doc/Makefile.am doc/NEWS doc/stribog.info
+   doc/texinfo.tex: added to git
+18 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * some files: new
+
+ Copyright (C) 2008
+  Ineiev<ineiev@users.sourceforge.net>, super V 93
+
+ This file is part of stribog.
+
+ Stribog is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3, or (at your option)
+ any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
