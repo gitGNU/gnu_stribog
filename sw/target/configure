@@ -1841,7 +1841,7 @@ esac
 
 { $as_echo "$as_me:$LINENO: result: NB here we force $host_alias host" >&5
 $as_echo "NB here we force $host_alias host" >&6; }
-rm -f warnings
+rm -f warnings;touch warnings
 
 am__api_version='1.10'
 
