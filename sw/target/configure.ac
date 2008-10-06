@@ -34,7 +34,7 @@ AS_CASE(["z${target_recursion_trigger}"],
  exit $result
 ])
 AC_MSG_RESULT([NB here we force $host_alias host])
-rm -f warnings
+rm -f warnings;touch warnings
 
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREFIX_DEFAULT([$HOME/stribog-install])
