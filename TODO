@@ -1,14 +1,3 @@
-23 Apr 2008 [23 Apr start] 
- [03 May 2008 complete: the bug vanished]
- write new bootloader; look if the alignment-like bug disappear
-09 Feb 2008 [19Feb2008 start] [12 Apr 2008 hw/ schematics only remain]
- [29 May 2008 schematics added: the task initially complete]
- invoke GNU autobuild tools
- [25 Mar 2008]
- migrate to autoconf-2.62 when it is released. [10 Apr 2008 done]
- it should support [12 Apr 2008 both the next work]
-  (1) --help=recursive
-  (2) recursive 'configure' calls
 18 Feb 2008
  implement on-board attitude computation
  [04 Apr 2008]
@@ -53,7 +42,7 @@
         [16 Jun 2008 request sent]
 	[30 Jul 2008 the documentation is scheduled to become an external project]
      d. actually write the documentation
-	    [17 Jun 2008 start]
+	    [17 Jun 2008 start] [06 Oct 2008 initially done]
  1. of course, finish mounting the project on Autotools [29 May 2008 done]
 14 Apr 2008
  sw/auxilia: provide a script for convenient writing the installed

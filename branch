@@ -7,9 +7,7 @@ main tasks are:
 Parsing the command line arguments of the host tools in
 a GNU-standard way
 
-Clean up ethical issues
-
-Fixing some usability issues before forking the first release branch
+Forking out the first release branch
 
 Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 
