@@ -1,3 +1,5 @@
+06 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac: touch `warnings' file
 31 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: add copyright note to config.h.in
 26 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
