@@ -5,8 +5,8 @@
 @set UPDATED 07 Oct 2008
 @c VERSION is for the project, EDITION is for the manual
 @c EDITION names are unique within a VERSION
-@set EDITION 0
-@set VERSION 0.0.0-rc0
+@set EDITION 0-minus
+@set VERSION 0.0.0-rc1-minus
 @set GPLVERSION 3
 @macro gplcurrent 
  the GNU GPL version @value{GPLVERSION}

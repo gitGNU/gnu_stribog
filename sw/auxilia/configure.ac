@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 AC_PREREQ(2.62)
-AC_INIT([stribog-auxilia], [0.0.0-rc0], [stribog-bug@nongnu.org])
+AC_INIT([stribog-auxilia], [0.0.0-rc1-minus], [stribog-bug@nongnu.org])
 # force avr-based host without forcing avr-based build
 AS_CASE(["z${avr_recursion_trigger}"],
  [ztriggered],,[

@@ -1,4 +1,6 @@
 07 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac NEWS: version bumped to 0.0.0-rc1-minus
+07 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: version bumped to 0.0.0-rc0
 06 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: touch `warnings' file
