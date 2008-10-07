@@ -1,7 +1,7 @@
 This is ../../stribog/doc/stribog.info, produced by makeinfo version
 4.11 from ../../stribog/doc/stribog.texinfo.
 
-This manual is for stribog 0.0-minus (edition 0-minus, updated 04 Oct
+This manual is for stribog 0.1-minus (edition 0-minus, updated 04 Oct
 2008 (yet incomplete)), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008 Ineiev
@@ -26,7 +26,7 @@ File: stribog.info,  Node: Top,  Next: Distribution,  Up: (dir)
 Stribog Developer Manual
 ************************
 
-This manual is for stribog 0.0-minus (edition 0-minus, updated 04 Oct
+This manual is for stribog 0.1-minus (edition 0-minus, updated 04 Oct
 2008 (yet incomplete)), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008 Ineiev
