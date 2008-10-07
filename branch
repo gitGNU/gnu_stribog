@@ -1,13 +1,8 @@
-trunc<autobuild
-|=[03 May 2008] exp.2008.apr.bootloader
+0.0<trunc<autobuild
 
-trunc branch
-main tasks are:
+0.0 release series branch
 
-Parsing the command line arguments of the host tools in
-a GNU-standard way
-
-Forking out the first release branch
+Documentation and bugfixes only
 
 Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
 
