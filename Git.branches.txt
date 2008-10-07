@@ -8,13 +8,15 @@ pre2008-fixes: frozen at 03 Jan 2008 version, bugfixes only
 please use other branches whenever possible
 
 trunc: the active branch
-
-Fix some usability issues before forking the first release branch
 
 exp.2008.apr.bootloader [03 May 2008 merged into trunc]
 
 write a bootloader for LPC213x RAM-based programs.
 try to catch the alignment-like bug.
+
+0.0: 0.0 release series branch
+
+Documentation and bugfixes only
 
 Copyright (C) 2006, 2007, 2008
  Ineiev <ineiev@users.sourceforge.net>, super V 93
