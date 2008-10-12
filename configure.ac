@@ -19,7 +19,7 @@
 #a. AC_INIT shifted out command-line arguments;
 #b. --help=recursive implementation had a bug
 AC_PREREQ(2.62)
-AC_INIT([stribog],[0.0.0],[stribog-bug@nongnu.org])
+AC_INIT([stribog],[0.0.1-rc0-minus],[stribog-bug@nongnu.org])
 rm -f warnings;touch warnings
 distribution_impossible=no
 AM_INIT_AUTOMAKE([-Wall])
