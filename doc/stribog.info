@@ -1,8 +1,8 @@
 This is ../../stribog/doc/stribog.info, produced by makeinfo version
 4.11 from ../../stribog/doc/stribog.texinfo.
 
-This manual is for stribog 0.0.0 (edition 0, updated 07 Oct 2008),
-which is a MEMS-based attitude sensing platform.
+This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
+07 Oct 2008), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008 Ineiev
 
@@ -26,8 +26,8 @@ File: stribog.info,  Node: Top,  Next: Distribution,  Up: (dir)
 Stribog Developer Manual
 ************************
 
-This manual is for stribog 0.0.0 (edition 0, updated 07 Oct 2008),
-which is a MEMS-based attitude sensing platform.
+This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
+07 Oct 2008), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008 Ineiev
 
@@ -2408,43 +2408,43 @@ permit their use in free software.
 
 
 Tag Table:
-Node: Top887
-Node: Distribution3840
-Node: Jurisdictions5329
-Node: Contents9108
-Node: Final remarks10740
-Node: Intro11421
-Node: In Short11729
-Node: Address13260
-Node: Name13689
-Ref: Name-Footnote-115079
-Ref: Name-Footnote-215173
-Node: Getting Started15250
-Node: Prerequisites15449
-Ref: Prerequisites-Footnote-117924
-Node: Tools Used18013
-Node: GNU Cross-tools18937
-Node: ARM Tools21356
-Node: AVR Tools24633
-Node: PCB26764
-Ref: PCB-Footnote-128983
-Node: gerbv29131
-Ref: gerbv-Footnote-130239
-Ref: gerbv-Footnote-230714
-Node: gEDA30830
-Node: Building stribog33090
-Node: Host Files33621
-Node: Hardware Manufacturing35046
-Ref: Hardware Manufacturing-Footnote-137398
-Node: Firmware Installation37486
-Node: Host-side Utilities38797
-Node: In-depth Guide40445
-Node: Using Git40743
-Node: Git Commands41395
-Node: Branches43884
-Node: VCS Contents45730
-Node: Autoreconf46951
-Node: GNU General Public License47730
-Node: GNU Free Documentation License85337
+Node: Top903
+Node: Distribution3872
+Node: Jurisdictions5361
+Node: Contents9140
+Node: Final remarks10772
+Node: Intro11453
+Node: In Short11761
+Node: Address13292
+Node: Name13721
+Ref: Name-Footnote-115111
+Ref: Name-Footnote-215205
+Node: Getting Started15282
+Node: Prerequisites15481
+Ref: Prerequisites-Footnote-117956
+Node: Tools Used18045
+Node: GNU Cross-tools18969
+Node: ARM Tools21388
+Node: AVR Tools24665
+Node: PCB26796
+Ref: PCB-Footnote-129015
+Node: gerbv29163
+Ref: gerbv-Footnote-130271
+Ref: gerbv-Footnote-230746
+Node: gEDA30862
+Node: Building stribog33122
+Node: Host Files33653
+Node: Hardware Manufacturing35078
+Ref: Hardware Manufacturing-Footnote-137430
+Node: Firmware Installation37518
+Node: Host-side Utilities38829
+Node: In-depth Guide40477
+Node: Using Git40775
+Node: Git Commands41427
+Node: Branches43916
+Node: VCS Contents45762
+Node: Autoreconf46983
+Node: GNU General Public License47762
+Node: GNU Free Documentation License85369
 
 End Tag Table
