@@ -1,5 +1,8 @@
+12 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac stribog.texinfo: 
+ edition and version bumped to 0 and 0.0.0
 07 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
- * configure.ac NEWS stribog.texnfo:
+ * configure.ac NEWS stribog.texinfo:
  edition and version bumped to 0-minus and 0.0.0-rc1-minus
 07 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac stribog.texinfo: 
