@@ -429,7 +429,7 @@ Stribog project is hosted at Savannah, it's project page is
 @url{http://savannah.nongnu.org/projects/stribog}.
 
 The most recent revisions are available via savannah Git repository
-(@xref{Using Git}).
+(@pxref{Using Git}).
 
 Released sources and sample data are available at
 downloads page @url{http://download.savannah.gnu.org/releases/stribog/}.
