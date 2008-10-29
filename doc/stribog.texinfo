@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename stribog.info
 @set manualtitle Stribog Developer Manual
-@set UPDATED 04 Oct 2008 (yet incomplete)
+@set UPDATED 29 Oct 2008
 @c VERSION is for the project, EDITION is for the manual
 @c EDITION names are unique within a VERSION
 @set EDITION 0-minus
@@ -573,19 +573,30 @@ programs don't support them.
 You also will need to get public keys for these signatures and import
 them into your gnupg keyring. Read gnupg manual on how to do this.
 
-As of Aug 2008, we recommend binutils-2.17 and gcc-4.2.2.
+As of Oct 2008, we recommend binutils-2.17 and gcc-4.2.2.
 
 Newer GCC releases series (gcc-4.3.0 and later) require MPFR library.
 This somewhat lengthens the dependencies list; it may require
 your GMP library update.
 
-The latest binutils release, binutils-2.18, is not very stable;
-it has some installation-time problems.
-
 As for gcc-4.2.3 and gcc-4.2.4, they are OK for building our ARM toolchain,
 but unfortunately, AVR target is unbuildable on top of binutils-2.17 and
 even binutils-2.18; we have a good reason to hope that the next release
 will fix this.
+
+binutils-2.18 is not very stable; you'd better use binutils-2.19
+instead.
+
+Both binutils-2.18 and binutils-2.19 have installation problem
+with VPATH build when you have no recent enough makeinfo. You can
+either build the package in it's source directory @command{./configure ..},
+or install a new texinfo, or touch the info files, i.e. build with command
+
+@example
+ make
+ touch $(find ../binutils-2.19 -name "*.info")
+ make
+@end example
 
 If you have no fast Internet access and can't choose the versions,
 older releases will work, too. To be sure, gcc-3.4.6 and binutils-2.13
