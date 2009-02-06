@@ -36,7 +36,7 @@ static int
 change_to_saved_wd(saved_wd_type*wd)
 {return fchdir(*wd);}
 #else/*no fchdir: we'll try get_current_dir_name*/
- #ifdef HAVE_GET_CURRENT_DIR_NAME
+ #if HAVE_GET_CURRENT_DIR_NAME
 #include<stdlib.h>
 typedef const char*saved_wd_type;
 enum{initial_value=0};
@@ -51,7 +51,7 @@ static int
 change_to_saved_wd(saved_wd_type*wd)
 {return chdir(*wd);}
  #else /*no get_current_dir_name: hope getcwd is available*/
-#ifndef HAVE_GETCWD
+#if !HAVE_GETCWD
  #error "no known functions to save current path in host system"
 #endif
 typedef char*saved_wd_type;
