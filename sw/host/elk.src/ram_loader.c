@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_crc32.h>
 #include<stdio.h>
 #include<time.h>
-#include<ram_loader_enums.h>
+#include<ram_ldr.h>
 static int
 check_signature(const char*s)
 {return*s==SOT&&s[1]==ACK;}

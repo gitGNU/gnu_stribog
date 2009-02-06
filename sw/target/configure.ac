@@ -52,7 +52,7 @@ AH_TOP(
 ])
 
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_LINKS([ram_loader_enums.h:../common/ram_loader_enums.h])
+AC_CONFIG_LINKS([ram_ldr.h:../common/ram_ldr.h])
 
 saved_ASFLAGS="$ASFLAGS"
 saved_CFLAGS="$CFLAGS"

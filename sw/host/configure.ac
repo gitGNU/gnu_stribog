@@ -133,7 +133,7 @@ AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
                  stribog_save_wd.h:lib/save_wd.h
                  stribog_signal.h:lib/stribog_signal.h
                  form_fix.h:../common/form_fix.h
-                 ram_loader_enums.h:../common/ram_loader_enums.h
+                 ram_ldr.h:../common/ram_ldr.h
                  stribog_crc32.h:lib/crc32.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile

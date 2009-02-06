@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"../include/lpc2138.h"
 #include"crc32.h"
 #include"init.h"
-#include<ram_loader_enums.h>
+#include<ram_ldr.h>
 #define pin0mask	(1<<19)
 #define pin1mask	(1<<29)
 static inline void

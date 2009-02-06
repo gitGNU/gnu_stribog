@@ -850,7 +850,7 @@ with comments on origin added is as follows:
 ./sw/common/form_fix.h (0) GPLv3+
 ./sw/common/Makefile.am (0) GPLv3+
 ./sw/common/Makefile.in (3) AT_permissive => GPLv3+ (object code)
-./sw/common/ram_loader_enums.h (0) GPLv3+
+./sw/common/ram_ldr.h (0) GPLv3+
 ./sw/host/aclocal.m4 (3) AT_permissive => GPLv3+ (object code)
 ./sw/host/AUTHORS (6) copyright notes: open for necessary additions
 ./sw/host/ChangeLog (0) GPLv3+
