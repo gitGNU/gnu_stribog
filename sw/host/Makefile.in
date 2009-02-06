@@ -53,7 +53,7 @@ DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(top_srcdir)/lib/snpr_ck.h \
 	$(top_srcdir)/lib/stribog_error.h \
 	$(top_srcdir)/lib/stribog_signal.h \
-	$(top_srcdir)/lib/stribog_strings.h AUTHORS COPYING ChangeLog \
+	$(top_srcdir)/lib/sbg_str.h AUTHORS COPYING ChangeLog \
 	INSTALL NEWS TODO compile config.guess config.sub depcomp \
 	install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -65,7 +65,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = argp.h stribog_error.h snpr_ck.h \
-	stribog_strings.h stribog_save_wd.h stribog_signal.h \
+	sbg_str.h stribog_save_wd.h stribog_signal.h \
 	form_fix.h ram_ldr.h stribog_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
