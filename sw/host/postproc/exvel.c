@@ -81,7 +81,7 @@ proc_vel(const char*s)
   if(dt_acc>.01)for(i=0;i<3;i++)acc_meas[i]/=dt_acc;
   printf("dt_acc: %f %f\n",dt_acc,pos.t-tacc);
   printf("norm_acc: %f %f %f %f %f\n",pr_norm_acc,p,acc_meas[0],acc_meas[1],acc_meas[2]);
-  if(fabs(pr_norm_acc-p)>.2)//if(fabs(acc_meas[1]-pr_acc[1])>.5/40)
+  if(fabs(pr_norm_acc-p)>.2)/*if(fabs(acc_meas[1]-pr_acc[1])>.5/40)*/
   {_k=(pr_norm_acc-p)/(pr_acc[1]-acc_meas[1]);_acc_calib|=k_calib;
    printf("k_acc: %f %f\n",pos.t,_k);
   }
