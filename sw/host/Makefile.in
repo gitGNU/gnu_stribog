@@ -47,15 +47,13 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in $(top_srcdir)/../common/form_fix.h \
-	$(top_srcdir)/../common/ram_ldr.h \
-	$(top_srcdir)/configure $(top_srcdir)/lib/argp/argp.h \
-	$(top_srcdir)/lib/crc32.h $(top_srcdir)/lib/save_wd.h \
-	$(top_srcdir)/lib/snpr_ck.h \
-	$(top_srcdir)/lib/sbg_error.h \
-	$(top_srcdir)/lib/sbg_signal.h \
-	$(top_srcdir)/lib/sbg_str.h AUTHORS COPYING ChangeLog \
-	INSTALL NEWS TODO compile config.guess config.sub depcomp \
-	install-sh missing
+	$(top_srcdir)/../common/ram_ldr.h $(top_srcdir)/configure \
+	$(top_srcdir)/lib/argp/argp.h $(top_srcdir)/lib/crc32.h \
+	$(top_srcdir)/lib/save_wd.h $(top_srcdir)/lib/sbg_error.h \
+	$(top_srcdir)/lib/sbg_signal.h $(top_srcdir)/lib/sbg_str.h \
+	$(top_srcdir)/lib/snpr_ck.h AUTHORS COPYING ChangeLog INSTALL \
+	NEWS TODO compile config.guess config.sub depcomp install-sh \
+	missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -64,9 +62,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = argp.h sbg_error.h snpr_ck.h \
-	sbg_str.h sbg_save_wd.h sbg_signal.h \
-	form_fix.h ram_ldr.h sbg_crc32.h
+CONFIG_CLEAN_FILES = argp.h sbg_error.h snpr_ck.h sbg_str.h \
+	sbg_save_wd.h sbg_signal.h form_fix.h ram_ldr.h sbg_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
@@ -106,10 +103,9 @@ am__conloq_SOURCES_DIST = conloq.src/conloq.c conloq.src/exp-brief.c \
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) exp-brief.$(OBJEXT) \
-	proc_kp.$(OBJEXT) garmin_nmea.$(OBJEXT) \
-	hodo.$(OBJEXT) lla.$(OBJEXT) parse_tsip.$(OBJEXT) \
-	preproc_gps.$(OBJEXT) $(am__objects_1) \
-	verb_level.$(OBJEXT)
+	proc_kp.$(OBJEXT) garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) \
+	lla.$(OBJEXT) parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
+	$(am__objects_1) verb_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
 conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_drift_OBJECTS = drift.$(OBJEXT)
@@ -125,8 +121,7 @@ am__elk_SOURCES_DIST = elk.src/elk.c elk.src/serial.c \
 @the_host_is_windows_FALSE@am__objects_2 = elk-serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_2 = elk-wser.$(OBJEXT)
 am_elk_OBJECTS = elk-elk.$(OBJEXT) elk-serial.$(OBJEXT) \
-	$(am__objects_2) elk-ram_ldr.$(OBJEXT) \
-	elk-lpc_ldr.$(OBJEXT)
+	$(am__objects_2) elk-ram_ldr.$(OBJEXT) elk-lpc_ldr.$(OBJEXT)
 elk_OBJECTS = $(am_elk_OBJECTS)
 elk_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_expon_legacy_OBJECTS = expon.$(OBJEXT) exp.$(OBJEXT) \
@@ -147,8 +142,7 @@ am__magex_conloq_SOURCES_DIST = conloq.src/magex-conloq.c \
 	conloq.src/parse_tsip.c conloq.src/parse_tsip.h \
 	conloq.src/verb_level.c conloq.src/verb_level.h
 am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) magexp.$(OBJEXT) \
-	$(am__objects_1) parse_tsip.$(OBJEXT) \
-	verb_level.$(OBJEXT)
+	$(am__objects_1) parse_tsip.$(OBJEXT) verb_level.$(OBJEXT)
 magex_conloq_OBJECTS = $(am_magex_conloq_OBJECTS)
 magex_conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
@@ -157,8 +151,7 @@ magexp_OBJECTS = $(am_magexp_OBJECTS)
 magexp_DEPENDENCIES = libstribog.a
 am__odo_SOURCES_DIST = conloq.src/odo.c conloq.src/verb_level.c \
 	conloq.src/serialia.c conloq.src/wser.c conloq.src/serialia.h
-am_odo_OBJECTS = odo.$(OBJEXT) verb_level.$(OBJEXT) \
-	$(am__objects_1)
+am_odo_OBJECTS = odo.$(OBJEXT) verb_level.$(OBJEXT) $(am__objects_1)
 odo_OBJECTS = $(am_odo_OBJECTS)
 odo_LDADD = $(LDADD)
 am_parse_tsipex_OBJECTS = parse_tsipex.$(OBJEXT) parse_tsip.$(OBJEXT)
