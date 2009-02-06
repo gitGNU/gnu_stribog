@@ -1,8 +1,10 @@
-0.0.0-rc0 (..2008)
+0.1.0-rc0
+ some portability fixes
+0.0.0 (Oct 2008)
  the project migrated to the GNU build system
  arguments of conloq are parsed in a GNU-standard way
 
- Copyright (C) 2008
+ Copyright (C) 2008, 2009
   Ineiev<ineiev@users.sourceforge.net>, super V 93
 
  This file is part of stribog.

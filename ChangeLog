@@ -1,3 +1,7 @@
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/common/Makefile.am sw/common/ram_ldr.h
+   sw/common/ram_loader_enums.h: rename
+ ../common/ram_loader_enums.h to ../common/ram_ldr.h
 07 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: 0.0 branch forked out
 06 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
@@ -407,7 +411,7 @@ R17..R20 changed to 2.2k, R21..R24 --- to 3.3k
  LEDs added
  Tantalum capacitor C35 replaced with ceramic 0805
 
- Copyright (C) 2006, 2007, 2008
+ Copyright (C) 2006, 2007, 2008, 2009
   Ineiev<ineiev@users.sourceforge.net>, super V 93
 
  This file is part of stribog.

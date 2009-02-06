@@ -1,3 +1,65 @@
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/magexp.c conloq.src/garmin_bin.c: eliminate
+   <stdint.h> dependency
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/save_wd.c: fix preprocessor usage
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk.src/serialia.c conloq.src/serialia.c:
+   honour B115200less systems
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * postproc/exvel.c: replace C++ comment with C one
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am elk.src/elk.c
+   elk.src/lpc_loader.c elk.src/lpc_ldr.c
+   elk.src/lpc_loader.h elk.src/lpc_ldr.h
+   elk.src/ram_loader.c elk.src/ram_ldr.c
+   elk.src/ram_loader.h elk.src/ram_ldr.h: rename
+   elk.src/{{lpc,ram}_{loader,ldr},{c,h}}
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac conloq.src/caed.c conloq.src/exp-brief.c
+   conloq.src/exp.c conloq.src/parse_tsipex.c
+   elk.src/ram_loader.c: rename s{tribo,b}g_crc32.h
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am configure.ac conloq.src/caed.c conloq.src/conloq.c
+   conloq.src/elig.c conloq.src/exp-brief.c conloq.src/exp.c
+   conloq.src/expon.c conloq.src/garmin_nmea.c conloq.src/hodo.c
+   conloq.src/magex-conloq.c conloq.src/magexp.c
+   conloq.src/parse_tsip.c conloq.src/parse_tsipex.c
+   conloq.src/proc_kp.c conloq.src/verb_level.c elk.src/elk.c
+   elk.src/lpc_loader.c lib/error.c
+   lib/signal.c lib/signalex.c lib/snpr_ck.c
+   lib/stribog_error.h lib/sbg_error.h
+   lib/stribog_signal.h lib/sbg_signal.h: rename
+ lib/s{tribog,bg}_error.h, lib/s{tribog,bg}_signal.h,
+ s{tribog,bg}_save_wd.h
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * Makefile.am conloq.src/conloq.c
+   conloq.src/process_keypress.c conloq.src/proc_kp.c
+   conloq.src/process_keypress.h conloq.src/proc_kp.h: rename
+ conloq.src/proc{ess_keypress,_kp}.c, conloq.src/proc{ess_keypress,_kp}.h
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/conloq.c conloq.src/exp-brief.c conloq.src/exp.c
+   conloq.src/expon.c conloq.src/garmin_nmea.c
+   conloq.src/hodo.c conloq.src/odo.c
+   conloq.src/process_keypress.c conloq.src/serialia.c
+   conloq.src/verbosity_level.c conloq.src/verb_level.c
+   conloq.src/verbosity_level.h conloq.src/verb_level.h: rename
+ conloq.src/verb{osity,}_level.c, conloq.src/verb{osity,}_level.h
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.acconloq.src/caed.c conloq.src/conloq.c
+   conloq.src/elig.c conloq.src/magex-conloq.c elk.src/elk.c
+   lib/stribog_strings.h lib/sbg_str.h: rename
+   lib/stribog_strings.h to lib/sbg_str.h
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac Makefile.am conloq.src/caed.c
+   conloq.src/conloq.c conloq.src/magex-conloq.c
+   elk.src/elk.c elk.src/lpc_loader.c elk.src/ram_loader.c
+   lib/snprintf_checked.c lib/snprintf_checked.h
+   lib/snpr_ck.c lib/snpr_ck.h: rename
+ lib/snpr{intf_checked,_ck}.c, lib/snpr{intf_checked,_ck}.h
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * configure.ac elk.src/ram_loader.c: rename
+ ../common/ram_loader_enums.h to ../common/ram_ldr.h
 07 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: 0.0 branch forked out
 31 Jul 2008 P.Kharitonov <ineiev@users.sourceforge.net>
@@ -284,7 +346,7 @@
    postproc/Makefile.am postproc/Makefile.in 
    utils/Makefile.am utils/Makefile.in: new
 
- Copyright (C) 2006, 2007, 2008
+ Copyright (C) 2006, 2007, 2008, 2009
   Ineiev<ineiev@users.sourceforge.net>, super V 93
 
  This file is part of stribog.
