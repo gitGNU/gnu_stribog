@@ -1,5 +1,5 @@
 /*POSIX serial port module
-Copyright (C) 2006, 2007, 2008\
+Copyright (C) 2006, 2007, 2008, 2009\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This file is a part of the stribog host software section
 
@@ -59,7 +59,11 @@ initserialia(const char*tty)
  if(tcgetattr(port,&vet))
  {report_error("tcgetattr");close_port();return-1;}
  nov=vet;
+#ifdef B115200
  cfsetospeed(&nov,B115200);cfsetispeed(&nov,B115200);
+#else
+ printf("no B115200 in system headers; leaving port speed as is\n");
+#endif
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
  nov.c_cflag&=~CSIZE;nov.c_cflag|=CS8;nov.c_oflag&=~OPOST;
  /*actually, GNU/Hurd (0.3 GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 GNU)
