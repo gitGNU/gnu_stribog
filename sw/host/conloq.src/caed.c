@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<config.h>
 #include"parse_tsip.h"
-#include<stribog_crc32.h>
+#include<sbg_crc32.h>
 #include<sbg_error.h>
 #include<sbg_str.h>
 #include<snpr_ck.h>

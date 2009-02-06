@@ -134,7 +134,7 @@ AC_CONFIG_LINKS([sbg_error.h:lib/sbg_error.h
                  sbg_signal.h:lib/sbg_signal.h
                  form_fix.h:../common/form_fix.h
                  ram_ldr.h:../common/ram_ldr.h
-                 stribog_crc32.h:lib/crc32.h])
+                 sbg_crc32.h:lib/crc32.h])
 #Makefiles are generated
 AC_CONFIG_FILES([Makefile
                  postproc/Makefile])
