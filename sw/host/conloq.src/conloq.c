@@ -1,6 +1,6 @@
 /*conloq: talk (currently just listen) to a stribog board 
  from UNIX terminal via RS-232 UART
-Copyright (C) 2006, 2007, 2008\
+Copyright (C) 2006, 2007, 2008, 2009\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 

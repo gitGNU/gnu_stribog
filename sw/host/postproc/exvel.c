@@ -1,5 +1,5 @@
 /*ad-hoc INS mechanization; should be rewritten completely
-Copyright (C) 2006, 2007, 2008 Ineiev <ineiev@users.sourceforge.net>
+Copyright (C) 2006, 2007, 2008, 2009 Ineiev <ineiev@users.sourceforge.net>
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify

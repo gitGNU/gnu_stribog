@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006 Ineiev<ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2009 Ineiev<ineiev@users.sourceforge.net>*/
 #include"parse_tsip.h"
 #include<stdio.h>
 #include"exp_gps.h"

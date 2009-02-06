@@ -1,5 +1,5 @@
 /*decode odometer messages
-Copyright (C) 2007, 2008\
+Copyright (C) 2007, 2008, 2009\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 This program is free software; you can redistribute it and/or modify

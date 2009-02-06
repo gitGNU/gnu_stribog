@@ -1,5 +1,5 @@
 /*elk the LPC21x programmer: main function
-Copyright (C) 2006, 2007, 2008\
+Copyright (C) 2006, 2007, 2008, 2009\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
