@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include<stribog_crc32.h>
 #include<stribog_error.h>
-#include<stribog_strings.h>
+#include<sbg_str.h>
 #include<snpr_ck.h>
 #include"get_u.h"
 #include<stdio.h>

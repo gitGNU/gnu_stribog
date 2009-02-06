@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include"exp.h"
 #include<stribog_error.h>
-#include<stribog_strings.h>
+#include<sbg_str.h>
 #include"verbosity_level.h"
 #include"process_keypress.h"
 #include<stdlib.h>

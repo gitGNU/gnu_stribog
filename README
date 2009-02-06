@@ -921,7 +921,7 @@ with comments on origin added is as follows:
 ./sw/host/lib/snpr_ck.h (0) GPLv3+
 ./sw/host/lib/stribog_error.h (0) GPLv3+
 ./sw/host/lib/stribog_signal.h (0) GPLv3+
-./sw/host/lib/stribog_strings.h (0) GPLv3+
+./sw/host/lib/sbg_str.h (0) GPLv3+
 ./sw/host/Makefile.am (0) GPLv3+
 ./sw/host/Makefile.in (3) AT_permissive => GPLv3+ (object code)
 ./sw/host/missing (3a) GPLv2+ -> GPLv3+

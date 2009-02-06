@@ -129,7 +129,7 @@ AM_CONDITIONAL([build_own_argp],[test $enable_own_argp = yes])
 #to be available the same as config.h
 AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
                  snpr_ck.h:lib/snpr_ck.h
-                 stribog_strings.h:lib/stribog_strings.h
+                 sbg_str.h:lib/sbg_str.h
                  stribog_save_wd.h:lib/save_wd.h
                  stribog_signal.h:lib/stribog_signal.h
                  form_fix.h:../common/form_fix.h

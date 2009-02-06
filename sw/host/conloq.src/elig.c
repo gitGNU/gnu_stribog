@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<config.h>
 #include"parse_tsip.h"
 #include<stribog_error.h>
-#include<stribog_strings.h>
+#include<sbg_str.h>
 #include<stdio.h>
 #include<argp.h>
 const char*argp_program_version="elig"PACKAGE_VERSION_COMMENTED;
