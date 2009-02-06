@@ -7604,7 +7604,7 @@ fi
 
 #common headers are linked to top build directory
 #to be available the same as config.h
-ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h snprintf_checked.h:lib/snprintf_checked.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h stribog_signal.h:lib/stribog_signal.h form_fix.h:../common/form_fix.h ram_ldr.h:../common/ram_ldr.h stribog_crc32.h:lib/crc32.h"
+ac_config_links="$ac_config_links stribog_error.h:lib/stribog_error.h snpr_ck.h:lib/snpr_ck.h stribog_strings.h:lib/stribog_strings.h stribog_save_wd.h:lib/save_wd.h stribog_signal.h:lib/stribog_signal.h form_fix.h:../common/form_fix.h ram_ldr.h:../common/ram_ldr.h stribog_crc32.h:lib/crc32.h"
 
 #Makefiles are generated
 ac_config_files="$ac_config_files Makefile postproc/Makefile"
@@ -8247,7 +8247,7 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "argp.h") CONFIG_LINKS="$CONFIG_LINKS argp.h:lib/argp/argp.h" ;;
     "stribog_error.h") CONFIG_LINKS="$CONFIG_LINKS stribog_error.h:lib/stribog_error.h" ;;
-    "snprintf_checked.h") CONFIG_LINKS="$CONFIG_LINKS snprintf_checked.h:lib/snprintf_checked.h" ;;
+    "snpr_ck.h") CONFIG_LINKS="$CONFIG_LINKS snpr_ck.h:lib/snpr_ck.h" ;;
     "stribog_strings.h") CONFIG_LINKS="$CONFIG_LINKS stribog_strings.h:lib/stribog_strings.h" ;;
     "stribog_save_wd.h") CONFIG_LINKS="$CONFIG_LINKS stribog_save_wd.h:lib/save_wd.h" ;;
     "stribog_signal.h") CONFIG_LINKS="$CONFIG_LINKS stribog_signal.h:lib/stribog_signal.h" ;;
