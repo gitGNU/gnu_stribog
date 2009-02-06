@@ -15,7 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-#include"ram_loader.h"
+#include"ram_ldr.h"
 #include"serialia.h"
 #include"snpr_ck.h"
 #include<sbg_crc32.h>

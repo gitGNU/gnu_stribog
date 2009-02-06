@@ -895,11 +895,11 @@ with comments on origin added is as follows:
 ./sw/host/COPYING (5) license terms: distributable verbatim
 ./sw/host/depcomp (3a) GPLv2+ -> GPLv3+
 ./sw/host/elk.src/elk.c (0) GPLv3+
-./sw/host/elk.src/lpc_loader.c (0) GPLv3+
-./sw/host/elk.src/lpc_loader.h (0) GPLv3+
+./sw/host/elk.src/lpc_ldr.c (0) GPLv3+
+./sw/host/elk.src/lpc_ldr.h (0) GPLv3+
 ./sw/host/elk.src/prefs.dat (8) not copyrightable
-./sw/host/elk.src/ram_loader.c (0) GPLv3+
-./sw/host/elk.src/ram_loader.h (0) GPLv3+
+./sw/host/elk.src/ram_ldr.c (0) GPLv3+
+./sw/host/elk.src/ram_ldr.h (0) GPLv3+
 ./sw/host/elk.src/serial.c (0) GPLv3+
 ./sw/host/elk.src/serialia.c (0) GPLv3+
 ./sw/host/elk.src/serialia.h (0) GPLv3+

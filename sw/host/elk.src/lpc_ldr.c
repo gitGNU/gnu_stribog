@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"serialia.h"
 #include"snpr_ck.h"
 #include<stdio.h>
-#include"lpc_loader.h"
+#include"lpc_ldr.h"
 #include<time.h>
 #include<string.h>
 #include<sbg_error.h>

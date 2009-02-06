@@ -26,8 +26,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<sbg_str.h>
 #include<sbg_error.h>
 #include<sbg_save_wd.h>
-#include"ram_loader.h"
-#include"lpc_loader.h"
+#include"ram_ldr.h"
+#include"lpc_ldr.h"
 #include<snpr_ck.h>
 const char 
  prefs_file_name[]=".elk.prefs.rc",/*default loaded preferences name*/

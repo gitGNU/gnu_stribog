@@ -91,8 +91,8 @@ parse_tsipex_LDADD=libstribog.a
 ##otherwise the names will conflict
 elk_CPPFLAGS=$(AM_CPPFLAGS) -DBUILDING_ELK=1
 elk_SOURCES=elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
- elk.src/serialia.h elk.src/ram_loader.c elk.src/ram_loader.h\
- elk.src/lpc_loader.c elk.src/lpc_loader.h
+ elk.src/serialia.h elk.src/ram_ldr.c elk.src/ram_ldr.h\
+ elk.src/lpc_ldr.c elk.src/lpc_ldr.h
 elk_LDADD=$(argp_lib) libstribog.a
 EXTRA_elk_SOURCES=elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES=lib/error.c lib/sbg_error.h\
