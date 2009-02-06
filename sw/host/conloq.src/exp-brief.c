@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_crc32.h>
 #include<stribog_error.h>
 #include<stdio.h>
-#include"verbosity_level.h"
+#include"verb_level.h"
 #include"exp_gps.h"
 #include"preproc_gps.h"
 #include"get_u.h"

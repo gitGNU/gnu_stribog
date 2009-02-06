@@ -21,7 +21,7 @@ PC (DB9-M)pin 2<- pin 3 (DB9-M) odometer
 #include<time.h>
 #include<stdlib.h>
 #include"serialia.h"
-#include"verbosity_level.h"
+#include"verb_level.h"
 static int nl,j;
 static void
 decode(const unsigned char*s)

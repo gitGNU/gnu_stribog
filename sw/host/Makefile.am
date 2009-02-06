@@ -53,7 +53,7 @@ conloq_SOURCES=conloq.src/conloq.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
  $(conloq_serial_source) conloq.src/serialia.h conloq.src/usage.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 EXTRA_conloq_SOURCES=$(conloq_extra_serial)
 conloq_LDADD=$(argp_lib) libstribog.a
 elig_SOURCES=conloq.src/elig.c\
@@ -66,21 +66,21 @@ expon_legacy_SOURCES=conloq.src/expon.c\
  conloq.src/lla.c conloq.src/lla.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 expon_legacy_LDADD=libstribog.a
 magex_conloq_SOURCES=conloq.src/magex-conloq.c\
  conloq.src/magexp.c conloq.src/exp.h\
  $(conloq_serial_source) conloq.src/serialia.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 magex_conloq_LDADD=$(argp_lib) libstribog.a
 EXTRA_magex_conloq_SOURCES=$(conloq_extra_serial)
 magexp_SOURCES=conloq.src/expon.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/magexp.c conloq.src/exp.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 magexp_LDADD=libstribog.a
-odo_SOURCES=conloq.src/odo.c conloq.src/verbosity_level.c\
+odo_SOURCES=conloq.src/odo.c conloq.src/verb_level.c\
  $(conloq_serial_source) conloq.src/serialia.h
 EXTRA_odo_SOURCES=$(conloq_extra_serial)
 parse_tsipex_SOURCES=conloq.src/parse_tsipex.c\

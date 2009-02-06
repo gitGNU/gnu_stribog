@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 #include"exp_gps.h"
 #include"get_u.h"
-#include"verbosity_level.h"
+#include"verb_level.h"
 static double freq=14745600.+8794;static FILE*gps_extracted;
 static unsigned leaps;static int period=1,verbous=0;
 static unsigned long long time_stamp;

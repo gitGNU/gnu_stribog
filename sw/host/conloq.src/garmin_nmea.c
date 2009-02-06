@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"exp_gps.h"
 #include"preproc_gps.h"
 #include<stribog_error.h>
-#include"verbosity_level.h"
+#include"verb_level.h"
 #include<string.h>
 #include<math.h>
 static double t_pos=-2,lla[3],vel[3],mcut_gga=-1;

@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"exp.h"
 #include<stribog_error.h>
 #include<sbg_str.h>
-#include"verbosity_level.h"
+#include"verb_level.h"
 #include"process_keypress.h"
 #include<stdlib.h>
 #include<stdio.h>

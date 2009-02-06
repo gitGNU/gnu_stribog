@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<config.h>
 #include"serialia.h"
-#include"verbosity_level.h"
+#include"verb_level.h"
 #include<unistd.h>
 #include<sys/fcntl.h>
 #include<termios.h>

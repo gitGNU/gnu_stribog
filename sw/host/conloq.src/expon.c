@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include"exp.h"
 #include<stribog_error.h>
-#include"verbosity_level.h"
+#include"verb_level.h"
 #include<stdio.h>
 int main(int argc,char**argv)
 {tsip_buf*tb;int size,period=1;const unsigned char*_;unsigned long long n=0;
