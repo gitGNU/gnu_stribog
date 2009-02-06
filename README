@@ -65,9 +65,6 @@ ram2138.ld.in and 2138.ld.in. the former is used to link the program
 which will be loaded via elk
 into RAM and run immediately. the latter used for programs saved in LPC2138 ROM;
 on startup the program will be loaded into RAM and run there.
-as of Mar 2008 programs don't always work correctly when linked with
-ram2138.ld.in: usually it either work well or don't work at all. as a rule,
-inserting or removing led0_clr() in begin of the program helps.
 
 The programs are written in C (the ld scripts don't support C++). 
 main() is executed in supervisor mode. no THUMB code. fast interrupt reserved. 
