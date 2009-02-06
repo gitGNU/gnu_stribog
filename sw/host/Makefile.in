@@ -66,7 +66,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = argp.h sbg_error.h snpr_ck.h \
 	sbg_str.h sbg_save_wd.h sbg_signal.h \
-	form_fix.h ram_ldr.h stribog_crc32.h
+	form_fix.h ram_ldr.h sbg_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru

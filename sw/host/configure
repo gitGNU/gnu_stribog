@@ -7604,7 +7604,7 @@ fi
 
 #common headers are linked to top build directory
 #to be available the same as config.h
-ac_config_links="$ac_config_links sbg_error.h:lib/sbg_error.h snpr_ck.h:lib/snpr_ck.h sbg_str.h:lib/sbg_str.h sbg_save_wd.h:lib/save_wd.h sbg_signal.h:lib/sbg_signal.h form_fix.h:../common/form_fix.h ram_ldr.h:../common/ram_ldr.h stribog_crc32.h:lib/crc32.h"
+ac_config_links="$ac_config_links sbg_error.h:lib/sbg_error.h snpr_ck.h:lib/snpr_ck.h sbg_str.h:lib/sbg_str.h sbg_save_wd.h:lib/save_wd.h sbg_signal.h:lib/sbg_signal.h form_fix.h:../common/form_fix.h ram_ldr.h:../common/ram_ldr.h sbg_crc32.h:lib/crc32.h"
 
 #Makefiles are generated
 ac_config_files="$ac_config_files Makefile postproc/Makefile"
@@ -8253,7 +8253,7 @@ do
     "sbg_signal.h") CONFIG_LINKS="$CONFIG_LINKS sbg_signal.h:lib/sbg_signal.h" ;;
     "form_fix.h") CONFIG_LINKS="$CONFIG_LINKS form_fix.h:../common/form_fix.h" ;;
     "ram_ldr.h") CONFIG_LINKS="$CONFIG_LINKS ram_ldr.h:../common/ram_ldr.h" ;;
-    "stribog_crc32.h") CONFIG_LINKS="$CONFIG_LINKS stribog_crc32.h:lib/crc32.h" ;;
+    "sbg_crc32.h") CONFIG_LINKS="$CONFIG_LINKS sbg_crc32.h:lib/crc32.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "postproc/Makefile") CONFIG_FILES="$CONFIG_FILES postproc/Makefile" ;;
 
