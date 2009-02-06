@@ -51,8 +51,8 @@ DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(top_srcdir)/configure $(top_srcdir)/lib/argp/argp.h \
 	$(top_srcdir)/lib/crc32.h $(top_srcdir)/lib/save_wd.h \
 	$(top_srcdir)/lib/snpr_ck.h \
-	$(top_srcdir)/lib/stribog_error.h \
-	$(top_srcdir)/lib/stribog_signal.h \
+	$(top_srcdir)/lib/sbg_error.h \
+	$(top_srcdir)/lib/sbg_signal.h \
 	$(top_srcdir)/lib/sbg_str.h AUTHORS COPYING ChangeLog \
 	INSTALL NEWS TODO compile config.guess config.sub depcomp \
 	install-sh missing
@@ -64,8 +64,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = argp.h stribog_error.h snpr_ck.h \
-	sbg_str.h stribog_save_wd.h stribog_signal.h \
+CONFIG_CLEAN_FILES = argp.h sbg_error.h snpr_ck.h \
+	sbg_str.h sbg_save_wd.h sbg_signal.h \
 	form_fix.h ram_ldr.h stribog_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
@@ -420,13 +420,13 @@ elk_SOURCES = elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
 
 elk_LDADD = $(argp_lib) libstribog.a
 EXTRA_elk_SOURCES = elk.src/serialia.c elk.src/wser.c
-libstribog_a_SOURCES = lib/error.c lib/stribog_error.h\
+libstribog_a_SOURCES = lib/error.c lib/sbg_error.h\
  lib/snpr_ck.c lib/snpr_ck.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
- lib/stribog_signal.h lib/signal.c
+ lib/sbg_signal.h lib/signal.c
 
 save_wdex_SOURCES = lib/save_wdex.c lib/save_wd.c lib/save_wd.h
-signalex_SOURCES = lib/signalex.c lib/signal.c lib/stribog_signal.h
+signalex_SOURCES = lib/signalex.c lib/signal.c lib/sbg_signal.h
 #small utilities
 50hz_SOURCES = utils/50hz.c
 drift_SOURCES = utils/drift.c
