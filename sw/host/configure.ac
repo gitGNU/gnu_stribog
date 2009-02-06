@@ -128,7 +128,7 @@ AM_CONDITIONAL([build_own_argp],[test $enable_own_argp = yes])
 #common headers are linked to top build directory
 #to be available the same as config.h
 AC_CONFIG_LINKS([stribog_error.h:lib/stribog_error.h
-                 snprintf_checked.h:lib/snprintf_checked.h
+                 snpr_ck.h:lib/snpr_ck.h
                  stribog_strings.h:lib/stribog_strings.h
                  stribog_save_wd.h:lib/save_wd.h
                  stribog_signal.h:lib/stribog_signal.h

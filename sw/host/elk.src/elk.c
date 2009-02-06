@@ -28,7 +28,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_save_wd.h>
 #include"ram_loader.h"
 #include"lpc_loader.h"
-#include<snprintf_checked.h>
+#include<snpr_ck.h>
 const char 
  prefs_file_name[]=".elk.prefs.rc",/*default loaded preferences name*/
  target_subdir[]="stribog-target",/*ARM stuff subdirectory*/

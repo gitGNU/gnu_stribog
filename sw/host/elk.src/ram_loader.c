@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"ram_loader.h"
 #include"serialia.h"
-#include"snprintf_checked.h"
+#include"snpr_ck.h"
 #include<stribog_crc32.h>
 #include<stdio.h>
 #include<time.h>

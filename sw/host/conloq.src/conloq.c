@@ -37,7 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 # define IGNORE_KEYPRESSES (1)
 #endif
 #include<stribog_signal.h>
-#include<snprintf_checked.h>
+#include<snpr_ck.h>
 #include<errno.h>
 #include<string.h>
 #include<time.h>

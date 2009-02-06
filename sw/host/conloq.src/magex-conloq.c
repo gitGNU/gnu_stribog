@@ -24,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdlib.h>
 #include<stdio.h>
 #include<stribog_signal.h>
-#include<snprintf_checked.h>
+#include<snpr_ck.h>
 #include<argp.h>
 enum exit_codes
 {normal_exit=0,no_log_file=1,no_uart=2,
