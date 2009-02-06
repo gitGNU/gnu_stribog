@@ -883,8 +883,8 @@ with comments on origin added is as follows:
 ./sw/host/conloq.src/parse_tsip.h (0) GPLv3+
 ./sw/host/conloq.src/preproc_gps.c (0) GPLv3+
 ./sw/host/conloq.src/preproc_gps.h (0) GPLv3+
-./sw/host/conloq.src/process_keypress.c (0) GPLv3+
-./sw/host/conloq.src/process_keypress.h (0) GPLv3+
+./sw/host/conloq.src/proc_kp.c (0) GPLv3+
+./sw/host/conloq.src/proc_kp.h (0) GPLv3+
 ./sw/host/conloq.src/scripts/expon (0) GPLv3+
 ./sw/host/conloq.src/serialia.c (0) GPLv3+
 ./sw/host/conloq.src/serialia.h (0) GPLv3+

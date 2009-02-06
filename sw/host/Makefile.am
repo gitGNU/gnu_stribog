@@ -47,7 +47,7 @@ caed_LDADD=$(argp_lib) libstribog.a
 conloq_SOURCES=conloq.src/conloq.c\
  conloq.src/exp-brief.c conloq.src/exp.h\
  conloq.src/exp_gps.h conloq.src/get_u.h\
- conloq.src/process_keypress.c conloq.src/process_keypress.h\
+ conloq.src/proc_kp.c conloq.src/proc_kp.h\
  conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h\
  conloq.src/lla.c conloq.src/lla.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\

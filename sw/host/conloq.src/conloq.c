@@ -24,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stribog_error.h>
 #include<sbg_str.h>
 #include"verb_level.h"
-#include"process_keypress.h"
+#include"proc_kp.h"
 #include<stdlib.h>
 #include<stdio.h>
 #if HAVE_TERMIOS_H
