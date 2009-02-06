@@ -1,5 +1,5 @@
 /*commonly used strings
-Copyright (C) 2008\
+Copyright (C) 2008, 2009\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #define PACKAGE_VERSION_COMMENTED " ("PACKAGE_NAME") "\
  PACKAGE_VERSION"\n"\
-"Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"\
+"Copyright (C) 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93\n"\
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"\
 "This is free software: you are free to change and redistribute it."\
 "There is NO WARRANTY, to the extent permitted by law."

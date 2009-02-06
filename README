@@ -1,4 +1,4 @@
-Copyright (C) 2006, 2007, 2008
+Copyright (C) 2006, 2007, 2008, 2009
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 This file is part of stribog.
 
@@ -224,7 +224,7 @@ The gEDA are required to edit the hardware part. the `executable' files
 needed to produce the board like GERBERs are included into the distribution.
 this is possible because these targets are not configurable.
 
-HOW TO BUILD (as of July 2008)
+HOW TO BUILD (as of Feb 2009)
 
 In order to build you will need
 1. native C compiler
@@ -275,7 +275,7 @@ and so on). you typically shall not want this.
 The configuring scripts are updated with 'autoreconf -v';
 you may 'rm -rf $(find . -name autom4te.cache)' after that.
 
-As of July 2008, the versions used are autoconf-2.62 and automake-1.10.1.
+As of Jan 2009, the versions used are autoconf-2.62 and automake-1.10.1.
 
 For some subdirectories regeneration some portions of build system
 (particularly, Makefile.ams) needs building the project
@@ -713,7 +713,7 @@ they shall not be enumerated here.
 (8) ./sw/host/elk.src/prefs.dat is not a source file; it is very small
 thus not copyrightable by itself.
 
-As of 30 July 2008 the full filelist including symbolic links
+As of 06 Feb 2009 the full filelist including symbolic links
 extracted with 
 (find . -type f;find . -type l)|grep -v "^[.]/[.]git"|sort
 with comments on origin added is as follows:

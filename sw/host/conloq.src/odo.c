@@ -1,5 +1,5 @@
 /* odometer host-side test
-Copyright (C) 2007, 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+Copyright (C) 2007, 2008, 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
 This is an auxiliary part of stribog
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

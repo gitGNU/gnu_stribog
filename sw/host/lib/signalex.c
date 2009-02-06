@@ -1,5 +1,5 @@
 /*signal library test and usage example
-Copyright (C) 2008\
+Copyright (C) 2008, 2009\
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 

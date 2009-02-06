@@ -1,6 +1,6 @@
 #stribog target: configure.ac 
 # run autoreconf and build to regenerate the build system
-#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008, 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([src/pll.c])
 
 AH_TOP(
-[/* Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+[/* Copyright (C) 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
  This file is an object-code part of stribog: it is produced
  automatically with autoheader when invoking autoreconf
  stribog is free design; you can redistribute it and/or modify
