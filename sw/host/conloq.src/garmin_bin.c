@@ -18,12 +18,12 @@ Copyright (C) 2006 Ineiev<ineiev@users.sourceforge.net>*/
 #include"parse_tsip.h"
 #include<stdio.h>
 #include"exp_gps.h"
-#include<stdint.h>
 #include<string.h>
 static tsip_buf*gps_buf;static int expone;
 int init_gps(int exp){expone=exp;gps_buf=new_tsip();return 0;}
 void close_gps(void){free_tsip(gps_buf);}
-static uint16_t get_hu(const unsigned char*s){return*s|(((uint16_t)s[1])<<8);}
+static unsigned short get_hu(const unsigned char*s)
+{return*s|(((unsigned short)s[1])<<8);}
 static float get_f(const unsigned char*s)/*for little-endian IEEE-754 only*/
 {float x;memmove(&x,s,4);return x;}
 static double get_d(const unsigned char*s)/*for little-endian IEEE-754 only*/
