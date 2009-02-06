@@ -1,5 +1,5 @@
 /*elk the LPC21x programmer: POSIX serial port module
-Copyright (C) 2006, 2007, 2008
+Copyright (C) 2006, 2007, 2008, 2009
  Ineiev<ineiev@users.sourceforge.net>, super V 93
 This program is a part of the stribog host software section
 
@@ -27,10 +27,22 @@ static int portd=-1;/* file descriptor */
 int
 baud(int f)
 {if(f<14745+14745/20&&f>14745-14745/20)
- {printf("baud rate 115200\n");return B115200;}
+ {printf("baud rate 115200\n");
+#ifdef B115200
+  return B115200;
+#else
+  return-1;
+#endif
+ }
  if((f<11059+11059/20&&f>11059-11059/20)||
     (f<18432+18432/20&&f>18432-18432/20))
- {printf("baud rate 57600\n");return B57600;}
+ {printf("baud rate 57600\n");
+#ifdef B57600
+  return B57600;
+#else
+  return-1;
+#endif
+ }
  if((f<10000+10000/20&&f>10000-10000/20)||
     (f<12288+12288/20&&f>12288-12288/20)||
     (f<19661+19661/20&&f>19661-19661/20)||
@@ -44,7 +56,13 @@ baud(int f)
 init_serialia(const char*tty,int freq)
 {struct termios nov;portd=open(tty?tty:dv,O_RDWR|O_NOCTTY|O_NDELAY);
  if(portd<0)return-1;tcgetattr(portd,&vet);nov=vet;
- cfsetospeed(&nov,baud(freq));cfsetispeed(&nov,baud(freq));
+ {int bd=baud(freq);
+  if(bd<0)
+   printf("Note: your system knows no such a baud rate\n"
+          "Note: the port speed will be left unchanged\n");
+  else
+  {cfsetospeed(&nov,bd);cfsetispeed(&nov,bd);}
+ }
  nov.c_cflag|=CLOCAL|CREAD;nov.c_cflag&=~PARENB;
  nov.c_cflag&=~CSIZE;nov.c_cflag|=CS8;nov.c_oflag&=~OPOST;
  nov.c_lflag=nov.c_iflag=0;tcsetattr(portd,TCSANOW,&nov);return portd<0;
