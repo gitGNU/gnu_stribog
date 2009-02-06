@@ -102,14 +102,14 @@ am__conloq_SOURCES_DIST = conloq.src/conloq.c conloq.src/exp-brief.c \
 	conloq.src/parse_tsip.h conloq.src/preproc_gps.c \
 	conloq.src/preproc_gps.h conloq.src/serialia.c \
 	conloq.src/wser.c conloq.src/serialia.h conloq.src/usage.h \
-	conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+	conloq.src/verb_level.c conloq.src/verb_level.h
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) exp-brief.$(OBJEXT) \
 	process_keypress.$(OBJEXT) garmin_nmea.$(OBJEXT) \
 	hodo.$(OBJEXT) lla.$(OBJEXT) parse_tsip.$(OBJEXT) \
 	preproc_gps.$(OBJEXT) $(am__objects_1) \
-	verbosity_level.$(OBJEXT)
+	verb_level.$(OBJEXT)
 conloq_OBJECTS = $(am_conloq_OBJECTS)
 conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_drift_OBJECTS = drift.$(OBJEXT)
@@ -132,7 +132,7 @@ elk_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_expon_legacy_OBJECTS = expon.$(OBJEXT) exp.$(OBJEXT) \
 	garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) lla.$(OBJEXT) \
 	parse_tsip.$(OBJEXT) preproc_gps.$(OBJEXT) \
-	verbosity_level.$(OBJEXT)
+	verb_level.$(OBJEXT)
 expon_legacy_OBJECTS = $(am_expon_legacy_OBJECTS)
 expon_legacy_DEPENDENCIES = libstribog.a
 am_fdif_OBJECTS = fdif.$(OBJEXT)
@@ -145,19 +145,19 @@ am__magex_conloq_SOURCES_DIST = conloq.src/magex-conloq.c \
 	conloq.src/magexp.c conloq.src/exp.h conloq.src/serialia.c \
 	conloq.src/wser.c conloq.src/serialia.h \
 	conloq.src/parse_tsip.c conloq.src/parse_tsip.h \
-	conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+	conloq.src/verb_level.c conloq.src/verb_level.h
 am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) magexp.$(OBJEXT) \
 	$(am__objects_1) parse_tsip.$(OBJEXT) \
-	verbosity_level.$(OBJEXT)
+	verb_level.$(OBJEXT)
 magex_conloq_OBJECTS = $(am_magex_conloq_OBJECTS)
 magex_conloq_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
-	magexp.$(OBJEXT) verbosity_level.$(OBJEXT)
+	magexp.$(OBJEXT) verb_level.$(OBJEXT)
 magexp_OBJECTS = $(am_magexp_OBJECTS)
 magexp_DEPENDENCIES = libstribog.a
-am__odo_SOURCES_DIST = conloq.src/odo.c conloq.src/verbosity_level.c \
+am__odo_SOURCES_DIST = conloq.src/odo.c conloq.src/verb_level.c \
 	conloq.src/serialia.c conloq.src/wser.c conloq.src/serialia.h
-am_odo_OBJECTS = odo.$(OBJEXT) verbosity_level.$(OBJEXT) \
+am_odo_OBJECTS = odo.$(OBJEXT) verb_level.$(OBJEXT) \
 	$(am__objects_1)
 odo_OBJECTS = $(am_odo_OBJECTS)
 odo_LDADD = $(LDADD)
@@ -373,7 +373,7 @@ conloq_SOURCES = conloq.src/conloq.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
  $(conloq_serial_source) conloq.src/serialia.h conloq.src/usage.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 
 EXTRA_conloq_SOURCES = $(conloq_extra_serial)
 conloq_LDADD = $(argp_lib) libstribog.a
@@ -388,24 +388,24 @@ expon_legacy_SOURCES = conloq.src/expon.c\
  conloq.src/lla.c conloq.src/lla.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 
 expon_legacy_LDADD = libstribog.a
 magex_conloq_SOURCES = conloq.src/magex-conloq.c\
  conloq.src/magexp.c conloq.src/exp.h\
  $(conloq_serial_source) conloq.src/serialia.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 
 magex_conloq_LDADD = $(argp_lib) libstribog.a
 EXTRA_magex_conloq_SOURCES = $(conloq_extra_serial)
 magexp_SOURCES = conloq.src/expon.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/magexp.c conloq.src/exp.h\
- conloq.src/verbosity_level.c conloq.src/verbosity_level.h
+ conloq.src/verb_level.c conloq.src/verb_level.h
 
 magexp_LDADD = libstribog.a
-odo_SOURCES = conloq.src/odo.c conloq.src/verbosity_level.c\
+odo_SOURCES = conloq.src/odo.c conloq.src/verb_level.c\
  $(conloq_serial_source) conloq.src/serialia.h
 
 EXTRA_odo_SOURCES = $(conloq_extra_serial)
@@ -641,7 +641,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signalex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snpr_ck.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/verbosity_level.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/verb_level.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wser.Po@am__quote@
 
 .c.o:
@@ -924,19 +924,19 @@ wser.obj: conloq.src/wser.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o wser.obj `if test -f 'conloq.src/wser.c'; then $(CYGPATH_W) 'conloq.src/wser.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/wser.c'; fi`
 
-verbosity_level.o: conloq.src/verbosity_level.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verbosity_level.o -MD -MP -MF $(DEPDIR)/verbosity_level.Tpo -c -o verbosity_level.o `test -f 'conloq.src/verbosity_level.c' || echo '$(srcdir)/'`conloq.src/verbosity_level.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/verbosity_level.Tpo $(DEPDIR)/verbosity_level.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/verbosity_level.c' object='verbosity_level.o' libtool=no @AMDEPBACKSLASH@
+verb_level.o: conloq.src/verb_level.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verb_level.o -MD -MP -MF $(DEPDIR)/verb_level.Tpo -c -o verb_level.o `test -f 'conloq.src/verb_level.c' || echo '$(srcdir)/'`conloq.src/verb_level.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/verb_level.Tpo $(DEPDIR)/verb_level.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/verb_level.c' object='verb_level.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verbosity_level.o `test -f 'conloq.src/verbosity_level.c' || echo '$(srcdir)/'`conloq.src/verbosity_level.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verb_level.o `test -f 'conloq.src/verb_level.c' || echo '$(srcdir)/'`conloq.src/verb_level.c
 
-verbosity_level.obj: conloq.src/verbosity_level.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verbosity_level.obj -MD -MP -MF $(DEPDIR)/verbosity_level.Tpo -c -o verbosity_level.obj `if test -f 'conloq.src/verbosity_level.c'; then $(CYGPATH_W) 'conloq.src/verbosity_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/verbosity_level.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/verbosity_level.Tpo $(DEPDIR)/verbosity_level.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/verbosity_level.c' object='verbosity_level.obj' libtool=no @AMDEPBACKSLASH@
+verb_level.obj: conloq.src/verb_level.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT verb_level.obj -MD -MP -MF $(DEPDIR)/verb_level.Tpo -c -o verb_level.obj `if test -f 'conloq.src/verb_level.c'; then $(CYGPATH_W) 'conloq.src/verb_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/verb_level.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/verb_level.Tpo $(DEPDIR)/verb_level.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/verb_level.c' object='verb_level.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verbosity_level.obj `if test -f 'conloq.src/verbosity_level.c'; then $(CYGPATH_W) 'conloq.src/verbosity_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/verbosity_level.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o verb_level.obj `if test -f 'conloq.src/verb_level.c'; then $(CYGPATH_W) 'conloq.src/verb_level.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/verb_level.c'; fi`
 
 drift.o: utils/drift.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT drift.o -MD -MP -MF $(DEPDIR)/drift.Tpo -c -o drift.o `test -f 'utils/drift.c' || echo '$(srcdir)/'`utils/drift.c
