@@ -96,7 +96,7 @@ am__DEPENDENCIES_1 =
 caed_DEPENDENCIES = $(am__DEPENDENCIES_1) libstribog.a
 am__conloq_SOURCES_DIST = conloq.src/conloq.c conloq.src/exp-brief.c \
 	conloq.src/exp.h conloq.src/exp_gps.h conloq.src/get_u.h \
-	conloq.src/process_keypress.c conloq.src/process_keypress.h \
+	conloq.src/proc_kp.c conloq.src/proc_kp.h \
 	conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h \
 	conloq.src/lla.c conloq.src/lla.h conloq.src/parse_tsip.c \
 	conloq.src/parse_tsip.h conloq.src/preproc_gps.c \
@@ -106,7 +106,7 @@ am__conloq_SOURCES_DIST = conloq.src/conloq.c conloq.src/exp-brief.c \
 @the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) exp-brief.$(OBJEXT) \
-	process_keypress.$(OBJEXT) garmin_nmea.$(OBJEXT) \
+	proc_kp.$(OBJEXT) garmin_nmea.$(OBJEXT) \
 	hodo.$(OBJEXT) lla.$(OBJEXT) parse_tsip.$(OBJEXT) \
 	preproc_gps.$(OBJEXT) $(am__objects_1) \
 	verb_level.$(OBJEXT)
@@ -367,7 +367,7 @@ caed_LDADD = $(argp_lib) libstribog.a
 conloq_SOURCES = conloq.src/conloq.c\
  conloq.src/exp-brief.c conloq.src/exp.h\
  conloq.src/exp_gps.h conloq.src/get_u.h\
- conloq.src/process_keypress.c conloq.src/process_keypress.h\
+ conloq.src/proc_kp.c conloq.src/proc_kp.h\
  conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h\
  conloq.src/lla.c conloq.src/lla.h\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
@@ -633,7 +633,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse_tsip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse_tsipex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preproc_gps.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_keypress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/proc_kp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/save_wd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/save_wdex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serialia.Po@am__quote@
@@ -826,19 +826,19 @@ exp-brief.obj: conloq.src/exp-brief.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o exp-brief.obj `if test -f 'conloq.src/exp-brief.c'; then $(CYGPATH_W) 'conloq.src/exp-brief.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/exp-brief.c'; fi`
 
-process_keypress.o: conloq.src/process_keypress.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT process_keypress.o -MD -MP -MF $(DEPDIR)/process_keypress.Tpo -c -o process_keypress.o `test -f 'conloq.src/process_keypress.c' || echo '$(srcdir)/'`conloq.src/process_keypress.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/process_keypress.Tpo $(DEPDIR)/process_keypress.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/process_keypress.c' object='process_keypress.o' libtool=no @AMDEPBACKSLASH@
+proc_kp.o: conloq.src/proc_kp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT proc_kp.o -MD -MP -MF $(DEPDIR)/proc_kp.Tpo -c -o proc_kp.o `test -f 'conloq.src/proc_kp.c' || echo '$(srcdir)/'`conloq.src/proc_kp.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/proc_kp.Tpo $(DEPDIR)/proc_kp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/proc_kp.c' object='proc_kp.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o process_keypress.o `test -f 'conloq.src/process_keypress.c' || echo '$(srcdir)/'`conloq.src/process_keypress.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o proc_kp.o `test -f 'conloq.src/proc_kp.c' || echo '$(srcdir)/'`conloq.src/proc_kp.c
 
-process_keypress.obj: conloq.src/process_keypress.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT process_keypress.obj -MD -MP -MF $(DEPDIR)/process_keypress.Tpo -c -o process_keypress.obj `if test -f 'conloq.src/process_keypress.c'; then $(CYGPATH_W) 'conloq.src/process_keypress.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/process_keypress.c'; fi`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/process_keypress.Tpo $(DEPDIR)/process_keypress.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/process_keypress.c' object='process_keypress.obj' libtool=no @AMDEPBACKSLASH@
+proc_kp.obj: conloq.src/proc_kp.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT proc_kp.obj -MD -MP -MF $(DEPDIR)/proc_kp.Tpo -c -o proc_kp.obj `if test -f 'conloq.src/proc_kp.c'; then $(CYGPATH_W) 'conloq.src/proc_kp.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/proc_kp.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/proc_kp.Tpo $(DEPDIR)/proc_kp.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/proc_kp.c' object='proc_kp.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o process_keypress.obj `if test -f 'conloq.src/process_keypress.c'; then $(CYGPATH_W) 'conloq.src/process_keypress.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/process_keypress.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o proc_kp.obj `if test -f 'conloq.src/proc_kp.c'; then $(CYGPATH_W) 'conloq.src/proc_kp.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/proc_kp.c'; fi`
 
 garmin_nmea.o: conloq.src/garmin_nmea.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT garmin_nmea.o -MD -MP -MF $(DEPDIR)/garmin_nmea.Tpo -c -o garmin_nmea.o `test -f 'conloq.src/garmin_nmea.c' || echo '$(srcdir)/'`conloq.src/garmin_nmea.c
