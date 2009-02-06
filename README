@@ -919,8 +919,8 @@ with comments on origin added is as follows:
 ./sw/host/lib/signalex.c (0) GPLv3+
 ./sw/host/lib/snpr_ck.c (0) GPLv3+
 ./sw/host/lib/snpr_ck.h (0) GPLv3+
-./sw/host/lib/stribog_error.h (0) GPLv3+
-./sw/host/lib/stribog_signal.h (0) GPLv3+
+./sw/host/lib/sbg_error.h (0) GPLv3+
+./sw/host/lib/sbg_signal.h (0) GPLv3+
 ./sw/host/lib/sbg_str.h (0) GPLv3+
 ./sw/host/Makefile.am (0) GPLv3+
 ./sw/host/Makefile.in (3) AT_permissive => GPLv3+ (object code)

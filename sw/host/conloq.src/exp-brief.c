@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"exp.h"
 #include<stribog_crc32.h>
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include<stdio.h>
 #include"verb_level.h"
 #include"exp_gps.h"

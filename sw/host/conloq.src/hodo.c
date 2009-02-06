@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"hodo.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include"verb_level.h"
 #include<stdio.h>
 static int output_next;static unsigned char s[8];static int i=-1;

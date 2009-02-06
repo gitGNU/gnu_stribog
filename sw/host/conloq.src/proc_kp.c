@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"verb_level.h"
 #include"usage.h"
 #include<stdio.h>
-#include<stribog_error.h>
+#include<sbg_error.h>
 static int original_process(int);
 static int(*
 process)(int)=original_process;

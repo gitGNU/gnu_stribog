@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdarg.h>
 #include"snpr_ck.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include<stdio.h>
 int 
 snprintf_checked(const char*file,int line,

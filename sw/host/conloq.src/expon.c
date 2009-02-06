@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"parse_tsip.h"
 #include"exp.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include"verb_level.h"
 #include<stdio.h>
 int main(int argc,char**argv)

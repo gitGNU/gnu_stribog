@@ -95,12 +95,12 @@ elk_SOURCES=elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
  elk.src/lpc_loader.c elk.src/lpc_loader.h
 elk_LDADD=$(argp_lib) libstribog.a
 EXTRA_elk_SOURCES=elk.src/serialia.c elk.src/wser.c
-libstribog_a_SOURCES=lib/error.c lib/stribog_error.h\
+libstribog_a_SOURCES=lib/error.c lib/sbg_error.h\
  lib/snpr_ck.c lib/snpr_ck.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
- lib/stribog_signal.h lib/signal.c
+ lib/sbg_signal.h lib/signal.c
 save_wdex_SOURCES=lib/save_wdex.c lib/save_wd.c lib/save_wd.h
-signalex_SOURCES=lib/signalex.c lib/signal.c lib/stribog_signal.h
+signalex_SOURCES=lib/signalex.c lib/signal.c lib/sbg_signal.h
 #small utilities
 50hz_SOURCES=utils/50hz.c
 drift_SOURCES=utils/drift.c

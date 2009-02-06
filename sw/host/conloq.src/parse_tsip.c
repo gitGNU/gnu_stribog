@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 When the message begins with ESC=0x17 the first byte should be
 swallowed and the second should be DLE, ETX or ESC*/
 #include"parse_tsip.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include<stdlib.h>
 static const unsigned char dle=0x10,etx=3,esc=0x17;static int fix_escapes;
 struct tsip_buf

@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"verb_level.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 static enum verbosity_level verbosity;
 enum verbosity_level
 set_verbosity(enum verbosity_level v)

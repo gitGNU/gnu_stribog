@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"hodo.h"
 #include"exp_gps.h"
 #include"preproc_gps.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include"verb_level.h"
 #include<string.h>
 #include<math.h>

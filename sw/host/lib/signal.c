@@ -36,7 +36,7 @@ static int signals_count;
 #else
 # define RETSIGTYPE void
 #endif
-#include"stribog_signal.h"
+#include"sbg_signal.h"
 #include<stdlib.h>
 #include<stdio.h>
 enum local_constants

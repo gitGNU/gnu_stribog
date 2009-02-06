@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"usage.h"
 #include"parse_tsip.h"
 #include"exp.h"
-#include<stribog_error.h>
+#include<sbg_error.h>
 #include<sbg_str.h>
 #include"verb_level.h"
 #include"proc_kp.h"
@@ -36,7 +36,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 /*no termios: usual keypresses will be ignored*/
 # define IGNORE_KEYPRESSES (1)
 #endif
-#include<stribog_signal.h>
+#include<sbg_signal.h>
 #include<snpr_ck.h>
 #include<errno.h>
 #include<string.h>

@@ -24,8 +24,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<time.h>
 #include<argp.h>
 #include<sbg_str.h>
-#include<stribog_error.h>
-#include<stribog_save_wd.h>
+#include<sbg_error.h>
+#include<sbg_save_wd.h>
 #include"ram_loader.h"
 #include"lpc_loader.h"
 #include<snpr_ck.h>

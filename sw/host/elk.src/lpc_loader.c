@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"lpc_loader.h"
 #include<time.h>
 #include<string.h>
-#include<stribog_error.h>
+#include<sbg_error.h>
 static const char*
 code_string(int n)
 {switch(n)
