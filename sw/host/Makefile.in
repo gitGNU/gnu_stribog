@@ -47,7 +47,7 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in $(top_srcdir)/../common/form_fix.h \
-	$(top_srcdir)/../common/ram_loader_enums.h \
+	$(top_srcdir)/../common/ram_ldr.h \
 	$(top_srcdir)/configure $(top_srcdir)/lib/argp/argp.h \
 	$(top_srcdir)/lib/crc32.h $(top_srcdir)/lib/save_wd.h \
 	$(top_srcdir)/lib/snprintf_checked.h \
@@ -66,7 +66,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = argp.h stribog_error.h snprintf_checked.h \
 	stribog_strings.h stribog_save_wd.h stribog_signal.h \
-	form_fix.h ram_loader_enums.h stribog_crc32.h
+	form_fix.h ram_ldr.h stribog_crc32.h
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru

@@ -2346,7 +2346,7 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 ac_config_headers="$ac_config_headers config.h"
 
-ac_config_links="$ac_config_links ram_loader_enums.h:../common/ram_loader_enums.h"
+ac_config_links="$ac_config_links ram_ldr.h:../common/ram_ldr.h"
 
 
 saved_ASFLAGS="$ASFLAGS"
@@ -4880,7 +4880,7 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
-    "ram_loader_enums.h") CONFIG_LINKS="$CONFIG_LINKS ram_loader_enums.h:../common/ram_loader_enums.h" ;;
+    "ram_ldr.h") CONFIG_LINKS="$CONFIG_LINKS ram_ldr.h:../common/ram_ldr.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
 
