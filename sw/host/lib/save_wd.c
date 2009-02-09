@@ -35,8 +35,8 @@ observe_wd(saved_wd_type*wd){*wd=open(".",O_RDONLY);}
 static int
 change_to_saved_wd(saved_wd_type*wd)
 {return fchdir(*wd);}
-#else/*no fchdir: we'll try get_current_dir_name*/
- #if HAVE_GET_CURRENT_DIR_NAME
+#elif HAVE_GET_CURRENT_DIR_NAME
+/*no fchdir: we'll try get_current_dir_name*/
 #include<stdlib.h>
 typedef const char*saved_wd_type;
 enum{initial_value=0};
@@ -50,10 +50,8 @@ observe_wd(saved_wd_type*wd)
 static int
 change_to_saved_wd(saved_wd_type*wd)
 {return chdir(*wd);}
- #else /*no get_current_dir_name: hope getcwd is available*/
-#if !HAVE_GETCWD
- #error "no known functions to save current path in host system"
-#endif
+#elif HAVE_GETCWD
+/*no get_current_dir_name: hope getcwd is available*/
 typedef char*saved_wd_type;
 static char buffer[4913];
 enum{initial_value=0};
@@ -66,7 +64,16 @@ observe_wd(saved_wd_type*wd)
 {*wd=getcwd(buffer,sizeof buffer);}
 static int
 change_to_saved_wd(saved_wd_type*wd){return chdir(*wd);}
- #endif
+#else
+/*no known function to implement the feature: provide fake implementation*/
+typedef int saved_wd_type;
+enum{initial_value=0;}
+static int
+valid_wd(saved_wd_type wd){return wd!=initial_value;}
+static int
+close_wd_instance(saved_wd_type*wd){return 0;}
+static void
+observe_wd(saved_wd_type*wd){*wd=!initial_wd_type;}
 #endif
 static saved_wd_type wd=initial_value;
 int

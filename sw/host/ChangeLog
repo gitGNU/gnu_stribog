@@ -1,11 +1,14 @@
+09 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/host/configure.ac sw/host/lib/save_wd.c:
+ provide emergency save_wd() implementation
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq.src/magexp.c conloq.src/garmin_bin.c: eliminate
-   <stdint.h> dependency
+ <stdint.h> dependency
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * lib/save_wd.c: fix preprocessor usage
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * elk.src/serialia.c conloq.src/serialia.c:
-   honour B115200less systems
+ honour B115200less systems
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * postproc/exvel.c: replace C++ comment with C one
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
@@ -14,7 +17,7 @@
    elk.src/lpc_loader.h elk.src/lpc_ldr.h
    elk.src/ram_loader.c elk.src/ram_ldr.c
    elk.src/ram_loader.h elk.src/ram_ldr.h: rename
-   elk.src/{{lpc,ram}_{loader,ldr},{c,h}}
+ elk.src/{{lpc,ram}_{loader,ldr},{c,h}}
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac conloq.src/caed.c conloq.src/exp-brief.c
    conloq.src/exp.c conloq.src/parse_tsipex.c
