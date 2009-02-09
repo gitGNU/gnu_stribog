@@ -1,3 +1,16 @@
+09 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * sw/host/configure.ac sw/host/lib/save_wd.c:
+ provide emergency save_wd() implementation
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * conloq.src/magexp.c conloq.src/garmin_bin.c: eliminate
+ <stdint.h> dependency
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * lib/save_wd.c: fix preprocessor usage
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * elk.src/serialia.c conloq.src/serialia.c:
+ honour B115200less systems
+06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * postproc/exvel.c: replace C++ comment with C one
 12 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
  * configure.ac: version bumped to 0.0.1-rc0-minus
 12 Oct 2008 P.Kharitonov <ineiev@users.sourceforge.net>
@@ -290,8 +303,8 @@
    postproc/Makefile.am postproc/Makefile.in 
    utils/Makefile.am utils/Makefile.in: new
 
- Copyright (C) 2006, 2007, 2008
-  Ineiev<ineiev@users.sourceforge.net>, super V 93
+ Copyright (C) 2006, 2007, 2008, 2009
+  Ineiev<ineiev@users.berlios.de>, super V 93
 
  This file is part of stribog.
 
