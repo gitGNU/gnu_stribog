@@ -19,6 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"snpr_ck.h"
 #include<sbg_error.h>
 #include<stdio.h>
+#if !HAVE_VSNPRINTF
+/* this should serve rather ancient cases; on the other hand,
+ * even some early snprintf() implementations
+ * were not more secure than sprintf() */
+# define vsnprintf(s,size,fmt,ap) vsprintf(s,fmt,ap)
+#endif
 int 
 snprintf_checked(const char*file,int line,
  char*s,unsigned size,const char*fmt,...)
