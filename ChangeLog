@@ -2,6 +2,13 @@
  * doc/stribog.texinfo: add instructions on building
  the tools in older environments
 19 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * README hw/README hw/packages/README hw/sym/README
+ sw/auxilia/README sw/host/README sw/target/README
+ doc/stribog.texinfo: reformulate legal dependencies
+
+ An exception added to permit GPLv2-only symbols that are not
+ originally developped for the project
+19 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * doc/stribog.texinfo: fix documentation
 
  remove trailing spaces;
@@ -438,3 +445,11 @@ R17..R20 changed to 2.2k, R21..R24 --- to 3.3k
 
  You should have received a copy of the GNU General Public License
  along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+ As a special exception, you may use gschem symbols derived from
+ external sources (e.g. geda symbols) that are distributed under
+ the GNU GPL version 2 when they are not originally distributed under
+ the GNU GPLv3-compatible license. these symbols must be distributed
+ with other source files of the project and considered an external
+ library or augmentation of geda-symbols package. they can't be embedded
+ in any stribog file.
