@@ -1,3 +1,10 @@
+19 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * doc/stribog.texinfo: fix documentation
+
+ remove trailing spaces;
+ add necessary configure instructions to gEDA build description;
+ mark filenames with @file and @command;
+ typo fix
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * sw/common/Makefile.am sw/common/ram_ldr.h
    sw/common/ram_loader_enums.h: rename
