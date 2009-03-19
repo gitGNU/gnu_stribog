@@ -15,6 +15,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+As a special exception, you may use gschem symbols derived from
+external sources (e.g. geda symbols) that are distributed under
+the GNU GPL version 2 when they are not originally distributed under
+the GNU GPLv3-compatible license. these symbols must be distributed
+with other source files of the project and considered an external
+library or augmentation of geda-symbols package. they can't be embedded
+in any stribog file.
+
 See the end of the file for more notes on the license conditions.
 
 This is the README file for stribog the attitude sensing platform.
@@ -505,20 +513,35 @@ because it was practically hard or absurd to maintain them there,
 or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
-hw/main_board.pcb hw/main_board.bis.pcb hw/stribog.sch hw/gyro.sch
-hw/sym/ATmega8-1.sym hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
-hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
-hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
-hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
-hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
-hw/sym/ref195.sym hw/sym/tps76316.sym hw/packages/0.125W_resistor
+(1a) hw/main_board.pcb hw/main_board.bis.pcb:
+originally written for the project, they embed
+some footprints from PCB distribution. PCB README file doesn't mention
+precise license; the footprints contain either no copyritght notice or
+`GPLv2 or later'. this means that we may distribute them under the GPLv2+.
+so we distribute them under the GPLv3+.
+
+(1b) hw/stribog.sch hw/gyro.sch hw/odo.sch
+originally written for the project, embed no symbols or other artifacts.
+
+(1c) Footprint files possibly derived from PCB footprint files:
+hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
 hw/packages/2.5mm_10pin_header hw/packages/qfp64 hw/packages/adxl210
 hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
 hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
 hw/packages/tp
+we distribute them under the GPLv3+ like (1a).
 
-(2) Files in hw/packages and hw/sym directories
+(1d) Symbols possibly derived from geda-symbols package files:
+hw/sym/ATmega8-1.sym hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
+hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
+hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
+hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
+hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
+hw/sym/ref195.sym hw/sym/tps76316.sym
+
+
+(1c), (1d) Files in hw/packages and hw/sym directories
 are not part of the stribog design, but are used with stribog.
 they form an `external library' as defined by the FSF.
 
@@ -526,23 +549,19 @@ they form an `external library' as defined by the FSF.
 
 To all these files is applied the copyright and license notice placed earlier
 in this file. hw/sym/* and hw/packages/* should also have additional copyrights
-from their original and intermediate authors. it is very hard to figure out
-exact list of authors, because there is neither copyright notice in the files
-theirselves nor especially maintained lists of files with respective authors.
-all we could tell we are not original authors and the files are distributed
-under "GPL v2 or later". for using these files in your packages see discussions
-in the gEDA lists. stribog's authors' position is similar to the gEDA developers' 
-one, namely, "the symbols/packages contain 'derived work' therefore are to be 
-distributed under 'GPL v$(OUR_CURRENT_GPL_VERSION) or later', however 
-the schematics/boards files containing those symbols contain no such work and 
-the symbols/packages impose no such restriction on them". 
+from their original and intermediate authors. it is now hard to figure out
+exact list of authors, because the earliest history of the derivations
+was lost. however, we can tell we are not original authors and the files
+are distributed under "the GPLv2" (the symbols) or "GPL v2 or later"
+(the footprints). the symbols are distributed under the GNU GPLv2;
+an exception was provided in order to use them; the footprints should
+be distributed under the terms
+of 'the GNU GPL v$(OUR_CURRENT_GPL_VERSION) or later'.
 
 Once more, MOST of the gEDA SYMBOLS (in hw/sym) and PCB FOOTPRINTS 
 (in hw/packages) WERE NOT originally DEVELOPPED by STRIBOG'S AUTHOR: 
 usually we just slightly corrected files from gEDA and PCB libraries.
 the STRIBOG AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
-as a sequence, THEY CAN BE DISTRIBUTED under the TERMS of
-'GPL v$(OUR_CURRENT_GPL_VERSION) or later' ONLY.
 
 (3) The same is true for the GNU autobuild system files. we let our
 copyright notes come into these files like 'configure', and
@@ -740,7 +759,7 @@ with comments on origin added is as follows:
 ./doc/stribog.texinfo (0a) FDLv1.2+ (transparent object)
 ./doc/texinfo.tex     (3c) GPLv3+
 ./hw/gafrc (0) GPLv3+
-./hw/gyro.sch (0) GPLv3+
+./hw/gyro.sch (1b) GPLv3+
 ./hw/image.scm.in (0) GPLv3+
 ./hw/m4/makefile.m4 (0) GPLv3+
 ./hw/main_board.bis/main_board.bis.back.gbr (0) GPLv3+ (object code)
@@ -755,7 +774,7 @@ with comments on origin added is as follows:
 ./hw/main_board.bis/main_board.bis.pdf (0) GPLv3+ (object code)
 ./hw/main_board.bis/main_board.bis.plated-drill.cnc (0) GPLv3+ (object code)
 ./hw/main_board.bis/main_board.bis.ps (0) GPLv3+ (object code)
-./hw/main_board.bis.pcb (0) GPLv3+
+./hw/main_board.bis.pcb (1a) GPLv3+
 ./hw/main_board.bis.proj (0) GPLv3+
 ./hw/main_board/main_board.back.gbr (0) GPLv3+ (object code)
 ./hw/main_board/main_board.backmask.gbr (0) GPLv3+ (object code)
@@ -769,56 +788,56 @@ with comments on origin added is as follows:
 ./hw/main_board/main_board.pdf (0) GPLv3+ (object code)
 ./hw/main_board/main_board.plated-drill.cnc (0) GPLv3+ (object code)
 ./hw/main_board/main_board.ps (0) GPLv3+ (object code)
-./hw/main_board.pcb (0) GPLv3+
+./hw/main_board.pcb (1a) GPLv3+
 ./hw/main_board.proj (0) GPLv3+
 ./hw/Makefile.am (0) GPLv3+ (object code)
 ./hw/Makefile.am.m4 (0) GPLv3+
 ./hw/Makefile.in (3) AT_permissive => GPLv3+ (object code)
-./hw/odo.sch (0) GPLv3+
-./hw/packages/0.125W_resistor (2) GPLv3+
-./hw/packages/0603 (2) GPLv3+
-./hw/packages/0805 (2) GPLv3+
-./hw/packages/1210 (2) GPLv3+
-./hw/packages/2.5mm_10pin_header (2) GPLv3+
-./hw/packages/adxl210 (2) GPLv3+
-./hw/packages/crystal (2) GPLv3+
-./hw/packages/hmc1021z (2) GPLv3+
-./hw/packages/jtag1.27x1 (2) GPLv3+
-./hw/packages/led0805 (2) GPLv3+
-./hw/packages/lp2980 (2) GPLv3+
-./hw/packages/msop8 (2) GPLv3+
-./hw/packages/pin (2) GPLv3+
-./hw/packages/qfp64 (2) GPLv3+
+./hw/odo.sch (1b) GPLv3+
+./hw/packages/0.125W_resistor (1c) GPLv3+
+./hw/packages/0603 (1c) GPLv3+
+./hw/packages/0805 (1c) GPLv3+
+./hw/packages/1210 (1c) GPLv3+
+./hw/packages/2.5mm_10pin_header (1c) GPLv3+
+./hw/packages/adxl210 (1c) GPLv3+
+./hw/packages/crystal (1c) GPLv3+
+./hw/packages/hmc1021z (1c) GPLv3+
+./hw/packages/jtag1.27x1 (1c) GPLv3+
+./hw/packages/led0805 (1c) GPLv3+
+./hw/packages/lp2980 (1c) GPLv3+
+./hw/packages/msop8 (1c) GPLv3+
+./hw/packages/pin (1c) GPLv3+
+./hw/packages/qfp64 (1c) GPLv3+
 ./hw/packages/README (0) GPLv3+
-./hw/packages/tanA (2) GPLv3+
-./hw/packages/tanC (2) GPLv3+
-./hw/packages/tp (2) GPLv3+
+./hw/packages/tanA (1c) GPLv3+
+./hw/packages/tanC (1c) GPLv3+
+./hw/packages/tp (1c) GPLv3+
 ./hw/README (0) GPLv3+
 ./hw/schematics/gyro.png (0) GPLv3+ (object code)
 ./hw/schematics/odo.png (0) GPLv3+ (object code)
 ./hw/schematics/stribog.png (0) GPLv3+ (object code)
-./hw/stribog.sch (0) GPLv3+
-./hw/sym/adm202.sym (2) GPLv3+
-./hw/sym/adxl210.sym (2) GPLv3+
-./hw/sym/adxrs300.sym (2) GPLv3+
-./hw/sym/ATmega8-1.sym (2) GPLv3+
-./hw/sym/bat54c.sym (2) GPLv3+
-./hw/sym/dac7612.sym (2) GPLv3+
-./hw/sym/hmc1021.sym (2) GPLv3+
-./hw/sym/hmc1022.sym (2) GPLv3+
-./hw/sym/ina118.sym (2) GPLv3+
-./hw/sym/irf7317.sym (2) GPLv3+
-./hw/sym/irf7507.sym (2) GPLv3+
-./hw/sym/irlml.sym (2) GPLv3+
-./hw/sym/JTAG.sym (2) GPLv3+
-./hw/sym/led.sym (2) GPLv3+
-./hw/sym/lm74.sym (2) GPLv3+
-./hw/sym/lp2980AIM5-3.sym (2) GPLv3+
-./hw/sym/lp2980AIM5-5.sym (2) GPLv3+
-./hw/sym/lpc2138.sym (2) GPLv3+
+./hw/stribog.sch (1b) GPLv3+
+./hw/sym/adm202.sym (1d) GPLv2
+./hw/sym/adxl210.sym (1d) GPLv2
+./hw/sym/adxrs300.sym (1d) GPLv2
+./hw/sym/ATmega8-1.sym (1d) GPLv2
+./hw/sym/bat54c.sym (1d) GPLv2
+./hw/sym/dac7612.sym (1d) GPLv2
+./hw/sym/hmc1021.sym (1d) GPLv2
+./hw/sym/hmc1022.sym (1d) GPLv2
+./hw/sym/ina118.sym (1d) GPLv2
+./hw/sym/irf7317.sym (1d) GPLv2
+./hw/sym/irf7507.sym (1d) GPLv2
+./hw/sym/irlml.sym (1d) GPLv2
+./hw/sym/JTAG.sym (1d) GPLv2
+./hw/sym/led.sym (1d) GPLv2
+./hw/sym/lm74.sym (1d) GPLv2
+./hw/sym/lp2980AIM5-3.sym (1d) GPLv2
+./hw/sym/lp2980AIM5-5.sym (1d) GPLv2
+./hw/sym/lpc2138.sym (1d) GPLv2
 ./hw/sym/README (0) GPLv3+
-./hw/sym/ref195.sym (2) GPLv3+
-./hw/sym/tps76316.sym (2) GPLv3+
+./hw/sym/ref195.sym (1d) GPLv2
+./hw/sym/tps76316.sym (1d) GPLv2
 ./INSTALL (3a) I_unlimited -> GPLv3+
 ./install-sh (3b) X_permissive -> GPLv3+
 ./Makefile.am (0) GPLv3+

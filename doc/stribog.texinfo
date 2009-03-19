@@ -11,8 +11,11 @@
 @macro gplcurrent
  the GNU GPL version @value{GPLVERSION}
 @end macro
+@macro symexception
+ with symbols exception (@pxref{symbols-exception})
+@end macro
 @macro gplactual
- @gplcurrent or later
+ @gplcurrent or later @symexception
 @end macro
 @macro gploptions
  @gplcurrent or (at your option) any later version
@@ -169,7 +172,15 @@ whether they like it or not.
 * Final remarks::
 @end menu
 
-You may distribute stribog under the terms of @gploptions{}.
+You may distribute stribog under the terms of
+@gploptions{}@footnote{@anchor{symbols-exception}
+As a special exception, you may use gschem symbols
+derived from external sources (e.g. geda symbols) that are distributed under
+the GNU GPL version 2 when they are not originally distributed under
+the GNU GPLv3-compatible license. these symbols must be distributed
+with other source files of the project and considered an external
+library or augmentation of geda-symbols package. they can't be embedded
+in any stribog file.}.
 These terms were not usual when the project started,
 neither for software and particularly for hardware designs;
 commonly used terms were much more restrictive.
@@ -291,7 +302,7 @@ As a consequence using stribog-derived circuits in a device is permitted
 in either of two ways:
 @enumerate a
 @item The whole device is distributed under the terms of @gplactual
- (with the stribog's authors' interpretation for the hardware part).
+ with the stribog's authors' interpretation for the hardware part.
  This is the preferable way.
 @item The device can reasonably be considered as an independent work.
 @end enumerate
@@ -306,7 +317,7 @@ must be covered by @gplactual{}. Similarly,
 if you modify stribog so that it will require/provide
 complicated signals from/to your board, therefore
 making it unimaginable to function one without the other --- in this
-case the whole system shall be covered by @gploptions{}.
+case the whole system shall be covered by @gploptions @symexception{}.
 
 @subsection Heterogeneous law
 
