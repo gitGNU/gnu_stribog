@@ -1,4 +1,4 @@
-Copyright (C) 2006, 2007, 2008
+Copyright (C) 2006, 2007, 2008, 2009
  Ineiev <ineiev@users.sourceforge.net>, super V 93
 See the end of the file for license conditions.
 
@@ -152,3 +152,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+As a special exception, you may use gschem symbols derived from
+external sources (e.g. geda symbols) that are distributed under
+the GNU GPL version 2 when they are not originally distributed under
+the GNU GPLv3-compatible license. these symbols must be distributed
+with other source files of the project and considered an external
+library or augmentation of geda-symbols package. they can't be embedded
+in any stribog file.
