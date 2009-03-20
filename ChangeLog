@@ -1,3 +1,6 @@
+20 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>
+ * doc/stribog.texinfo: add instructions on building
+ the tools in older environments
 19 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * doc/stribog.texinfo: fix documentation
 

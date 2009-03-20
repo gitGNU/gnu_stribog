@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename stribog.info
 @set manualtitle Stribog Developer Manual
-@set UPDATED 29 Oct 2008
+@set UPDATED 20 Mar 2009
 @c VERSION is for the project, EDITION is for the manual
 @c EDITION names are unique within a VERSION
 @set EDITION 0-minus
@@ -31,7 +31,7 @@ This manual is for stribog @value{VERSION}
 (edition @value{EDITION}, updated @value{UPDATED}),
 which is a MEMS-based attitude sensing platform.
 
-Copyright @copyright{} 2008 Ineiev
+Copyright @copyright{} 2008, 2009 Ineiev
 
 @quotation
 @c the GNU FDL needs not to be an Invariant Section,
@@ -114,6 +114,7 @@ originally written by Ineiev @value{email}
 *     PCB::                             Printed Circuit Board Layout Editor
 *     gerbv::                           Gerber files previewer
 *     gEDA::                            gschem, gsch2pcb and dependencies
+*     Older systems::                   building tools on older systems
 *   Building stribog::
 *     Host Files::                      Prepare your POSIX machine
 *     Hardware Manufacturing::          Make the boards
@@ -536,6 +537,7 @@ file.
 * PCB::                                 Printed Circuit Board Layout Editor
 * gerbv::                               Gerber files previewer
 * gEDA::                                gschem, gsch2pcb and dependencies
+* Older systems::                       building tools on older systems
 @end menu
 
 @node GNU Cross-tools
@@ -574,7 +576,7 @@ programs don't support them.
 You also will need to get public keys for these signatures and import
 them into your gnupg keyring. Read gnupg manual on how to do this.
 
-As of Oct 2008, we recommend binutils-2.17 and gcc-4.2.2.
+As of Feb 2009, we recommend binutils-2.17 and gcc-4.2.2.
 
 Newer GCC releases series (gcc-4.3.0 and later) require MPFR library.
 This somewhat lengthens the dependencies list; it may require
@@ -873,7 +875,10 @@ gEDA is a large software collection.
 It's homepage is @url{http://geda.seul.org}.
 We don't use all these packages.
 To install those used in stribog development you need
-at least the next files:
+at least the next files@footnote{Currently, we develop stribog with 1.3.1
+release of gEDA. We also make sure that stribog files can be at least
+viewed with 20041228 release. This makes it possible to use them
+in older systems (@pxref{older-geda}).}:
 
 @itemize
 @item @file{gEDA-gaf-1.3.1.md5sum}: MD5 checksums (not really needed,
@@ -899,6 +904,7 @@ First, define the directory whither you will install this stuff:
  you invoke gsch2pcb.
 @end quotation
 
+@anchor{geda-build}
 Make your system aware of the executables and libraries,
 which will be installed thither:
 
@@ -944,6 +950,146 @@ If the sums are OK for all existing files, install the programs:
  make all install; cd ..
  rm -fr bui geda-docs-1.3.1
 @end example
+
+@node Older systems
+@subsection Older systems
+
+This section describes how to build gEDA and friends
+in older environments. As a reference, RedHat 7.3 is used.
+
+As it has been described already, binutils+GCC toolchain may be
+installed quite easily; to get a gerber previewer, use gerbv-1.0.2.
+
+@subsubsection gEDA
+@anchor{older-geda}
+
+You'll need geda-20041228 release.
+
+Install guile-devel-1.3.4-19, gtk+-devel-1.2.10-15
+perl-XML-Parser-2.30-15 and their dependencies.
+
+The installation procedure is similar to described in @ref{geda-build}.
+The only differences are versions of packages
+and absence of VPATH build support: you should
+@command{configure} from sources top directory: @command{./configure etc.}
+
+@subsubsection PCB
+
+Surprisingly, current PCB can be build almost out-of-box
+(use pcb-20080208: pcb-20081128 won't work).
+It is lesstif HID that makes it possible.
+
+(install lesstif-devel-0.93.18-2 and it's dependencies)
+
+Configure PCB with command
+
+@example
+ ./configure --disable-xrender \
+   --disable-update-mime-database \
+   --disable-update-desktop-database \
+   --with-gui=lesstif \
+   --with-exporters=gerber,ps,bom \
+   --prefix=$gedaprefix
+@end example
+
+@quotation Note
+ VPATH build may not work.
+@end quotation
+
+The meaning of these @command{configure} script options
+may be obtained via @option{--help} option.
+
+Remove from @file{src/edif.c} line
+
+@example
+extern char *strcpy();
+@end example
+
+In RedHat 7.3, @code{strcpy()} is a macro and should receive
+two arguments; this declaration breaks the build procedure.
+
+Move some variable declarations in @file{src/edif.c} and @file{src/puller.c}
+to the begin of their block.
+
+The whole changeset is like this:
+
+@example
+@verbatim
+diff -U 2 -r ../tmp/pcb-20080202/src/edif.c ./src/edif.c
+--- ../tmp/pcb-20080202/src/edif.c	Wed Jan 16 05:08:02 2008
++++ ./src/edif.c	Fri Mar 20 18:35:26 2009
+@@ -708,5 +708,4 @@
+  */
+ extern void *malloc();
+-extern char *strcpy();
+ extern int atoi();
+ extern void free();
+@@ -766,4 +765,10 @@
+  {
+      LibraryMenuTypePtr menu = GetLibraryMenuMemory (&PCB->NetlistLib);
++     LibraryEntryTypePtr entry;
++     char* buf;
++     char* p;
++     int tl;
++     str_pair* done_node;
++     str_pair* node;
+      if ( !name->str1 )
+      {
+@@ -780,7 +785,5 @@
+      if ( name->str2 )  free(name->str2);
+      free(name);
+-     LibraryEntryTypePtr entry;
+-     char* buf = malloc(256);
+-     char* p;
++     buf = malloc(256);
+      if ( !buf )
+      {
+@@ -789,7 +792,5 @@
+ 	 return;
+      }
+-     int tl;
+-     str_pair* done_node;
+-     str_pair* node = nodes->list;
++     node = nodes->list;
+      free(nodes->name);
+      free(nodes);
+diff -U 2 -r ../tmp/pcb-20080202/src/puller.c ./src/puller.c
+--- ../tmp/pcb-20080202/src/puller.c	Wed Dec 26 19:23:53 2007
++++ ./src/puller.c	Fri Mar 20 18:36:41 2009
+@@ -879,7 +879,7 @@
+ {
+   int inside_p;
++  int t = (pad->Thickness+1)/2;
+   printf("pad %d,%d - %d,%d t %d  vs  %d,%d\n", pad->Point1.X, pad->Point1.Y,
+ 	 pad->Point2.X, pad->Point2.Y, pad->Thickness, x, y);
+-  int t = (pad->Thickness+1)/2;
+   if (TEST_FLAG (SQUAREFLAG, pad))
+     {
+@@ -1887,4 +1887,5 @@
+ {
+   Extra *e, *new_arcs;
++  ArcTypePtr arc;
+   if (r % 100 == 1)
+     r--;
+@@ -1894,5 +1895,5 @@
+   printf("create_arc at %d,%d r %d sa %d delta %d\n", x, y, r, sa, da);
+ #endif
+-  ArcTypePtr arc = CreateNewArcOnLayer (CURRENT, x, y, r, r, sa, da,
++  arc = CreateNewArcOnLayer (CURRENT, x, y, r, r, sa, da,
+ 					sample->Thickness, sample->Clearance, sample->Flags);
+   if (arc == 0)
+@end verbatim
+@end example
+
+Install PCB:
+
+@example
+ make install
+@end example
+
+In a similar way current GIT version of PCB most probably can
+be installed after having regenerated it's build system as described
+in @file{README.cvs}.
 
 @node Building stribog
 @section Building stribog
@@ -1380,7 +1526,7 @@ and so on). You often shall not want this.
 The configuring scripts are updated with @samp{autoreconf -v};
 you may @samp{rm -rf $(find . -name autom4te.cache)} after that.
 
-As of Aug 2008, the versions used are autoconf-2.62 and automake-1.10.1.
+As of Feb 2009, the versions used are autoconf-2.62 and automake-1.10.1.
 
 Previous version of Autoconf (2.61) does not allow user-defined
 @file{confugure} arguments preprocessing.
