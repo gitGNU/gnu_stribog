@@ -1,10 +1,10 @@
 This is ../../stribog/doc/stribog.info, produced by makeinfo version
-4.11 from ../../stribog/doc/stribog.texinfo.
+4.8 from ../../stribog/doc/stribog.texinfo.
 
-This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
-07 Oct 2008), which is a MEMS-based attitude sensing platform.
+   This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
+20 Mar 2009), which is a MEMS-based attitude sensing platform.
 
-   Copyright (C) 2008 Ineiev
+   Copyright (C) 2008, 2009 Ineiev
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -27,9 +27,9 @@ Stribog Developer Manual
 ************************
 
 This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
-07 Oct 2008), which is a MEMS-based attitude sensing platform.
+20 Mar 2009), which is a MEMS-based attitude sensing platform.
 
-   Copyright (C) 2008 Ineiev
+   Copyright (C) 2008, 2009 Ineiev
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -68,6 +68,7 @@ This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
 *     PCB::                             Printed Circuit Board Layout Editor
 *     gerbv::                           Gerber files previewer
 *     gEDA::                            gschem, gsch2pcb and dependencies
+*     Older systems::                   building tools on older systems
 *   Building stribog::
 *     Host Files::                      Prepare your POSIX machine
 *     Hardware Manufacturing::          Make the boards
@@ -114,7 +115,7 @@ File: stribog.info,  Node: Distribution,  Next: Intro,  Prev: Top,  Up: Top
 * Final remarks::
 
    You may distribute stribog under the terms of the GNU GPL version
-3 or (at your option) any later version.  These terms were not usual
+3 or (at your option) any later version(1).  These terms were not usual
 when the project started, neither for software and particularly for
 hardware designs; commonly used terms were much more restrictive.  This
 is why you should tell everyone to whom you distribute the project that
@@ -123,6 +124,16 @@ correct idea of this freedom.
 
    When all technical information is free, this requirement shall not
 bind you any more.
+
+   ---------- Footnotes ----------
+
+   (1)  As a special exception, you may use gschem symbols derived from
+external sources (e.g. geda symbols) that are distributed under the GNU
+GPL version 2 when they are not originally distributed under the GNU
+GPLv3-compatible license. these symbols must be distributed with other
+source files of the project and considered an external library or
+augmentation of geda-symbols package. they can't be embedded in any
+stribog file.
 
 
 File: stribog.info,  Node: Jurisdictions,  Next: Contents,  Up: Distribution
@@ -173,16 +184,17 @@ as "Object Code".  Essentially this means that if someone ships a
 stribog-derived board, this person or organisation must make available
 (for those who get the product) a copy of documentation needed at least
 to reproduce this board; this supplier shall not prevent downstream
-distribution in terms other than that of the GNU GPL version 3 or
-later. Another thing to note is the Section 11 of the GNU GPL version
-3 (on patents). While there should be no software patents, the hardware
-ones are ubiquitous.
+distribution in terms other than that of the GNU GPL version 3 or later
+with symbols exception (*note symbols-exception::). Another thing to
+note is the Section 11 of the GNU GPL version 3 (on patents). While
+there should be no software patents, the hardware ones are ubiquitous.
 
    As a consequence using stribog-derived circuits in a device is
 permitted in either of two ways:
   a. The whole device is distributed under the terms of the GNU GPL
-     version 3 or later  (with the stribog's authors' interpretation
-     for the hardware part).   This is the preferable way.
+     version 3 or later with symbols exception (*note
+     symbols-exception::)  with the stribog's authors' interpretation
+     for the hardware part.   This is the preferable way.
 
   b. The device can reasonably be considered as an independent work.
 
@@ -192,11 +204,13 @@ not make the former board stribog-derived, because there is nothing very
 specific in those signals and the boards are distinct; but if some
 stribog circuits are incorporated into another board, there is no more
 separable independent work, so that board must be covered by the GNU
-GPL version 3 or later. Similarly, if you modify stribog so that it
-will require/provide complicated signals from/to your board, therefore
+GPL version 3 or later with symbols exception (*note
+symbols-exception::). Similarly, if you modify stribog so that it will
+require/provide complicated signals from/to your board, therefore
 making it unimaginable to function one without the other -- in this
 case the whole system shall be covered by the GNU GPL version 3 or (at
-your option) any later version.
+your option) any later version with symbols exception (*note
+symbols-exception::).
 
 1.1.3 Heterogeneous law
 -----------------------
@@ -453,6 +467,7 @@ the `INSTALL' file.
 * PCB::                                 Printed Circuit Board Layout Editor
 * gerbv::                               Gerber files previewer
 * gEDA::                                gschem, gsch2pcb and dependencies
+* Older systems::                       building tools on older systems
 
 
 File: stribog.info,  Node: GNU Cross-tools,  Next: ARM Tools,  Up: Tools Used
@@ -479,30 +494,39 @@ prescribes `mkdir obj;cd obj;../configure ...'.
    Binutils releases tarballs are located at
 `ftp://ftp.gnu.org/pub/gnu/binutils/', GCC can be found on the same FTP
 site at `ftp://ftp.gnu.org/pub/gnu/gcc/'. We need single binutils
-tarball (e.g. binutils-2.17.tar.bz2), it's PGP signature
-(binutils-2.17.tar.bz2.sig) to make sure that we downloaded the file
-correctly, and the same for GCC (say, gcc-core-4.2.2.tar.bz2 and
-gcc-core-4.2.2.tar.bz2.sig).  You can download gcc-4.2.2.tar.bz2
-instead of gcc-core-4.2.2.tar.bz2.  It contains additional language
+tarball (e.g. `binutils-2.17.tar.bz2'), it's PGP signature
+(`binutils-2.17.tar.bz2.sig') to make sure that we downloaded the file
+correctly, and the same for GCC (say, `gcc-core-4.2.2.tar.bz2' and
+`gcc-core-4.2.2.tar.bz2.sig').  You can download `gcc-4.2.2.tar.bz2'
+instead of `gcc-core-4.2.2.tar.bz2'.  It contains additional language
 support such as Fortran and Ada.  We don't use these languages, and our
 ARM-hosted startup programs don't support them.
 
    You also will need to get public keys for these signatures and import
 them into your gnupg keyring. Read gnupg manual on how to do this.
 
-   As of Aug 2008, we recommend binutils-2.17 and gcc-4.2.2.
+   As of Feb 2009, we recommend binutils-2.17 and gcc-4.2.2.
 
    Newer GCC releases series (gcc-4.3.0 and later) require MPFR library.
 This somewhat lengthens the dependencies list; it may require your GMP
 library update.
 
-   The latest binutils release, binutils-2.18, is not very stable; it
-has some installation-time problems.
-
    As for gcc-4.2.3 and gcc-4.2.4, they are OK for building our ARM
 toolchain, but unfortunately, AVR target is unbuildable on top of
 binutils-2.17 and even binutils-2.18; we have a good reason to hope
 that the next release will fix this.
+
+   binutils-2.18 is not very stable; you'd better use binutils-2.19
+instead.
+
+   Both binutils-2.18 and binutils-2.19 have installation problem with
+VPATH build when you have no recent enough makeinfo. You can either
+build the package in it's source directory `./configure ..', or install
+a new texinfo, or touch the info files, i.e. build with command
+
+      make
+      touch $(find ../binutils-2.19 -name "*.info")
+      make
 
    If you have no fast Internet access and can't choose the versions,
 older releases will work, too. To be sure, gcc-3.4.6 and binutils-2.13
@@ -586,8 +610,8 @@ contacts to connect with gdb.
 up to gcc-4.3.1). Otherwise the compiler will not build itself.
 
    You also may want to add `--disable-nls' both to binutils and gcc
-configure invocation. This option will switch off non-English messages
-from these tools. It saves some disk space.
+`configure' invocation. This option will switch off non-English
+messages from these tools. It saves some disk space.
 
    The order of the `configure' command line arguments does not matter.
 
@@ -653,7 +677,7 @@ AVRs.
    `--build=$(../avr-libc-1.6.1/config.guess)' means that the
 `config.guess' script, supplied with the build system of the library,
 is run to get the canonical name for your operating system. This name
-will be used essentially to notify the configure scripts that they
+will be used essentially to notify the `configure' scripts that they
 don't build a native library, but a library for cross-tools.
 
 
@@ -692,7 +716,7 @@ checksum):
       make
       make install
 
-   You may be interested in some configure options, especially the
+   You may be interested in some `configure' options, especially the
 following:
    * `--with-gui' selects user interface front-end. You can choose
      between gtk (GTK-based) and lesstif (LessTif or compatibles).  The
@@ -745,9 +769,9 @@ install the package:
       make all install
 
    The most strict requirement is cairo library. If you have not it,
-you may want to add `--disable-cairo' option to configure command-line,
-but it is not supported very well. Alternatively, you can install the
-previous generation release, gerbv-1.0.2(2).
+you may want to add `--disable-cairo' option to `configure'
+command-line, but it is not supported very well. Alternatively, you can
+install the previous generation release, gerbv-1.0.2(2).
 
    ---------- Footnotes ----------
 
@@ -765,7 +789,7 @@ buried vias extra Excellon files are needed.
 recommended. It displays Excellon files incorrectly.
 
 
-File: stribog.info,  Node: gEDA,  Prev: gerbv,  Up: Tools Used
+File: stribog.info,  Node: gEDA,  Next: Older systems,  Prev: gerbv,  Up: Tools Used
 
 3.2.6 gEDA
 ----------
@@ -775,7 +799,7 @@ File: stribog.info,  Node: gEDA,  Prev: gerbv,  Up: Tools Used
 
    gEDA is a large software collection.  It's homepage is
 `http://geda.seul.org'.  We don't use all these packages.  To install
-those used in stribog development you need at least the next files:
+those used in stribog development you need at least the next files(1):
 
    * `gEDA-gaf-1.3.1.md5sum': MD5 checksums (not really needed,  but
      highly recommended)
@@ -807,7 +831,7 @@ be installed thither:
       export PATH=$gedaprefix/bin:$PATH
       export LD_LIBRARY_PATH=$gedaprefix/lib:$LD_LIBRARY_PATH
       export LD_RUN_PATH=$gedaprefix/lib:$LD_RUN_PATH
-      export PKG_CONFIG_PATH=$gedaprefix/lib/pkgconfig:$PKG_CONFI_PATH
+      export PKG_CONFIG_PATH=$gedaprefix/lib/pkgconfig:$PKG_CONFIG_PATH
 
    Check the MD5 sums:
 
@@ -822,17 +846,164 @@ be installed thither:
       rm -fr bui libgeda-1.3.1
       tar xzf geda-utils-1.3.1.tar.gz
       mkdir bui;cd bui
+      ../geda-utils-1.3.1/configure --prefix=$gedaprefix
       make all install; cd ..
       rm -fr bui geda-utils-1.3.1
       tar xzf geda-symbols-1.3.1.tar.gz
+      mkdir bui; cd bui
+      ../geda-symbols-1.3.1/configure --prefix=$gedaprefix
       make all install; cd ..
       rm -fr bui geda-symbols-1.3.1
       tar xzf geda-gschem-1.3.1.tar.gz
+      mkdir bui; cd bui
+      ../geda-symbols-1.3.1/configure --prefix=$gedaprefix
       make all install; cd ..
       rm -fr bui geda-gschem-1.3.1
       tar xzf geda-docs-1.3.1.tar.gz
+      mkdir bui; cd bui
+      ../geda-docs-1.3.1/configure --prefix=$gedaprefix
       make all install; cd ..
       rm -fr bui geda-docs-1.3.1
+
+   ---------- Footnotes ----------
+
+   (1) Currently, we develop stribog with 1.3.1 release of gEDA. We
+also make sure that stribog files can be at least viewed with 20041228
+release. This makes it possible to use them in older systems (*note
+older-geda::).
+
+
+File: stribog.info,  Node: Older systems,  Prev: gEDA,  Up: Tools Used
+
+3.2.7 Older systems
+-------------------
+
+This section describes how to build gEDA and friends in older
+environments. As a reference, RedHat 7.3 is used.
+
+   As it has been described already, binutils+GCC toolchain may be
+installed quite easily; to get a gerber previewer, use gerbv-1.0.2.
+
+3.2.7.1 gEDA
+............
+
+You'll need geda-20041228 release.
+
+   Install guile-devel-1.3.4-19, gtk+-devel-1.2.10-15
+perl-XML-Parser-2.30-15 and their dependencies.
+
+   The installation procedure is similar to described in *Note
+geda-build::.  The only differences are versions of packages and
+absence of VPATH build support: you should `configure' from sources top
+directory: `./configure etc.'
+
+3.2.7.2 PCB
+...........
+
+Surprisingly, current PCB can be build almost out-of-box (use
+pcb-20080208: pcb-20081128 won't work).  It is lesstif HID that makes
+it possible.
+
+   (install lesstif-devel-0.93.18-2 and it's dependencies)
+
+   Configure PCB with command
+
+      ./configure --disable-xrender \
+        --disable-update-mime-database \
+        --disable-update-desktop-database \
+        --with-gui=lesstif \
+        --with-exporters=gerber,ps,bom \
+        --prefix=$gedaprefix
+
+     Note:  VPATH build may not work.
+
+   The meaning of these `configure' script options may be obtained via
+`--help' option.
+
+   Remove from `src/edif.c' line
+
+     extern char *strcpy();
+
+   In RedHat 7.3, `strcpy()' is a macro and should receive two
+arguments; this declaration breaks the build procedure.
+
+   Move some variable declarations in `src/edif.c' and `src/puller.c'
+to the begin of their block.
+
+   The whole changeset is like this:
+
+
+     diff -U 2 -r ../tmp/pcb-20080202/src/edif.c ./src/edif.c
+     --- ../tmp/pcb-20080202/src/edif.c	Wed Jan 16 05:08:02 2008
+     +++ ./src/edif.c	Fri Mar 20 18:35:26 2009
+     @@ -708,5 +708,4 @@
+       */
+      extern void *malloc();
+     -extern char *strcpy();
+      extern int atoi();
+      extern void free();
+     @@ -766,4 +765,10 @@
+       {
+           LibraryMenuTypePtr menu = GetLibraryMenuMemory (&PCB->NetlistLib);
+     +     LibraryEntryTypePtr entry;
+     +     char* buf;
+     +     char* p;
+     +     int tl;
+     +     str_pair* done_node;
+     +     str_pair* node;
+           if ( !name->str1 )
+           {
+     @@ -780,7 +785,5 @@
+           if ( name->str2 )  free(name->str2);
+           free(name);
+     -     LibraryEntryTypePtr entry;
+     -     char* buf = malloc(256);
+     -     char* p;
+     +     buf = malloc(256);
+           if ( !buf )
+           {
+     @@ -789,7 +792,5 @@
+      	 return;
+           }
+     -     int tl;
+     -     str_pair* done_node;
+     -     str_pair* node = nodes->list;
+     +     node = nodes->list;
+           free(nodes->name);
+           free(nodes);
+     diff -U 2 -r ../tmp/pcb-20080202/src/puller.c ./src/puller.c
+     --- ../tmp/pcb-20080202/src/puller.c	Wed Dec 26 19:23:53 2007
+     +++ ./src/puller.c	Fri Mar 20 18:36:41 2009
+     @@ -879,7 +879,7 @@
+      {
+        int inside_p;
+     +  int t = (pad->Thickness+1)/2;
+        printf("pad %d,%d - %d,%d t %d  vs  %d,%d\n", pad->Point1.X, pad->Point1.Y,
+      	 pad->Point2.X, pad->Point2.Y, pad->Thickness, x, y);
+     -  int t = (pad->Thickness+1)/2;
+        if (TEST_FLAG (SQUAREFLAG, pad))
+          {
+     @@ -1887,4 +1887,5 @@
+      {
+        Extra *e, *new_arcs;
+     +  ArcTypePtr arc;
+        if (r % 100 == 1)
+          r--;
+     @@ -1894,5 +1895,5 @@
+        printf("create_arc at %d,%d r %d sa %d delta %d\n", x, y, r, sa, da);
+      #endif
+     -  ArcTypePtr arc = CreateNewArcOnLayer (CURRENT, x, y, r, r, sa, da,
+     +  arc = CreateNewArcOnLayer (CURRENT, x, y, r, r, sa, da,
+      					sample->Thickness, sample->Clearance, sample->Flags);
+        if (arc == 0)
+
+   Install PCB:
+
+      make install
+
+   In a similar way current GIT version of PCB most probably can be
+installed after having regenerated it's build system as described in
+`README.cvs'.
 
 
 File: stribog.info,  Node: Building stribog,  Prev: Tools Used,  Up: Getting Started
@@ -860,7 +1031,7 @@ File: stribog.info,  Node: Host Files,  Next: Hardware Manufacturing,  Up: Build
 Stribog uses GNU-standard configuration procedure described in
 `INSTALL' file. Though general build versus source directory positions
 should work, the canonical way is to build the project in a separate
-directory out of the source tree, so the configure invocation sounds
+directory out of the source tree, so the `configure' invocation sounds
 like this:
 
       ../stribog/configure
@@ -1169,11 +1340,11 @@ it's predecessors) and the purpose of the branch can be learnt.
 on using Git branches, revisions and so on. There you can read about
 history and purposes of Git branches of the project.
 
-   The revisions are named within the build system (configure.ac files)
-like 0.MAJOR.MINOR[-suffix] where MAJOR is the release branch number,
-MINOR is the number of release on the branch, optional suffix means
-unstable releases (rc[0-9]*) or marks interrelease revisions (minus),
-e.g.
+   The revisions are named within the build system (`configure.ac'
+files) like 0.MAJOR.MINOR[-suffix] where MAJOR is the release branch
+number, MINOR is the number of release on the branch, optional suffix
+means unstable releases (rc[0-9]*) or marks interrelease revisions
+(minus), e.g.
    * 0.1.2-rc2-minus means a revision between 0.1.2-rc1 and 0.1.2-rc2.
 
    * 0.1.2-rc[0-9]* preceeds stable version named 0.1.2
@@ -1182,7 +1353,7 @@ e.g.
 branch 0.1 is the next revision branch that to be forked out.
 
    Git is branched and tagged accordingly.  eventually a branch named
-0.1 is created from trunc, and the revision in configure.ac is set to
+0.1 is created from trunc, and the revision in `configure.ac' is set to
 0.1.0-rc0-minus.  then release candidates 0.1.0-rc1, 0.1.0-rc2 and so on
 are released and at last release 0.1.0 is published.  after that the
 release name is changed to 0.1.2-rc0-minus
@@ -1240,7 +1411,7 @@ on). You often shall not want this.
    The configuring scripts are updated with `autoreconf -v'; you may
 `rm -rf $(find . -name autom4te.cache)' after that.
 
-   As of Aug 2008, the versions used are autoconf-2.62 and
+   As of Feb 2009, the versions used are autoconf-2.62 and
 automake-1.10.1.
 
    Previous version of Autoconf (2.61) does not allow user-defined
@@ -2408,43 +2579,49 @@ permit their use in free software.
 
 
 Tag Table:
-Node: Top903
-Node: Distribution3872
-Node: Jurisdictions5361
-Node: Contents9140
-Node: Final remarks10772
-Node: Intro11453
-Node: In Short11761
-Node: Address13292
-Node: Name13721
-Ref: Name-Footnote-115111
-Ref: Name-Footnote-215205
-Node: Getting Started15282
-Node: Prerequisites15481
-Ref: Prerequisites-Footnote-117956
-Node: Tools Used18045
-Node: GNU Cross-tools18969
-Node: ARM Tools21388
-Node: AVR Tools24665
-Node: PCB26796
-Ref: PCB-Footnote-129015
-Node: gerbv29163
-Ref: gerbv-Footnote-130271
-Ref: gerbv-Footnote-230746
-Node: gEDA30862
-Node: Building stribog33122
-Node: Host Files33653
-Node: Hardware Manufacturing35078
-Ref: Hardware Manufacturing-Footnote-137430
-Node: Firmware Installation37518
-Node: Host-side Utilities38829
-Node: In-depth Guide40477
-Node: Using Git40775
-Node: Git Commands41427
-Node: Branches43916
-Node: VCS Contents45762
-Node: Autoreconf46983
-Node: GNU General Public License47762
-Node: GNU Free Documentation License85369
+Node: Top911
+Node: Distribution3958
+Ref: Distribution-Footnote-15486
+Ref: symbols-exception5493
+Node: Jurisdictions5919
+Node: Contents9905
+Node: Final remarks11537
+Node: Intro12218
+Node: In Short12526
+Node: Address14057
+Node: Name14486
+Ref: Name-Footnote-115876
+Ref: Name-Footnote-215970
+Node: Getting Started16047
+Node: Prerequisites16246
+Ref: Prerequisites-Footnote-118721
+Node: Tools Used18810
+Node: GNU Cross-tools19806
+Node: ARM Tools22558
+Node: AVR Tools25837
+Node: PCB27970
+Ref: PCB-Footnote-130191
+Node: gerbv30339
+Ref: gerbv-Footnote-131449
+Ref: gerbv-Footnote-231924
+Node: gEDA32040
+Ref: geda-build33249
+Ref: gEDA-Footnote-134665
+Node: Older systems34888
+Ref: older-geda35279
+Node: Building stribog38877
+Node: Host Files39408
+Node: Hardware Manufacturing40835
+Ref: Hardware Manufacturing-Footnote-143187
+Node: Firmware Installation43275
+Node: Host-side Utilities44586
+Node: In-depth Guide46234
+Node: Using Git46532
+Node: Git Commands47184
+Node: Branches49673
+Node: VCS Contents51523
+Node: Autoreconf52744
+Node: GNU General Public License53523
+Node: GNU Free Documentation License91130
 
 End Tag Table
