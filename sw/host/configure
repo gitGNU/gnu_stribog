@@ -7217,7 +7217,8 @@ done
 
 
 
-for ac_func in atexit memmove sqrt strchr strerror fchdir
+
+for ac_func in atexit memmove sigaction sqrt strchr strerror vsnprintf
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 { $as_echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -7319,7 +7320,7 @@ done
 
 
 
-for ac_func in get_current_dir_name getcwd sigaction
+for ac_func in fchdir get_current_dir_name getcwd
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 { $as_echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -7414,6 +7415,16 @@ if test `eval 'as_val=${'$as_ac_var'}
   cat >>confdefs.h <<_ACEOF
 #define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
 _ACEOF
+ break
+else
+  { $as_echo "$as_me:$LINENO: result:
+Note: no known function to implement directory caching found;
+      fake implementation will be used
+" >&5
+$as_echo "
+Note: no known function to implement directory caching found;
+      fake implementation will be used
+" >&6; }
 
 fi
 done
