@@ -990,7 +990,31 @@ Surprisingly, current PCB can be build almost out-of-box
 (use pcb-20080208: pcb-20081128 won't work).
 It is lesstif HID that makes it possible.
 
-(install lesstif-devel-0.93.18-2 and it's dependencies)
+Install lesstif-devel-0.93.18-2 and it's dependencies from RPMs.
+
+Then intltool-0.40.3 and as a dependency gettext-0.17 will be needed.
+
+Modify your environment:
+
+@example
+ export gedaprefix=$HOME/geda
+ export PATH=$gedaprefix/bin:$PATH
+ export LD_LIBRARY_PATH=$gedaprefix/lib:$LD_LIBRARY_PATH
+@end example
+
+Install the packages:
+
+@example
+ gpg --verify gettext-0.17.tar.gz.sig && tar xzf gettext-0.17.tar.gz
+ mkdir bui;cd bui
+ ../gettext-0.17/configure --prefix=$gedaprefix && make install
+ cd ..;rm -r gettext-0.17 bui
+# md5sum -c intltool-0.40.3.md5sum
+ tar xjf intltool-0.40.3.tar.bz2
+ mkdir bui;cd bui
+ ../intltool-0.40.3/configure --prefix=$gedaprefix && make install
+ cd ..;rm -r intltool-0.40.3 bui
+@end example
 
 Configure PCB with command
 
