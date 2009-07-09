@@ -1,6 +1,9 @@
 #include"lla.h"/*LatLonAlt<->XYZ transforms for WGS-84*/
 #include<math.h>
 #include<float.h>
+#ifndef M_PI
+#define M_PI 3.14159265358979323844
+#endif
 static double alpha=1./298.257223563,axis=6378137.;
 int
 initlla(void){return 0;}
@@ -46,4 +49,5 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2008 Ineiev <ineiev@users.sourceforge.net>, super V 93*/
+Copyright (C) 2006, 2008, 2009\
+ Ineiev <ineiev@users.berlios.de>, super V 93*/

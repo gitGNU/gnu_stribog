@@ -1,6 +1,6 @@
 #stribog host tools: configure.ac 
 # Run autoreconf to regenerate the build system
-#Copyright (C) 2008, 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008, 2009 Ineiev<ineiev@users.berlios.de>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ AC_PREFIX_DEFAULT([$HOME/stribog-install])
 AC_CONFIG_SRCDIR([utils/lpfilter.c])
 
 AH_TOP(
-[/* Copyright (C) 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
+[/* Copyright (C) 2009 Ineiev<ineiev@users.berlios.de>, super V 93
  This file is an object-code part of stribog: it is produced
  automatically with autoheader when invoking autoreconf
  stribog is free design; you can redistribute it and/or modify
@@ -107,7 +107,7 @@ AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([atexit memmove sigaction sqrt strchr strerror vsnprintf])
+AC_CHECK_FUNCS([atexit sigaction sqrt strchr strerror vsnprintf])
 AC_CHECK_FUNCS([fchdir get_current_dir_name getcwd],[break],
  [AC_MSG_RESULT([
 Note: no known function to implement directory caching found;

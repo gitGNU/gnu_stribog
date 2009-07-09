@@ -1,8 +1,16 @@
+09 Jul 2009 Ineiev <ineiev@users.berlios.de>
+ * conloq.src/garmin_nmea.c conloq.src/lla.c postproc/exvel.c:
+   add M_PI definition when absent
+09 Jul 2009 Ineiev <ineiev@users.berlios.de>
+ * configure.ac conloq.src/garmin_bin.c: eliminate
+   less compatible memmove in favour of memcpy
+09 Jul 2009 Ineiev <ineiev@users.berlios.de>
+ * AUTHORS: update email and date
 09 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
- * sw/host/configure.ac sw/host/lib/snpr_ck.c:
+ * configure.ac lib/snpr_ck.c:
  serve snprintf()less systems
 09 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
- * sw/host/configure.ac sw/host/lib/save_wd.c:
+ * configure.ac lib/save_wd.c:
  provide emergency save_wd() implementation
 06 Feb 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * conloq.src/magexp.c conloq.src/garmin_bin.c: eliminate

@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright (C) 2006, 2009 Ineiev<ineiev@users.sourceforge.net>*/
+Copyright (C) 2006, 2009 Ineiev<ineiev@users.berlios.de>*/
 #include"parse_tsip.h"
 #include<stdio.h>
 #include"exp_gps.h"
@@ -25,9 +25,9 @@ void close_gps(void){free_tsip(gps_buf);}
 static unsigned short get_hu(const unsigned char*s)
 {return*s|(((unsigned short)s[1])<<8);}
 static float get_f(const unsigned char*s)/*for little-endian IEEE-754 only*/
-{float x;memmove(&x,s,4);return x;}
+{float x;memcpy(&x,s,4);return x;}
 static double get_d(const unsigned char*s)/*for little-endian IEEE-754 only*/
-{double x;memmove(&x,s,4);return x;}
+{double x;memcpy(&x,s,4);return x;}
 static void exp_28(const unsigned char*s,int size,unsigned long long ticks)
 {double lat,lon,t;float alt,vlat,vlon,valt;int fix;printf("gps: %llu ",ticks);
  alt=get_f(s+=2);fix=get_hu(s+=16);t=get_d(s+=2);lat=get_d(s+=8);
