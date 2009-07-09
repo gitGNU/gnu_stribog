@@ -1,15 +1,15 @@
 trunc<autobuild
 |=[03 May 2008] exp.2008.apr.bootloader
 
-trunc branch
+active development branch
 main tasks are:
 
-Parsing the command line arguments of the host tools in
-a GNU-standard way
+Add a switch (IRLML6302 or IRLML5103) to switch off
+the magnetoresistive bridges
 
-Forking out the first release branch
+Replace ADXL210AE with LIS3LV02DL; adopt IDG-300 as the gyro
 
-Copyright (C) 2008, 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
+Copyright (C) 2008, 2009 Ineiev<ineiev@users.berlios.de>, super V 93
 
 This file is part of stribog.
 
