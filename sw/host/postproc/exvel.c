@@ -1,5 +1,5 @@
 /*ad-hoc INS mechanization; should be rewritten completely
-Copyright (C) 2006, 2007, 2008, 2009 Ineiev <ineiev@users.sourceforge.net>
+Copyright (C) 2006, 2007, 2008, 2009 Ineiev <ineiev@users.berlios.de>
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include<stdio.h>
 #include<string.h>
 #include<math.h>
+#ifndef M_PI
+#define M_PI 3.14159265358979323844
+#endif
 static int gps_interval=9,/*every (gps_interval+1)th fix is taken into account*/
  gps_cycle_phase,/*counter for gps_interval*/
  fix_mag_corr;/*whether mag_corr is used*/

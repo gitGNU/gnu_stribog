@@ -1,7 +1,7 @@
 /*decode GARMIN GPS25 LP series NMEA messages
  uses GPGGA, PGRMV
 Copyright (C) 2006, 2007, 2008, 2009\
- Ineiev <ineiev@users.sourceforge.net>, super V 93
+ Ineiev <ineiev@users.berlios.de>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 #include"verbosity_level.h"
 #include<string.h>
 #include<math.h>
+#ifndef M_PI
+#define M_PI 3.14159265358979323844
+#endif
 static double t_pos=-2,lla[3],vel[3],mcut_gga=-1;
 static int gga_outage=1,brief;static const int reaq_time=4;
 static void
