@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename stribog.info
 @set manualtitle Stribog Developer Manual
-@set UPDATED 20 Mar 2009
+@set UPDATED 10 Sept 2009
 @c VERSION is for the project, EDITION is for the manual
 @c EDITION names are unique within a VERSION
 @set EDITION 0-minus
@@ -575,11 +575,11 @@ Binutils releases tarballs are located at
 @uref{ftp://ftp.gnu.org/pub/gnu/binutils/},
 GCC can be found on the same FTP site at
 @uref{ftp://ftp.gnu.org/pub/gnu/gcc/}. We need single binutils tarball
-(e.g. @file{binutils-2.17.tar.bz2}), it's PGP signature
-(@file{binutils-2.17.tar.bz2.sig})
+(e.g. @file{binutils-2.19.1.tar.bz2}), it's PGP signature
+(@file{binutils-2.19.1.tar.bz2.sig})
 to make sure that we downloaded the file correctly, and the same
-for GCC (say, @file{gcc-core-4.2.2.tar.bz2} and @file{gcc-core-4.2.2.tar.bz2.sig}).
-You can download @file{gcc-4.2.2.tar.bz2} instead of @file{gcc-core-4.2.2.tar.bz2}.
+for GCC (say, @file{gcc-core-4.2.4.tar.bz2} and @file{gcc-core-4.2.4.tar.bz2.sig}).
+You can download @file{gcc-4.2.4.tar.bz2} instead of @file{gcc-core-4.2.4.tar.bz2}.
 It contains additional language support such as Fortran and Ada.
 We don't use these languages, and our ARM-hosted startup
 programs don't support them.
@@ -587,30 +587,15 @@ programs don't support them.
 You also will need to get public keys for these signatures and import
 them into your gnupg keyring. Read gnupg manual on how to do this.
 
-As of Feb 2009, we recommend binutils-2.17 and gcc-4.2.2.
+As of Sept 2009, we recommend binutils-2.19.1 and gcc-4.2.4;
+this combination seems to be relatively new and easy to install.
 
 Newer GCC releases series (gcc-4.3.0 and later) require MPFR library.
 This somewhat lengthens the dependencies list; it may require
-your GMP library update.
+your GMP library update. Then, gcc-4.4.0 requires GNU make-3.80 or later
+to install it.
 
-As for gcc-4.2.3 and gcc-4.2.4, they are OK for building our ARM toolchain,
-but unfortunately, AVR target is unbuildable on top of binutils-2.17 and
-even binutils-2.18; we have a good reason to hope that the next release
-will fix this.
-
-binutils-2.18 is not very stable; you'd better use binutils-2.19
-instead.
-
-Both binutils-2.18 and binutils-2.19 have installation problem
-with VPATH build when you have no recent enough makeinfo. You can
-either build the package in it's source directory @command{./configure ..},
-or install a new texinfo, or touch the info files, i.e. build with command
-
-@example
- make
- touch $(find ../binutils-2.19 -name "*.info")
- make
-@end example
+binutils-2.18 and binutils-2.19 are OK, but more difficult to install somewhere.
 
 If you have no fast Internet access and can't choose the versions,
 older releases will work, too. To be sure, gcc-3.4.6 and binutils-2.13
@@ -627,12 +612,15 @@ First, we shall need binutils and gcc for ARM. We go to
 @uref{ftp://ftp.gnu.org/pub/gnu} and get binutils and gcc.
 Generally, we use the latest releases, though there is
 nothing dependent on any supernew features in stribog. Currently we use
-binutils-2.17 with gcc-4.2.4. we used also binutils-2.16.1, binutils-2.16,
+binutils-2.19.1 with gcc-4.2.4. we used also binutils-2.16.1, binutils-2.16,
+binutils-2.17,
 gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2, gcc-4.2.3.
 
 The oldest versions of tools with which we have ever had a successful build
 are binutils-2.11.2 and gcc-3.3.4. We can't make our buggy programs work
 with earlier releases.
+
+Newer versions of GCC work, too; they just have longer dependencies.
 
 The next instructions come (with some changes)
 from @uref{http://www.gnuarm.com}.
@@ -653,7 +641,7 @@ This variable will be used in the next commands and means nothing by itself.
 Verify and (in case of success) unpack binutils archive:
 
 @example
- gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
+ gpg --verify binutils-2.19.1.tar.bz2.sig && tar xjf binutils-2.19.1.tar.bz2
 @end example
 
 Make directory for object files and cd there:
@@ -665,7 +653,7 @@ Make directory for object files and cd there:
 Configure, build and install binutils:
 
 @example
- ../binutils-2.17/configure --target=arm-unknown-elf --prefix=$armprefix
+ ../binutils-2.19.1/configure --target=arm-unknown-elf --prefix=$armprefix
  make
  make install
 @end example
@@ -674,7 +662,7 @@ Adjust your PATH variable in order to make the newly installed binutils accessib
 during gcc building:
 
 @example
- export PATH=$armprefix/bin:$PATH;
+ export PATH=$armprefix/bin:$PATH
 @end example
 
 @quotation Note
@@ -706,7 +694,7 @@ That's all. We don't need newlib, and stribog main board has no contacts
 to connect with gdb.
 
 @option{--disable-libssp} is mandatory for gcc-4.1.2 and later
-(currently up to gcc-4.3.1). Otherwise the compiler
+(currently up to gcc-4.3.4 and gcc-4.4.1). Otherwise the compiler
 will not build itself.
 
 You also may want to add @option{--disable-nls} both to binutils and gcc
@@ -729,6 +717,15 @@ You shall need to update gnupg. It comes with 1.0.6 version
 and it can't check new signatures; gnupg-1.4.9 is quite buildable there.
 @end enumerate
 
+Since gcc-4.3.0 the compiler has growing list of dependencies:
+@enumerate
+@item MPFR since gcc-4.3.0 (install it and add --with-mpfr=/your/mpfr/prefix
+to GCC @command{configure} invocation); MPFR may require updated GMP
+(--with-gmp=/updated/gmp/prefix in GCC @command{configure} line)
+@item GNU make-3.80 since gcc-4.4.0 (may be installed temporarily and removed after
+GCC installation)
+@end enumerate
+
 @node AVR Tools
 @subsection AVR Tools
 
@@ -742,22 +739,18 @@ versions wich we knew closely are 1.4.5 and 1.6.1.
 
 The binutils-gcc building is similar to ARM tools, but target triplet should be
 non-canonical (avr rather than avr-unknown-elf) ---
-this is an AVR-libc requirement; also, the latest working GCC release
-for this target is gcc-4.2.2. The later GCC releases require support
-for newer processors from binutils, but officially released
-binutils lack it. Current binutils snapshots do provide
-the necessary stuff, but it is to be released yet.
-You can get them from @url{ftp://sourceware.org/pub/binutils/snapshots}.
+this is a requirement of AVR-libc.
 
 @example
  export avrprefix=$HOME/avr
- f=binutils-2.17.tar.bz2;gpg --verify $f.sig && tar xjf $f
+ f=binutils-2.19.1.tar.bz2;gpg --verify $f.sig && tar xjf $f
  mkdir bui;cd bui
- ../binutils-2.17/configure --target=avr --prefix=$avrprefix
+ ../binutils-2.19.1/configure --target=avr --prefix=$avrprefix
  make
  make install
- f=gcc-core-4.2.2.tar.bz2;gpg --verify $f.sig && tar xjf $f
- ../gcc-4.2.2/configure --target=arm-unknown-elf --prefix=$avrprefix --enable-languages=c --disable-libssp
+ export PATH=$avrprefix/bin:$PATH
+ f=gcc-core-4.2.4.tar.bz2;gpg --verify $f.sig && tar xjf $f
+ ../gcc-4.2.4/configure --target=arm-unknown-elf --prefix=$avrprefix --enable-languages=c --disable-libssp
  make
  make install
 @end example
