@@ -1647,7 +1647,7 @@ N 42950 75300 42950 75200 4
 T 27905 74950 8 10 1 1 0 0 1
 description=stribog the attitude determination platform: main board
 T 27905 74250 8 10 1 1 0 0 1
-comment=Copyright (C) 2005, 2006, 2007\
+comment=Copyright (C) 2005, 2006, 2007, 2009\
 T 27905 73550 8 10 1 1 0 0 1
 documentation=This program is free software; you can redistribute it and/or modify
 T 27905 73350 8 10 1 1 0 0 1
@@ -1669,7 +1669,7 @@ documentation=You should have received a copy of the GNU General Public License
 T 27905 71550 8 10 1 1 0 0 1
 documentation=along with this program. If not, see <http://www.gnu.org/licenses/>.
 T 27905 74700 8 10 1 1 0 0 1
-description=revision date: 31XI2007
+description=revision date: 10IX2009
 N 57600 61650 57700 61650 4
 N 57700 62050 57600 62050 4
 N 57650 63250 57600 63250 4
@@ -1977,7 +1977,7 @@ T 52600 61500 5 10 0 0 270 0 1
 footprint=pin
 }
 T 28105 74000 8 10 1 1 0 0 1
-comment=Ineiev<ineiev@users.sourceforge.net>, super V 93
+comment=Ineiev<ineiev@users.berlios.de>, super V 93
 T 49805 57050 14 10 1 1 0 0 1
 comment=ADXL210 PWM period is R1*8nF;
 T 49805 56800 14 10 1 1 0 0 1
@@ -1985,7 +1985,7 @@ comment=the bandwidth (-3dB) is (1/(200kOhm*C[x,y]))
 T 49805 56450 14 10 1 1 0 0 1
 comment=For the current values period is 2 ms
 T 49805 56200 14 10 1 1 0 0 1
-comment=the bandwidth is 150 kHz
+comment=the bandwidth is 150 Hz
 N 31050 60450 32000 60450 4
 N 32000 59900 32000 60600 4
 N 32000 58300 32000 59100 4
