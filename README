@@ -1,5 +1,5 @@
 Copyright (C) 2006, 2007, 2008, 2009
- Ineiev <ineiev@users.sourceforge.net>, super V 93
+ Ineiev <ineiev@users.berlios.de>, super V 93
 This file is part of stribog.
 
 stribog is free design; you can redistribute it and/or modify
@@ -212,13 +212,20 @@ hw/packages/tp
 we distribute them under the GPLv3+ like (1a).
 
 (1d) Symbols possibly derived from geda-symbols package files:
-hw/sym/ATmega8-1.sym hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
-hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/dac7612.sym
+hw/sym/3.3V-plus-1s.sym
+hw/sym/ATmega8-1s.sym hw/sym/JTAG.sym hw/sym/adm202.sym hw/sym/adxl210.sym
+hw/sym/adxrs300.sym hw/sym/bat54c.sym hw/sym/capacitor-1s.sym
+hw/sym/capacitor-4s.sym hw/sym/coil-1s.sym
+hw/sym/crystal-1s.sym hw/sym/dac7612.sym
+hw/sym/DB9-1s.sym hw/sym/dual-opamp-1s.sym
+hw/sym/gnd-1s.sym hw/sym/header10-2s.sym
 hw/sym/hmc1021.sym hw/sym/hmc1022.sym hw/sym/ina118.sym
 hw/sym/irf7317.sym hw/sym/irf7507.sym hw/sym/irlml.sym hw/sym/lm74.sym
+hw/sym/lm7805-1s.sym
 hw/sym/lp2980AIM5-3.sym hw/sym/lp2980AIM5-5.sym hw/sym/lpc2138.sym
-hw/sym/ref195.sym hw/sym/tps76316.sym
-
+hw/sym/opamp-1s.sym hw/sym/quad_opamp-1s.sym
+hw/sym/ref195.sym hw/sym/resistor-2s.sym
+hw/sym/testpt-1s.sym hw/sym/tps76316.sym
 
 (1c), (1d) Files in hw/packages and hw/sym directories
 are not part of the stribog design, but are used with stribog.
@@ -496,12 +503,21 @@ with comments on origin added is as follows:
 ./hw/schematics/odo.png (0) GPLv3+ (object code)
 ./hw/schematics/stribog.png (0) GPLv3+ (object code)
 ./hw/stribog.sch (1b) GPLv3+
+./hw/sym/3.3V-plus-1s.sym (1d) GPLv2
 ./hw/sym/adm202.sym (1d) GPLv2
 ./hw/sym/adxl210.sym (1d) GPLv2
 ./hw/sym/adxrs300.sym (1d) GPLv2
-./hw/sym/ATmega8-1.sym (1d) GPLv2
+./hw/sym/ATmega8-1s.sym (1d) GPLv2
 ./hw/sym/bat54c.sym (1d) GPLv2
+./hw/sym/capacitor-1s.sym (1d) GPLv2
+./hw/sym/capacitor-4s.sym (1d) GPLv2
+./hw/sym/coil-1s.sym (1d) GPLv2
+./hw/sym/crystal-1s.sym (1d) GPLv2
 ./hw/sym/dac7612.sym (1d) GPLv2
+./hw/sym/DB9-1s.sym (1d) GPLv2
+./hw/sym/dual-opamp-1s.sym (1d) GPLv2
+./hw/sym/gnd-1s.sym (1d) GPLv2
+./header10-2s.sym (1d) GPLv2
 ./hw/sym/hmc1021.sym (1d) GPLv2
 ./hw/sym/hmc1022.sym (1d) GPLv2
 ./hw/sym/ina118.sym (1d) GPLv2
@@ -511,11 +527,16 @@ with comments on origin added is as follows:
 ./hw/sym/JTAG.sym (1d) GPLv2
 ./hw/sym/led.sym (1d) GPLv2
 ./hw/sym/lm74.sym (1d) GPLv2
+./hw/sym/lm7805-1s.sym (1d) GPLv2
 ./hw/sym/lp2980AIM5-3.sym (1d) GPLv2
 ./hw/sym/lp2980AIM5-5.sym (1d) GPLv2
 ./hw/sym/lpc2138.sym (1d) GPLv2
 ./hw/sym/README (0) GPLv3+
+./hw/sym/opamp-1s.sym (1d) GPLv2
+./hw/sym/quad_opamp-1s.sym (1d) GPLv2
 ./hw/sym/ref195.sym (1d) GPLv2
+./hw/sym/resistor-2s.sym (1d) GPLv2
+./hw/sym/testpt-1s.sym (1d) GPLv2
 ./hw/sym/tps76316.sym (1d) GPLv2
 ./INSTALL (3a) I_unlimited -> GPLv3+
 ./install-sh (3b) X_permissive -> GPLv3+

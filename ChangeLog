@@ -1,3 +1,12 @@
+10 Sep 2009 P.Kharitonov <ineiev@users.berlios.de>
+ * README he/Makefile.am.m4 hw/gyro.sch hw/odo.sch hw/sym/3.3V-plus-1s.sym
+  hw/sym/ATmega8-1.sym hw/sym/ATmega8-1s.sym
+  hw/sym/README hw/sym/capacitor-1s.sym hw/sym/capacitor-4s.sym
+  hw/sym/coil-1s.sym hw/sym/crystal-1s.sym sym/DB9-1s.sym
+  hw/sym/dual-opamp-1s.sym hw/sym/gnd-1s.sym hw/sym/header10-2s.sym
+  sym/lm7805-1s.sym hw/sym/opamp-1s.sym hw/sym/quad_opamp-1s.sym
+  hw/sym/resistor-2s.sym hw/sym/testpt-1s.sym:
+  mv some symbols from geda-1.4.3 to hw/sym
 20 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>
  * doc/stribog.texinfo: add instructions on building
  the tools in older environments

@@ -1,5 +1,5 @@
 Copyright (C) 2006, 2007, 2008, 2009
- Ineiev <ineiev@users.sourceforge.net>, super V 93
+ Ineiev <ineiev@users.berlios.de>, super V 93
 
 This directory contains gEDA symbols for the hardware part of stribog.
 stribog schematics were constructed using them but do not otherwise depend
@@ -38,13 +38,22 @@ because it was practically hard or absurd to maintain them there,
 or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
-ATmega8-1.sym
+3.3V-plus-1s.sym (3.3V-plus-1.sym from geda-1.4.3-20081231)
+ATmega8-1s.sym (ATmega8-1.sym from geda-1.4.3-20081231)
 JTAG.sym
 adm202.sym
 adxl210.sym
 adxrs300.sym
 bat54c.sym
+capacitor-1s.sym (capacitor-1.sym from geda-1.4.3-20081231, edited)
+capacitor-4s.sym (capacitor-4.sym from geda-1.4.3-20081231, edited)
+coil-1s.sym (coil-1.sym from geda-1.4.3-20081231, edited)
+crystal-1s.sym (crystal-1.sym from geda-1.4.3-20081231, edited)
 dac7612.sym
+DB9-1s.sym (DB9-1.sym from geda-1.4.3-20081231)
+dual-opamp-1s.sym (dual-opamp-1.sym from geda-1.4.3-20081231, edited)
+gnd-1s.sym (gnd-1.sym from geda-1.4.3-20081231)
+header10-2s.sym (header10-2.sym from geda-1.4.3-20081231)
 hmc1021.sym
 hmc1022.sym
 ina118.sym
@@ -53,10 +62,15 @@ irf7507.sym
 irlml.sym
 led.sym
 lm74.sym
+lm7805-1s.sym (lm7805-1.sym from geda-1.4.3-20081231)
 lp2980AIM5-3.sym
 lp2980AIM5-5.sym
 lpc2138.sym
+opamp-1s.sym (opamp-1.sym from geda-1.4.3-20081231, edited)
+quad_opamp-1s.sym (quad_opamp-1.sym from geda-1.4.3-20081231)
 ref195.sym
+resistor-2s.sym (resistor-2.sym from geda-1.4.3-20081231, edited)
+testpt-1s.sym (testpt-1.sym from geda-1.4.3-20081231)
 tps76316.sym
 
 These files should also have additional copyrights
