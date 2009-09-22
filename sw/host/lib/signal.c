@@ -1,6 +1,6 @@
 /* wrap-around standard signal handling routines
 Copyright (C) 2008, 2009\
- Ineiev<ineiev@users.sourceforge.net>, super V 93
+ Ineiev<ineiev@users.berlios.de>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,17 @@ static int signals_count;
 #else
 # define RETSIGTYPE void
 #endif
+#if HAVE_SIG_ATOMIC_T
+#else
+ typedef int sig_atomic_t;
+#endif
 #include"stribog_signal.h"
+#ifndef SIG_ERR
+ /* works for BSD 4.3 */
+#define SIGNAL_RETURN_INVALID(a) -1==(int)(a)
+#else
+#define SIGNAL_RETURN_INVALID(a) SIG_ERR==(a)
+#endif
 #include<stdlib.h>
 #include<stdio.h>
 enum local_constants
@@ -100,7 +110,7 @@ setup_a_signal(int sig)
  sa.sa_flags=0;return sigaction(sig,&sa,0);
 #else
  if(SIG_IGN==signal(sig,sig_hunter))
-  return SIG_ERR==signal(sig,SIG_IGN);
+  return SIGNAL_RETURN_INVALID(signal(sig,SIG_IGN));
  return 0;
 #endif
 }

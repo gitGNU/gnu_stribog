@@ -94,7 +94,11 @@ AC_CHECK_TYPES([error_t],,,
 [@%:@ifdef HAVE_ERRNO_H
 @%:@ include<errno.h>
 @%:@endif
-]] 
+]]
+)
+AC_CHECK_TYPES([sig_atomic_t],,,
+[[@%:@include<signal.h>
+]]
 )
 AC_C_CONST
 AC_C_INLINE
