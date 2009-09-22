@@ -108,8 +108,13 @@ AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([atexit sigaction sqrt strchr strerror vsnprintf])
-AC_CHECK_FUNCS([fchdir get_current_dir_name getcwd],[break],
- [AC_MSG_RESULT([
+getcwd_search_failed=yes
+AC_CHECK_FUNCS([fchdir get_current_dir_name getcwd],
+[
+ getcwd_search_failed=no
+])
+AS_CASE([$getcwd_search_failed],[yes],[
+ AC_MSG_RESULT([
 Note: no known function to implement directory caching found;
       fake implementation will be used
 ])]
