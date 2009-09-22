@@ -1,4 +1,6 @@
 22 Sep 2009 Ineiev <ineiev@users.berlios.de>
+ * confiture.ac lib/signal.c: port to traditional systems
+22 Sep 2009 Ineiev <ineiev@users.berlios.de>
  * configure.ac lib/save_wd.c: getcwd-family portability fixes
 09 Jul 2009 Ineiev <ineiev@users.berlios.de>
  * conloq.src/garmin_nmea.c conloq.src/lla.c postproc/exvel.c:
