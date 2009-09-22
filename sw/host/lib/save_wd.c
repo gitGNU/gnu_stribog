@@ -67,13 +67,15 @@ change_to_saved_wd(saved_wd_type*wd){return chdir(*wd);}
 #else
 /*no known function to implement the feature: provide fake implementation*/
 typedef int saved_wd_type;
-enum{initial_value=0;}
+enum{initial_value=0};
 static int
 valid_wd(saved_wd_type wd){return wd!=initial_value;}
 static int
 close_wd_instance(saved_wd_type*wd){return 0;}
 static void
-observe_wd(saved_wd_type*wd){*wd=!initial_wd_type;}
+observe_wd(saved_wd_type*wd){*wd=!initial_value;}
+static int
+change_to_saved_wd(saved_wd_type*wd){return 0;}
 #endif
 static saved_wd_type wd=initial_value;
 int
