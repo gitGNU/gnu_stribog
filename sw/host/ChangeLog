@@ -1,3 +1,5 @@
+23 Sep 2009 Ineiev <ineiev@users.berlios.de>
+ * Makefile.am: rm unneeded EXTRA_*_SOURCES
 22 Sep 2009 Ineiev <ineiev@users.berlios.de>
  * confiture.ac lib/signal.c: port to traditional systems
 22 Sep 2009 Ineiev <ineiev@users.berlios.de>
