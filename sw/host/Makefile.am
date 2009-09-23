@@ -1,6 +1,6 @@
 #stribog host tools: Makefile.am
 #Copyright (C) 2008, 2009\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+# Ineiev<ineiev@users.berlios.de>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@ else
  elk_serial_source=elk.src/serialia.c
  conloq_serial_source=conloq.src/serialia.c
 endif
-conloq_extra_serial=conloq.src/serialia.c conloq.src/wser.c
 AM_CPPFLAGS=-DPACKAGE_DATA_DIR="\"$(datadir)\""\
  -DSOURCE_DIR="\"$(srcdir)\""
 bin_PROGRAMS=elk\
@@ -54,7 +53,6 @@ conloq_SOURCES=conloq.src/conloq.c\
  conloq.src/preproc_gps.c conloq.src/preproc_gps.h\
  $(conloq_serial_source) conloq.src/serialia.h conloq.src/usage.h\
  conloq.src/verbosity_level.c conloq.src/verbosity_level.h
-EXTRA_conloq_SOURCES=$(conloq_extra_serial)
 conloq_LDADD=$(argp_lib) libstribog.a
 elig_SOURCES=conloq.src/elig.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h
@@ -74,7 +72,6 @@ magex_conloq_SOURCES=conloq.src/magex-conloq.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/verbosity_level.c conloq.src/verbosity_level.h
 magex_conloq_LDADD=$(argp_lib) libstribog.a
-EXTRA_magex_conloq_SOURCES=$(conloq_extra_serial)
 magexp_SOURCES=conloq.src/expon.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/magexp.c conloq.src/exp.h\
@@ -82,7 +79,6 @@ magexp_SOURCES=conloq.src/expon.c\
 magexp_LDADD=libstribog.a
 odo_SOURCES=conloq.src/odo.c conloq.src/verbosity_level.c\
  $(conloq_serial_source) conloq.src/serialia.h
-EXTRA_odo_SOURCES=$(conloq_extra_serial)
 parse_tsipex_SOURCES=conloq.src/parse_tsipex.c\
  conloq.src/get_u.h conloq.src/parse_tsip.c conloq.src/parse_tsip.h 
 parse_tsipex_LDADD=libstribog.a
@@ -94,7 +90,6 @@ elk_SOURCES=elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
  elk.src/serialia.h elk.src/ram_loader.c elk.src/ram_loader.h\
  elk.src/lpc_loader.c elk.src/lpc_loader.h
 elk_LDADD=$(argp_lib) libstribog.a
-EXTRA_elk_SOURCES=elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES=lib/error.c lib/stribog_error.h\
  lib/snprintf_checked.c lib/snprintf_checked.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
