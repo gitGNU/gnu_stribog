@@ -15,20 +15,28 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 SUBDIRS=postproc
+bin_PROGRAMS=caed conloq elig magex-conloq magexp odo parse_tsipex\
+ 50hz drift fdif lpfilter stat
 if the_host_is_windows
 #forced to use non-free OS API
  elk_serial_source=elk.src/wser.c
  conloq_serial_source=conloq.src/wser.c
-else
+ bin_PROGRAMS+=elk
+else  #!the_host_is_windows
+if have_termios_h
 #using POSIX RS-232 UART API by default
  elk_serial_source=elk.src/serialia.c
  conloq_serial_source=conloq.src/serialia.c
-endif
+ bin_PROGRAMS+=elk
+else  #!have_termios_h
+#probably what we can see is a traditional system without any RS-232 UART
+conloq_serial_source=conloq.src/0ser.c
+#no sense in building elk
+endif #!have_termios_h
+endif #!the_host_is_windows
 AM_CPPFLAGS=-DPACKAGE_DATA_DIR="\"$(datadir)\""\
  -DSOURCE_DIR="\"$(srcdir)\""
-bin_PROGRAMS=elk\
- caed conloq elig magex-conloq magexp odo parse_tsipex\
- 50hz drift fdif lpfilter stat
+
 noinst_LIBRARIES=libstribog.a
 dist_bin_SCRIPTS=conloq.src/scripts/expon utils/cutdrift
 noinst_PROGRAMS=expon.legacy save_wdex signalex

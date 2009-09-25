@@ -1,7 +1,7 @@
 /*conloq: talk (currently just listen) to a stribog board 
  from UNIX terminal via RS-232 UART
 Copyright (C) 2006, 2007, 2008, 2009\
- Ineiev<ineiev@users.sourceforge.net>, super V 93
+ Ineiev<ineiev@users.berlios.de>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-#include<config.h>
+#if HAVE_CONFIG_H
+# include<config.h>
+#endif
 #include"serialia.h"
 #include"usage.h"
 #include"parse_tsip.h"
@@ -221,6 +223,9 @@ read_data_from_file(unsigned char*s,int n)
 {return fread(s,1,n,input_file);}
 static int(*
 get_next_data)(unsigned char*,int)=data_lege;
+#if !HAVE_ATEXIT
+# define RETURN(a) {close_all();return a;}
+#endif
 int 
 main(int argc,char**argv)
 {long period;
@@ -244,20 +249,20 @@ main(int argc,char**argv)
  if(arguments.log_name)
  {if(!(f=fopen(arguments.log_name,"wb")))
   {error("can't open log file \"%s\"\n",arguments.log_name);
-   return no_log_file;
+   RETURN(no_log_file);
   }
  }else if(!(f=next_file(&(arguments.log_name))))
- {error("can't open log file\n");return no_log_file;}
+ {error("can't open log file\n");RETURN(no_log_file);}
  if(get_verbosity()>=pretty_verbose)
   printf("Log file \"%s\" opened\n",arguments.log_name);
  if(get_interaction_mode()==interactive_mode)
  {if(setup_stdin())
-  {error("can't setup your terminal\n");return stdin_unsetupable;}
+  {error("can't setup your terminal\n");RETURN(stdin_unsetupable);}
  }atexit(close_all);
  if(!arguments.file_input)if(initserialia(arguments.port_name))
  {error("can't open serial port \"%s\"\n",
    arguments.port_name?arguments.port_name:"[default]");
-  return no_uart;
+  RETURN(no_uart);
  }
  if(get_interaction_mode()==deaf_mode)dont_exit=forever;
  if(arguments.file_input)
@@ -271,7 +276,7 @@ main(int argc,char**argv)
   printf("for help on keypresses press 'h'\n");
  if(init_signals())
  {error("can't setup signal handlers\n");
-  return signals_unsetupable;
+  RETURN(signals_unsetupable);
  }
  if(arguments.escapes)enable_escapes(!0);
  if(get_verbosity()>=pretty_verbose)
@@ -298,5 +303,5 @@ main(int argc,char**argv)
     t=time(0);
    }if(arguments.timeout&&time(0)-t>arguments.timeout)break;
   }
- }return normal_exit;
+ }RETURN(normal_exit);
 }

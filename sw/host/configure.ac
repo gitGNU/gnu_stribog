@@ -25,7 +25,7 @@ AC_CONFIG_SRCDIR([utils/lpfilter.c])
 AH_TOP(
 [/* Copyright (C) 2009 Ineiev<ineiev@users.berlios.de>, super V 93
  This file is an object-code part of stribog: it is produced
- automatically with autoheader when invoking autoreconf
+ automatically with autoheader when invoking autoreconf.
  stribog is free design; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 3 of the License, or
@@ -34,6 +34,14 @@ AH_TOP(
 
 AC_CONFIG_HEADER([config.h])
 #Checks for features required via command-line arguments
+AC_MSG_CHECKING([whether to force dummy serial code in conloq])
+AC_ARG_WITH([dummy-port],
+[AS_HELP_STRING([--with-dummy-port],
+ [Force fake serial code implementation [no]])],,
+ [with_dummy_port=no
+ ]
+)
+AC_MSG_RESULT([$with_dummy_port])
 AC_MSG_CHECKING([default port for board loading (elk-port)])
 AC_ARG_WITH([elk-port],
 [AS_HELP_STRING([--with-elk-port],
@@ -78,7 +86,17 @@ AC_CHECK_LIB([m], [sqrt])
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h fcntl.h float.h stdint.h stdlib.h])
-AC_CHECK_HEADERS([string.h termios.h unistd.h sysexits.h])
+AC_CHECK_HEADERS([string.h sysexits.h sys/param.h])
+AC_CHECK_HEADER([termios.h],
+[have_termios_h=yes
+],
+[have_termios_h=no
+])
+AC_CHECK_HEADER([unistd.h],
+[have_unistd_h=yes
+],
+[have_unistd_h=no
+])
 
 AC_CHECK_HEADER([argp.h],,
 [AC_MSG_RESULT([no usable argp.h found; stribog version should be used])
@@ -100,6 +118,12 @@ AC_CHECK_TYPES([sig_atomic_t],,,
 [[@%:@include<signal.h>
 ]]
 )
+AC_CHECK_TYPES([time_t],,
+ [AC_DEFINE_UNQUOTED([time_t],[long],
+  [Define to the return type of time(3) when it is not time_t])],
+[[@%:@include<time.h>
+]]
+)
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_UINT16_T
@@ -111,32 +135,54 @@ AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([atexit sigaction sqrt strchr strerror vsnprintf])
+AC_CHECK_FUNCS([sigaction sqrt strchr strerror vsnprintf])
+
+AC_CHECK_FUNC([atexit],,
+[AC_DEFINE([atexit(a)],[/* empty macro */],
+ [ Define to the function that registers a handler invoked on exit ])
+])
+AC_CHECK_FUNC([remove],,
+ [AC_DEFINE_UNQUOTED([remove],[unlink],
+ [ Define to the function that deletes the file at given path ])
+])
 getcwd_search_failed=yes
-AC_CHECK_FUNCS([fchdir get_current_dir_name getcwd],
+AC_CHECK_FUNCS([fchdir get_current_dir_name getcwd getwd],
 [
  getcwd_search_failed=no
 ])
 AS_CASE([$getcwd_search_failed],[yes],[
  AC_MSG_RESULT([
-Note: no known function to implement directory caching found;
+Note: no known function to implement pathname caching found;
       fake implementation will be used
 ])]
 )
 
 #Checks for system services
 AC_CHECK_HEADERS([windows.h],
-[
-the_host_is_windows=yes
-],[
-the_host_is_windows=no
+[the_host_is_windows=yes
+],[the_host_is_windows=no
+])
+AC_CHECK_FUNC([CreateFile],[
+AS_CASE([$the_host_is_windows],[no],[
+AC_MSG_RESULT([
+Note: your system has windows.h header, but it seems to be no Windows
+
+])
+])],
+[the_host_is_windows=no
 ])
 AS_CASE([$enable_own_argp],
  [yes],[
  AC_CONFIG_LINKS([argp.h:lib/argp/argp.h])
  AC_SUBST(argp_lib,[libargp.a])
 ])
+AS_CASE([$with_dummy_port],[yes],
+[the_host_is_windows=no
+ have_termios_h=no
+])
+
 AM_CONDITIONAL([the_host_is_windows],[test $the_host_is_windows = yes])
+AM_CONDITIONAL([have_termios_h],[test $have_termios_h = yes])
 AM_CONDITIONAL([build_own_argp],[test $enable_own_argp = yes])
 
 #common headers are linked to top build directory
