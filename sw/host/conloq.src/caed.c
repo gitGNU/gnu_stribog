@@ -1,6 +1,6 @@
 /*caed: split stribog data file on pieces
 Copyright (C) 2006, 2007, 2008, 2009\
- Ineiev<ineiev@users.sourceforge.net>, super V 93
+ Ineiev<ineiev@users.berlios.de>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -15,7 +15,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.*/
-#include<config.h>
+#if HAVE_CONFIG_H
+# include<config.h>
+#endif
 #include"parse_tsip.h"
 #include<stribog_crc32.h>
 #include<stribog_error.h>

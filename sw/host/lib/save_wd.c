@@ -1,6 +1,6 @@
 /*save-reload current working directory
 Copyright (C) 2008, 2009\
- Ineiev<ineiev@users.sourceforge.net>, super V 93
+ Ineiev<ineiev@users.berlios.de>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
  #include<config.h>
 #endif
 #include"save_wd.h"
-#include<unistd.h>
+#if HAVE_UNISTD_H
+# include<unistd.h>
+#endif
 #if HAVE_FCHDIR
 /*open/fchdir: the preferable means*/
 #include<fcntl.h>
@@ -50,13 +52,27 @@ observe_wd(saved_wd_type*wd)
 static int
 change_to_saved_wd(saved_wd_type*wd)
 {return chdir(*wd);}
-#elif HAVE_GETCWD
+#elif HAVE_GETCWD || HAVE_GETWD
 /*no get_current_dir_name: hope getcwd is available*/
+#if !HAVE_GETCWD
+/*no getcwd, using unsecure getwd*/
+#define getcwd(a,b) getwd(a)
+#endif
+#if HAVE_SYS_PARAM_H
+#include<sys/param.h>
+#endif
+#ifndef PATH_MAX
+#ifdef MAXPATHLEN
+#define PATH_MAX MAXPATHLEN
+#else
+#define PATH_MAX 4913
+#endif
+#endif
 typedef char*saved_wd_type;
-static char buffer[4913];
+static char buffer[PATH_MAX+1];
 enum{initial_value=0};
 static int
-valid_wd(saved_wd_type wd){return wd;}
+valid_wd(saved_wd_type wd){return wd!=(saved_wd_type)0;}
 static int
 close_wd_instance(saved_wd_type*wd){return 0;}
 static void

@@ -1,5 +1,6 @@
 /*parse_tsipex: parse_tsip module test
-Copyright (C) 2007, 2008, 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
+Copyright (C) 2007, 2008, 2009\
+ Ineiev<ineiev@users.berlios.de>, super V 93
 This program is a part of the stribog host software section
 
 This program is free software; you can redistribute it and/or modify
@@ -40,11 +41,11 @@ expone(const unsigned char*s,int size)
  if(size!=message_length+4)
   error("message length changed (%i, received %i)\n",message_length,size-4);
  for(i=0;i<message_length;i++)if(buf[i]!=s[i])
-  error("message changed (pos %llu: 0x%2.2X, received 0x%2.2X)\n",
-   bytes_processed,buf[i],s[i]);
- if(u%83521==0)
- {printf("messages processed: %lluKi (%llu Kibytes)\r",
-   u>>10,bytes_processed>>10);
+  error("message changed (pos %lu: 0x%2.2X, received 0x%2.2X)\n",
+   (unsigned long)bytes_processed,buf[i],s[i]);
+ if(u%4913==0)
+ {printf("messages processed: %luKi (%lu Kibytes)\r",
+   (unsigned long)(u>>10),(unsigned long)(bytes_processed>>10));
   fflush(stdout);
  }
 }int

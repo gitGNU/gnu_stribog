@@ -1,5 +1,5 @@
 /* odometer host-side test
-Copyright (C) 2007, 2008, 2009 Ineiev<ineiev@users.sourceforge.net>, super V 93
+Copyright (C) 2007, 2008, 2009 Ineiev<ineiev@users.berlios.de>, super V 93
 This is an auxiliary part of stribog
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.*/
 PC (DB9-M)pin 2<- pin 3 (DB9-M) odometer
           pin 3 ->pin 3 (DB9-F)
           pin 5<-> (GND)*/
+#if HAVE_CONFIG_H
+# include<config.h>
+#endif
 #include<stdio.h>
 #include<time.h>
 #include<stdlib.h>
@@ -67,5 +70,9 @@ main(int argc,char**argv)
   if(!feof(sample))
   {if(t!=time(0)){c=getc(sample);while(1!=scribe(&c,1));}}
   else{fclose(sample);sample=fopen(argv[2],"rb");time(&t);}
- }return 0;
+ }
+#if !HAVE_ATEXIT
+ close_all();
+#endif
+ return 0;
 }

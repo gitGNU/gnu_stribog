@@ -1,5 +1,19 @@
+25 Sep 2009 Ineiev <ineiev@users.berlios.de>
+ * Makefile.am configure.ac conloq.src/0ser.c conloq.src/caed.c
+ conloq.src/conloq.c conloq.src/elig.c conloq.src/magex-conloq.c
+ conloq.src/odo.c conloq.src/parse_tsipex.c conloq.src/serialia.c
+ conloq.src/wser.c lib/save_wd.c lib/save_wdex.c: buildability fixes
+ . use getwd when nothing more is available
+ . enclose #include<config.h> into #if HAVE_CONFIG_H...#endif
+ . when remove() is absent, use unlink()
+ . when atexit() is absent, provide a buildability fallback
+ . replace a %llu printf spell with %lu in parse_tsipex
+ . honour RS-232less systems
+ . honour systems without unistd.h
 23 Sep 2009 Ineiev <ineiev@users.berlios.de>
  * Makefile.am: rm unneeded EXTRA_*_SOURCES
+22 Sep 2009 Ineiev <ineiev@users.berlios.de>
+ * lib/save_wd.c lib/save_wdex.c: honour systems without unistd.h
 22 Sep 2009 Ineiev <ineiev@users.berlios.de>
  * confiture.ac lib/signal.c: port to traditional systems
 22 Sep 2009 Ineiev <ineiev@users.berlios.de>
