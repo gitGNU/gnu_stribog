@@ -1,7 +1,7 @@
 This is ../../stribog/doc/stribog.info, produced by makeinfo version
-4.8 from ../../stribog/doc/stribog.texinfo.
+4.11 from ../../stribog/doc/stribog.texinfo.
 
-   This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
+This manual is for stribog 0.0.1-rc0-minus (edition 0-minus, updated
 20 Mar 2009), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008, 2009 Ineiev
@@ -127,7 +127,7 @@ bind you any more.
 
    ---------- Footnotes ----------
 
-   (1)  As a special exception, you may use gschem symbols derived from
+   (1) As a special exception, you may use gschem symbols derived from
 external sources (e.g. geda symbols) that are distributed under the GNU
 GPL version 2 when they are not originally distributed under the GNU
 GPLv3-compatible license. these symbols must be distributed with other
@@ -892,7 +892,7 @@ You'll need geda-20041228 release.
    Install guile-devel-1.3.4-19, gtk+-devel-1.2.10-15
 perl-XML-Parser-2.30-15 and their dependencies.
 
-   The installation procedure is similar to described in *Note
+   The installation procedure is similar to described in *note
 geda-build::.  The only differences are versions of packages and
 absence of VPATH build support: you should `configure' from sources top
 directory: `./configure etc.'
@@ -904,7 +904,27 @@ Surprisingly, current PCB can be build almost out-of-box (use
 pcb-20080208: pcb-20081128 won't work).  It is lesstif HID that makes
 it possible.
 
-   (install lesstif-devel-0.93.18-2 and it's dependencies)
+   Install lesstif-devel-0.93.18-2 and it's dependencies from RPMs.
+
+   Then intltool-0.40.3 and as a dependency gettext-0.17 will be needed.
+
+   Modify your environment:
+
+      export gedaprefix=$HOME/geda
+      export PATH=$gedaprefix/bin:$PATH
+      export LD_LIBRARY_PATH=$gedaprefix/lib:$LD_LIBRARY_PATH
+
+   Install the packages:
+
+      gpg --verify gettext-0.17.tar.gz.sig && tar xzf gettext-0.17.tar.gz
+      mkdir bui;cd bui
+      ../gettext-0.17/configure --prefix=$gedaprefix && make install
+      cd ..;rm -r gettext-0.17 bui
+     # md5sum -c intltool-0.40.3.md5sum
+      tar xjf intltool-0.40.3.tar.bz2
+      mkdir bui;cd bui
+      ../intltool-0.40.3/configure --prefix=$gedaprefix && make install
+      cd ..;rm -r intltool-0.40.3 bui
 
    Configure PCB with command
 
@@ -2579,49 +2599,49 @@ permit their use in free software.
 
 
 Tag Table:
-Node: Top911
-Node: Distribution3958
-Ref: Distribution-Footnote-15486
-Ref: symbols-exception5493
-Node: Jurisdictions5919
-Node: Contents9905
-Node: Final remarks11537
-Node: Intro12218
-Node: In Short12526
-Node: Address14057
-Node: Name14486
-Ref: Name-Footnote-115876
-Ref: Name-Footnote-215970
-Node: Getting Started16047
-Node: Prerequisites16246
-Ref: Prerequisites-Footnote-118721
-Node: Tools Used18810
-Node: GNU Cross-tools19806
-Node: ARM Tools22558
-Node: AVR Tools25837
-Node: PCB27970
-Ref: PCB-Footnote-130191
-Node: gerbv30339
-Ref: gerbv-Footnote-131449
-Ref: gerbv-Footnote-231924
-Node: gEDA32040
-Ref: geda-build33249
-Ref: gEDA-Footnote-134665
-Node: Older systems34888
-Ref: older-geda35279
-Node: Building stribog38877
-Node: Host Files39408
-Node: Hardware Manufacturing40835
-Ref: Hardware Manufacturing-Footnote-143187
-Node: Firmware Installation43275
-Node: Host-side Utilities44586
-Node: In-depth Guide46234
-Node: Using Git46532
-Node: Git Commands47184
-Node: Branches49673
-Node: VCS Contents51523
-Node: Autoreconf52744
-Node: GNU General Public License53523
-Node: GNU Free Documentation License91130
+Node: Top909
+Node: Distribution3956
+Ref: Distribution-Footnote-15484
+Ref: symbols-exception5491
+Node: Jurisdictions5916
+Node: Contents9902
+Node: Final remarks11534
+Node: Intro12215
+Node: In Short12523
+Node: Address14054
+Node: Name14483
+Ref: Name-Footnote-115873
+Ref: Name-Footnote-215967
+Node: Getting Started16044
+Node: Prerequisites16243
+Ref: Prerequisites-Footnote-118718
+Node: Tools Used18807
+Node: GNU Cross-tools19803
+Node: ARM Tools22555
+Node: AVR Tools25834
+Node: PCB27967
+Ref: PCB-Footnote-130188
+Node: gerbv30336
+Ref: gerbv-Footnote-131446
+Ref: gerbv-Footnote-231921
+Node: gEDA32037
+Ref: geda-build33246
+Ref: gEDA-Footnote-134662
+Node: Older systems34885
+Ref: older-geda35276
+Node: Building stribog39563
+Node: Host Files40094
+Node: Hardware Manufacturing41521
+Ref: Hardware Manufacturing-Footnote-143873
+Node: Firmware Installation43961
+Node: Host-side Utilities45272
+Node: In-depth Guide46920
+Node: Using Git47218
+Node: Git Commands47870
+Node: Branches50359
+Node: VCS Contents52209
+Node: Autoreconf53430
+Node: GNU General Public License54209
+Node: GNU Free Documentation License91816
 
 End Tag Table

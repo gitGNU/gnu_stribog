@@ -1,8 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+/* Copyright (C) 2009 Ineiev<ineiev@users.berlios.de>, super V 93
  This file is an object-code part of stribog: it is produced
- automatically with autoheader when invoking autoreconf
+ automatically with autoheader when invoking autoreconf.
  stribog is free design; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 3 of the License, or
@@ -14,9 +14,6 @@
 
 /* Default port for board uploading (elk) */
 #undef ELK_PORT
-
-/* Define to 1 if you have the `atexit' function. */
-#undef HAVE_ATEXIT
 
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
 #undef HAVE_DOPRNT
@@ -39,6 +36,9 @@
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
 
+/* Define to 1 if you have the `getwd' function. */
+#undef HAVE_GETWD
+
 /* Define to 1 if you have the `get_current_dir_name' function. */
 #undef HAVE_GET_CURRENT_DIR_NAME
 
@@ -52,14 +52,14 @@
    to 0 otherwise. */
 #undef HAVE_MALLOC
 
-/* Define to 1 if you have the `memmove' function. */
-#undef HAVE_MEMMOVE
-
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
 /* Define to 1 if you have the `sigaction' function. */
 #undef HAVE_SIGACTION
+
+/* Define to 1 if the system has the type `sig_atomic_t'. */
+#undef HAVE_SIG_ATOMIC_T
 
 /* Define to 1 if you have the `sqrt' function. */
 #undef HAVE_SQRT
@@ -85,20 +85,26 @@
 /* Define to 1 if you have the <sysexits.h> header file. */
 #undef HAVE_SYSEXITS_H
 
+/* Define to 1 if you have the <sys/param.h> header file. */
+#undef HAVE_SYS_PARAM_H
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
-/* Define to 1 if you have the <termios.h> header file. */
-#undef HAVE_TERMIOS_H
+/* Define to 1 if the system has the type `time_t'. */
+#undef HAVE_TIME_T
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
 /* Define to 1 if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
 
 /* Define to 1 if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
@@ -165,6 +171,9 @@
 #endif
 
 
+/* Define to the function that registers a handler invoked on exit */
+#undef atexit
+
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
 
@@ -176,6 +185,12 @@
 
 /* Define to rpl_malloc if the replacement function should be used. */
 #undef malloc
+
+/* Define to the function that deletes the file at given path */
+#undef remove
+
+/* Define to the return type of time(3) when it is not time_t */
+#undef time_t
 
 /* Define to the type of an unsigned integer type of width exactly 16 bits if
    such a type exists and the standard includes do not define it. */
