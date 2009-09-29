@@ -35,14 +35,17 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = elk$(EXEEXT) caed$(EXEEXT) conloq$(EXEEXT) \
-	elig$(EXEEXT) magex-conloq$(EXEEXT) magexp$(EXEEXT) \
-	odo$(EXEEXT) parse_tsipex$(EXEEXT) 50hz$(EXEEXT) \
-	drift$(EXEEXT) fdif$(EXEEXT) lpfilter$(EXEEXT) stat$(EXEEXT)
+bin_PROGRAMS = caed$(EXEEXT) conloq$(EXEEXT) elig$(EXEEXT) \
+	magex-conloq$(EXEEXT) magexp$(EXEEXT) odo$(EXEEXT) \
+	parse_tsipex$(EXEEXT) 50hz$(EXEEXT) drift$(EXEEXT) \
+	fdif$(EXEEXT) lpfilter$(EXEEXT) stat$(EXEEXT) $(am__EXEEXT_1) \
+	$(am__EXEEXT_2)
+@the_host_is_windows_TRUE@am__append_1 = elk
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@am__append_2 = elk
 noinst_PROGRAMS = expon.legacy$(EXEEXT) save_wdex$(EXEEXT) \
-	signalex$(EXEEXT) $(am__EXEEXT_1)
-@build_own_argp_TRUE@am__append_1 = libargp.a
-@build_own_argp_TRUE@am__append_2 = argpex
+	signalex$(EXEEXT) $(am__EXEEXT_3)
+@build_own_argp_TRUE@am__append_3 = libargp.a
+@build_own_argp_TRUE@am__append_4 = argpex
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(dist_bin_SCRIPTS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
@@ -76,10 +79,13 @@ libstribog_a_LIBADD =
 am_libstribog_a_OBJECTS = error.$(OBJEXT) snpr_ck.$(OBJEXT) \
 	save_wd.$(OBJEXT) crc32.$(OBJEXT) signal.$(OBJEXT)
 libstribog_a_OBJECTS = $(am_libstribog_a_OBJECTS)
+@the_host_is_windows_TRUE@am__EXEEXT_1 = elk$(EXEEXT)
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@am__EXEEXT_2 =  \
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@	elk$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(pkgdatadir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
-@build_own_argp_TRUE@am__EXEEXT_1 = argpex$(EXEEXT)
+@build_own_argp_TRUE@am__EXEEXT_3 = argpex$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
 am_50hz_OBJECTS = 50hz.$(OBJEXT)
 50hz_OBJECTS = $(am_50hz_OBJECTS)
@@ -97,10 +103,12 @@ am__conloq_SOURCES_DIST = conloq.src/conloq.c conloq.src/exp-brief.c \
 	conloq.src/garmin_nmea.c conloq.src/hodo.c conloq.src/hodo.h \
 	conloq.src/lla.c conloq.src/lla.h conloq.src/parse_tsip.c \
 	conloq.src/parse_tsip.h conloq.src/preproc_gps.c \
-	conloq.src/preproc_gps.h conloq.src/serialia.c \
-	conloq.src/wser.c conloq.src/serialia.h conloq.src/usage.h \
-	conloq.src/verb_level.c conloq.src/verb_level.h
-@the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
+	conloq.src/preproc_gps.h conloq.src/0ser.c \
+	conloq.src/serialia.c conloq.src/wser.c conloq.src/serialia.h \
+	conloq.src/usage.h conloq.src/verb_level.c \
+	conloq.src/verb_level.h
+@have_termios_h_FALSE@@the_host_is_windows_FALSE@am__objects_1 = 0ser.$(OBJEXT)
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@am__objects_1 = serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_1 = wser.$(OBJEXT)
 am_conloq_OBJECTS = conloq.$(OBJEXT) exp-brief.$(OBJEXT) \
 	proc_kp.$(OBJEXT) garmin_nmea.$(OBJEXT) hodo.$(OBJEXT) \
@@ -118,7 +126,7 @@ am__elk_SOURCES_DIST = elk.src/elk.c elk.src/serial.c \
 	elk.src/serialia.c elk.src/wser.c elk.src/serialia.h \
 	elk.src/ram_ldr.c elk.src/ram_ldr.h elk.src/lpc_ldr.c \
 	elk.src/lpc_ldr.h
-@the_host_is_windows_FALSE@am__objects_2 = elk-serialia.$(OBJEXT)
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@am__objects_2 = elk-serialia.$(OBJEXT)
 @the_host_is_windows_TRUE@am__objects_2 = elk-wser.$(OBJEXT)
 am_elk_OBJECTS = elk-elk.$(OBJEXT) elk-serial.$(OBJEXT) \
 	$(am__objects_2) elk-ram_ldr.$(OBJEXT) elk-lpc_ldr.$(OBJEXT)
@@ -137,8 +145,8 @@ am_lpfilter_OBJECTS = lpfilter.$(OBJEXT)
 lpfilter_OBJECTS = $(am_lpfilter_OBJECTS)
 lpfilter_LDADD = $(LDADD)
 am__magex_conloq_SOURCES_DIST = conloq.src/magex-conloq.c \
-	conloq.src/magexp.c conloq.src/exp.h conloq.src/serialia.c \
-	conloq.src/wser.c conloq.src/serialia.h \
+	conloq.src/magexp.c conloq.src/exp.h conloq.src/0ser.c \
+	conloq.src/serialia.c conloq.src/wser.c conloq.src/serialia.h \
 	conloq.src/parse_tsip.c conloq.src/parse_tsip.h \
 	conloq.src/verb_level.c conloq.src/verb_level.h
 am_magex_conloq_OBJECTS = magex-conloq.$(OBJEXT) magexp.$(OBJEXT) \
@@ -150,7 +158,8 @@ am_magexp_OBJECTS = expon.$(OBJEXT) parse_tsip.$(OBJEXT) \
 magexp_OBJECTS = $(am_magexp_OBJECTS)
 magexp_DEPENDENCIES = libstribog.a
 am__odo_SOURCES_DIST = conloq.src/odo.c conloq.src/verb_level.c \
-	conloq.src/serialia.c conloq.src/wser.c conloq.src/serialia.h
+	conloq.src/0ser.c conloq.src/serialia.c conloq.src/wser.c \
+	conloq.src/serialia.h
 am_odo_OBJECTS = odo.$(OBJEXT) verb_level.$(OBJEXT) $(am__objects_1)
 odo_OBJECTS = $(am_odo_OBJECTS)
 odo_LDADD = $(LDADD)
@@ -177,22 +186,19 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(libargp_a_SOURCES) $(libstribog_a_SOURCES) $(50hz_SOURCES) \
 	$(argpex_SOURCES) $(caed_SOURCES) $(conloq_SOURCES) \
-	$(EXTRA_conloq_SOURCES) $(drift_SOURCES) $(elig_SOURCES) \
-	$(elk_SOURCES) $(EXTRA_elk_SOURCES) $(expon_legacy_SOURCES) \
-	$(fdif_SOURCES) $(lpfilter_SOURCES) $(magex_conloq_SOURCES) \
-	$(EXTRA_magex_conloq_SOURCES) $(magexp_SOURCES) $(odo_SOURCES) \
-	$(EXTRA_odo_SOURCES) $(parse_tsipex_SOURCES) \
-	$(save_wdex_SOURCES) $(signalex_SOURCES) $(stat_SOURCES)
-DIST_SOURCES = $(libargp_a_SOURCES) $(libstribog_a_SOURCES) \
-	$(50hz_SOURCES) $(argpex_SOURCES) $(caed_SOURCES) \
-	$(am__conloq_SOURCES_DIST) $(EXTRA_conloq_SOURCES) \
-	$(drift_SOURCES) $(elig_SOURCES) $(am__elk_SOURCES_DIST) \
-	$(EXTRA_elk_SOURCES) $(expon_legacy_SOURCES) $(fdif_SOURCES) \
-	$(lpfilter_SOURCES) $(am__magex_conloq_SOURCES_DIST) \
-	$(EXTRA_magex_conloq_SOURCES) $(magexp_SOURCES) \
-	$(am__odo_SOURCES_DIST) $(EXTRA_odo_SOURCES) \
+	$(drift_SOURCES) $(elig_SOURCES) $(elk_SOURCES) \
+	$(expon_legacy_SOURCES) $(fdif_SOURCES) $(lpfilter_SOURCES) \
+	$(magex_conloq_SOURCES) $(magexp_SOURCES) $(odo_SOURCES) \
 	$(parse_tsipex_SOURCES) $(save_wdex_SOURCES) \
 	$(signalex_SOURCES) $(stat_SOURCES)
+DIST_SOURCES = $(libargp_a_SOURCES) $(libstribog_a_SOURCES) \
+	$(50hz_SOURCES) $(argpex_SOURCES) $(caed_SOURCES) \
+	$(am__conloq_SOURCES_DIST) $(drift_SOURCES) $(elig_SOURCES) \
+	$(am__elk_SOURCES_DIST) $(expon_legacy_SOURCES) \
+	$(fdif_SOURCES) $(lpfilter_SOURCES) \
+	$(am__magex_conloq_SOURCES_DIST) $(magexp_SOURCES) \
+	$(am__odo_SOURCES_DIST) $(parse_tsipex_SOURCES) \
+	$(save_wdex_SOURCES) $(signalex_SOURCES) $(stat_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -322,7 +328,7 @@ top_srcdir = @top_srcdir@
 
 #stribog host tools: Makefile.am
 #Copyright (C) 2008, 2009\
-# Ineiev<ineiev@users.sourceforge.net>, super V 93
+# Ineiev<ineiev@users.berlios.de>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -338,16 +344,18 @@ top_srcdir = @top_srcdir@
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 SUBDIRS = postproc
 #using POSIX RS-232 UART API by default
-@the_host_is_windows_FALSE@elk_serial_source = elk.src/serialia.c
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@elk_serial_source = elk.src/serialia.c
 #forced to use non-free OS API
 @the_host_is_windows_TRUE@elk_serial_source = elk.src/wser.c
-@the_host_is_windows_FALSE@conloq_serial_source = conloq.src/serialia.c
+#probably what we can see is a traditional system without any RS-232 UART
+@have_termios_h_FALSE@@the_host_is_windows_FALSE@conloq_serial_source = conloq.src/0ser.c
+@have_termios_h_TRUE@@the_host_is_windows_FALSE@conloq_serial_source = conloq.src/serialia.c
 @the_host_is_windows_TRUE@conloq_serial_source = conloq.src/wser.c
-conloq_extra_serial = conloq.src/serialia.c conloq.src/wser.c
+#no sense in building elk
 AM_CPPFLAGS = -DPACKAGE_DATA_DIR="\"$(datadir)\""\
  -DSOURCE_DIR="\"$(srcdir)\""
 
-noinst_LIBRARIES = libstribog.a $(am__append_1)
+noinst_LIBRARIES = libstribog.a $(am__append_3)
 dist_bin_SCRIPTS = conloq.src/scripts/expon utils/cutdrift
 EXTRA_DIST = tests/serial.c tests/term.c
 libargp_a_SOURCES = lib/argp/argp.c
@@ -368,7 +376,6 @@ conloq_SOURCES = conloq.src/conloq.c\
  $(conloq_serial_source) conloq.src/serialia.h conloq.src/usage.h\
  conloq.src/verb_level.c conloq.src/verb_level.h
 
-EXTRA_conloq_SOURCES = $(conloq_extra_serial)
 conloq_LDADD = $(argp_lib) libstribog.a
 elig_SOURCES = conloq.src/elig.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h
@@ -391,7 +398,6 @@ magex_conloq_SOURCES = conloq.src/magex-conloq.c\
  conloq.src/verb_level.c conloq.src/verb_level.h
 
 magex_conloq_LDADD = $(argp_lib) libstribog.a
-EXTRA_magex_conloq_SOURCES = $(conloq_extra_serial)
 magexp_SOURCES = conloq.src/expon.c\
  conloq.src/parse_tsip.c conloq.src/parse_tsip.h\
  conloq.src/magexp.c conloq.src/exp.h\
@@ -401,7 +407,6 @@ magexp_LDADD = libstribog.a
 odo_SOURCES = conloq.src/odo.c conloq.src/verb_level.c\
  $(conloq_serial_source) conloq.src/serialia.h
 
-EXTRA_odo_SOURCES = $(conloq_extra_serial)
 parse_tsipex_SOURCES = conloq.src/parse_tsipex.c\
  conloq.src/get_u.h conloq.src/parse_tsip.c conloq.src/parse_tsip.h 
 
@@ -412,7 +417,6 @@ elk_SOURCES = elk.src/elk.c elk.src/serial.c $(elk_serial_source)\
  elk.src/lpc_ldr.c elk.src/lpc_ldr.h
 
 elk_LDADD = $(argp_lib) libstribog.a
-EXTRA_elk_SOURCES = elk.src/serialia.c elk.src/wser.c
 libstribog_a_SOURCES = lib/error.c lib/sbg_error.h\
  lib/snpr_ck.c lib/snpr_ck.h\
  lib/save_wd.c lib/save_wd.h lib/crc32.c lib/crc32.h\
@@ -597,6 +601,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/0ser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/50hz.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/argp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/argpex.Po@am__quote@
@@ -888,6 +893,20 @@ preproc_gps.obj: conloq.src/preproc_gps.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/preproc_gps.c' object='preproc_gps.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o preproc_gps.obj `if test -f 'conloq.src/preproc_gps.c'; then $(CYGPATH_W) 'conloq.src/preproc_gps.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/preproc_gps.c'; fi`
+
+0ser.o: conloq.src/0ser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 0ser.o -MD -MP -MF $(DEPDIR)/0ser.Tpo -c -o 0ser.o `test -f 'conloq.src/0ser.c' || echo '$(srcdir)/'`conloq.src/0ser.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/0ser.Tpo $(DEPDIR)/0ser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/0ser.c' object='0ser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 0ser.o `test -f 'conloq.src/0ser.c' || echo '$(srcdir)/'`conloq.src/0ser.c
+
+0ser.obj: conloq.src/0ser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT 0ser.obj -MD -MP -MF $(DEPDIR)/0ser.Tpo -c -o 0ser.obj `if test -f 'conloq.src/0ser.c'; then $(CYGPATH_W) 'conloq.src/0ser.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/0ser.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/0ser.Tpo $(DEPDIR)/0ser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conloq.src/0ser.c' object='0ser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o 0ser.obj `if test -f 'conloq.src/0ser.c'; then $(CYGPATH_W) 'conloq.src/0ser.c'; else $(CYGPATH_W) '$(srcdir)/conloq.src/0ser.c'; fi`
 
 serialia.o: conloq.src/serialia.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT serialia.o -MD -MP -MF $(DEPDIR)/serialia.Tpo -c -o serialia.o `test -f 'conloq.src/serialia.c' || echo '$(srcdir)/'`conloq.src/serialia.c

@@ -1,8 +1,8 @@
 This is ../../stribog/doc/stribog.info, produced by makeinfo version
-4.8 from ../../stribog/doc/stribog.texinfo.
+4.11 from ../../stribog/doc/stribog.texinfo.
 
-   This manual is for stribog 0.1-minus (edition 0-minus, updated
-20 Mar 2009), which is a MEMS-based attitude sensing platform.
+This manual is for stribog 0.1-minus (edition 0-minus, updated 10 Sept
+2009), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008, 2009 Ineiev
 
@@ -26,7 +26,7 @@ File: stribog.info,  Node: Top,  Next: Distribution,  Up: (dir)
 Stribog Developer Manual
 ************************
 
-This manual is for stribog 0.1-minus (edition 0-minus, updated 20 Mar
+This manual is for stribog 0.1-minus (edition 0-minus, updated 10 Sept
 2009), which is a MEMS-based attitude sensing platform.
 
    Copyright (C) 2008, 2009 Ineiev
@@ -127,7 +127,7 @@ bind you any more.
 
    ---------- Footnotes ----------
 
-   (1)  As a special exception, you may use gschem symbols derived from
+   (1) As a special exception, you may use gschem symbols derived from
 external sources (e.g. geda symbols) that are distributed under the GNU
 GPL version 2 when they are not originally distributed under the GNU
 GPLv3-compatible license. these symbols must be distributed with other
@@ -494,39 +494,27 @@ prescribes `mkdir obj;cd obj;../configure ...'.
    Binutils releases tarballs are located at
 `ftp://ftp.gnu.org/pub/gnu/binutils/', GCC can be found on the same FTP
 site at `ftp://ftp.gnu.org/pub/gnu/gcc/'. We need single binutils
-tarball (e.g. `binutils-2.17.tar.bz2'), it's PGP signature
-(`binutils-2.17.tar.bz2.sig') to make sure that we downloaded the file
-correctly, and the same for GCC (say, `gcc-core-4.2.2.tar.bz2' and
-`gcc-core-4.2.2.tar.bz2.sig').  You can download `gcc-4.2.2.tar.bz2'
-instead of `gcc-core-4.2.2.tar.bz2'.  It contains additional language
+tarball (e.g. `binutils-2.19.1.tar.bz2'), it's PGP signature
+(`binutils-2.19.1.tar.bz2.sig') to make sure that we downloaded the
+file correctly, and the same for GCC (say, `gcc-core-4.2.4.tar.bz2' and
+`gcc-core-4.2.4.tar.bz2.sig').  You can download `gcc-4.2.4.tar.bz2'
+instead of `gcc-core-4.2.4.tar.bz2'.  It contains additional language
 support such as Fortran and Ada.  We don't use these languages, and our
 ARM-hosted startup programs don't support them.
 
    You also will need to get public keys for these signatures and import
 them into your gnupg keyring. Read gnupg manual on how to do this.
 
-   As of Feb 2009, we recommend binutils-2.17 and gcc-4.2.2.
+   As of Sept 2009, we recommend binutils-2.19.1 and gcc-4.2.4; this
+combination seems to be relatively new and easy to install.
 
    Newer GCC releases series (gcc-4.3.0 and later) require MPFR library.
 This somewhat lengthens the dependencies list; it may require your GMP
-library update.
+library update. Then, gcc-4.4.0 requires GNU make-3.80 or later to
+install it.
 
-   As for gcc-4.2.3 and gcc-4.2.4, they are OK for building our ARM
-toolchain, but unfortunately, AVR target is unbuildable on top of
-binutils-2.17 and even binutils-2.18; we have a good reason to hope
-that the next release will fix this.
-
-   binutils-2.18 is not very stable; you'd better use binutils-2.19
-instead.
-
-   Both binutils-2.18 and binutils-2.19 have installation problem with
-VPATH build when you have no recent enough makeinfo. You can either
-build the package in it's source directory `./configure ..', or install
-a new texinfo, or touch the info files, i.e. build with command
-
-      make
-      touch $(find ../binutils-2.19 -name "*.info")
-      make
+   binutils-2.18 and binutils-2.19 are OK, but more difficult to
+install somewhere.
 
    If you have no fast Internet access and can't choose the versions,
 older releases will work, too. To be sure, gcc-3.4.6 and binutils-2.13
@@ -545,13 +533,16 @@ project maintainers know no other.
    First, we shall need binutils and gcc for ARM. We go to
 `ftp://ftp.gnu.org/pub/gnu' and get binutils and gcc.  Generally, we
 use the latest releases, though there is nothing dependent on any
-supernew features in stribog. Currently we use binutils-2.17 with
-gcc-4.2.4. we used also binutils-2.16.1, binutils-2.16, gcc-3.4.6,
-gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2, gcc-4.2.3.
+supernew features in stribog. Currently we use binutils-2.19.1 with
+gcc-4.2.4. we used also binutils-2.16.1, binutils-2.16, binutils-2.17,
+gcc-3.4.6, gcc-4.0.1, gcc-4.0.3, gcc-4.1.1, gcc-4.1.2, gcc-4.2.2,
+gcc-4.2.3.
 
    The oldest versions of tools with which we have ever had a
 successful build are binutils-2.11.2 and gcc-3.3.4. We can't make our
 buggy programs work with earlier releases.
+
+   Newer versions of GCC work, too; they just have longer dependencies.
 
    The next instructions come (with some changes) from
 `http://www.gnuarm.com'.
@@ -569,7 +560,7 @@ itself.
 
    Verify and (in case of success) unpack binutils archive:
 
-      gpg --verify binutils-2.17.tar.bz2.sig && tar xjf binutils-2.17.tar.bz2
+      gpg --verify binutils-2.19.1.tar.bz2.sig && tar xjf binutils-2.19.1.tar.bz2
 
    Make directory for object files and cd there:
 
@@ -577,14 +568,14 @@ itself.
 
    Configure, build and install binutils:
 
-      ../binutils-2.17/configure --target=arm-unknown-elf --prefix=$armprefix
+      ../binutils-2.19.1/configure --target=arm-unknown-elf --prefix=$armprefix
       make
       make install
 
    Adjust your PATH variable in order to make the newly installed
 binutils accessible during gcc building:
 
-      export PATH=$armprefix/bin:$PATH;
+      export PATH=$armprefix/bin:$PATH
 
      Note:  You will need to add this directory to your PATH  whenever
      you use this toolset
@@ -607,7 +598,8 @@ binutils accessible during gcc building:
 contacts to connect with gdb.
 
    `--disable-libssp' is mandatory for gcc-4.1.2 and later (currently
-up to gcc-4.3.1). Otherwise the compiler will not build itself.
+up to gcc-4.3.4 and gcc-4.4.1). Otherwise the compiler will not build
+itself.
 
    You also may want to add `--disable-nls' both to binutils and gcc
 `configure' invocation. This option will switch off non-English
@@ -629,6 +621,15 @@ messages from these tools. It saves some disk space.
      It comes with 1.0.6 version and it can't check new signatures;
      gnupg-1.4.9 is quite buildable there.
 
+   Since gcc-4.3.0 the compiler has growing list of dependencies:
+  1. MPFR since gcc-4.3.0 (install it and add
+     -with-mpfr=/your/mpfr/prefix to GCC `configure' invocation); MPFR
+     may require updated GMP (-with-gmp=/updated/gmp/prefix in GCC
+     `configure' line)
+
+  2. GNU make-3.80 since gcc-4.4.0 (may be installed temporarily and
+     removed after GCC installation)
+
 
 File: stribog.info,  Node: AVR Tools,  Next: PCB,  Prev: ARM Tools,  Up: Tools Used
 
@@ -645,21 +646,17 @@ research. The versions wich we knew closely are 1.4.5 and 1.6.1.
 
    The binutils-gcc building is similar to ARM tools, but target
 triplet should be non-canonical (avr rather than avr-unknown-elf) --
-this is an AVR-libc requirement; also, the latest working GCC release
-for this target is gcc-4.2.2. The later GCC releases require support
-for newer processors from binutils, but officially released binutils
-lack it. Current binutils snapshots do provide the necessary stuff, but
-it is to be released yet.  You can get them from
-`ftp://sourceware.org/pub/binutils/snapshots'.
+this is a requirement of AVR-libc.
 
       export avrprefix=$HOME/avr
-      f=binutils-2.17.tar.bz2;gpg --verify $f.sig && tar xjf $f
+      f=binutils-2.19.1.tar.bz2;gpg --verify $f.sig && tar xjf $f
       mkdir bui;cd bui
-      ../binutils-2.17/configure --target=avr --prefix=$avrprefix
+      ../binutils-2.19.1/configure --target=avr --prefix=$avrprefix
       make
       make install
-      f=gcc-core-4.2.2.tar.bz2;gpg --verify $f.sig && tar xjf $f
-      ../gcc-4.2.2/configure --target=arm-unknown-elf --prefix=$avrprefix --enable-languages=c --disable-libssp
+      export PATH=$avrprefix/bin:$PATH
+      f=gcc-core-4.2.4.tar.bz2;gpg --verify $f.sig && tar xjf $f
+      ../gcc-4.2.4/configure --target=arm-unknown-elf --prefix=$avrprefix --enable-languages=c --disable-libssp
       make
       make install
 
@@ -892,7 +889,7 @@ You'll need geda-20041228 release.
    Install guile-devel-1.3.4-19, gtk+-devel-1.2.10-15
 perl-XML-Parser-2.30-15 and their dependencies.
 
-   The installation procedure is similar to described in *Note
+   The installation procedure is similar to described in *note
 geda-build::.  The only differences are versions of packages and
 absence of VPATH build support: you should `configure' from sources top
 directory: `./configure etc.'
@@ -904,7 +901,27 @@ Surprisingly, current PCB can be build almost out-of-box (use
 pcb-20080208: pcb-20081128 won't work).  It is lesstif HID that makes
 it possible.
 
-   (install lesstif-devel-0.93.18-2 and it's dependencies)
+   Install lesstif-devel-0.93.18-2 and it's dependencies from RPMs.
+
+   Then intltool-0.40.3 and as a dependency gettext-0.17 will be needed.
+
+   Modify your environment:
+
+      export gedaprefix=$HOME/geda
+      export PATH=$gedaprefix/bin:$PATH
+      export LD_LIBRARY_PATH=$gedaprefix/lib:$LD_LIBRARY_PATH
+
+   Install the packages:
+
+      gpg --verify gettext-0.17.tar.gz.sig && tar xzf gettext-0.17.tar.gz
+      mkdir bui;cd bui
+      ../gettext-0.17/configure --prefix=$gedaprefix && make install
+      cd ..;rm -r gettext-0.17 bui
+     # md5sum -c intltool-0.40.3.md5sum
+      tar xjf intltool-0.40.3.tar.bz2
+      mkdir bui;cd bui
+      ../intltool-0.40.3/configure --prefix=$gedaprefix && make install
+      cd ..;rm -r intltool-0.40.3 bui
 
    Configure PCB with command
 
@@ -2579,49 +2596,49 @@ permit their use in free software.
 
 
 Tag Table:
-Node: Top905
+Node: Top904
 Node: Distribution3946
 Ref: Distribution-Footnote-15474
 Ref: symbols-exception5481
-Node: Jurisdictions5907
-Node: Contents9893
-Node: Final remarks11525
-Node: Intro12206
-Node: In Short12514
-Node: Address14045
-Node: Name14474
-Ref: Name-Footnote-115864
-Ref: Name-Footnote-215958
-Node: Getting Started16035
-Node: Prerequisites16234
-Ref: Prerequisites-Footnote-118709
-Node: Tools Used18798
-Node: GNU Cross-tools19794
-Node: ARM Tools22546
-Node: AVR Tools25825
-Node: PCB27958
-Ref: PCB-Footnote-130179
-Node: gerbv30327
-Ref: gerbv-Footnote-131437
-Ref: gerbv-Footnote-231912
-Node: gEDA32028
-Ref: geda-build33237
-Ref: gEDA-Footnote-134653
-Node: Older systems34876
-Ref: older-geda35267
-Node: Building stribog38865
-Node: Host Files39396
-Node: Hardware Manufacturing40823
-Ref: Hardware Manufacturing-Footnote-143175
-Node: Firmware Installation43263
-Node: Host-side Utilities44574
-Node: In-depth Guide46222
-Node: Using Git46520
-Node: Git Commands47172
-Node: Branches49661
-Node: VCS Contents51511
-Node: Autoreconf52732
-Node: GNU General Public License53511
-Node: GNU Free Documentation License91118
+Node: Jurisdictions5906
+Node: Contents9892
+Node: Final remarks11524
+Node: Intro12205
+Node: In Short12513
+Node: Address14044
+Node: Name14473
+Ref: Name-Footnote-115863
+Ref: Name-Footnote-215957
+Node: Getting Started16034
+Node: Prerequisites16233
+Ref: Prerequisites-Footnote-118708
+Node: Tools Used18797
+Node: GNU Cross-tools19793
+Node: ARM Tools22096
+Node: AVR Tools25865
+Node: PCB27700
+Ref: PCB-Footnote-129921
+Node: gerbv30069
+Ref: gerbv-Footnote-131179
+Ref: gerbv-Footnote-231654
+Node: gEDA31770
+Ref: geda-build32979
+Ref: gEDA-Footnote-134395
+Node: Older systems34618
+Ref: older-geda35009
+Node: Building stribog39296
+Node: Host Files39827
+Node: Hardware Manufacturing41254
+Ref: Hardware Manufacturing-Footnote-143606
+Node: Firmware Installation43694
+Node: Host-side Utilities45005
+Node: In-depth Guide46653
+Node: Using Git46951
+Node: Git Commands47603
+Node: Branches50092
+Node: VCS Contents51942
+Node: Autoreconf53163
+Node: GNU General Public License53942
+Node: GNU Free Documentation License91549
 
 End Tag Table
