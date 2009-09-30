@@ -1,3 +1,7 @@
+30 Sep 2009 Ineiev <ineiev@users.berlios.de>
+ * README hw/main_board.bis.pcb hw/main_board_bis.pcb
+ hw/main_board.bis.proj hw/main_board_bis.proj hw/Makefile.am.m4:
+ rename main_board.bis main_board_bis to placate automake
 10 Sep 2009 P.Kharitonov <ineiev@users.berlios.de>
  * hw/stribog.sch: fix a comment; update the email
 20 Mar 2009 P.Kharitonov <ineiev@users.sourceforge.net>

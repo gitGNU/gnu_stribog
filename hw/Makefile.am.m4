@@ -31,7 +31,7 @@ packages/led0805 packages/lp2980\
 packages/msop8 packages/pin\
 packages/qfp64 packages/tanA packages/tanC packages/tp
 ST_BOARD(main_board)
-ST_BOARD(main_board.bis)
+ST_BOARD(main_board_bis)
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 	m4 -I $(srcdir) $(srcdir)/Makefile.am.m4 > $(srcdir)/Makefile.am
 schematicsdir=$(pkgdatadir)/schematics
