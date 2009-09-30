@@ -3,7 +3,7 @@
 # user:    dti (ineiev)
 # host:    conchobar
 
-PCB["stribog.main_board.bis" 314961 157480]
+PCB["stribog.main_board_bis" 314961 157480]
 
 Grid[393.000000 0 0 1]
 Cursor[166594 31898 3.000000]

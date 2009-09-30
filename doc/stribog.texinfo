@@ -1172,15 +1172,15 @@ Documentation on other options is available via general
 
 The first thing to build stribog hardware is to make a main board PCB.
 There are two versions of the board: @file{main_board.pcb}
-and @file{main_board.bis.pcb}. They represent the same schematics,
+and @file{main_board_bis.pcb}. They represent the same schematics,
 the difference is in components placement. The former is more
 compact, on the latter the magnetic sensors moved away from
 other components; these componets influence the temperature drift
-of the magnetic response, so @file{main_board.bis.pcb} magnetic
+of the magnetic response, so @file{main_board_bis.pcb} magnetic
 output should be more stable.
 
 The files needed for production come with the distribution
-in @file{hw/main_board} and @file{hw/main_board.bis}
+in @file{hw/main_board} and @file{hw/main_board_bis}
 directories; they are also installed and updated
 in @file{$PREFIX/share/stribog} directory.
 

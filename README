@@ -192,7 +192,7 @@ because it was practically hard or absurd to maintain them there,
 or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
-(1a) hw/main_board.pcb hw/main_board.bis.pcb:
+(1a) hw/main_board.pcb hw/main_board_bis.pcb:
 originally written for the project, they embed
 some footprints from PCB distribution. PCB README file doesn't mention
 precise license; the footprints contain either no copyritght notice or
@@ -448,20 +448,20 @@ with comments on origin added is as follows:
 ./hw/gyro.sch (1b) GPLv3+
 ./hw/image.scm.in (0) GPLv3+
 ./hw/m4/makefile.m4 (0) GPLv3+
-./hw/main_board.bis/main_board.bis.back.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.backmask.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.backpaste.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.backsilk.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.fab.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.front.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.frontmask.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.frontpaste.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.frontsilk.gbr (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.pdf (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.plated-drill.cnc (0) GPLv3+ (object code)
-./hw/main_board.bis/main_board.bis.ps (0) GPLv3+ (object code)
-./hw/main_board.bis.pcb (1a) GPLv3+
-./hw/main_board.bis.proj (0) GPLv3+
+./hw/main_board_bis/main_board_bis.back.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.backmask.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.backpaste.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.backsilk.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.fab.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.front.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.frontmask.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.frontpaste.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.frontsilk.gbr (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.pdf (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.plated-drill.cnc (0) GPLv3+ (object code)
+./hw/main_board_bis/main_board_bis.ps (0) GPLv3+ (object code)
+./hw/main_board_bis.pcb (1a) GPLv3+
+./hw/main_board_bis.proj (0) GPLv3+
 ./hw/main_board/main_board.back.gbr (0) GPLv3+ (object code)
 ./hw/main_board/main_board.backmask.gbr (0) GPLv3+ (object code)
 ./hw/main_board/main_board.backpaste.gbr (0) GPLv3+ (object code)

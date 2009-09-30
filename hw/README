@@ -1,5 +1,5 @@
 Copyright (C) 2006, 2007, 2008, 2009
- Ineiev <ineiev@users.sourceforge.net>, super V 93
+ Ineiev <ineiev@users.berlios.de>, super V 93
 
 This directory contains hardware part of stribog.
 
@@ -32,11 +32,10 @@ because it was practically hard or absurd to maintain them there,
 or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
-main_board.pcb main_board.bis.pcb stribog.sch gyro.sch odo.sch
+main_board.pcb main_board_bis.pcb stribog.sch gyro.sch odo.sch
 
-Directories `schematics', `main_board' and `main_board.bis'
-contain object code only
-(automatically generated files for boards production). they are
+Directories `schematics', `main_board' and `main_board_bis'
+contain object code (automatically generated files) only. they are
 kept with sources for those who has no gEDA installed.
 
 Makefile.in is autoconf-generated (see ../README for details).
