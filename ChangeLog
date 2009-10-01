@@ -1,3 +1,5 @@
+01 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/m4/makefile.m4: s/ps2pdf/$(PS2PDF)
 30 Sep 2009 Ineiev <ineiev@users.berlios.de>
  * README hw/main_board.bis.pcb hw/main_board_bis.pcb
  hw/main_board.bis.proj hw/main_board_bis.proj hw/Makefile.am.m4:
