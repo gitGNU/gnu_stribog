@@ -59,7 +59,7 @@ $1/$1.ps: $1.pcb
 endif
 if use_ps2pdf
 $1/$1.pdf: $1/$1.ps
-	cd $1;ps2pdf $1.ps $1.pdf
+	cd $1; $(PS2PDF) $1.ps $1.pdf
 endif
 ##board $1 PS/PDFs end
 ###board $1 expanded definition ends'
