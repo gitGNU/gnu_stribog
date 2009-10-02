@@ -1,3 +1,7 @@
+02 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * doc/stribog.texinfo: fix spaces and split long lines
+ for pdf targets; update email; correct publisher info;
+ fix avr-gcc configure instructions
 01 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/m4/makefile.m4: s/ps2pdf/$(PS2PDF)
 30 Sep 2009 Ineiev <ineiev@users.berlios.de>
