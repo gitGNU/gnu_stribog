@@ -1,6 +1,10 @@
 07 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/Makefile.am.m4 hw/packages/IDG-500 hw/packages/tmp101 hw/sym/idg500.sym
    hw/sym/idg500.sym hw/sym/tmp101.sym: new parts
+02 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * doc/stribog.texinfo: fix spaces and split long lines
+ for pdf targets; update email; correct publisher info;
+ fix avr-gcc configure instructions
 01 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/Makefile.am.m4 hw/packages/IDG-300 hw/packages/LGA16
  hw/packages/LGA28 hw/sym/idg300.sym hw/sym/lis3lv02dl.sym

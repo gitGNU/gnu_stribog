@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename stribog.info
 @set manualtitle Stribog Developer Manual
-@set UPDATED 10 Sept 2009
+@set UPDATED 02 Oct 2009
 @c VERSION is for the project, EDITION is for the manual
 @c EDITION names are unique within a VERSION
 @set EDITION 0-minus
@@ -15,16 +15,16 @@
  with symbols exception (@pxref{symbols-exception})
 @end macro
 @macro gplactual
- @gplcurrent or later @symexception
+ @gplcurrent{} or later @symexception
 @end macro
 @macro gploptions
- @gplcurrent or (at your option) any later version
+ @gplcurrent{} or (at your option) any later version
 @end macro
-@set email @email{ineiev@@users.sourceforge.net}
+@set email @email{ineiev@@users.berlios.de}
 @macro publisherinfo
 @c additional legal stuff for printed manuals
 @c like the publisher name, cover art credits, ISBN and so on
-Published by <insert the proper name here>
+(perhaps) Never gone through press yet
 @end macro
 @settitle @value{manualtitle} @value{EDITION}
 @c %**end of header
@@ -295,13 +295,13 @@ this person or organisation must make available (for those who get
 the product) a copy of documentation needed at least to reproduce this board;
 this supplier shall not prevent downstream distribution in terms other
 than that of @gplactual{}. Another thing to note is the Section 11 of
-@gplcurrent (on patents). While there should be no software
+@gplcurrent{} (on patents). While there should be no software
 patents, the hardware ones are ubiquitous.
 
 As a consequence using stribog-derived circuits in a device is permitted
 in either of two ways:
 @enumerate a
-@item The whole device is distributed under the terms of @gplactual
+@item The whole device is distributed under the terms of @gplactual{}
  with the stribog's authors' interpretation for the hardware part.
  This is the preferable way.
 @item The device can reasonably be considered as an independent work.
@@ -317,7 +317,7 @@ must be covered by @gplactual{}. Similarly,
 if you modify stribog so that it will require/provide
 complicated signals from/to your board, therefore
 making it unimaginable to function one without the other --- in this
-case the whole system shall be covered by @gploptions @symexception{}.
+case the whole system shall be covered by @gplactual{}.
 
 @subsection Heterogeneous law
 
@@ -437,14 +437,17 @@ some post-processing is made.
 @node Address
 @section Address
 
-Stribog project is hosted at Savannah, it's project page is
-@url{http://savannah.nongnu.org/projects/stribog}.
+Stribog project is hosted at Savannah, it's project page is:
+
+@url{http://savannah.nongnu.org/projects/stribog}
 
 The most recent revisions are available via savannah Git repository
 (@pxref{Using Git}).
 
 Released sources and sample data are available at
-downloads page @url{http://download.savannah.gnu.org/releases/stribog/}.
+downloads page:
+
+@url{http://download.savannah.gnu.org/releases/stribog/}
 
 @node Name
 @section The Name
@@ -569,7 +572,7 @@ is not available, you may want to try non-VPATH build, that is
 to run @command{configure} in the topmost directory, like
 @command{./configure --target=arm-unknown-elf} and so on.
 Another widely known
-tradition prescribes @command{mkdir obj;cd obj;../configure ...}.
+tradition prescribes @command{mkdir obj; cd obj; ../configure ...}.
 
 Binutils releases tarballs are located at
 @uref{ftp://ftp.gnu.org/pub/gnu/binutils/},
@@ -641,7 +644,8 @@ This variable will be used in the next commands and means nothing by itself.
 Verify and (in case of success) unpack binutils archive:
 
 @example
- gpg --verify binutils-2.19.1.tar.bz2.sig && tar xjf binutils-2.19.1.tar.bz2
+ gpg --verify binutils-2.19.1.tar.bz2.sig \
+  && tar xjf binutils-2.19.1.tar.bz2
 @end example
 
 Make directory for object files and cd there:
@@ -653,7 +657,8 @@ Make directory for object files and cd there:
 Configure, build and install binutils:
 
 @example
- ../binutils-2.19.1/configure --target=arm-unknown-elf --prefix=$armprefix
+ ../binutils-2.19.1/configure --target=arm-unknown-elf \
+  --prefix=$armprefix
  make
  make install
 @end example
@@ -673,7 +678,8 @@ during gcc building:
 Verify and (in case of success) unpack binutils archive:
 
 @example
- gpg --verify gcc-core-4.2.4.tar.bz2.sig && tar xjf gcc-core-4.2.4.tar.bz2
+ gpg --verify gcc-core-4.2.4.tar.bz2.sig \
+  && tar xjf gcc-core-4.2.4.tar.bz2
 @end example
 
 Clear the object files directory:
@@ -685,9 +691,10 @@ Clear the object files directory:
 Configure, build and install gcc:
 
 @example
- ../gcc-4.2.4/configure --target=arm-unknown-elf --prefix=$armprefix --enable-languages=c --disable-libssp
- make
- make install
+ ../gcc-4.2.4/configure --target=arm-unknown-elf \
+  --prefix=$armprefix --enable-languages=c \
+  --disable-libssp
+ make && make install
 @end example
 
 That's all. We don't need newlib, and stribog main board has no contacts
@@ -743,25 +750,29 @@ this is a requirement of AVR-libc.
 
 @example
  export avrprefix=$HOME/avr
- f=binutils-2.19.1.tar.bz2;gpg --verify $f.sig && tar xjf $f
+ f=binutils-2.19.1.tar.bz2; \
+  gpg --verify $f.sig && tar xjf $f
  mkdir bui;cd bui
- ../binutils-2.19.1/configure --target=avr --prefix=$avrprefix
- make
- make install
+ ../binutils-2.19.1/configure --target=avr \
+  --prefix=$avrprefix
+ make && make install
  export PATH=$avrprefix/bin:$PATH
- f=gcc-core-4.2.4.tar.bz2;gpg --verify $f.sig && tar xjf $f
- ../gcc-4.2.4/configure --target=arm-unknown-elf --prefix=$avrprefix --enable-languages=c --disable-libssp
- make
- make install
+ f=gcc-core-4.2.4.tar.bz2; \
+  gpg --verify $f.sig && tar xjf $f
+ ../gcc-4.2.4/configure --target=avr \
+  --prefix=$avrprefix --enable-languages=c \
+  --disable-libssp
+ make && make install
 @end example
 
 After that, install AVR-libc:
 
 @example
- f=avr-libc-1.6.1.tar.bz2;gpg --verify $f.sig && tar xjf $f
- ../avr-libc-1.6.1/configure --prefix=$avrprefix --host=avr --build=$(../avr-libc-1.6.1/config.guess)
- make
- make install
+ f=avr-libc-1.6.1.tar.bz2; \
+  gpg --verify $f.sig && tar xjf $f
+ ../avr-libc-1.6.1/configure --prefix=$avrprefix \
+  --host=avr --build=$(../avr-libc-1.6.1/config.guess)
+ make && make install
 @end example
 
 Note that @option{--host=avr}, not @option{--target=avr}. The library provides parts
@@ -807,8 +818,7 @@ Configure, build and install it:
 
 @example
  ../pcb-20080202/configure --prefix=$HOME/geda
- make
- make install
+ make && make install
 @end example
 
 You may be interested in some @command{configure} options,
@@ -848,16 +858,15 @@ it was born as a separate project and keeps some independence for historical rea
 
 Current version, gerbv-2.1.0, is recommended. It has a lot of new exciting features.
 
-To install it, download from the project site
-on @url{http://sourceforge.net/projects/gerbv}
-@file{gerbv-2.1.0.tar.gz} and @file{gerbv-2.1.0.cksum}.
+To install it, download @file{gerbv-2.1.0.tar.gz} and @file{gerbv-2.1.0.cksum}
+from the project homepage @url{http://sourceforge.net/projects/gerbv}.
 Check the sum; if it is correct, unpack and install the package:
 
 @example
  tar xzf gerbv-2.1.0.tar.gz
  mkdir bui;cd bui
  ../gerbv-2.1.0/configure --prefix=$HOME/geda
- make all install
+ make && make install
 @end example
 
 The most strict requirement is cairo library. If you have not it, you may want to
@@ -998,14 +1007,17 @@ Modify your environment:
 Install the packages:
 
 @example
- gpg --verify gettext-0.17.tar.gz.sig && tar xzf gettext-0.17.tar.gz
+ gpg --verify gettext-0.17.tar.gz.sig \
+  && tar xzf gettext-0.17.tar.gz
  mkdir bui;cd bui
- ../gettext-0.17/configure --prefix=$gedaprefix && make install
+ ../gettext-0.17/configure --prefix=$gedaprefix \
+  && make && make install
  cd ..;rm -r gettext-0.17 bui
 # md5sum -c intltool-0.40.3.md5sum
  tar xjf intltool-0.40.3.tar.bz2
  mkdir bui;cd bui
- ../intltool-0.40.3/configure --prefix=$gedaprefix && make install
+ ../intltool-0.40.3/configure --prefix=$gedaprefix \
+  && make && make install
  cd ..;rm -r intltool-0.40.3 bui
 @end example
 
@@ -1554,7 +1566,7 @@ and so on). You often shall not want this.
 The configuring scripts are updated with @samp{autoreconf -v};
 you may @samp{rm -rf $(find . -name autom4te.cache)} after that.
 
-As of Feb 2009, the versions used are autoconf-2.62 and automake-1.10.1.
+As of Oct 2009, the versions used are autoconf-2.62 and automake-1.10.1.
 
 Previous version of Autoconf (2.61) does not allow user-defined
 @file{confugure} arguments preprocessing.
