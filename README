@@ -227,7 +227,21 @@ hw/sym/opamp-1s.sym hw/sym/quad_opamp-1s.sym
 hw/sym/ref195.sym hw/sym/resistor-2s.sym
 hw/sym/testpt-1s.sym hw/sym/tps76316.sym
 
-(1c), (1d) Files in hw/packages and hw/sym directories
+(1e) Footprints designed for this project and distributed under the GPLv3+
+hw/packages/IDG-300
+hw/packages/IDG-500
+hw/packages/LGA16
+hw/packages/LGA28
+hw/packages/tmp101
+
+(1f) Symbols designed for this project and distributed under the GPLv3+
+hw/sym/idg300.sym
+hw/sym/idg500.sym
+hw/sym/lis3lv02dl.sym
+hw/sym/lisy300al.sym
+hw/sym/tmp101.sym
+
+(1c), (1d), (1e), (1f) Files in hw/packages and hw/sym directories
 are not part of the stribog design, but are used with stribog.
 they form an `external library' as defined by the FSF.
 
@@ -488,8 +502,12 @@ with comments on origin added is as follows:
 ./hw/packages/adxl210 (1c) GPLv3+
 ./hw/packages/crystal (1c) GPLv3+
 ./hw/packages/hmc1021z (1c) GPLv3+
+./hw/packages/IDG-300 (1e) GPLv3+
+./hw/packages/IDG-500 (1e) GPLv3+
 ./hw/packages/jtag1.27x1 (1c) GPLv3+
 ./hw/packages/led0805 (1c) GPLv3+
+./hw/packages/LGA16 (1e) GPLv3+
+./hw/packages/LGA28 (1e) GPLv3+
 ./hw/packages/lp2980 (1c) GPLv3+
 ./hw/packages/msop8 (1c) GPLv3+
 ./hw/packages/pin (1c) GPLv3+
@@ -497,6 +515,7 @@ with comments on origin added is as follows:
 ./hw/packages/README (0) GPLv3+
 ./hw/packages/tanA (1c) GPLv3+
 ./hw/packages/tanC (1c) GPLv3+
+./hw/packages/tmp101 (1e) GPLv3+
 ./hw/packages/tp (1c) GPLv3+
 ./hw/README (0) GPLv3+
 ./hw/schematics/gyro.png (0) GPLv3+ (object code)
@@ -517,15 +536,19 @@ with comments on origin added is as follows:
 ./hw/sym/DB9-1s.sym (1d) GPLv2
 ./hw/sym/dual-opamp-1s.sym (1d) GPLv2
 ./hw/sym/gnd-1s.sym (1d) GPLv2
-./header10-2s.sym (1d) GPLv2
+./hw/sym/header10-2s.sym (1d) GPLv2
 ./hw/sym/hmc1021.sym (1d) GPLv2
 ./hw/sym/hmc1022.sym (1d) GPLv2
+./hw/sym/idg300.sym (1f) GPLv3+
+./hw/sym/idg500.sym (1f) GPLv3+
 ./hw/sym/ina118.sym (1d) GPLv2
 ./hw/sym/irf7317.sym (1d) GPLv2
 ./hw/sym/irf7507.sym (1d) GPLv2
 ./hw/sym/irlml.sym (1d) GPLv2
 ./hw/sym/JTAG.sym (1d) GPLv2
 ./hw/sym/led.sym (1d) GPLv2
+./hw/sym/lis3lv02dl.sym (1f) GPLv3+
+./hw/sym/lisy300al.sym (1f) GPLv3+
 ./hw/sym/lm74.sym (1d) GPLv2
 ./hw/sym/lm7805-1s.sym (1d) GPLv2
 ./hw/sym/lp2980AIM5-3.sym (1d) GPLv2
@@ -537,6 +560,7 @@ with comments on origin added is as follows:
 ./hw/sym/ref195.sym (1d) GPLv2
 ./hw/sym/resistor-2s.sym (1d) GPLv2
 ./hw/sym/testpt-1s.sym (1d) GPLv2
+./hw/sym/tmp101.sym (1f) GPLv3+
 ./hw/sym/tps76316.sym (1d) GPLv2
 ./INSTALL (3a) I_unlimited -> GPLv3+
 ./install-sh (3b) X_permissive -> GPLv3+

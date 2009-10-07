@@ -84,3 +84,13 @@ Once more, MOST of the gEDA SYMBOLS WERE NOT originally
 DEVELOPPED by STRIBOG'S AUTHOR:
 usually we just slightly corrected files from gEDA libraries.
 the STRIBOG AUTHORS DISCLAIM our EXCLUSIVE COPYRIGHT on ALL those files.
+
+However, files
+idg300.sym
+idg500.sym
+lis3lv02dl.sym
+lisy300al.sym
+tmp101.sym
+were designed for this project. their license is GPLv3+. If you embed
+them in a schematic, it is subject to GPLv3+; if your schematic refers
+and not embeds them, the symbols license does not affect the schematic.

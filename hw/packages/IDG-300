@@ -1,0 +1,79 @@
+#MLF40 footprint for IDG-300
+#this file was written for stribog
+#
+#stribog is free design; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#Copyright (C) 2009 D.Ineiev <ineiev@users.berlios.de>
+
+Element [""  "IDG-300" "U0" "MLF40" 0 0 -8000 -8000 0 100 ""] (
+	Attribute ("Author" "Ineiev <ineiev@users.berlios.de>")
+	Attribute ("Date" "06 Nov 2009")
+	Attribute ("Info" "IDG-300 dual-axis angular rate sensor")
+	Attribute ("License" "GPLv3+")
+	Attribute ("Warning" "not tested by it's author in any real board")
+
+	ElementArc [-3000 0 800 800 0 360 1000]
+	ElementLine [0 0 1100 0 1000]
+	ElementLine [0 0 0 1100 1000]
+	ElementLine [23600 22500 23600 23600 1000]
+	ElementLine [22500 23600 23600 23600 1000]
+	ElementLine [0 23600 0 22500 1000]
+	ElementLine [0 23600 1100 23600 1000]
+	ElementLine [23600 0 22500 0 1000]
+	ElementLine [23600 0 23600 1100 1000]
+
+	Pad [-4000 2942    842 2942  984 2000 3400 "1" "1" ""]
+	Pad [-4000 4911    842 4911  984 2000 3400 "2" "2" "square"]
+	Pad [-4000 6879    842 6879  984 2000 3400 "3" "3" "square"]
+	Pad [-4000 8848    842 8848  984 2000 3400 "4" "4" "square"]
+	Pad [-4000 10816   842 10816 984 2000 3400 "5" "5" "square"]
+	Pad [-4000 12785   842 12785 984 2000 3400 "6" "6" "square"]
+	Pad [-4000 14753   842 14753 984 2000 3400 "7" "7" "square"]
+	Pad [-4000 16722   842 16722 984 2000 3400 "8" "8" "square"]
+	Pad [-4000 18690   842 18690 984 2000 3400 "9" "9" "square"]
+	Pad [-4000 20659   842 20659 984 2000 3400 "10" "10" "square"]
+
+	Pad [2942  -4000 2942    842 984 2000 3400 "40" "40" "square"]
+	Pad [4911  -4000 4911    842 984 2000 3400 "39" "39" "square"]
+	Pad [6879  -4000 6879    842 984 2000 3400 "38" "38" "square"]
+	Pad [8848  -4000 8848    842 984 2000 3400 "37" "37" "square"]
+	Pad [10816 -4000 10816   842 984 2000 3400 "36" "36" "square"]
+	Pad [12785 -4000 12785   842 984 2000 3400 "35" "35" "square"]
+	Pad [14753 -4000 14753   842 984 2000 3400 "34" "34" "square"]
+	Pad [16722 -4000 16722   842 984 2000 3400 "33" "33" "square"]
+	Pad [18690 -4000 18690   842 984 2000 3400 "32" "32" "square"]
+	Pad [20659 -4000 20659   842 984 2000 3400 "31" "31" "square"]
+
+	Pad [2942  27600 2942  22758 984 2000 3400 "11" "11" "square"]
+	Pad [4911  27600 4911  22758 984 2000 3400 "12" "12" "square"]
+	Pad [6879  27600 6879  22758 984 2000 3400 "13" "13" "square"]
+	Pad [8848  27600 8848  22758 984 2000 3400 "14" "14" "square"]
+	Pad [10816 27600 10816 22758 984 2000 3400 "15" "15" "square"]
+	Pad [12785 27600 12785 22758 984 2000 3400 "16" "16" "square"]
+	Pad [14753 27600 14753 22758 984 2000 3400 "17" "17" "square"]
+	Pad [16722 27600 16722 22758 984 2000 3400 "18" "18" "square"]
+	Pad [18690 27600 18690 22758 984 2000 3400 "19" "19" "square"]
+	Pad [20659 27600 20659 22758 984 2000 3400 "20" "20" "square"]
+
+	Pad [27600 2942  22758 2942  984 2000 3400 "30" "30" "square"]
+	Pad [27600 4911  22758 4911  984 2000 3400 "29" "29" "square"]
+	Pad [27600 6879  22758 6879  984 2000 3400 "28" "28" "square"]
+	Pad [27600 8848  22758 8848  984 2000 3400 "27" "27" "square"]
+	Pad [27600 10816 22758 10816 984 2000 3400 "26" "26" "square"]
+	Pad [27600 12785 22758 12785 984 2000 3400 "25" "25" "square"]
+	Pad [27600 14753 22758 14753 984 2000 3400 "24" "24" "square"]
+	Pad [27600 16722 22758 16722 984 2000 3400 "23" "23" "square"]
+	Pad [27600 18690 22758 18690 984 2000 3400 "22" "22" "square"]
+	Pad [27600 20659 22758 20659 984 2000 3400 "21" "21" "square"]
+) 

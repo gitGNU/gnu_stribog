@@ -1,0 +1,38 @@
+#SOT23-6 footprint for TMP101
+#this file was written for stribog
+#
+#stribog is free design; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#Copyright (C) 2009 D.Ineiev <ineiev@users.berlios.de>
+
+Element [""  "TMP101" "U0" "SOT23-6" -5000 -3740 -4000 -9000 0 100 ""]
+(	Attribute ("Author" "Ineiev <ineiev@users.berlios.de>")
+	Attribute ("Date" "18 Nov 2009")
+	Attribute ("Info" "Temperature sensor with I2C output")
+	Attribute ("License" "GPLv3+")
+
+	ElementArc [-3200 -2160 800 800 0 360 1000]
+	ElementLine [-3000 -1960 13000 -1960 1000]
+	ElementLine [13000 -1960 13000 9440 1000]
+	ElementLine [13000 9440 -3000 9440 1000]
+	ElementLine [-3000 9440 -3000 -1960 1000]
+
+	Pad [-1000    0 1144    0 2000 3000 4400 "1" "1" ""]
+	Pad [-1000 3740 1144 3740 2000 3000 4400 "2" "2" "square"]
+	Pad [-1000 7480 1144 7480 2000 3000 4400 "3" "3" "square"]
+
+	Pad [11000 7480 8856 7480 2000 3000 4400 "4" "4" "square"]
+	Pad [11000 3740 8856 3740 2000 3000 4400 "5" "5" "square"]
+	Pad [11000    0 8856    0 2000 3000 4400 "6" "6" "square"]
+)

@@ -22,19 +22,22 @@ sym/README sym/adm202.sym sym/adxl210.sym sym/adxrs300.sym\
 sym/bat54c.sym sym/capacitor-1s.sym sym/capacitor-4s.sym sym/coil-1s.sym\
 sym/crystal-1s.sym sym/dac7612.sym sym/dual-opamp-1s.sym\
 sym/gnd-1s.sym sym/header10-2s.sym sym/hmc1021.sym\
-sym/hmc1022.sym sym/ina118.sym sym/irf7317.sym sym/irf7507.sym\
-sym/irlml.sym sym/led.sym sym/lm74.sym sym/lm7805-1s.sym sym/lp2980AIM5-3.sym\
+sym/hmc1022.sym sym/idg300.sym sym/idg500.sym sym/ina118.sym\
+sym/irf7317.sym sym/irf7507.sym\
+sym/irlml.sym sym/led.sym sym/lis3lv02dl.sym sym/lisy300al.sym\
+sym/lm74.sym sym/lm7805-1s.sym sym/lp2980AIM5-3.sym\
 sym/lp2980AIM5-5.sym sym/lpc2138.sym sym/opamp-1s.sym\
 sym/quad_opamp-1s.sym sym/ref195.sym sym/resistor-2s.sym\
-sym/testpt-1s.sym sym/tps76316.sym\
+sym/testpt-1s.sym sym/tmp101.sym sym/tps76316.sym\
 packages/0.125W_resistor packages/0603\
 packages/0805 packages/1210\
-packages/2.5mm_10pin_header packages/README\
+packages/2.5mm_10pin_header packages/IDG-300 packages/IDG-500\
+packages/LGA16 packages/LGA28 packages/README\
 packages/adxl210 packages/crystal\
 packages/hmc1021z packages/jtag1.27x1\
 packages/led0805 packages/lp2980\
 packages/msop8 packages/pin\
-packages/qfp64 packages/tanA packages/tanC packages/tp
+packages/qfp64 packages/tanA packages/tanC packages/tmp101 packages/tp
 ST_BOARD(main_board)
 ST_BOARD(main_board_bis)
 $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4

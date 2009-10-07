@@ -1,0 +1,54 @@
+#LGA16 footprint for LIS3LV02DL
+#this file was written for stribog
+#
+#stribog is free design; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#Copyright (C) 2009 D.Ineiev <ineiev@users.berlios.de>
+
+Element [""  "LIS3LV02DL" "U0" "LGA16" 0 0 -10000 -13000 0 100 ""] (
+	Attribute ("Author" "Ineiev <ineiev@users.berlios.de>")
+	Attribute ("Date" "06 Nov 2009")
+	Attribute ("Info" "LIS3LV02DL 3-axis accelerometer with I2C output")
+	Attribute ("License" "GPLv3+")
+
+	ElementArc [-7000 -4925 800 800 0 360 1000]
+	ElementLine [-4720 -4925 -2090 -4925 1000]
+	ElementLine [-4720 -4925 -4720 -2780 1000]
+	ElementLine [-4720 24605 -4720 22460 1000]
+	ElementLine [-4720 24605 -2090 24605 1000]
+	ElementLine [12600 24605 12600 22460 1000]
+	ElementLine [12600 24605 9970 24605 1000]
+	ElementLine [12600 -4925 12600 -2780 1000]
+	ElementLine [12600 -4925 9970 -4925 1000]
+
+	Pad [-8000 0     -2160 0     2560 2000 5000 "1" "1" ""]
+	Pad [-8000 3937  -2160 3937  2560 2000 5000 "2" "2" "square"]
+	Pad [-8000 7874  -2160 7874  2560 2000 5000 "3" "3" "square"]
+	Pad [-8000 11811 -2160 11811 2560 2000 5000 "4" "4" "square"]
+	Pad [-8000 15748 -2160 15748 2560 2000 5000 "5" "5" "square"]
+	Pad [-8000 19685 -2160 19685 2560 2000 5000 "6" "6" "square"]
+
+	Pad [15890 0     10050 0     2560 2000 5000 "14" "14" "square"]
+	Pad [15890 3937  10050 3937  2560 2000 5000 "13" "13" "square"]
+	Pad [15890 7874  10050 7874  2560 2000 5000 "12" "12" "square"]
+	Pad [15890 11811 10050 11811 2560 2000 5000 "11" "11" "square"]
+	Pad [15890 15748 10050 15748 2560 2000 5000 "10" "10" "square"]
+	Pad [15890 19685 10050 19685 2560 2000 5000 "9"  "9" "square"]
+
+	Pad [5910 -8205 5910 -2365 2560 2000 5000 "15" "15" "square"]
+	Pad [1970 -8205 1970 -2365 2560 2000 5000 "16" "16" "square"]
+
+	Pad [5910 27885 5910 22045 2560 2000 5000 "8" "8" "square"]
+	Pad [1970 27885 1970 22045 2560 2000 5000 "7" "7" "square"]
+) 

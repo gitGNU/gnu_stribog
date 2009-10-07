@@ -1,0 +1,196 @@
+v 20081231 1
+B 600 2000 1900 2600 3 0 0 0 -1 -1 0 0 -1 -1 -1 -1
+T 550 6250 8 10 0 0 0 0 1
+device=LIS3LV02DL
+T 600 4700 2 10 1 1 0 0 1
+refdes=U?
+T 1800 1900 3 10 1 0 0 8 1
+LIS3LV02DL
+P 600 3400 300 3400 1 0 1
+{
+T 505 3445 5 8 1 1 0 6 1
+pinnumber=4
+T 500 3350 5 8 0 0 180 0 1
+pinseq=4
+T 705 3395 3 8 1 1 0 1 1
+pinlabel=Vdd_IO
+T 200 3400 5 8 0 0 0 6 1
+pintype=pwr
+}
+P 2500 3400 2800 3400 1 0 1
+{
+T 2650 3450 5 8 1 1 180 8 1
+pinnumber=5
+T 2600 3350 5 8 0 0 180 6 1
+pinseq=5
+T 2400 3400 9 8 1 1 0 7 1
+pinlabel=SCL/SPC
+T 2900 3400 5 8 0 0 0 0 1
+pintype=in
+}
+P 2500 4400 2800 4400 1 0 1
+{
+T 2650 4450 5 8 1 1 180 8 1
+pinnumber=1
+T 2900 4450 5 8 0 0 180 6 1
+pinseq=1
+T 2400 4400 9 8 1 1 0 7 1
+pinlabel=RDY/INT
+T 2700 4500 5 8 0 0 0 0 1
+pintype=out
+}
+P 2500 3800 2800 3800 1 0 1
+{
+T 2650 3850 5 8 1 1 180 8 1
+pinnumber=2
+T 2900 3850 5 8 0 0 180 6 1
+pinseq=2
+T 2400 3800 9 8 1 1 0 7 1
+pinlabel=SDO
+T 2800 3900 5 8 0 0 0 0 1
+pintype=out
+}
+P 2500 4000 2800 4000 1 0 1
+{
+T 2650 4050 5 8 1 1 180 8 1
+pinnumber=3
+T 2600 3950 5 8 0 0 180 6 1
+pinseq=3
+T 2400 4000 9 8 1 1 0 7 1
+pinlabel=SDA/SDI/SDO
+T 2900 4000 5 8 0 0 0 0 1
+pintype=tri
+}
+P 2500 2600 2800 2600 1 0 1
+{
+T 2650 2650 5 8 1 1 180 8 1
+pinnumber=8
+T 2600 2550 5 8 0 0 180 6 1
+pinseq=8
+T 2400 2600 9 8 1 1 0 7 1
+pinlabel=CK
+T 2900 2600 5 8 0 0 0 0 1
+pintype=in
+}
+P 2500 3200 2800 3200 1 0 1
+{
+T 2650 3250 5 8 1 1 180 8 1
+pinnumber=6
+T 2600 3150 5 8 0 0 180 6 1
+pinseq=6
+T 2400 3200 9 8 1 1 0 7 1
+pinlabel=CS
+T 2900 3200 5 8 0 0 0 0 1
+pintype=in
+}
+P 2500 3000 2800 3000 1 0 1
+{
+T 2650 3050 5 8 1 1 180 8 1
+pinnumber=7
+T 2600 2950 5 8 0 0 180 6 1
+pinseq=7
+T 2400 3000 9 8 1 1 0 7 1
+pinlabel=NC
+T 2900 3000 5 8 0 0 0 0 1
+pintype=pas
+}
+P 600 4400 300 4400 1 0 1
+{
+T 500 4450 5 8 1 1 180 2 1
+pinnumber=13
+T 500 4350 5 8 0 0 180 0 1
+pinseq=13
+T 700 4400 9 8 1 1 0 1 1
+pinlabel=Vdd
+T 600 4400 5 8 0 0 0 0 1
+pintype=pwr
+}
+P 600 3800 300 3800 1 0 1
+{
+T 500 3850 5 8 1 1 180 2 1
+pinnumber=12
+T 500 3750 5 8 0 0 180 0 1
+pinseq=12
+T 700 3800 9 8 1 1 0 1 1
+pinlabel=Res/Vdd
+T 600 3800 5 8 0 0 0 0 1
+pintype=pas
+}
+P 600 2600 300 2600 1 0 1
+{
+T 500 2650 5 8 1 1 180 2 1
+pinnumber=16
+T 500 2550 5 8 0 0 180 0 1
+pinseq=16
+T 700 2600 9 8 1 1 0 1 1
+pinlabel=GND
+T 600 2600 5 8 0 0 0 0 1
+pintype=pwr
+}
+P 600 3000 300 3000 1 0 1
+{
+T 500 3050 5 8 1 1 180 2 1
+pinnumber=15
+T 500 2950 5 8 0 0 180 0 1
+pinseq=15
+T 700 3000 9 8 1 1 0 1 1
+pinlabel=Res/GND
+T 600 3000 5 8 0 0 0 0 1
+pintype=pas
+}
+P 600 2400 300 2400 1 0 1
+{
+T 500 2450 5 8 1 1 180 2 1
+pinnumber=14
+T 500 2350 5 8 0 0 180 0 1
+pinseq=14
+T 700 2400 9 8 1 1 0 1 1
+pinlabel=GND
+T 600 2400 5 8 0 0 0 0 1
+pintype=pwr
+}
+P 600 2200 300 2200 1 0 1
+{
+T 500 2250 5 8 1 1 180 2 1
+pinnumber=9
+T 500 2150 5 8 0 0 180 0 1
+pinseq=9
+T 700 2200 9 8 1 1 0 1 1
+pinlabel=GND
+T 600 2200 5 8 0 0 0 0 1
+pintype=pwr
+}
+P 600 4200 300 4200 1 0 1
+{
+T 500 4250 5 8 1 1 180 2 1
+pinnumber=11
+T 500 4150 5 8 0 0 180 0 1
+pinseq=11
+T 700 4200 9 8 1 1 0 1 1
+pinlabel=Vdd
+T 600 4200 5 8 0 0 0 0 1
+pintype=pwr
+}
+P 600 3200 300 3200 1 0 1
+{
+T 500 3250 5 8 1 1 180 2 1
+pinnumber=10
+T 500 3150 5 8 0 0 180 0 1
+pinseq=10
+T 700 3200 9 8 1 1 0 1 1
+pinlabel=Res/Vdd_IO
+T 600 3200 5 8 0 0 0 0 1
+pintype=pas
+}
+T 550 5950 8 10 0 0 0 0 1
+author=Ineiev <ineiev@users.berlios.de>
+T 550 5650 8 10 0 0 0 0 1
+dist-license=GPLv3+
+T 2950 5650 8 10 0 0 0 0 1
+use-license=GPLv3+
+T 2950 5350 8 10 0 0 0 0 1
+numslots=0
+T 550 5350 8 10 0 0 0 0 1
+footprint=LGA16
+T 550 5050 8 10 0 0 0 0 1
+description=3-axis MEMS accelerometer; I2C/SPI output

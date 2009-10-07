@@ -1,0 +1,86 @@
+v 20080110 1
+B 400 2700 1200 1900 3 0 0 0 -1 -1 0 0 -1 -1 -1 -1
+T 400 6200 8 10 0 0 0 0 1
+device=TMP101
+T 400 4700 2 10 1 1 0 0 1
+refdes=U?
+T 1600 2650 3 10 1 0 0 8 1
+TMP101
+P 400 3900 100 3900 1 0 1
+{
+T 300 3950 5 8 1 1 180 2 1
+pinnumber=6
+T 700 3850 5 8 0 0 180 0 1
+pinseq=6
+T 500 3900 3 8 1 1 0 1 1
+pinlabel=SDA
+T 800 3900 5 10 0 0 0 0 1
+pintype=tri
+}
+P 400 4400 100 4400 1 0 1
+{
+T 325 4450 5 8 1 1 180 2 1
+pinnumber=1
+T 75 4250 5 8 0 0 0 0 1
+pinseq=1
+T 482 4400 3 8 1 1 0 1 1
+pinlabel=SCL
+T 400 4400 5 10 0 0 0 0 1
+pintype=tri
+}
+P 400 3400 100 3400 1 0 1
+{
+T 325 3450 5 8 1 1 0 6 1
+pinnumber=5
+T -25 3250 5 8 0 0 0 0 1
+pinseq=5
+T 518 3400 3 8 1 1 0 1 1
+pinlabel=ADD0
+T 400 3400 5 10 0 0 0 0 1
+pintype=in
+}
+P 400 2900 100 2900 1 0 1
+{
+T 346 2950 5 8 1 1 180 2 1
+pinnumber=4
+T 4 2750 5 8 0 0 0 0 1
+pinseq=4
+T 475 2900 3 8 1 1 0 1 1
+pinlabel=Vdd
+T 400 2900 5 10 0 0 0 0 1
+pintype=pwr
+}
+P 1600 2900 1900 2900 1 0 1
+{
+T 1730 2950 5 8 1 1 0 0 1
+pinnumber=2
+T 2080 2750 5 8 0 0 0 6 1
+pinseq=2
+T 1525 2900 3 8 1 1 0 7 1
+pinlabel=Gnd
+T 1900 2900 5 10 0 0 0 0 1
+pintype=pwr
+}
+P 1600 4400 1900 4400 1 0 1
+{
+T 1712 4450 5 8 1 1 180 8 1
+pinnumber=3
+T 2288 4250 5 8 0 0 0 6 1
+pinseq=3
+T 1525 4400 3 8 1 1 0 7 1
+pinlabel=ALERT
+T 1900 4400 5 10 0 0 0 0 1
+pintype=tri
+}
+T 400 5900 8 10 0 0 0 0 1
+author=Ineiev <ineiev@users.berlios.de>
+T 400 5600 8 10 0 0 0 0 1
+dist-license=GPLv3+
+T 2800 5600 8 10 0 0 0 0 1
+use-license=GPLv3+
+T 2800 5300 8 10 0 0 0 0 1
+numslots=0
+T 400 5300 8 10 0 0 0 0 1
+footprint=tmp101
+T 400 5000 8 10 0 0 0 0 1
+description=Temperature sensor; I2C output
