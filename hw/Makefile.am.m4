@@ -17,18 +17,19 @@ divert(-1)
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 include(`m4/makefile.m4')
 EXTRA_DIST=Makefile.am.m4 m4/makefile.m4 gafrc\
-sym/3.3V-plus-1s.sym sym/ATmega8-1s.sym sym/DB9-1s.sym sym/JTAG.sym\
+sym/3.3V-plus-1s.sym sym/A5V-plus-1s.sym\
+sym/ATmega8-1s.sym sym/DB9-1s.sym sym/JTAG.sym\
 sym/README sym/adm202.sym sym/adxl210.sym sym/adxrs300.sym\
 sym/bat54c.sym sym/capacitor-1s.sym sym/capacitor-4s.sym sym/coil-1s.sym\
 sym/crystal-1s.sym sym/dac7612.sym sym/dual-opamp-1s.sym\
 sym/gnd-1s.sym sym/header10-2s.sym sym/hmc1021.sym\
 sym/hmc1022.sym sym/idg300.sym sym/idg500.sym sym/ina118.sym\
-sym/irf7317.sym sym/irf7507.sym\
-sym/irlml.sym sym/led.sym sym/lis3lv02dl.sym sym/lisy300al.sym\
+sym/irf7317.sym sym/irf7507.sym sym/irlml.sym\
+sym/irlml-p.sym sym/led.sym sym/lis3lv02dl.sym sym/lisy300al.sym\
 sym/lm74.sym sym/lm7805-1s.sym sym/lp2980AIM5-3.sym\
 sym/lp2980AIM5-5.sym sym/lpc2138.sym sym/opamp-1s.sym\
 sym/quad_opamp-1s.sym sym/ref195.sym sym/resistor-2s.sym\
-sym/testpt-1s.sym sym/tmp101.sym sym/tps76316.sym\
+sym/testpt-1s.sym sym/tmp101.sym sym/tps76316.sym sym/VddAcc-1s.sym\
 packages/0.125W_resistor packages/0603\
 packages/0805 packages/1210\
 packages/2.5mm_10pin_header packages/IDG-300 packages/IDG-500\

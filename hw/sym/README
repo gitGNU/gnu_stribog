@@ -39,6 +39,7 @@ or they can go unnoticed there, and stribog's author
 decided to move/duplicate those notices here, namely:
 
 3.3V-plus-1s.sym (3.3V-plus-1.sym from geda-1.4.3-20081231)
+A5V-s.sym (modified 3.3V-plus-1s.sym)
 ATmega8-1s.sym (ATmega8-1.sym from geda-1.4.3-20081231)
 JTAG.sym
 adm202.sym
@@ -60,6 +61,7 @@ ina118.sym
 irf7317.sym
 irf7507.sym
 irlml.sym
+irlml-p.sym (derived from irlml.sym)
 led.sym
 lm74.sym
 lm7805-1s.sym (lm7805-1.sym from geda-1.4.3-20081231)
@@ -72,6 +74,7 @@ ref195.sym
 resistor-2s.sym (resistor-2.sym from geda-1.4.3-20081231, edited)
 testpt-1s.sym (testpt-1.sym from geda-1.4.3-20081231)
 tps76316.sym
+VddAcc-1s.sym (modified 3.3V-plus-1s.sym)
 
 These files should also have additional copyrights
 from their original and intermediate authors. it is hard to figure out
