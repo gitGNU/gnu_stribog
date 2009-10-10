@@ -1669,7 +1669,7 @@ documentation=You should have received a copy of the GNU General Public License
 T 27905 71550 8 10 1 1 0 0 1
 documentation=along with this program. If not, see <http://www.gnu.org/licenses/>.
 T 27905 74700 8 10 1 1 0 0 1
-description=revision date: 10IX2009
+description=revision date: 10X2009
 N 57600 61650 57700 61650 4
 N 57700 62050 57600 62050 4
 N 57650 63250 57600 63250 4
@@ -1919,7 +1919,7 @@ netname=SR
 }
 N 29600 60750 29650 60750 4
 T 54905 57950 14 10 1 1 0 0 1
-comment=Capacitances with decimal point are in micorfarads;
+comment=Capacitances with decimal point are in microfarads;
 T 54905 57650 14 10 1 1 0 0 1
 description=without decimal point are in picofarads
 C 29400 58800 1 270 0 capacitor-1.sym
