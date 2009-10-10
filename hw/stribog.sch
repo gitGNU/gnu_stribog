@@ -1919,7 +1919,7 @@ netname=SR
 }
 N 29600 60750 29650 60750 4
 T 54905 57950 14 10 1 1 0 0 1
-comment=Capacitances with decimal point are in micorfarads;
+comment=Capacitances with decimal point are in microfarads;
 T 54905 57650 14 10 1 1 0 0 1
 description=without decimal point are in picofarads
 C 29400 58800 1 270 0 capacitor-1s.sym

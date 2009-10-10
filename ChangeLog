@@ -1,4 +1,6 @@
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/stribog.sch: fix a typo
+10 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/ps.scm hw/m4/makefile.m4: add PS and PDF schematics
 09 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/Makefile.am.m4 hw/sym/VddAcc-1s.sym hw/sym/A5V-s.sym
