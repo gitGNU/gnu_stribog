@@ -1,4 +1,6 @@
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * configure.ac: bump version to 0.0.2-rc0-minus
+10 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * configure.ac: bump version to 0.0.1
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/ps.scm hw/m4/makefile.m4: add PS and PDF schematics
