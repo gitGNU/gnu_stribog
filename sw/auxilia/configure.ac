@@ -1,6 +1,6 @@
 #stribog: configure.ac for AVR targets
 # Run autoreconf to regenerate the build system
-#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008, 2009 Ineiev<ineiev@users.berlios.de>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 AC_PREREQ(2.62)
-AC_INIT([stribog-auxilia], [0.0.1-rc0-minus], [stribog-bug@nongnu.org])
+AC_INIT([stribog-auxilia], [0.0.1], [stribog-bug@nongnu.org])
 # force avr-based host without forcing avr-based build
 AS_CASE(["z${avr_recursion_trigger}"],
  [ztriggered],,[
@@ -37,7 +37,7 @@ AC_MSG_RESULT([NB here we force $host_alias host])
 AC_CONFIG_SRCDIR([coil/sampler.c])
 
 AH_TOP(
-[/* Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+[/* Copyright (C) 2009 Ineiev<ineiev@users.berlios.de>, super V 93
  This file is an object-code part of stribog: it is produced
  automatically with autoheader when invoking autoreconf
  stribog is free design; you can redistribute it and/or modify

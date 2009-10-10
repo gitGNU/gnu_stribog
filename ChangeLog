@@ -1,4 +1,6 @@
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * configure.ac: bump version to 0.0.1
+10 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/ps.scm hw/m4/makefile.m4: add PS and PDF schematics
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/stribog.sch: fix a typo

@@ -1,6 +1,6 @@
 #stribog: top configure.ac
 # Run autoreconf to regenerate the build system
-#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008, 2009 Ineiev<ineiev@users.berlios.de>, super V 93
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 #a. AC_INIT shifted out command-line arguments;
 #b. --help=recursive implementation had a bug
 AC_PREREQ(2.62)
-AC_INIT([stribog],[0.0.1-rc0-minus],[stribog-bug@nongnu.org])
+AC_INIT([stribog],[0.0.1],[stribog-bug@nongnu.org])
 rm -f warnings;touch warnings
 distribution_impossible=no
 AM_INIT_AUTOMAKE([-Wall])

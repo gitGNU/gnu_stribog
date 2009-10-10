@@ -2,11 +2,11 @@
 @c %**start of header
 @setfilename stribog.info
 @set manualtitle Stribog Developer Manual
-@set UPDATED 02 Oct 2009
+@set UPDATED 10 Oct 2009
 @c VERSION is for the project, EDITION is for the manual
 @c EDITION names are unique within a VERSION
-@set EDITION 0-minus
-@set VERSION 0.0.1-rc0-minus
+@set EDITION 0
+@set VERSION 0.0.1
 @set GPLVERSION 3
 @macro gplcurrent
  the GNU GPL version @value{GPLVERSION}
@@ -1374,7 +1374,7 @@ Here is a typical ~/.gitconfig file contents
 @example
 [user]
  name = Ineiev (favourite host)
- email = ineiev@@users.sourceforge.net
+ email = ineiev@@users.berlios.de
 [core]
  editor = vim
 @end example

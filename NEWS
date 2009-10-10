@@ -1,6 +1,16 @@
-0.0.1-rc0
+0.0.1
 
-Documentation updates
+Documentation updates, fixes and improvements
+
+Symbols and packages were declared external library;
+an exception permitting GPLv2-only symbols in project
+was added
+
+main_board.bis renamed to main_board_bis to conform automake
+
+Official maintainer's email address changed to ineiev@users.berlios.de
+
+Add PS and PDF schematics; change PNGs background from dark to light
 
 0.0.0
 
@@ -9,8 +19,8 @@ The project migrated to Autotools
 The default ARM tools prefix is set to canonical
 arm-unknown-elf rather than arm-elf
 
- Copyright (C) 2008
-  Ineiev<ineiev@users.sourceforge.net>, super V 93
+ Copyright (C) 2008, 2009
+  Ineiev<ineiev@users.berlios.de>, super V 93
 
  This file is part of stribog.
 
