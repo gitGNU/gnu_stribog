@@ -66,14 +66,23 @@ endif
 )
 define(ST_SCHEMATIC,
 `###schematic $1 expanded definition begins
-EXTRA_DIST+=$1.sch schematics/$1.png
-schematics_DATA+=schematics/$1.png
+EXTRA_DIST+=$1.sch schematics/$1.png schematics/$1.ps schematics/$1.pdf
+schematics_DATA+=schematics/$1.png schematics/$1.ps schematics/$1.pdf
 if use_gschem
 schematics/$1.png: $1.sch
 	$(MKDIR_P) schematics
 	gschem -p -o $(abs_builddir)/schematics/$1.png\
  -s $(abs_builddir)/image.scm $(srcdir)/$1.sch 2>/dev/null
 	$(RM) gschem.log
+schematics/$1.ps: $1.sch
+	$(MKDIR_P) schematics
+	gschem -p -o $(abs_builddir)/schematics/$1.ps\
+ -s $(srcdir)/ps.scm $(srcdir)/$1.sch 2>/dev/null
+	$(RM) gschem.log
+if use_ps2pdf
+schematics/$1.pdf: schematics/$1.ps
+	cd schematics; $(PS2PDF) $1.ps $1.pdf
+endif
 endif
 ###schematic $1 expanded definition ends
 ')
@@ -81,7 +90,7 @@ divert`'dnl
 ##Makefile.am is generated with m4 from Makefile.am.m4
 #Makefile.in is generated with automake from Makefile.am
 #Makefile is produced with configure script from Makefile.in
-#Copyright (C) 2008 Ineiev<ineiev@users.sourceforge.net>, super V 93
+#Copyright (C) 2008, 2009 Ineiev<ineiev@users.berlios.de>, super V 93
 #use autoreconf to regenerate all our build scripts
 #
 #This file is a part of the stribog project
