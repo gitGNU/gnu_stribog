@@ -1,3 +1,5 @@
+10 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/ps.scm hw/m4/makefile.m4: add PS and PDF schematics
 02 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * doc/stribog.texinfo: fix spaces and split long lines
  for pdf targets; update email; correct publisher info;
