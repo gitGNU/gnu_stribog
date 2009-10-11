@@ -46,6 +46,7 @@ $(srcdir)/Makefile.am: $(srcdir)/Makefile.am.m4 $(srcdir)/m4/makefile.m4
 schematicsdir=$(pkgdatadir)/schematics
 schematics_DATA=
 ST_SCHEMATIC(stribog)
+ST_SCHEMATIC(stribog_1)
 ST_SCHEMATIC(odo)
 ST_SCHEMATIC(gyro)
 DISTCLEANFILES=image.scm
