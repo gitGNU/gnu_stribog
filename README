@@ -205,9 +205,10 @@ originally written for the project, embed no symbols or other artifacts.
 (1c) Footprint files possibly derived from PCB footprint files:
 hw/packages/0.125W_resistor
 hw/packages/0603 hw/packages/0805 hw/packages/1210
-hw/packages/2.5mm_10pin_header hw/packages/qfp64 hw/packages/adxl210
+hw/packages/2.5mm_10pin_header hw/packages/adxl210
 hw/packages/crystal hw/packages/hmc1021z hw/packages/jtag1.27x1
-hw/packages/lp2980 hw/packages/pin hw/packages/tanA hw/packages/tanC
+hw/packages/lp2980 hw/packages/pin hw/packages/qfp64 hw/packages/SOT23
+hw/packages/tanA hw/packages/tanC
 hw/packages/tp
 we distribute them under the GPLv3+ like (1a).
 
@@ -515,6 +516,7 @@ with comments on origin added is as follows:
 ./hw/packages/pin (1c) GPLv3+
 ./hw/packages/qfp64 (1c) GPLv3+
 ./hw/packages/README (0) GPLv3+
+./hw/packages/SOT23 (1c) GPLv3+
 ./hw/packages/tanA (1c) GPLv3+
 ./hw/packages/tanC (1c) GPLv3+
 ./hw/packages/tmp101 (1e) GPLv3+
