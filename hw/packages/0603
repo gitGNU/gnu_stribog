@@ -14,14 +14,14 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
+#Copyright (C) 2005, 2006, 2009 Ineiev <ineiev@users.berlios.de>
 
-Element(0x00000000 "" "R0" "" 5575 1476 -31 -82 0 100 0x00000000)
+Element(0x00000000 "" "R0" "" 5575 1476 -31 -120 0 100 0x00000000)
 (
-	Pad(0 0 0 0 30 20 40 "" "1" 0x00000100)
-	Pad(0 70 0 70 30 20 40 "" "2" 0x00000100)
-	ElementLine (-21 90 21 90 10)
-	ElementLine (21 -21 21 90 10)
-	ElementLine (-21 -21 21 -21 10)
-	ElementLine (-21 90 -21 -21 10)
+	Pad(-9 -35 9 -35 24 20 48 "" "1" 0x00000100)
+	Pad(-9 35 9 35 24 20 48 "" "2" 0x00000100)
+	ElementLine (29 -55 29 55 6)
+	ElementLine (-29 55 -29 -55 6)
+	ElementLine (-29 55 29 55 6)
+	ElementLine (-29 -55 29 -55 6)
 	)
