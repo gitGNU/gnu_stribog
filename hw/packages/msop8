@@ -1,6 +1,6 @@
 #msop8 package
-#Copyright (C) 2007 Ineiev <ineiev@users.sourceforge.net>: extracted from m4
-#and commented
+#Copyright (C) 2007, 2009 Ineiev <ineiev@users.berlios.de>: extracted from m4
+#and commented and fixed silkscreen
 #
 #                             COPYRIGHT
 # 
@@ -34,11 +34,11 @@ Element["" "MSOP8" "Q2" "IRF7507" 153543 130314 -11811 -7087 0 100 ""]
 	Pad[-17400 -5200 -15200 -5200 1200 3000 2400 "6" "6" "square"]
 	Pad[-17400 -2700 -15200 -2700 1200 3000 2400 "7" "7" "square"]
 	Pad[-17400 -100 -15200 -100 1200 3000 2400 "8" "8" "square"]
-	ElementLine [-9100 1200 2300 1200 1000]
-	ElementLine [-18200 1200 -6700 1200 1000]
-	ElementLine [-18200 -9000 -18200 1200 1000]
-	ElementLine [-18200 -9000 2300 -9000 1000]
-	ElementLine [2300 -9000 2300 1200 1000]
-	ElementArc [-7900 1200 1200 1200 180 180 1000]
+	ElementLine [-6700 1800 3300 1800 1000]
+	ElementLine [-19200 1800 -9100 1800 1000]
+	ElementLine [-19200 -9600 -19200 1800 1000]
+	ElementLine [-19200 -9600 3300 -9600 1000]
+	ElementLine [3300 -9600 3300 1800 1000]
+	ElementArc [-7900 1800 1200 1200 180 180 1000]
 
 	)

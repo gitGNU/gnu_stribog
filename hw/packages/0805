@@ -1,5 +1,6 @@
 #0805 resistor/capacitor footprint
-#0805_reflow_solder, just renamed and commented, from pcb distribution
+#0805_reflow_solder, renamed, commented, adjusted silkscreen and solder mask,
+#from pcb distribution
 #the original file has no copyright notice
 #
 #This program is free software; you can redistribute it and/or modify
@@ -15,13 +16,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#Copyright (C) 2005-2006 D.Ineiev <ineiev@yahoo.co.uk>
+#Copyright (C) 2005, 2006, 2009 Ineiev <ineiev@users.berlios.de>, super V 93
 Element(0x00000000 "" "R0" "" 5575 1476 -31 -82 0 100 0x00000000)
 (
 	Pad(0 0 0 0 50 30 70 "" "1" 0x00000100)
 	Pad(0 90 0 90 50 30 70 "" "2" 0x00000100)
-	ElementLine (-31 121 31 121 10)
-	ElementLine (31 -31 31 120 10)
-	ElementLine (-31 -31 31 -31 10)
-	ElementLine (-31 120 -31 -31 10)
+	ElementLine (-41 130 41 130 10)
+	ElementLine (41 -41 41 130 10)
+	ElementLine (-41 -41 41 -41 10)
+	ElementLine (-41 130 -41 -41 10)
 	)
