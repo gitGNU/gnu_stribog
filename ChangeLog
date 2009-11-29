@@ -1,3 +1,17 @@
+11 Oct-17 Nov 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/stribog.sch hw/stribog_1.sch hw/main_board_bis.pcb:
+ next generation main board
+25 Nov 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/packages/0805 hw/packages/led0805 hw/packages/lp2980 hw/packages/msop8:
+ fix silkscreen
+28 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/packages/0603: adjust sizes
+28 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/packages/SOT23: new, extracted from main_board_bis.pcb
+28 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/sym/capacitor-4s.sym: add pinnumber attribute
+28 Oct 2009 Ineiev <ineiev@users.berlios.de>
+ * hw/sym/irlml.sym: improve graphics
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
  * hw/stribog.sch: fix a typo
 10 Oct 2009 Ineiev <ineiev@users.berlios.de>
