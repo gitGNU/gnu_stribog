@@ -20,3 +20,6 @@ msgstr ""
 
 msgid "<a>"
 msgstr ""
+
+msgid "<a/>"
+msgstr ""
